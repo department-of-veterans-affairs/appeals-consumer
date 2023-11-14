@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  db:
+    image: 'postgres:latest'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+    # env_file:
+    #   - ./env/postgres.env # you can also define env variables like this.
+  rails:
+    build: ./
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/rails # add our local code to dockerfile
+    depends_on:
+      - db  # add all dependant container
+
+volumes:
+  postgres: # named volume
