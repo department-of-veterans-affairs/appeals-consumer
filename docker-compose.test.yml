@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  db:
+    image: 'postgres:latest'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  test:
+    tty: true
+    stdin_open: true
+    build: ./
+    container_name: kafka-consumer-test
+    command: >
+      bash -c "echo \"Test environment is ready!\" && \
+               sleep infinity"
+    volumes:
+      - .:/kafka-consumer
+    environment:
+      - RAILS_ENV=test
+    depends_on:
+      - db
+
+volumes:
+  postgres:

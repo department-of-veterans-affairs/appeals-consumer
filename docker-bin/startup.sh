@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 THIS_SCRIPT_DIR=$(dirname $0)
 
@@ -10,9 +11,10 @@ if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
 
+echo "Preparing DB in PG"
+rake db:create
 
-echo "Creating DB in PG"
-rake db:setup
+echo "Running migrations"
+rake db:migrate
 
-echo "Starting Kafka-Consumer App RoR"
-rails server --binding 0.0.0.0 -p 3000
+exec "$@"

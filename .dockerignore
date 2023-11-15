@@ -15,6 +15,7 @@
 /config/credentials/*.key
 
 # Ignore all logfiles and tempfiles.
+.byebug_history
 /log/*
 /tmp/*
 !/log/.keep
@@ -29,3 +30,6 @@
 !/storage/.keep
 /tmp/storage/*
 !/tmp/storage/.keep
+
+# Ignore vim swap files
+*.swp

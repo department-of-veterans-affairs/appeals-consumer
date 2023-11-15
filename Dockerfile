@@ -5,16 +5,20 @@ RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev
 
 WORKDIR /kafka-consumer
 
-COPY . .
+COPY Gemfile* .
 
 RUN gem install bundler:$(cat Gemfile.lock | tail -1 | tr -d " ")
 
 RUN bundle install
 
+COPY . .
+
 ARG DEFAULT_PORT 3000
 
 EXPOSE ${DEFAULT_PORT}
 
-RUN chmod +x /kafka-consumer/docker-bin/startup.sh
+COPY docker-bin/. /usr/bin/
 
-ENTRYPOINT ["/bin/bash", "/kafka-consumer/docker-bin/startup.sh"]
+RUN chmod +x /usr/bin/startup.sh
+
+ENTRYPOINT ["startup.sh"]
