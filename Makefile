@@ -11,7 +11,7 @@ build:  ## First time local dev setup
 	docker-compose build
 
 up:  ## Start the docker containers
-	docker-compose up -d
+	docker-compose up
 
 down:  ## Stop the docker containers
 	docker-compose down

@@ -11,7 +11,7 @@ if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
 
-echo "Preparing DB in PG"
+echo "Creating DB in PG"
 rake db:create
 
 echo "Running migrations"
