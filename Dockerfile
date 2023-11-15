@@ -3,18 +3,18 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim
 
 RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev nodejs
 
-WORKDIR /rails
+WORKDIR /kafka-consumer
 
-RUN gem install bundler
+COPY . .
 
-COPY Gemfile* ./
+RUN gem install bundler:$(cat Gemfile.lock | tail -1 | tr -d " ")
 
 RUN bundle install
-
-ADD . /rails
 
 ARG DEFAULT_PORT 3000
 
 EXPOSE ${DEFAULT_PORT}
 
-CMD [ "bundle","exec", "puma", "config.ru"] # CMD ["rails","server"] # you can also write like this.
+RUN chmod +x /kafka-consumer/docker-bin/startup.sh
+
+ENTRYPOINT ["/bin/bash", "/kafka-consumer/docker-bin/startup.sh"]

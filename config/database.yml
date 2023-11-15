@@ -18,11 +18,11 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: db
-  username: postgres
-  # If we set the value to nil when the variable isn't present,
-  # the k8s Jenkins environment won't connect
-  password: postgres
+  host: <%= ENV.fetch('POSTGRES_HOST') %>
+  username: <%= ENV.fetch('POSTGRES_USER') || `whoami` %>
+  <% if ENV.fetch('POSTGRES_PASSWORD') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
+  <% end %>
 
 development:
   <<: *default
