@@ -1,0 +1,24 @@
+2023-11-20 15:42:37,559 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2023-11-20 15:42:37,562 INFO supervisord started with pid 1
+2023-11-20 15:42:38,611 INFO spawned: 'karafka' with pid 36
+2023-11-20 15:42:38,616 INFO spawned: 'rails' with pid 37
+2023-11-20 15:42:39,619 INFO success: karafka entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-11-20 15:42:39,619 INFO success: rails entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-11-20 15:49:05,293 WARN received SIGTERM indicating exit request
+2023-11-20 15:49:05,294 INFO waiting for karafka, rails to die
+2023-11-20 15:49:05,323 WARN stopped: rails (terminated by SIGTERM)
+2023-11-20 15:49:08,302 INFO waiting for karafka to die
+2023-11-20 15:49:11,317 INFO waiting for karafka to die
+2023-11-20 15:49:14,377 INFO waiting for karafka to die
+2023-11-20 16:07:30,274 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2023-11-20 16:07:30,277 INFO supervisord started with pid 1
+2023-11-20 16:07:31,291 INFO spawned: 'karafka' with pid 35
+2023-11-20 16:07:31,301 INFO spawned: 'rails' with pid 36
+2023-11-20 16:07:32,305 INFO success: karafka entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-11-20 16:07:32,305 INFO success: rails entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-11-20 16:10:48,043 WARN received SIGTERM indicating exit request
+2023-11-20 16:10:48,045 INFO waiting for karafka, rails to die
+2023-11-20 16:10:48,086 WARN stopped: rails (terminated by SIGTERM)
+2023-11-20 16:10:51,432 INFO waiting for karafka to die
+2023-11-20 16:10:54,459 INFO waiting for karafka to die
+2023-11-20 16:10:57,568 INFO waiting for karafka to die
