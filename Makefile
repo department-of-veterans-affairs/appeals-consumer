@@ -9,6 +9,8 @@ RUN_ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
 build:  ## First time local dev setup
 	docker-compose build
+	docker-compose run --rm rails bin/rails db:create
+	docker-compose run --rm rails bin/rails db:migrate
 
 up:  ## Start the docker containers
 	docker-compose up

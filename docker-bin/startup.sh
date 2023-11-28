@@ -11,10 +11,4 @@ if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
 
-echo "Creating DB in PG"
-rake db:create
-
-echo "Running migrations"
-rake db:migrate
-
 exec "$@"
