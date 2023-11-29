@@ -21,6 +21,7 @@
 /tmp/pids/*
 !/tmp/pids/
 !/tmp/pids/.keep
+supervisord.pid
 
 # Ignore storage (uploaded files in development and any SQLite databases).
 /storage/*
