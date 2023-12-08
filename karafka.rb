@@ -2,7 +2,17 @@
 
 class KarafkaApp < Karafka::App
   setup do |config|
-    config.kafka = { 'bootstrap.servers': "kafka:9092" }
+    karafka_config = { 'bootstrap.servers': "kafka:9092" }
+    if ENV["RAILS_ENV"] == "production"
+      karafka_config = {
+        'bootstrap.servers': ENV["AWS_KAFKA_CLUSTER"],
+        'security.protocol': "SASL_SSL",
+        'sasl.username': ENV["KAFKA_USERNAME"],
+        'sasl.password': ENV["KAFKA_PASSWORD"],
+        'sasl.mechanisms': "SCRAM-SHA-512"
+      }
+    end
+    config.kafka = karafka_config
     config.client_id = "Karafka-consumer"
     # Recreate consumers with each batch. This will allow Rails code reload to work in the
     # development mode. Otherwise Karafka process would not be aware of code changes
