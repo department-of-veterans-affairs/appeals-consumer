@@ -21,6 +21,12 @@ down:  ## Stop the docker containers
 run:  ## Run provided command in rails docker container
 	docker-compose run --rm rails $(RUN_ARGS)
 
+consumer:  ## Run the Karafka consumer server stand alone
+	docker-compose run --rm rails bundle exec karafka server
+
+rails:
+	docker-compose run --rm rails rails s -p 3001 -b '0.0.0.0'
+
 up-test:  ## Start the docker containers for testing environment
 	docker-compose -f docker-compose.test.yml up -d
 
