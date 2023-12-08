@@ -124,6 +124,9 @@ GEM
       ffi (~> 1.15)
       mini_portile2 (~> 2.6)
       rake (> 12)
+    karafka-testing (2.2.2)
+      karafka (>= 2.2.0, < 3.0.0)
+      waterdrop (>= 2.6.6)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -171,6 +174,8 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     psych (5.1.1.1)
       stringio
     puma (6.4.0)
@@ -307,9 +312,10 @@ DEPENDENCIES
   debug
   factory_bot_rails
   karafka (~> 2.2)
+  karafka-testing
   pg (~> 1.1)
-  pry (~> 0.14.2)
   pry-byebug (~> 3.10)
+  pry-rails
   puma (>= 5.0)
   rails (~> 7.1.2)
   rspec-rails

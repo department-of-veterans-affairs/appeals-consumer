@@ -41,8 +41,9 @@ group :development, :test do
   gem "byebug"
   gem "debug", platforms: [:mri, :windows]
   gem "factory_bot_rails"
-  gem "pry", "~> 0.14.2"
+  gem "karafka-testing"
   gem "pry-byebug", "~> 3.10"
+  gem "pry-rails"
   gem "rspec-rails"
   gem "rubocop"
   gem "rubocop-performance"
