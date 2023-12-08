@@ -55,6 +55,14 @@ services:
       - KAFKA_CLUSTERS_0_NAME=kafka-docker-cluster-1
       - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://schema-registry:9021
 
+  redis:
+    image: 'redis:7.0-alpine'
+    command: redis-server
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis:/data
+
   rails:
     build: ./
     command: /usr/bin/supervisord
@@ -65,6 +73,8 @@ services:
     depends_on:
       - db
       - kafka-ui
+      - redis
 
 volumes:
   postgres:
+  redis:
