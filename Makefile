@@ -35,3 +35,6 @@ down-test:  ## Stop the docker containers for testing environment
 
 run-test:  ## Run provided command in rails docker container for test environment
 	docker-compose -f docker-compose.test.yml run --rm test $(RUN_ARGS)
+
+registry:  ## Upload schema AVRO to the Schema Registry
+	docker-compose run --rm rails /usr/bin/kafka_schema.sh
