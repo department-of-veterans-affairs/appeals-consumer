@@ -2,8 +2,6 @@
 
 Kafka Consumer is an Rails application responsible for processing intake data sent by VBMS. When VBMS handles an intake, they will pushlish a message containing the relevent data to a Apache Kafka platform. This application will consume that data through a topic subscription. Kafka Consumer is also responsible for transforming the data to be sent to the Caseflow application. 
 
-[TOC]
-
 ## Developer Setup
 
 ### Machine setup
@@ -22,6 +20,8 @@ Running `make build` will build the initial docker containers. This will:
 - Create the database if it has not already been created.
 - Run any pending migrations
 
+Additionally, run `make registry` to upload the schema to the registry server.
+
 Starting the containers
 ---
 
@@ -29,7 +29,14 @@ Running `make up` will start up the docker compose environment for development. 
 
 Kafka Consumer utuilizes [Supervisor](http://supervisord.org/) to run multiple processes in parallel. The Rails server runs along side the Karafka consumer server when you run `make up`. The logs for these processes can be found in the project's `/log` directory, `/log/rails` and `/log/kafka`.
 
+> Alternatively, the Karafka consumer server and rails server can be run separately by running `make consumer` or `make rails`.
+
 Kafka Broker instance
 ---
 
-The Kafka Consumer docker compose includes a Kafka broker. The broker im age is [cp-kafka](https://docs.confluent.io/platform/current/installation/docker/config-reference.html#confluent-ak-configuration) which is downloaded from confluent. `cp-kafka` is based off of [librdkafka](https://karafka.io/docs/Librdkafka-Configuration/) and can be configured with all of the same properties. The `cp-kafka` is configured via environmental variables in the docker-compose file using their documented variable conversion rules. 
+The Kafka Consumer docker compose includes a Kafka broker. The broker im age is [cp-kafka](https://docs.confluent.io/platform/current/installation/docker/config-reference.html#confluent-ak-configuration) which is downloaded from confluent. `cp-kafka` is based off of [librdkafka](https://karafka.io/docs/Librdkafka-Configuration/) and can be configured with all of the same properties. The `cp-kafka` is configured via environmental variables in the docker-compose file using their documented variable conversion rules.
+
+There is an instance of Confluent's Registry Server included. The Registry Server can validate schemas for selected topics against a provided AVRO.
+
+For local development, [Kafka-UI by Provectus](https://github.com/provectus/kafka-ui) is included. This is a tool to help manage a Kafka Cluster through a web UI. While running, the UI can be found at [localhost:8080](http://localhost:8080). In the UI you can 
+

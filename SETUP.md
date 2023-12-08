@@ -22,19 +22,28 @@ Clone the repo
 
 Running the Application
 ---
-1. Build the docker containers and run the database creation and migrations (First time only)
+1. Build the docker containers and run the database creation and migrations (First time only). Additionally, we need to upload the schema to the regestry server.
 
 ```bash
 make build
+make registry
 ```
 
 2. Start the containers
+   1. start both rails and the karafka consumer together
+    ```bash
+    make up
+    ```
+   2. Alternately, you can start the rails application or the Karafka consumer separately.
+    ```bash
+    make rails
+    === OR ===
+    make consumer
+    ```
 
-```bash
-make up
-```
 
 3. Run commands with `make run <COMMAND>`
+
 Example:
 ```bash
 make run rails c
