@@ -1,6 +1,14 @@
 # Kafka Consumer
 
-Kafka Consumer is an Rails application responsible for processing intake data sent by VBMS. When VBMS handles an intake, they will pushlish a message containing the relevent data to a Apache Kafka platform. This application will consume that data through a topic subscription. Kafka Consumer is also responsible for transforming the data to be sent to the Caseflow application. 
+Kafka Consumer is an Rails application responsible for processing intake data sent by VBMS. When VBMS handles an intake, they will pushlish a message containing the relevent data to a Apache Kafka platform. This application will consume that data through a topic subscription. Kafka Consumer is also responsible for transforming the data to be sent to the Caseflow application.
+
+- [Kafka Consumer](#kafka-consumer)
+  - [Developer Setup](#developer-setup)
+    - [Machine setup](#machine-setup)
+    - [Development walkthrough](#development-walkthrough)
+  - [Building the containers](#building-the-containers)
+  - [Starting the containers](#starting-the-containers)
+  - [Kafka Broker instance](#kafka-broker-instance)
 
 ## Developer Setup
 
@@ -38,5 +46,5 @@ The Kafka Consumer docker compose includes a Kafka broker. The broker im age is 
 
 There is an instance of Confluent's Registry Server included. The Registry Server can validate schemas for selected topics against a provided AVRO.
 
-For local development, [Kafka-UI by Provectus](https://github.com/provectus/kafka-ui) is included. This is a tool to help manage a Kafka Cluster through a web UI. While running, the UI can be found at [localhost:8080](http://localhost:8080). In the UI you can 
+For local development, [Kafka-UI by Provectus](https://github.com/provectus/kafka-ui) is included. This is a tool to help manage a Kafka Cluster through a web UI. While running, the UI can be found at [localhost:8080](http://localhost:8080). In the UI you can
 
