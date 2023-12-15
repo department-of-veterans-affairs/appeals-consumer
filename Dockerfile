@@ -13,8 +13,6 @@ RUN bundle install
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY . .
-
 ARG DEFAULT_PORT 3000
 
 EXPOSE ${DEFAULT_PORT}

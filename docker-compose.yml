@@ -75,6 +75,8 @@ services:
       - db
       - kafka-ui
       - redis
+    env_file: 
+      - ".env"
 
 volumes:
   postgres:
