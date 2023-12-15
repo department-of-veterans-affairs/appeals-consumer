@@ -59,9 +59,10 @@ services:
     image: 'redis:7.0-alpine'
     command: redis-server
     ports:
-      - '6379:6379'
+      - '7936:7936'
     volumes:
       - redis:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
 
   rails:
     build: ./
