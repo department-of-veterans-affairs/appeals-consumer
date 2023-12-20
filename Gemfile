@@ -35,8 +35,28 @@ gem "rails", "~> 7.1.2"
 # Use Redis adapter to run Action Cable in production
 gem "redis", ">= 4.0.1"
 
+gem 'redis-namespace'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:windows, :jruby]
+
+gem 'immigrant'
+
+gem 'shoryuken'
+
+gem 'logstasher'
+
+gem 'redis-mutex'
+
+gem "sentry-ruby"
+gem "sentry-rails"
+gem "sentry-sidekiq"
+gem "sentry-delayed_job"
+gem "sentry-resque"
+
+gem "strong_migrations"
+
+gem 'next_rails'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -50,6 +70,15 @@ group :development, :test do
   gem "rubocop"
   gem "rubocop-performance"
   gem "rubocop-rails"
+  gem 'database_cleaner-active_record'
+  gem 'database_cleaner-redis'
+  gem 'faker'
+  gem 'danger'
+  gem 'bullet'
+  gem 'brakeman'
+  gem 'simplecov', require: false
+  gem 'sql_tracker'
+  gem "webmock"
 end
 
 group :development do
