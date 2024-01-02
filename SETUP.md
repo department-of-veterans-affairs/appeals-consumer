@@ -18,7 +18,7 @@ Clone the repo
 1. Create a `~/dev/appeals/` directory
 
 2. Clone the following repo using `git clone` into this directory
-    * <https://github.com/Aaron-Willis/Kafka-Consumer.git>
+    * <https://github.com/Aaron-Willis/Appeals-Consumer.git>
 
 Running the Application
 ---

@@ -70,7 +70,7 @@ services:
     ports:
       - '3001:3001'
     volumes:
-      - .:/kafka-consumer
+      - .:/appeals-consumer
     depends_on:
       - db
       - kafka-ui

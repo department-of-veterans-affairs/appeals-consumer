@@ -26,14 +26,14 @@ default: &default
 
 development:
   <<: *default
-  database: kafka_consumer_development
+  database: appeals_consumer_development
 
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: kafka_consumer
+  #username: appeals_consumer
 
   # The password associated with the PostgreSQL role (username).
   #password:
@@ -61,7 +61,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: kafka_consumer_test
+  database: appeals_consumer_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -85,4 +85,4 @@ test:
 #
 production:
   <<: *default
-  database: kafka_consumer_production
+  database: appeals_consumer_production

@@ -3,7 +3,7 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim
 
 RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev supervisor jq curl
 
-WORKDIR /kafka-consumer
+WORKDIR /appeals-consumer
 
 COPY Gemfile* .
 
