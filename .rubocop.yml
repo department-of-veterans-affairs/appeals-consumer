@@ -1,0 +1,158 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'db/migrate/*'
+    - 'db/schema.rb'
+    - 'config/**/*'
+  TargetRailsVersion: 5.1
+  TargetRubyVersion: 2.5
+  UseCache: true
+
+Bundler/OrderedGems:
+  Enabled: true
+  TreatCommentsAsGroupSeparators: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Naming/RescuedExceptionsVariableName:
+  Description: 'Use consistent rescued exceptions variables naming.'
+  Enabled: true
+  PreferredName: error
+
+Rails:
+  Enabled: true
+
+# temporarily disabled due to a bug in Rubocop 0.67.2
+Rails/ActiveRecordOverride:
+  Enabled: false
+
+Rails/Output:
+  Exclude:
+    - 'lib/**/*.rb'
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/HelperInstanceVariable:
+  Enabled: true
+
+Rails/InverseOf:
+  Enabled: false
+
+Rails/Present:
+  NotBlank: false
+  UnlessBlank: false
+
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - "spec/**/*"
+
+Metrics/ClassLength:
+  Max: 400
+
+Metrics/AbcSize:
+  Max: 30
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/NegatedIf:
+  Enabled: false
+
+Style/EachWithObject:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/MultipleComparison:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/SignalException:
+  EnforcedStyle: semantic
+
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/RedundantBegin:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: true
+  EnforcedStyle: annotated
+
+Naming/FileName:
+  Enabled: false
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Lint/UriEscapeUnescape:
+  Enabled: false
+
+Lint/SuppressedException:
+  Enabled: true
+  AllowComments: true
+
+Lint/UnusedMethodArgument:
+  Exclude:
+    - 'lib/fakes/*.rb'
+
+Layout/LineLength:
+  Max: 120
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented

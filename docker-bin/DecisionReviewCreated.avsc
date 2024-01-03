@@ -1,0 +1,267 @@
+{
+  "type": "record",
+  "name": "DecisionReviewCreated",
+  "namespace": "gov.va.bip.cest.decisionreview.avro",
+  "doc": "An event that represents a new Decision Review created in the VBMS system",
+  "fields": [
+    {
+      "name": "claimId",
+      "type": "long",
+      "doc": "The ID of the claim created to work this decision review"
+    },
+    {
+      "name": "decisionReviewType",
+      "type": [
+        "null",
+        "string"
+      ],
+      "doc": "The type of decision review (higher level review, supplemental)",
+      "default": null
+    },
+    {
+      "name": "veteranParticipantId",
+      "type": "string",
+      "doc": "The Participant ID of the Veteran"
+    },
+    {
+      "name": "claimantParticipantId",
+      "type": "string",
+      "doc": "The Participant ID of the claimant filing the Decision Review"
+    },
+    {
+      "name": "epCode",
+      "type": "string",
+      "doc": "The type of decision review that was created"
+    },
+    {
+      "name": "claimReceivedDate",
+      "type": {
+        "type": "int",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Date",
+        "logicalType": "date"
+      },
+      "doc": "The date that this decision review application was received"
+    },
+    {
+      "name": "informalConferenceRequested",
+      "type": "boolean",
+      "doc": "Whether an informal conference was requested by the claimant"
+    },
+    {
+      "name": "sameStationReviewRequested",
+      "type": "boolean",
+      "doc": "Whether the claimant requested that this decision review be performed at the same station that handled the original claim"
+    },
+    {
+      "name": "intakeCreationTime",
+      "type": {
+        "type": "long",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Timestamp",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "The time at which this decision review intake was created"
+    },
+    {
+      "name": "claimCreationTime",
+      "type": {
+        "type": "long",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Timestamp",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "The time at which this decision review claim was created"
+    },
+    {
+      "name": "createdByUsername",
+      "type": "string",
+      "doc": "The user who created this decision review in the system"
+    },
+    {
+      "name": "createdByStation",
+      "type": "string",
+      "doc": "The station number of the user who created the decision review"
+    },
+    {
+      "name": "createdByApplication",
+      "type": "string",
+      "doc": "The application that the user used to create this decision review"
+    },
+    {
+      "name": "decisionReviewIssues",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "DecisionReviewIssue",
+          "fields": [
+            {
+              "name": "contentionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "The ID of the contention created to track this issue. Will be null for ineligible issues"
+            },
+            {
+              "name": "associatedRequestIssueId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "The ID of the associated request issue from Caseflow. This corresponds to RequestIssue.id in Caseflow.",
+              "default": null
+            },
+            {
+              "name": "unidentified",
+              "type": "boolean",
+              "doc": "Indicates whether this issue was unidentified. If true, both PriorRatingDecisionId and PriorNonRatingDecisionId will be null."
+            },
+            {
+              "name": "priorRatingDecisionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with RequestIssue.contested_rating_decision_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue.",
+              "default": null
+            },
+            {
+              "name": "priorNonRatingDecisionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue.",
+              "default": null
+            },
+            {
+              "name": "priorDecisionText",
+              "type": "string",
+              "doc": "The description of the prior decision that is being reviewed by this issue."
+            },
+            {
+              "name": "priorDecisionType",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "The type of decision that this issue is appealing",
+              "default": null
+            },
+            {
+              "name": "priorDecisionNotificationDate",
+              "type": {
+                "type": "int",
+                "connect.version": 1,
+                "connect.name": "org.apache.kafka.connect.data.Date",
+                "logicalType": "date"
+              },
+              "doc": "The date at which the claimant was notified of the prior decision. If its a rating issue, its the promulgation date plus one day. If its a non-rating issue, its the authorization date. If its an unidentified issue, its the user provided date."
+            },
+            {
+              "name": "priorDecisionDiagnosticCode",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "The diagnostic code(s) of the prior decision that is being reviewed by this issue",
+              "default": null
+            },
+            {
+              "name": "priorDecisionRatingPercentage",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "The rating percentage of the prior decision that is being reviewed by this issue",
+              "default": null
+            },
+            {
+              "name": "eligible",
+              "type": "boolean",
+              "doc": "Indicates whether this issue was eligible for appeal. If true, a contention was created for it. Otherwise, false."
+            },
+            {
+              "name": "eligibilityResult",
+              "type": {
+                "type": "enum",
+                "name": "EligibilityResultEnum",
+                "symbols": [
+                  "ELIGIBLE",
+                  "ELIGIBLE_LEGACY",
+                  "TIME_RESTRICTION",
+                  "PENDING_LEGACY_APPEAL",
+                  "LEGACY_TIME_RESTRICTION",
+                  "NO_SOC_SSOC",
+                  "CONTESTED",
+                  "PENDING_HLR",
+                  "COMPLETED_HLR",
+                  "PENDING_BOARD",
+                  "COMPLETED_BOARD",
+                  "PENDING_SUPPLEMENTAL"
+                ]
+              },
+              "doc": "The specific reason why this issue is eligible or ineligible"
+            },
+            {
+              "name": "timeOverride",
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "doc": "Whether this issue was ineligible due to the time restriction but that restriction was overridden",
+              "default": null
+            },
+            {
+              "name": "timeOverrideReason",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "Optional reason why the user granted the time restriction override to the claimant",
+              "default": null
+            },
+            {
+              "name": "contested",
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "doc": "Whether or not this issue is being contested by another claimant. Only relevant for certain Prior Decision types",
+              "default": null
+            },
+            {
+              "name": "socOptIn",
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "doc": "Whether or not the claimant is opting in from the legacy appeals system",
+              "default": null
+            },
+            {
+              "name": "legacyAppealId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "The ID of the legacy VACOLS appeal that is being opted-in from. This is associated with VacolsIssue.vacols_id in Caseflow. ",
+              "default": null
+            },
+            {
+              "name": "legacyAppealIssueId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "doc": "The ID of the legacy VACOLS issue that is being opted-in from. This is associated with VacolsIssue.vacols_sequence_id in Caseflow. This issue should be closed out in VACOLS",
+              "default": null
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
