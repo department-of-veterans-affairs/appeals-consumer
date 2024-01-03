@@ -1,0 +1,33 @@
+name: RSpec Jest Lint Workflow
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+
+#  what type of jobs do we need
+#  postgres
+jobs:
+  rake:
+    runs-on: ubuntu-8-cores-latest
+    services:
+      postgres:
+        image: postgres:14.8
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: caseflow_efolder_test
+
+        ports:
+        - 5432:5432
+
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+# kafka container
+# schema-registry container
+# kafka-ui container
+# redis
+
+# after the jobs setup all the containers 
+# what steps do we need
