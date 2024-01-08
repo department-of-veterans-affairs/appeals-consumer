@@ -22,7 +22,10 @@ jobs:
     - name: Set up Karafka
       run: |
           touch .env
-          make -f Makefile build registry up
+          make -f Makefile build 
+
+    - name: make registry
+      run: make -f Makefile registry
         
         
 
