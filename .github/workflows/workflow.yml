@@ -25,7 +25,9 @@ jobs:
           make -f Makefile build 
 
     - name: make registry
-      run: -wait -timeout 30s make -f Makefile registry
+      run: |
+        sleep 30
+        make -f Makefile registry
         
 
 
