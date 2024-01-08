@@ -24,10 +24,10 @@ jobs:
           touch .env
           make -f Makefile build 
 
-    - name: Wait on
-      uses: iFaxity/wait-on-action@v1.1.0
+    - name: wait for all services to respond
+      uses: ./
       with:
-        resource: http://localhost:8080
+        wait-on: 'http://localhost:9092, http://localhost:9021, http://localhost:8080, http://localhost:7936, http://localhost:3001'
 
     - name: make registry
       run: make -f Makefile registry
