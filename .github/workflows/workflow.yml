@@ -26,7 +26,7 @@ jobs:
 
     - name: make registry
       run: |
-        sleep 10
+        sleep 15
         make -f Makefile registry
         
 
