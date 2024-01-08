@@ -24,10 +24,10 @@ jobs:
           touch .env
           make -f Makefile build 
 
-    - name: wait for all services to respond
+    - name: wait for for services to be ready
       uses: GuillaumeFalourd/wait-sleep-action@v1
       with:
-        time: '60' # for 60 seconds
+        time: '30' # for 60 seconds
 
     - name: make registry
       run: make -f Makefile registry
