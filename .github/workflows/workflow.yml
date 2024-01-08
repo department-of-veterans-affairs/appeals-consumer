@@ -24,8 +24,8 @@ jobs:
           touch .env
           make -f Makefile build 
 
-    - name: Wait for kafka-ui to be ready
-      uses: iFaxity/wait-on-action
+    - name: Wait on
+      uses: iFaxity/wait-on-action@v1.1.0
       with:
         resource: http://localhost:8080
 
