@@ -10,7 +10,7 @@ on:
 #  postgres
 jobs:
   appeals_consumer_rspec_job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-8-cores-latest
     # services:
     #   postgres:
     #     image: postgres:14.8
@@ -70,7 +70,7 @@ jobs:
 # what steps do we need
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Ruby version
       run: ruby -v
