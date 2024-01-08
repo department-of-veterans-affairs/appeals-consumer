@@ -5,80 +5,23 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-
-#  what type of jobs do we need
-#  postgres
 jobs:
   appeals_consumer_rspec_job:
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres:14.8
-    #     env:
-    #       POSTGRES_USER: root
-    #       POSTGRES_PASSWORD: password
-    #       POSTGRES_DB: appeals_consumer_test
-
-    #     ports:
-    #     - 5432:5432
-
-    #     options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-# ruby container 
-    # container:
-    #   image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/gaimg-ruby:2.7.3-ga-browsers
-    #   options: --privileged # Necessary for Rspec to run with our configuration within GHA. Needed for rspec step to prevent chromedriver issue
-    #   credentials:
-    #       username: AWS
-    #       password: ${{ secrets.ECR_PASSWORD }}
-    #   env:
-    #     DBUS_SESSION_BUS_ADDRESS: /dev/null
-    #     RAILS_ENV: test
-    #     BUNDLE_PATH: vendor/bundle
-    #     POSTGRES_HOST: postgres
-    #     POSTGRES_USER: root
-    #     POSTGRES_PASSWORD: password
-    #     WD_INSTALL_DIR: .webdrivers
-    #     CI: true
-    #     REDIS_URL_CACHE: redis://redis:6379/0/cache/
-# kafka container
-
-      # kafka:
-      #   container: kafka
-      #   image: confluentinc/cp-kafka
-      #   ports:
-      #     - 9092:9092
-      #   env:
-      #     CLUSTER_ID: kafka-docker-cluster-1
-      #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      #     KAFKA_PROCESS_ROLES: broker,controller
-      #     KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      #     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://:9093
-      #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      #     KAFKA_BROKER_ID: 1
-      #     KAFKA_CONTROLLER_QUORUM_VOTERS: 1@0.0.0.0:9093
-      #     ALLOW_PLAINTEXT_LISTENER: 'yes'
-      #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      #     KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      #     KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-# schema-registry container
-# kafka-ui container
-# redis
-
-# after the jobs setup all the containers 
-# what steps do we need
+    
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Set up Ruby
+# Sets up Ruby by using .ruby-version and Dependencies runs bundler and bundle install 
+    - name: Set up Ruby and Install Ruby dependencies
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+    
+    - name: Set up Karafka
+      run: make -f Makefile.example build registry up
+        
+        
 
-    # - name: Configure Bundler
-    #   run: gem install bundler
 
-    # - name: Bundle install
-    #   run: bundle install
