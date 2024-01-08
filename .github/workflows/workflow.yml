@@ -70,12 +70,30 @@ jobs:
 # what steps do we need
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+    - name: Restore Ruby Dependencies
+      id: cache-ruby-dependencies
+      uses: actions/cache/restore@v3
       with:
-        bundler-cache: true
+        key: bundler-gems
+        path: vendor/bundle
+        restore-keys: bundler-gems
+    - name: Install/Update Ruby Dependencies
+      run: |
+        ruby -v
+        BASH_ENV="Bash"
+        echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> "$BASH_ENV"
+        export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")
+        gem install bundler
+        bundle install --path vendor/bundle
+
+    - name: Cache Ruby Dependencies
+      if: steps.cache-ruby-dependencies.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        key: bundler-gems
+        path: vendor/bundle    
 
     # - name: Configure Bundler
     #   run: gem install bundler
