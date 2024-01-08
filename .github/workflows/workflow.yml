@@ -10,7 +10,7 @@ on:
 #  postgres
 jobs:
   appeals_consumer_rspec_job:
-    runs-on: ubuntu-8-cores-latest
+    runs-on: ubuntu-latest
     # services:
     #   postgres:
     #     image: postgres:14.8
