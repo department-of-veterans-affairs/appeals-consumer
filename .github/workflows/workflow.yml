@@ -20,7 +20,7 @@ jobs:
         bundler-cache: true
     
     - name: Set up Karafka
-      run: make -f Makefile.example build registry up
+      run: make -f Makefile build registry up
         
         
 
