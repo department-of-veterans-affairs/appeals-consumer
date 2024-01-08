@@ -25,9 +25,9 @@ jobs:
           make -f Makefile build 
 
     - name: wait for all services to respond
-      uses: ./
+      uses: GuillaumeFalourd/wait-sleep-action@v1
       with:
-        wait-on: 'http://localhost:9092, http://localhost:9021, http://localhost:8080, http://localhost:7936, http://localhost:3001'
+        time: '60' # for 60 seconds
 
     - name: make registry
       run: make -f Makefile registry
