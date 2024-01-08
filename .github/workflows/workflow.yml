@@ -70,12 +70,10 @@ jobs:
 # what steps do we need
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Ruby
       uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 3.0
 
     - name: Configure Bundler
       run: gem install bundler
