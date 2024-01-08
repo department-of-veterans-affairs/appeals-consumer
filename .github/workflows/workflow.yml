@@ -76,10 +76,7 @@ jobs:
       run: ruby -v
 
     - name: Configure Bundler
-      run: |-
-        BUNDLER_V=$(cat ./Gemfile.lock | tail -1 | tr -d " ")
-        echo $BUNDLER_V
-        gem install bundler:$BUNDLER_V
+      run: gem install bundler
 
     - name: Bundle install
       run: bundle install
