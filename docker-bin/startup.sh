@@ -11,4 +11,11 @@ if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
 
+while ! curl -s http://localstack:4566/_localstack/health | grep -q "running"; do
+  echo "Waiting for LocalStack to be ready..."
+  sleep 5
+done
+
+echo "LocalStack is ready."
+
 exec "$@"

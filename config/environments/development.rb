@@ -32,6 +32,15 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # set to true to create queues and override the sqs endpiont
+  config.sqs_create_queues = true
+
+  config.sqs_endpoint = 'http://localstack:4576'
+
+  # since we mock aws using localstack, provide dummy creds to the aws gem
+  ENV["AWS_ACCESS_KEY_ID"] ||= "dummykeyid"
+  ENV["AWS_SECRET_ACCESS_KEY"] ||= "dummysecretkey"
+  
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
