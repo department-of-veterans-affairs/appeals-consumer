@@ -81,11 +81,10 @@ services:
 
   localstack:
     platform: linux/amd64
-    container_name: localstack
-    image: localstack/localstack:0.11.4
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack
     ports:
-      - "4567-4583:4567-4583"
-      - "8082:${PORT_WEB_UI-8080}"
+      - "4566:4566"
     environment:
       - SERVICES=sqs
     volumes:

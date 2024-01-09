@@ -8,10 +8,6 @@ ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper
 
 if Rails.application.config.sqs_endpoint
   # override the sqs_endpoint
-
-  # Shoryuken::Client.sqs.config[:endpoint] = URI(Rails.application.config.sqs_endpoint)
-  # Shoryuken::Client.sqs.config[:verify_checksums] = false
-  
   
   Shoryuken.configure_client do |config|
     config.sqs_client = Aws::SQS::Client.new(
@@ -23,7 +19,8 @@ end
   
   if Rails.application.config.sqs_create_queues
     # create the development queues
-    Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_decision_review_created' })
+    Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_High_Priority' })
+    Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_Low_Priority' })
   end
 
 Shoryuken.configure_server do |config|

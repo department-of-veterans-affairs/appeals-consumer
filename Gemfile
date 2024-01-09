@@ -49,7 +49,7 @@ gem "tzinfo-data", platforms: [:windows, :jruby]
 
 gem "immigrant"
 
-gem "shoryuken", "~> 3.1.11"
+gem "shoryuken"
 
 gem "logstasher"
 
