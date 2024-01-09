@@ -28,6 +28,14 @@ jobs:
       run: |
         sleep 15
         make -f Makefile registry
-        
+    
+    - name: RSpec test
+      run: |
+        make -f Makefile run-test
+
+  
+
+
+
 
 
