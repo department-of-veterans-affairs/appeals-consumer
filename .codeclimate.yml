@@ -35,31 +35,16 @@ checks:
   identical-code:
     config:
       threshold: # language-specific defaults. an override will affect all languages.
-    exclude_patterns:
-    - 'client/app/queue/cavc/utils.js'
 
 plugins:
   brakeman:
-    enabled: true
-  bundler-audit:
     enabled: true
   duplication:
     enabled: true
     config:
       languages:
         ruby:
-        javascript:
-          mass_threshold: 81
     exclude_patterns:
-    - 'db/migrate/*'
-    - 'app/controllers/idt/api/v2/appeals_controller.rb'
-    - 'spec/controllers/idt/api/v2/appeals_controller_spec.rb'
-    - 'spec/controllers/idt/api/appeals_controller_spec.rb'
-    - 'spec/controllers/tasks_controller_spec.rb'
-    - 'spec/controllers/decision_reviews_controller_spec.rb'
-    - 'spec/models/hearings/conference_link_spec.rb'
-  eslint:
-    enabled: true
   fixme:
     enabled: true
     exclude_patterns:
@@ -78,14 +63,9 @@ plugins:
       Attribute:
         enabled: false
     exclude_patterns:
-    - 'db/migrate/*'
-    - 'app/jobs/dispatch_email_job.rb'
-    - 'app/mailers/dispatch_mailer.rb'
   rubocop:
     enabled: true
     channel: rubocop-0-79
-  scss-lint:
-    enabled: true
   grep:
     enabled: true
     config:
@@ -116,10 +96,4 @@ plugins:
 exclude_patterns:
   - 'db/schema.rb'
   - 'db/seeds.rb'
-  - 'db/scripts/*'
-  - 'node_modules/**/*'
-  - 'app/mappers/zip_code_to_lat_lng_mapper.rb'
   - 'tmp/**/*'
-  - 'app/assets/**/*'
-  - 'client/test/data/camoQueueConfigData.js'
-  - 'client/app/intake/components/mockData/issueListProps.js'
