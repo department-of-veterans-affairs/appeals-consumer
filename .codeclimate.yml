@@ -1,99 +1,66 @@
 version: "2"         # required to adjust maintainability checks
+
 checks:
   argument-count:
+    enabled: true
     config:
       threshold: 4
   complex-logic:
+    enabled: true
     config:
       threshold: 4
   file-lines:
-    enabled: false
+    enabled: true
     config:
       threshold: 250
   method-complexity:
-    enabled: false
+    enabled: true
     config:
       threshold: 5
   method-count:
-    enabled: false
+    enabled: true
     config:
       threshold: 20
   method-lines:
+    enabled: true
     config:
       threshold: 25
-    enabled: false
   nested-control-flow:
+    enabled: true
     config:
       threshold: 4
   return-statements:
+    enabled: true
     config:
       threshold: 4
   similar-code:
-    enabled: false
+    enabled: true
     config:
-      threshold: # language-specific defaults. an override will affect all languages.
+      threshold: #language-specific defaults. overrides affect all languages.
   identical-code:
+    enabled: true
     config:
-      threshold: # language-specific defaults. an override will affect all languages.
+      threshold: #language-specific defaults. overrides affect all languages.
 
-plugins:
-  brakeman:
-    enabled: true
-  duplication:
-    enabled: true
-    config:
-      languages:
-        ruby:
-    exclude_patterns:
-  fixme:
-    enabled: true
-    exclude_patterns:
-    - '.codeclimate.yml'
-    - 'Makefile.example'
-    config:
-      strings:
-      - TODO
-      - FIXME
-      - HACK
-      - BUG
-      - XXX
-  reek:
-    enabled: true
-    checks:
-      Attribute:
-        enabled: false
-    exclude_patterns:
-  rubocop:
-    enabled: true
-    channel: rubocop-0-79
-  grep:
-    enabled: true
-    config:
-      patterns:
-        tests-sleep:
-          pattern: sleep
-          annotation: "Avoid using sleep in tests"
-          severity: info
-          categories: Performance
-          content: >
-            Avoid using sleep in tests because it affects the performance of the
-            test suite.
-          path_patterns:
-            - "spec/**/*_spec.rb"
-        tests-capybara-non-waiting-finder:
-          pattern: not_to have_content\(?[^,]+\)?$
-          annotation: "Avoid using capybara's `have_content` with an RSpec negative matcher"
-          severity: info
-          categories: Performance
-          content: >
-            Avoid using Capybara's `have_content` finder with RSpec's negative matcher. Capybara's
-            `have_content` selector is a waiting selector, that will block until Capybara finds
-            the element. Prefer using a non-blocking matcher if possible like
-            `expect(page.has_no_content?('...')).to eq(true)`.
-          path_patterns:
-            - "spec/feature/**/*.rb"
+# plugins:
+#   eslint:
+#     enabled: true
+#     channel: "eslint-6"
+#   rubocop:
+#     enabled: true
+#     channel: "rubocop-0-79"
 
 exclude_patterns:
-  - 'db/schema.rb'
-  - 'db/seeds.rb'
-  - 'tmp/**/*'
+- "config/"
+- "db/"
+- "dist/"
+- "features/"
+- "**/node_modules/"
+- "script/"
+- "**/spec/"
+- "**/test/"
+- "**/tests/"
+- "Tests/"
+- "**/vendor/"
+- "**/*_test.go"
+- "**/*.d.ts"
