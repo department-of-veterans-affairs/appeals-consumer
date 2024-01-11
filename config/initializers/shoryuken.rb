@@ -8,7 +8,6 @@ ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper
 
 if Rails.application.config.sqs_endpoint
   # override the sqs_endpoint
-  
   Shoryuken.configure_client do |config|
     config.sqs_client = Aws::SQS::Client.new(
       endpoint:         URI(Rails.application.config.sqs_endpoint),
@@ -24,17 +23,17 @@ end
   end
 
 Shoryuken.configure_server do |config|
-#   # Configure loggers in Shoryuken.
-#   #
-#   # Note: `Rails.logger` and `ActiveRecord::Base.logger` are different in production. This only
-#   #   changes the formatter here to preserve the logging level of each logger.
+  # Configure loggers in Shoryuken.
+  #
+  # Note: `Rails.logger` and `ActiveRecord::Base.logger` are different in production. This only
+  #   changes the formatter here to preserve the logging level of each logger.
   Rails.logger.formatter = Shoryuken.logger.formatter.dup.extend(ActiveSupport::TaggedLogging::Formatter)
   ActiveRecord::Base.logger.formatter = Shoryuken.logger.formatter.dup.extend(ActiveSupport::TaggedLogging::Formatter)
 
-#   # register all shoryuken middleware
-#   config.server_middleware do |chain|
-#     # chain.add JobMonitoringMiddleware
-#     # chain.add JobRequestStoreMiddleware
-#     # chain.add JobSentryScopeMiddleware
-#   end
+  # register all shoryuken middleware
+  # config.server_middleware do |chain|
+  #   chain.add JobMonitoringMiddleware
+  #   chain.add JobRequestStoreMiddleware
+  #   chain.add JobSentryScopeMiddleware
+  # end
 end

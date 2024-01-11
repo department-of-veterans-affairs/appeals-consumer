@@ -75,20 +75,8 @@ services:
       - db
       - kafka-ui
       - redis
-      - localstack
     env_file: 
       - ".env"
-
-  localstack:
-    platform: linux/amd64
-    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
-    image: localstack/localstack
-    ports:
-      - "4566:4566"
-    environment:
-      - SERVICES=sqs
-    volumes:
-      - ./local/sqs/conf:/conf
 
 volumes:
   postgres:

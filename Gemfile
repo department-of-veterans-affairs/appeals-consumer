@@ -12,7 +12,8 @@ ruby "3.2.2"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
-gem "aws-sdk-sqs"
+# TODO: "aws-sdk-core" is included in Caseflow-Commons. We can remove this dependency when we pull Caseflow-Commons in
+gem "aws-sdk-core", "~> 2.0"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -49,11 +50,11 @@ gem "tzinfo-data", platforms: [:windows, :jruby]
 
 gem "immigrant"
 
-gem "shoryuken"
+gem "shoryuken", "3.1.11"
 
 gem "logstasher"
 
-gem 'jruby-openssl', platforms: :jruby
+gem "jruby-openssl", platforms: :jruby
 
 gem "redis-mutex"
 

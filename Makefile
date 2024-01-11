@@ -38,3 +38,12 @@ run-test:  ## Run provided command in rails docker container for test environmen
 
 registry:  ## Upload schema AVRO to the Schema Registry
 	docker-compose run --rm rails /usr/bin/kafka_schema.sh
+
+run-all-queues: ## start shoryuken with all queues
+	docker-compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_high_priority appeals_consumer_development_low_priority -R
+
+run-low-priority: ## start shoryuken with just the low priority queue
+	docker-compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_low_priority  -R
+
+run-high-priority: ## start shoryuken with just the high priority queue
+	docker-compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_high_priority  -R
