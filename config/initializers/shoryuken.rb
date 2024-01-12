@@ -5,22 +5,34 @@
 # set up default exponential backoff parameters
 ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper
   .shoryuken_options(retry_intervals: [3.seconds, 30.seconds, 5.minutes, 30.minutes, 2.hours, 5.hours])
-
-if Rails.application.config.sqs_endpoint
-  # override the sqs_endpoint
-  Shoryuken.configure_client do |config|
-    config.sqs_client = Aws::SQS::Client.new(
-      endpoint:         URI(Rails.application.config.sqs_endpoint),
-      verify_checksums: false
+  if Rails.application.config.sqs_endpoint
+    # override the sqs_endpoint
+    Shoryuken.configure_client do |config|
+      config.sqs_client = Aws::SQS::Client.new(
+        region: ENV["AWS_REGION"],
+        access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+        secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+        endpoint:         URI(Rails.application.config.sqs_endpoint),
+        verify_checksums: false
       )
-  end
+    end
+
+    Shoryuken.configure_server do |config|
+      config.sqs_client = Aws::SQS::Client.new(
+        region: ENV["AWS_REGION"],
+        access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+        secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+        endpoint: URI(Rails.application.config.sqs_endpoint),
+        verify_checksums: false
+      )
+    end
 end
-  
-  if Rails.application.config.sqs_create_queues
-    # create the development queues
-    Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_High_Priority' })
-    Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_Low_Priority' })
-  end
+
+if Rails.application.config.sqs_create_queues
+  # create the development queues
+  Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_high_priority' })
+  Shoryuken::Client.sqs.create_queue({ queue_name: ActiveJob::Base.queue_name_prefix + '_low_priority' })
+end
 
 Shoryuken.configure_server do |config|
   # Configure loggers in Shoryuken.
