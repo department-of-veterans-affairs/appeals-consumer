@@ -28,14 +28,11 @@ consumer:  ## Run the Karafka consumer server stand alone
 rails:
 	docker-compose run --rm rails rails s -p 3001 -b '0.0.0.0'
 
-up-test:  ## Start the docker containers for testing environment
-	docker-compose -f docker-compose.test.yml up -d
+all-test: 
+	docker-compose run --rm rails rspec
 
-down-test:  ## Stop the docker containers for testing environment
-	docker-compose -f docker-compose.test.yml down
-
-run-test:  ## Run provided command in rails docker container for test environment
-	docker-compose -f docker-compose.test.yml run --rm test $(RUN_ARGS)
+one-test: 
+	docker-compose run --rm rails rspec $(RUN_ARGS)
 
 registry:  ## Upload schema AVRO to the Schema Registry
 	docker-compose run --rm rails /usr/bin/kafka_schema.sh
