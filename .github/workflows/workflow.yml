@@ -21,7 +21,6 @@ jobs:
     
     - name: Set up Karafka
       run: |
-          touch .env
           make -f Makefile build 
 
     - name: make registry
@@ -31,7 +30,7 @@ jobs:
     
     - name: Whole RSpec test suite
       run: |
-        make -f Makefile run-test
+        make -f Makefile all-test
 
   
 
