@@ -3,7 +3,8 @@
 # Example consumer that prints messages payloads
 class ExampleConsumer < ApplicationConsumer
   def consume
-    messages.each { |message| puts message.payload }
+    message_arr = messages.map { |message| message.payload }
+    Karafka.logger.info message_arr
   end
 
   # Run anything upon partition being revoked
