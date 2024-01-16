@@ -6,6 +6,8 @@ services:
       - postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=postgres
+    networks:
+      - ls
 
   kafka:
     container_name: kafka
@@ -27,6 +29,8 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    networks:
+      - ls
 
   schema-registry:
     image: confluentinc/cp-schema-registry
@@ -40,6 +44,8 @@ services:
       SCHEMA_REGISTRY_LISTENERS: 'http://0.0.0.0:9021'
     depends_on:
       - kafka
+    networks:
+      - ls
 
   kafka-ui:
     container_name: kafka-ui
@@ -54,6 +60,8 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_NAME=kafka-docker-cluster-1
       - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://schema-registry:9021
+    networks:
+      - ls
 
   redis:
     image: 'redis:7.0-alpine'
@@ -63,6 +71,8 @@ services:
     volumes:
       - redis:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - ls
 
   rails:
     build: ./
@@ -75,13 +85,17 @@ services:
       - db
       - kafka-ui
       - redis
-      - localstack
+      - localstack-consumer
     env_file: 
       - ".env"
+    dns:
+      - 10.0.2.20
+    networks:
+      - ls
 
-  localstack:
+  localstack-consumer:
     platform: linux/amd64
-    container_name: localstack
+    container_name: localstack-consumer
     image: localstack/localstack
     ports:
       - "127.0.0.1:4566:4566"
@@ -90,7 +104,16 @@ services:
       - SERVICES=sqs
     volumes:
       - ./local/sqs/conf:/conf
+    networks:
+      ls:
+        ipv4_address: 10.0.2.20
 
 volumes:
   postgres:
   redis:
+
+networks:
+  ls:
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24

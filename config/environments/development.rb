@@ -35,7 +35,7 @@ Rails.application.configure do
   # set to true to create queues and override the sqs endpiont
   config.sqs_create_queues = true
 
-  ENV['SHORYUKEN_SQS_ENDPOINT'] ||= 'http://localstack:4566'
+  ENV['SHORYUKEN_SQS_ENDPOINT'] ||= 'http://localstack-consumer:4566'
   config.sqs_endpoint = ENV['SHORYUKEN_SQS_ENDPOINT']
 
   # since we mock aws using localstack, provide dummy creds to the aws gem
