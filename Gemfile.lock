@@ -107,6 +107,7 @@ GEM
       cork
       nap
       open4 (~> 1.3)
+    climate_control (1.2.0)
     coderay (1.1.3)
     colored2 (3.1.2)
     colorize (1.1.0)
@@ -241,6 +242,8 @@ GEM
     nokogiri (1.15.4-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.15.4-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.15.4-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
@@ -453,6 +456,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-22
+  x86_64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -461,6 +465,7 @@ DEPENDENCIES
   brakeman
   bullet
   byebug
+  climate_control
   danger
   database_cleaner-active_record
   database_cleaner-redis
