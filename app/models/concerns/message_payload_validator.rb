@@ -7,15 +7,15 @@ module MessagePayloadValidator
   private
 
   # Validates attribute names and data types
-  def validate(attributes)
-    validate_attribute_names(attributes.keys)
+  def validate(message_payload)
+    validate_attribute_names(message_payload.keys)
 
     attribute_types.each do |name, type|
-      validate_attribute_data_types(attributes, name, type)
+      validate_attribute_data_types(message_payload, name, type)
     end
   end
 
-  # Checks that incoming attribute names match the attributes listed in class#attribute_types
+  # Checks that incoming attribute names match the message_payload listed in class#attribute_types
   # Fails out of workflow if there is an unknown attribute found
   def validate_attribute_names(attribute_names)
     unknown_attributes = attribute_names.reject { |attr| attribute_types.key?(attr) }
@@ -25,8 +25,8 @@ module MessagePayloadValidator
 
   # Checks that incoming attribute types match the attribute types listed in class#attribute_types
   # Fails out of workflow if there is an unexpected data type found
-  def validate_attribute_data_types(attributes, name, type)
-    value = attributes[name]
+  def validate_attribute_data_types(message_payload, name, type)
+    value = message_payload[name]
     allowed_types = type.is_a?(Array) ? type : [type]
 
     unless allowed_types.any? { |type| value.is_a?(type) }
