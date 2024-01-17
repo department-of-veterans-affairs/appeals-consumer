@@ -86,6 +86,7 @@ group :development, :test do
   gem 'simplecov', require: false
   gem 'sql_tracker'
   gem "webmock"
+  gem "timecop"
 end
 
 group :development do
