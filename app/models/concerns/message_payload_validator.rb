@@ -4,8 +4,6 @@
 # Any class wishing to use this module should have a method called #attribute_types
 # Reference decision_review_created#attribute_types for more information
 module MessagePayloadValidator
-  private
-
   # Validates attribute names and data types
   def validate(message_payload)
     validate_attribute_names(message_payload.keys)
