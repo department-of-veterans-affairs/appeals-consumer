@@ -9,12 +9,6 @@ class Event < ApplicationRecord
   validates :type, presence: true
   validates :message_payload, presence: true
 
-  class << self
-    def retrieve_max_errors_for_failure
-      ENV["MAX_ERRORS_FOR_FAILURE"].to_i
-    end
-  end
-
   def processed?
     completed_at?
   end
@@ -27,5 +21,12 @@ class Event < ApplicationRecord
     return false if audits.size < max_errors_for_failure
 
     audits.map(&:error).last(max_errors_for_failure).include?(nil) ? false : true
+  end
+
+  private
+
+  # :reek:UtilityFunction
+  def retrieve_max_errors_for_failure
+    ENV["MAX_ERRORS_FOR_FAILURE"].to_i
   end
 end
