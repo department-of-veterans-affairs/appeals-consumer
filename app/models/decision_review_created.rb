@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "./concerns/attribute_validator"
+require_relative "./concerns/message_payload_validator"
 
 # DecisionReviewCreated represents the entire message_payload from an individual DecisionReviewCreatedEvent
 class DecisionReviewCreated
-  include AttributeValidator
+  include MessagePayloadValidator
 
   attr_accessor :claim_id, :decision_review_type, :veteran_first_name, :veteran_last_name, :veteran_participant_id,
                 :veteran_file_number, :claimant_participant_id, :ep_code, :ep_code_category, :claim_received_date,
@@ -92,7 +92,7 @@ end
 
 # DecisionReviewIssue represents an individual issue object from the message_payload's decision_review_issues array
 class DecisionReviewIssue
-  include AttributeValidator
+  include MessagePayloadValidator
 
   attr_reader :contention_id, :associated_caseflow_request_issue_id, :unidentified, :prior_rating_decision_id,
               :prior_non_rating_decision_id, :prior_decision_text, :prior_decision_type,
