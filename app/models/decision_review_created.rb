@@ -24,7 +24,7 @@ class DecisionReviewCreated
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
-  # Lists the message_payload and corresponding data types
+  # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
   def attribute_types

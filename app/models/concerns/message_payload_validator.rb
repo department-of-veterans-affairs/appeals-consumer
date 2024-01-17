@@ -25,7 +25,7 @@ module MessagePayloadValidator
   # Fails out of workflow if there is an unexpected data type found
   def validate_attribute_data_types(message_payload, name, type)
     value = message_payload[name]
-    allowed_types = type.is_a?(Array) ? type : [type]
+    allowed_types = [type].flatten
 
     unless allowed_types.any? { |type| value.is_a?(type) }
       fail ArgumentError, "#{name} must be one of the allowed types #{allowed_types}, got #{value.class}."
