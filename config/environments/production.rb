@@ -78,4 +78,7 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Max failed errors until event is switched to "failed"
+  config.max_errors_for_failure = ENV["MAX_ERRORS_FOR_FAILURE"]
 end
