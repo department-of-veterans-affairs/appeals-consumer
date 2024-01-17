@@ -18,7 +18,6 @@ class DecisionReviewCreated
   def initialize(message_payload = {})
     validate(message_payload)
     assign(message_payload)
-    extract_decision_review_issues(message_payload[:decision_review_issues])
   end
 
   private
@@ -78,14 +77,14 @@ class DecisionReviewCreated
     @created_by_username = message_payload[:created_by_username]
     @created_by_station = message_payload[:created_by_station]
     @created_by_application = message_payload[:created_by_application]
-    @decision_review_issues = message_payload[:decision_review_issues]
+    @decision_review_issues = create_decision_review_issues(message_payload[:decision_review_issues])
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   # Creates instances of DecisionReviewIssue, validates attributes, and assigns attributes
   # for each object in the decision_review_issues array
-  def extract_decision_review_issues(decision_review_issues)
+  def create_decision_review_issues(decision_review_issues)
     decision_review_issues&.map { |issue_attrs| DecisionReviewIssue.new(issue_attrs) }
   end
 end
