@@ -10,6 +10,7 @@
 # Ignore all environment files (except templates).
 /.env*
 !/.env*.erb
+!/.env.template
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -32,3 +33,6 @@ supervisord.pid
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore hidden files 
+coverage

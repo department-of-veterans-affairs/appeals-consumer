@@ -1,0 +1,39 @@
+name: RSpec Workflow
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  appeals_consumer_rspec_job:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+# Sets up Ruby by using .ruby-version and Dependencies runs bundler and bundle install 
+    - name: Set up Ruby and Install Ruby dependencies
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    
+    - name: Set up Karafka
+      run: |
+          make -f Makefile build 
+
+    - name: make registry
+      run: |
+        sleep 15
+        make -f Makefile registry
+    
+    - name: Run RSpec test suite
+      run: |
+        make -f Makefile all-test
+
+  
+
+
+
+

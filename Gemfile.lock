@@ -389,7 +389,7 @@ GEM
     sentry-sidekiq (5.15.2)
       sentry-ruby (~> 5.15.2)
       sidekiq (>= 3.0)
-    shoryuken (6.1.1)
+    shoryuken (3.1.11)
       aws-sdk-core (>= 2)
       concurrent-ruby
       thor
@@ -435,6 +435,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
     uniform_notifier (1.16.0)
+    vcr (6.2.0)
     waterdrop (2.6.11)
       karafka-core (>= 2.2.3, < 3.0.0)
       zeitwerk (~> 2.3)
@@ -468,6 +469,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   immigrant
+  jruby-openssl
   karafka (~> 2.2)
   karafka-testing
   logstasher
@@ -495,6 +497,7 @@ DEPENDENCIES
   sql_tracker
   strong_migrations
   tzinfo-data
+  vcr
   webmock
 
 RUBY VERSION
