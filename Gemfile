@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def next?
   File.basename(__FILE__) == "Gemfile.next"
 end
@@ -40,36 +42,44 @@ gem "rails", "~> 7.1.2"
 # Use Redis adapter to run Action Cable in production
 gem "redis", ">= 4.0.1"
 
-gem 'redis-namespace'
+gem "redis-namespace"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:windows, :jruby]
 
-gem 'immigrant'
+gem "immigrant"
 
-gem 'shoryuken'
+gem "shoryuken"
 
-gem 'logstasher'
+gem "logstasher"
 
-gem 'redis-mutex'
+gem "jruby-openssl", platforms: :jruby
 
-gem "sentry-ruby"
-gem "sentry-rails"
-gem "sentry-sidekiq"
+gem "redis-mutex"
+
 gem "sentry-delayed_job"
+gem "sentry-rails"
 gem "sentry-resque"
+gem "sentry-ruby"
+gem "sentry-sidekiq"
 
 gem "strong_migrations"
 
-gem 'next_rails'
+gem "next_rails"
 
-gem 'vcr'
+gem "vcr"
 
 group :development, :test do
+  gem "brakeman"
+  gem "bullet"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "byebug"
+  gem "danger"
+  gem "database_cleaner-active_record"
+  gem "database_cleaner-redis"
   gem "debug", platforms: [:mri, :windows]
   gem "factory_bot_rails"
+  gem "faker"
   gem "karafka-testing"
   gem "pry-byebug", "~> 3.10"
   gem "pry-rails"
@@ -77,14 +87,8 @@ group :development, :test do
   gem "rubocop"
   gem "rubocop-performance"
   gem "rubocop-rails"
-  gem 'database_cleaner-active_record'
-  gem 'database_cleaner-redis'
-  gem 'faker'
-  gem 'danger'
-  gem 'bullet'
-  gem 'brakeman'
-  gem 'simplecov', require: false
-  gem 'sql_tracker'
+  gem "simplecov", require: false
+  gem "sql_tracker"
   gem "webmock"
 end
 

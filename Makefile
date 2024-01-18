@@ -19,13 +19,16 @@ up:  ## Start the docker containers
 down:  ## Stop the docker containers
 	docker-compose down
 
-run:  ## Run provided command in rails docker container
+run:  ## Alias for make up to keep inline with Caseflow's process
+	make up
+
+run-cmd:  ## Run provided command in rails docker container
 	docker-compose run --rm rails $(RUN_ARGS)
 
 consumer:  ## Run the Karafka consumer server stand alone
 	docker-compose run --rm rails bundle exec karafka server
 
-rails:
+rails:  ## Run the Rails server stand alone
 	docker-compose run --rm rails rails s -p 3001 -b '0.0.0.0'
 
 all-test: 
@@ -36,3 +39,12 @@ one-test:
 
 registry:  ## Upload schema AVRO to the Schema Registry
 	docker-compose run --rm rails /usr/bin/kafka_schema.sh
+
+run-all-queues: ## start shoryuken with all queues
+	docker-compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_high_priority appeals_consumer_development_low_priority -R
+
+run-low-priority: ## start shoryuken with just the low priority queue
+	docker-compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_low_priority -R
+
+run-high-priority: ## start shoryuken with just the high priority queue
+	docker-compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_high_priority -R
