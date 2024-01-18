@@ -14,6 +14,9 @@ ruby "3.2.2"
 
 gem "aws-sdk-sqs"
 
+# BGS
+gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git", ref: "7d7c67f7bad5e5aa03e257f0d8e57a4aa1a6cbbf"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
@@ -43,6 +46,8 @@ gem "rails", "~> 7.1.2"
 gem "redis", ">= 4.0.1"
 
 gem "redis-namespace"
+
+gem "request_store"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:windows, :jruby]
