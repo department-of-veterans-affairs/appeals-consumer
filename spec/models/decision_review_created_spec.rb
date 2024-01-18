@@ -114,8 +114,8 @@ describe DecisionReviewCreated do
         decision_review_created.decision_review_issues.each do |issue|
           expect(issue).to be_an_instance_of(DecisionReviewIssue)
 
-          # this additional logic of checking the issues by contention_id enables us to not rely
-          # on the index each DecisionReviewIssue is stored at since the index order could change
+          # this additional logic of checking the issues by contention_id enables us to not rely on the index each
+          # DecisionReviewIssue is stored at since the index order could change when Github Actions runs
           case issue.contention_id
           when 123_456_789
             expect(issue.contention_id).to eq(123_456_789)
