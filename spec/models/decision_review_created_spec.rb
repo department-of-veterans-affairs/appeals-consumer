@@ -207,12 +207,24 @@ describe DecisionReviewCreated do
           expect { decision_review_created }.to raise_error(ArgumentError, error_message)
         end
       end
+
+      context "because decision_review_issues is an empty array" do
+        before do
+          message_payload[:decision_review_issues] = []
+        end
+
+        it "raises ArgumentError with message: DecisionReviewCreated: Message payload must include at least one"\
+           " decision review issue" do
+          error_message = "DecisionReviewCreated: Message payload must include at least one decision review issue"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
+      end
     end
 
     context "when DecisionReviewIssue portion of message_payload is invalid" do
       context "because payload is nil" do
         before do
-          message_payload[:decision_review_issues][0] = {}
+          message_payload[:decision_review_issues][0] = nil
         end
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
@@ -223,7 +235,7 @@ describe DecisionReviewCreated do
 
       context "because payload is empty" do
         before do
-          message_payload[:decision_review_issues][1] = nil
+          message_payload[:decision_review_issues][1] = {}
         end
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do

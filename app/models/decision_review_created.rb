@@ -84,8 +84,13 @@ class DecisionReviewCreated
 
   # Creates instances of DecisionReviewIssue, validates attributes, and assigns attributes
   # for each object in the decision_review_issues array
+  # Fails out of workflow if decision_review_issues is an empty array
   def create_decision_review_issues(decision_review_issues)
-    decision_review_issues&.map { |issue_attrs| DecisionReviewIssue.new(issue_attrs) }
+    if decision_review_issues.blank?
+      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
+    end
+
+    decision_review_issues.map { |issue_attrs| DecisionReviewIssue.new(issue_attrs) }
   end
 end
 

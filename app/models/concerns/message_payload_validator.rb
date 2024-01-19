@@ -15,7 +15,7 @@ module MessagePayloadValidator
 
   # Fails out of workflow if message_payload is nil or contains an empty object
   def validate_presence(message_payload, class_name)
-    if message_payload.blank? || message_payload.empty?
+    if message_payload.blank?
       fail ArgumentError, "#{class_name}: Message payload cannot be empty or nil"
     end
   end

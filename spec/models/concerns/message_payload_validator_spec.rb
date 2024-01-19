@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-
+require "simplecov"
+SimpleCov.start
 require "rails_helper"
 require "./app/models/concerns/message_payload_validator"
 
