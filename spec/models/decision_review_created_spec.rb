@@ -164,6 +164,50 @@ describe DecisionReviewCreated do
       end
     end
 
+    context "when DecisionReviewCreated portion of payload is nil" do
+      before do
+        let(:message_payload) { nil }
+      end
+
+      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+        error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
+        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+      end
+    end
+
+    context "when DecisionReviewCreated portion of payload is empty" do
+      before do
+        let(:message_payload) { {} }
+      end
+
+      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+        error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
+        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+      end
+    end
+
+    context "when DecisionReviewIssue portion of payload is nil" do
+      before do
+        message_payload[:decision_review_issues][0] = {}
+      end
+
+      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+        error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
+        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+      end
+    end
+
+    context "when DecisionReviewCreated portion of payload is empty" do
+      before do
+        message_payload[:decision_review_issues][1] = nil
+      end
+
+      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+        error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
+        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+      end
+    end
+
     context "when DecisionReviewCreated portion of payload has invalid attribute name(s)" do
       before do
         message_payload[:first_invalid_attribute] = "causes initialization to fail"
@@ -171,7 +215,7 @@ describe DecisionReviewCreated do
       end
 
       it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
-        error_message = "Unknown attributes: first_invalid_attribute, second_invalid_attribute"
+        error_message = "DecisionReviewCreated: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
         expect { decision_review_created }.to raise_error(ArgumentError, error_message)
       end
     end
@@ -181,8 +225,8 @@ describe DecisionReviewCreated do
         message_payload[:claim_id] = "invalid data type"
       end
 
-      it "raises ArgumentError with message: name must be one of the allowed types, got class." do
-        error_message = "claim_id must be one of the allowed types [Integer], got String."
+      it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
+        error_message = "DecisionReviewCreated: claim_id must be one of the allowed types - [Integer], got String."
         expect { decision_review_created }.to raise_error(ArgumentError, error_message)
       end
     end
@@ -195,8 +239,8 @@ describe DecisionReviewCreated do
         end
       end
 
-      it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
-        error_message = "Unknown attributes: first_invalid_attribute, second_invalid_attribute"
+      it "raises ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
+        error_message = "DecisionReviewIssue: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
         expect { decision_review_created }.to raise_error(ArgumentError, error_message)
       end
     end
@@ -208,8 +252,9 @@ describe DecisionReviewCreated do
         end
       end
 
-      it "raises ArgumentError with message: name must be one of the allowed types, got class." do
-        error_message = "contention_id must be one of the allowed types [Integer, NilClass], got String."
+      it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
+        error_message = "DecisionReviewIssue: contention_id must be one of the allowed types - [Integer, NilClass],
+                        got String."
         expect { decision_review_created }.to raise_error(ArgumentError, error_message)
       end
     end
