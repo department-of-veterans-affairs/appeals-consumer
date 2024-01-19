@@ -4,7 +4,7 @@
 # Any class wishing to use this module should have a method called #attribute_types
 # as well as call #validate(message_payload, self.class.name) before assigning attributes
 
-# Reference DecisionReviewCreated#attribute_types and DecisionReviewCreated#validate for more information
+# Reference DecisionReviewCreated#attribute_types and DecisionReviewCreated#initialize for more information
 module MessagePayloadValidator
   # Validates attribute names and data types
   def validate(message_payload, class_name)
