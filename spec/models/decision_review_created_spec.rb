@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "rails_helper"
 require "timecop"
 require "./app/models/decision_review_created"
 
@@ -164,98 +165,99 @@ describe DecisionReviewCreated do
       end
     end
 
-    context "when DecisionReviewCreated portion of payload is nil" do
-      before do
+    context "when DecisionReviewCreated portion of message_payload is invalid" do
+      context "because payload is nil" do
         let(:message_payload) { nil }
+
+        it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+          error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
       end
 
-      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-        error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
-
-    context "when DecisionReviewCreated portion of payload is empty" do
-      before do
+      context "because payload is empty" do
         let(:message_payload) { {} }
-      end
 
-      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-        error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
-
-    context "when DecisionReviewIssue portion of payload is nil" do
-      before do
-        message_payload[:decision_review_issues][0] = {}
-      end
-
-      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-        error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
-
-    context "when DecisionReviewCreated portion of payload is empty" do
-      before do
-        message_payload[:decision_review_issues][1] = nil
-      end
-
-      it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-        error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
-
-    context "when DecisionReviewCreated portion of payload has invalid attribute name(s)" do
-      before do
-        message_payload[:first_invalid_attribute] = "causes initialization to fail"
-        message_payload[:second_invalid_attribute] = "causes initialization to fail"
-      end
-
-      it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
-        error_message = "DecisionReviewCreated: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
-
-    context "when DecisionReviewCreated portion of payload has invalid attribute data type(s)" do
-      before do
-        message_payload[:claim_id] = "invalid data type"
-      end
-
-      it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
-        error_message = "DecisionReviewCreated: claim_id must be one of the allowed types - [Integer], got String."
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
-
-    context "when DecisionReviewIssue portion of payload has invalid attribute name(s)" do
-      before do
-        issues_array.each do |issue_obj|
-          issue_obj[:first_invalid_attribute] = "causes initialization to fail"
-          issue_obj[:second_invalid_attribute] = "causes initialization to fail"
+        it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+          error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
         end
       end
 
-      it "raises ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
-        error_message = "DecisionReviewIssue: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
-      end
-    end
+      context "because payload has invalid attribute name(s)" do
+        before do
+          message_payload[:first_invalid_attribute] = "causes initialization to fail"
+          message_payload[:second_invalid_attribute] = "causes initialization to fail"
+        end
 
-    context "when DecisionReviewIssue portion of payload has invalid attribute data type(s)" do
-      before do
-        issues_array.each do |issue_obj|
-          issue_obj[:contention_id] = "invalid data type"
+        it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
+          error_message = "DecisionReviewCreated: Unknown attributes - first_invalid_attribute," \
+                          " second_invalid_attribute"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
         end
       end
 
-      it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
-        error_message = "DecisionReviewIssue: contention_id must be one of the allowed types - [Integer, NilClass],
-                        got String."
-        expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+      context "because payload has invalid attribute data type(s)" do
+        before do
+          message_payload[:claim_id] = "invalid data type"
+        end
+
+        it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
+          error_message = "DecisionReviewCreated: claim_id must be one of the allowed types - [Integer], got String"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
+      end
+    end
+
+    context "when DecisionReviewIssue portion of message_payload is invalid" do
+      context "because payload is nil" do
+        before do
+          message_payload[:decision_review_issues][0] = {}
+        end
+
+        it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+          error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
+      end
+
+      context "because payload is empty" do
+        before do
+          message_payload[:decision_review_issues][1] = nil
+        end
+
+        it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
+          error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
+      end
+
+      context "because payload has invalid attribute name(s)" do
+        before do
+          issues_array.each do |issue_obj|
+            issue_obj[:first_invalid_attribute] = "causes initialization to fail"
+            issue_obj[:second_invalid_attribute] = "causes initialization to fail"
+          end
+        end
+
+        it "raises ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
+          error_message = "DecisionReviewIssue: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
+      end
+
+      context "because payload has invalid attribute data type(s)" do
+        before do
+          issues_array.each do |issue_obj|
+            issue_obj[:contention_id] = "invalid data type"
+          end
+        end
+
+        it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
+          error_message = "DecisionReviewIssue: contention_id must be one of the allowed types - [Integer, NilClass]," \
+                          " got String"
+          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+        end
       end
     end
   end
