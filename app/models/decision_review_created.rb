@@ -12,11 +12,11 @@ class DecisionReviewCreated
                 :informal_conference_requested, :same_station_requested, :intake_creation_time, :claim_creation_time,
                 :created_by_username, :created_by_station, :created_by_application, :decision_review_issues
 
-  # When DecisionReviewCreated.new(message_payload) is called, this method will
-  # validate the attribute names and data types, assign the incoming attributes to defined keys, and
-  # create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
+  # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
+  # presence, attribute names and data types, assign the incoming attributes to defined keys,
+  # and create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
   def initialize(message_payload = {})
-    validate(message_payload)
+    validate(message_payload, self.class.name)
     assign(message_payload)
   end
 
@@ -93,16 +93,16 @@ end
 class DecisionReviewIssue
   include MessagePayloadValidator
 
-  attr_reader :contention_id, :associated_caseflow_request_issue_id, :unidentified, :prior_rating_decision_id,
-              :prior_non_rating_decision_id, :prior_decision_text, :prior_decision_type,
-              :prior_decision_notification_date, :prior_decision_diagnostic_code, :prior_decision_rating_percentage,
-              :eligible, :eligibility_result, :time_override, :time_override_reason, :contested, :soc_opt_in,
-              :legacy_appeal_id, :legacy_appeal_issue_id
+  attr_accessor :contention_id, :associated_caseflow_request_issue_id, :unidentified, :prior_rating_decision_id,
+                :prior_non_rating_decision_id, :prior_decision_text, :prior_decision_type,
+                :prior_decision_notification_date, :prior_decision_diagnostic_code, :prior_decision_rating_percentage,
+                :eligible, :eligibility_result, :time_override, :time_override_reason, :contested, :soc_opt_in,
+                :legacy_appeal_id, :legacy_appeal_issue_id
 
-  # When DecisionReviewIssue.new(issue_attrs) is called, this method will
-  # validate the attribute names and data types and assign the incoming attributes to defined keys
+  # When DecisionReviewIssue.new(issue_attrs) is called, this method will validate message_payload
+  # presence, attribute names and data types and assign the incoming attributes to defined keys
   def initialize(message_payload = {})
-    validate(message_payload)
+    validate(message_payload, self.class.name)
     assign(message_payload)
   end
 
