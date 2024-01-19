@@ -1,34 +1,46 @@
 # frozen_string_literal: true
 
-# This module is used to validate incoming attribute names and data types
+# This module is used to validate incoming message_payload presence, attribute names, and data types
 # Any class wishing to use this module should have a method called #attribute_types
-# Reference decision_review_created#attribute_types for more information
+# as well as call #validate(message_payload, self.class.name) before assigning attributes
+
+# Reference DecisionReviewCreated#attribute_types and DecisionReviewCreated#validate for more information
 module MessagePayloadValidator
   # Validates attribute names and data types
-  def validate(message_payload)
-    validate_attribute_names(message_payload.keys)
+  def validate(message_payload, class_name)
+    validate_presence(message_payload, class_name)
+    validate_attribute_names(message_payload.keys, class_name)
+    validate_attribute_data_types(message_payload, class_name)
+  end
 
-    attribute_types.each do |name, type|
-      validate_attribute_data_types(message_payload, name, type)
+  # Fails out of workflow if message_payload is nil or contains an empty object
+  def validate_presence(message_payload, class_name)
+    if message_payload.blank? || message_payload.empty?
+      fail ArgumentError, "#{class_name}: Message payload cannot be empty"
     end
   end
 
   # Checks that incoming attribute names match the message_payload listed in class#attribute_types
   # Fails out of workflow if there is an unknown attribute found
-  def validate_attribute_names(attribute_names)
+  def validate_attribute_names(attribute_names, class_name)
     unknown_attributes = attribute_names.reject { |attr| attribute_types.key?(attr) }
 
-    fail ArgumentError, "Unknown attributes: #{unknown_attributes.join(', ')}" unless unknown_attributes.empty?
+    unless unknown_attributes.empty?
+      fail ArgumentError, "#{class_name}: Unknown attributes - #{unknown_attributes.join(', ')}"
+    end
   end
 
   # Checks that incoming attribute types match the attribute types listed in class#attribute_types
   # Fails out of workflow if there is an unexpected data type found
-  def validate_attribute_data_types(message_payload, name, type)
-    value = message_payload[name]
-    allowed_types = [type].flatten
+  def validate_attribute_data_types(message_payload, class_name)
+    attribute_types.each do |name, type|
+      value = message_payload[name]
+      allowed_types = [type].flatten
 
-    unless allowed_types.any? { |type| value.is_a?(type) }
-      fail ArgumentError, "#{name} must be one of the allowed types #{allowed_types}, got #{value.class}."
+      unless allowed_types.any? { |type| value.is_a?(type) }
+        error_message = "#{class_name}: #{name} must be one of the allowed types - #{allowed_types}, got #{value.class}"
+        fail ArgumentError, error_message
+      end
     end
   end
 end
