@@ -16,7 +16,7 @@ class Event < ApplicationRecord
   # :reek:FeatureEnvy
   def failed?
     audits = event_audits
-    max_errors_for_failure ||= retrieve_max_errors_for_failure
+    max_errors_for_failure = retrieve_max_errors_for_failure
 
     return false if audits.size < max_errors_for_failure
 
