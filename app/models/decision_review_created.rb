@@ -40,9 +40,10 @@ class DecisionReviewCreated
   # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
   # and create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
-  def initialize(message_payload = {})
-    validate(message_payload, self.class.name)
-    assign(message_payload)
+  def initialize(camel_case_message_payload = {})
+    payload = convert_keys_to_snake_case(camel_case_message_payload)
+    validate(payload, self.class.name)
+    assign(payload)
   end
 
   private
@@ -52,11 +53,16 @@ class DecisionReviewCreated
     ATTRIBUTES
   end
 
-  # Assigns attributes from the message_payload to defined keys
-  def assign(message_payload)
-    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
+  # Converts camel case keys to snake case
+  def convert_keys_to_snake_case(camel_case_message_payload)
+    camel_case_message_payload&.deep_transform_keys { |key| key.to_s.underscore.to_sym }
+  end
 
-    decision_review_issues_array = message_payload[:decision_review_issues]
+  # Assigns attributes from the message_payload to defined keys
+  def assign(payload)
+    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", payload[attr]) }
+
+    decision_review_issues_array = payload[:decision_review_issues]
     @decision_review_issues = create_decision_review_issues(decision_review_issues_array)
   end
 
@@ -68,7 +74,7 @@ class DecisionReviewCreated
       fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
     end
 
-    decision_review_issues.map { |issue_attrs| DecisionReviewIssue.new(issue_attrs) }
+    decision_review_issues.map { |issue| DecisionReviewIssue.new(issue) }
   end
 end
 
@@ -105,9 +111,9 @@ class DecisionReviewIssue
 
   # When DecisionReviewIssue.new(issue_attrs) is called, this method will validate message_payload
   # presence, attribute names and data types and assign the incoming attributes to defined keys
-  def initialize(message_payload = {})
-    validate(message_payload, self.class.name)
-    assign(message_payload)
+  def initialize(issue = {})
+    validate(issue, self.class.name)
+    assign(issue)
   end
 
   private
@@ -118,7 +124,7 @@ class DecisionReviewIssue
   end
 
   # Assigns attributes from issue_attrs to defined keys
-  def assign(message_payload)
-    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
+  def assign(issue)
+    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", issue[attr]) }
   end
 end

@@ -9,77 +9,77 @@ describe DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
-  subject(:decision_review_created) { described_class.new(message_payload) }
+  subject(:decision_review_created) { described_class.new(camel_case_message_payload) }
 
-  let!(:issues_array) do
+  let(:camel_case_issues_array) do
     [
       {
-        contention_id: 123_456_789,
-        associated_caseflow_request_issue_id: nil,
+        contentionId: 123_456_789,
+        associatedCaseflowRequestIssueId: nil,
         unidentified: false,
-        prior_rating_decision_id: nil,
-        prior_non_rating_decision_id: 12,
-        prior_decision_text: "service connection for tetnus denied",
-        prior_decision_type: "DIC",
-        prior_decision_notification_date: Date.new(2022, 1, 1),
-        prior_decision_diagnostic_code: nil,
-        prior_decision_rating_percentage: nil,
+        priorRatingDecisionId: nil,
+        priorNonRatingDecisionId: 12,
+        priorDecisionText: "service connection for tetnus denied",
+        priorDecisionType: "DIC",
+        priorDecisionNotificationDate: Date.new(2022, 1, 1),
+        priorDecisionDiagnosticCode: nil,
+        priorDecisionRatingPercentage: nil,
         eligible: true,
-        eligibility_result: "ELIGIBLE",
-        time_override: nil,
-        time_override_reason: nil,
+        eligibilityResult: "ELIGIBLE",
+        timeOverride: nil,
+        timeOverrideReason: nil,
         contested: nil,
-        soc_opt_in: nil,
-        legacy_appeal_id: nil,
-        legacy_appeal_issue_id: nil
+        socOptIn: nil,
+        legacyAppealId: nil,
+        legacyAppealIssueId: nil
       },
       {
-        contention_id: 987_654_321,
-        associated_caseflow_request_issue_id: nil,
+        contentionId: 987_654_321,
+        associatedCaseflowRequestIssueId: nil,
         unidentified: false,
-        prior_rating_decision_id: nil,
-        prior_non_rating_decision_id: 13,
-        prior_decision_text: "service connection for ear infection denied",
-        prior_decision_type: "Basic Eligibility",
-        prior_decision_notification_date: Date.new(2022, 1, 1),
-        prior_decision_diagnostic_code: nil,
-        prior_decision_rating_percentage: nil,
+        priorRatingDecisionId: nil,
+        priorNonRatingDecisionId: 13,
+        priorDecisionText: "service connection for ear infection denied",
+        priorDecisionType: "Basic Eligibility",
+        priorDecisionNotificationDate: Date.new(2022, 1, 1),
+        priorDecisionDiagnosticCode: nil,
+        priorDecisionRatingPercentage: nil,
         eligible: true,
-        eligibility_result: "ELIGIBLE",
-        time_override: nil,
-        time_override_reason: nil,
+        eligibilityResult: "ELIGIBLE",
+        timeOverride: nil,
+        timeOverrideReason: nil,
         contested: nil,
-        soc_opt_in: nil,
-        legacy_appeal_id: nil,
-        legacy_appeal_issue_id: nil
+        socOptIn: nil,
+        legacyAppealId: nil,
+        legacyAppealIssueId: nil
       }
     ]
   end
 
-  let!(:message_payload) do
+  let(:camel_case_message_payload) do
     {
-      claim_id: 1_234_567,
-      decision_review_type: "HigherLevelReview",
-      veteran_first_name: "John",
-      veteran_last_name: "Smith",
-      veteran_participant_id: "123456789",
-      veteran_file_number: "123456789",
-      claimant_participant_id: "01010101",
-      ep_code: "030HLRNR",
-      ep_code_category: "Rating",
-      claim_received_date: Date.new(2022, 1, 1),
-      claim_lifecycle_status: "RFD",
-      payee_code: "00",
+      claimId: 1_234_567,
+      decisionReviewType: "HigherLevelReview",
+      veteranFirstName: "John",
+      veteranLastName: "Smith",
+      veteranParticipantId: "123456789",
+      veteranFileNumber: "123456789",
+      claimantParticipantId: "01010101",
+      epCode: "030HLRNR",
+      epCodeCategory: "Rating",
+      claimReceivedDate: Date.new(2022, 1, 1),
+      claimLifecycleStatus: "RFD",
+      payeeCode: "00",
       modifier: "01",
-      originated_from_vacols_issue: false,
-      informal_conference_requested: false,
-      same_station_requested: false,
-      intake_creation_time: Time.now.utc,
-      claim_creation_time: Time.now.utc,
-      created_by_username: "BVADWISE101",
-      created_by_station: "101",
-      created_by_application: "PASYSACCTCREATE",
-      decision_review_issues: issues_array
+      originatedFromVacolsIssue: false,
+      informalConferenceRequested: false,
+      sameStationRequested: false,
+      intakeCreationTime: Time.now.utc,
+      claimCreationTime: Time.now.utc,
+      createdByUsername: "BVADWISE101",
+      createdByStation: "101",
+      createdByApplication: "PASYSACCTCREATE",
+      decisionReviewIssues: camel_case_issues_array
     }
   end
 
@@ -111,7 +111,7 @@ describe DecisionReviewCreated do
         expect(decision_review_created.decision_review_issues.size).to eq(2)
       end
 
-      it "initializes DecisionReviewIssue objects for every obj in issues_array" do
+      it "initializes DecisionReviewIssue objects for every obj in camel_case_issues_array" do
         decision_review_created.decision_review_issues.each do |issue|
           expect(issue).to be_an_instance_of(DecisionReviewIssue)
 
@@ -165,9 +165,9 @@ describe DecisionReviewCreated do
       end
     end
 
-    context "when DecisionReviewCreated portion of message_payload is invalid" do
+    context "when DecisionReviewCreated portion of camel_case_message_payload is invalid" do
       context "because payload is nil" do
-        let(:message_payload) { nil }
+        let(:camel_case_message_payload) { nil }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
@@ -176,7 +176,7 @@ describe DecisionReviewCreated do
       end
 
       context "because payload is empty" do
-        let(:message_payload) { {} }
+        let(:camel_case_message_payload) { {} }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
@@ -186,8 +186,8 @@ describe DecisionReviewCreated do
 
       context "because payload has invalid attribute name(s)" do
         before do
-          message_payload[:first_invalid_attribute] = "causes initialization to fail"
-          message_payload[:second_invalid_attribute] = "causes initialization to fail"
+          camel_case_message_payload["firstInvalidAttribute"] = "causes initialization to fail"
+          camel_case_message_payload["secondInvalidAttribute"] = "causes initialization to fail"
         end
 
         it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
@@ -199,7 +199,7 @@ describe DecisionReviewCreated do
 
       context "because payload has invalid attribute data type(s)" do
         before do
-          message_payload[:claim_id] = "invalid data type"
+          camel_case_message_payload["claimId"] = "invalid data type"
         end
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
@@ -210,7 +210,7 @@ describe DecisionReviewCreated do
 
       context "because decision_review_issues is an empty array" do
         before do
-          message_payload[:decision_review_issues] = []
+          camel_case_message_payload["decisionReviewIssues"] = []
         end
 
         it "raises ArgumentError with message: DecisionReviewCreated: Message payload must include at least one"\
@@ -221,10 +221,10 @@ describe DecisionReviewCreated do
       end
     end
 
-    context "when DecisionReviewIssue portion of message_payload is invalid" do
+    context "when DecisionReviewIssue portion of camel_case_message_payload is invalid" do
       context "because payload is nil" do
         before do
-          message_payload[:decision_review_issues][0] = nil
+          camel_case_issues_array[0] = nil
         end
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
@@ -235,7 +235,7 @@ describe DecisionReviewCreated do
 
       context "because payload is empty" do
         before do
-          message_payload[:decision_review_issues][1] = {}
+          camel_case_issues_array[1] = {}
         end
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
@@ -246,9 +246,9 @@ describe DecisionReviewCreated do
 
       context "because payload has invalid attribute name(s)" do
         before do
-          issues_array.each do |issue_obj|
-            issue_obj[:first_invalid_attribute] = "causes initialization to fail"
-            issue_obj[:second_invalid_attribute] = "causes initialization to fail"
+          camel_case_issues_array.each do |issue_obj|
+            issue_obj["firstInvalidAttribute"] = "causes initialization to fail"
+            issue_obj["second_invalid_attribute"] = "causes initialization to fail"
           end
         end
 
@@ -260,8 +260,8 @@ describe DecisionReviewCreated do
 
       context "because payload has invalid attribute data type(s)" do
         before do
-          issues_array.each do |issue_obj|
-            issue_obj[:contention_id] = "invalid data type"
+          camel_case_issues_array.each do |issue_obj|
+            issue_obj["contentionId"] = "invalid data type"
           end
         end
 
@@ -276,11 +276,11 @@ describe DecisionReviewCreated do
 
   describe "#attribute_types" do
     subject(:drc_attribute_types) do
-      DecisionReviewCreated.new(message_payload).send(:attribute_types)
+      decision_review_created.send(:attribute_types)
     end
 
     subject(:dri_attribute_types) do
-      DecisionReviewIssue.new(issues_array.first).send(:attribute_types)
+      decision_review_created.decision_review_issues.first.send(:attribute_types)
     end
 
     it "returns a frozen attribute_types hash for both classes" do
@@ -293,6 +293,88 @@ describe DecisionReviewCreated do
       expect { dri_attribute_types[:invalid_attribute] = String }.to raise_error(FrozenError)
       expect { drc_attribute_types[:claim_id] = String }.to raise_error(FrozenError)
       expect { dri_attribute_types[:contention_id] = String }.to raise_error(FrozenError)
+    end
+  end
+
+  describe "#convert_keys_to_snake_case" do
+    subject do
+      decision_review_created.send(:convert_keys_to_snake_case, camel_case_message_payload)
+    end
+
+    let(:snake_case_issues_array) do
+      [
+        {
+          contention_id: 123_456_789,
+          associated_caseflow_request_issue_id: nil,
+          unidentified: false,
+          prior_rating_decision_id: nil,
+          prior_non_rating_decision_id: 12,
+          prior_decision_text: "service connection for tetnus denied",
+          prior_decision_type: "DIC",
+          prior_decision_notification_date: Date.new(2022, 1, 1),
+          prior_decision_diagnostic_code: nil,
+          prior_decision_rating_percentage: nil,
+          eligible: true,
+          eligibility_result: "ELIGIBLE",
+          time_override: nil,
+          time_override_reason: nil,
+          contested: nil,
+          soc_opt_in: nil,
+          legacy_appeal_id: nil,
+          legacy_appeal_issue_id: nil
+        },
+        {
+          contention_id: 987_654_321,
+          associated_caseflow_request_issue_id: nil,
+          unidentified: false,
+          prior_rating_decision_id: nil,
+          prior_non_rating_decision_id: 13,
+          prior_decision_text: "service connection for ear infection denied",
+          prior_decision_type: "Basic Eligibility",
+          prior_decision_notification_date: Date.new(2022, 1, 1),
+          prior_decision_diagnostic_code: nil,
+          prior_decision_rating_percentage: nil,
+          eligible: true,
+          eligibility_result: "ELIGIBLE",
+          time_override: nil,
+          time_override_reason: nil,
+          contested: nil,
+          soc_opt_in: nil,
+          legacy_appeal_id: nil,
+          legacy_appeal_issue_id: nil
+        }
+      ]
+    end
+
+    let(:snake_case_payload) do
+      {
+        claim_id: 1_234_567,
+        decision_review_type: "HigherLevelReview",
+        veteran_first_name: "John",
+        veteran_last_name: "Smith",
+        veteran_participant_id: "123456789",
+        veteran_file_number: "123456789",
+        claimant_participant_id: "01010101",
+        ep_code: "030HLRNR",
+        ep_code_category: "Rating",
+        claim_received_date: Date.new(2022, 1, 1),
+        claim_lifecycle_status: "RFD",
+        payee_code: "00",
+        modifier: "01",
+        originated_from_vacols_issue: false,
+        informal_conference_requested: false,
+        same_station_requested: false,
+        intake_creation_time: Time.now.utc,
+        claim_creation_time: Time.now.utc,
+        created_by_username: "BVADWISE101",
+        created_by_station: "101",
+        created_by_application: "PASYSACCTCREATE",
+        decision_review_issues: snake_case_issues_array
+      }
+    end
+
+    it "converts camel_case_message_payload's camel case keys to snake case" do
+      expect(subject).to eq(snake_case_payload)
     end
   end
 end
