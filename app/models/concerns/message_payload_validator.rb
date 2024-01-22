@@ -20,7 +20,7 @@ module MessagePayloadValidator
     end
   end
 
-  # Checks that incoming attribute names match the message_payload listed in class#attribute_types
+  # Checks that incoming attribute names match the keys listed in class#attribute_types
   # Fails out of workflow if there is an unknown attribute found
   def validate_attribute_names(attribute_names, class_name)
     unknown_attributes = attribute_names.reject { |attr| attribute_types.key?(attr) }
@@ -30,7 +30,7 @@ module MessagePayloadValidator
     end
   end
 
-  # Checks that incoming attribute types match the attribute types listed in class#attribute_types
+  # Checks that incoming data types match the attribute types listed in class#attribute_types
   # Fails out of workflow if there is an unexpected data type found
   def validate_attribute_data_types(message_payload, class_name)
     attribute_types.each do |name, type|

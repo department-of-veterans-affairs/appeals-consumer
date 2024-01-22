@@ -2,7 +2,7 @@
 
 require_relative "./concerns/message_payload_validator"
 
-# DecisionReviewCreated represents the entire message_payload from an individual DecisionReviewCreatedEvent
+# DecisionReviewCreated represents the message_payload from an individual DecisionReviewCreatedEvent
 class DecisionReviewCreated
   include MessagePayloadValidator
 
@@ -68,7 +68,7 @@ class DecisionReviewCreated
       fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
     end
 
-    decision_review_issues.map { |issue_attrs| DecisionReviewIssue.new(issue_attrs) }
+    decision_review_issues.map { |issue| DecisionReviewIssue.new(issue) }
   end
 end
 
@@ -105,9 +105,9 @@ class DecisionReviewIssue
 
   # When DecisionReviewIssue.new(issue_attrs) is called, this method will validate message_payload
   # presence, attribute names and data types and assign the incoming attributes to defined keys
-  def initialize(message_payload = {})
-    validate(message_payload, self.class.name)
-    assign(message_payload)
+  def initialize(issue = {})
+    validate(issue, self.class.name)
+    assign(issue)
   end
 
   private
@@ -118,7 +118,7 @@ class DecisionReviewIssue
   end
 
   # Assigns attributes from issue_attrs to defined keys
-  def assign(message_payload)
-    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
+  def assign(issue)
+    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", issue[attr]) }
   end
 end
