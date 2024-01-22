@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_13_041642) do
 
   create_table "events", comment: "This table stores events that are consumed from Kafka Topics.", force: :cascade do |t|
     t.string "type", null: false, comment: "Type of Event being consumed"
-    t.json "message_payload", null: false, comment: "JSON payload received from Kafka Topic"
+    t.jsonb "message_payload", null: false, comment: "JSON payload received from Kafka Topic"
     t.datetime "completed_at", comment: "Timestamp of when event was successfully completed."
     t.text "error", comment: "Error message captured when there is a problem parsing through message_payload attributes."
     t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
