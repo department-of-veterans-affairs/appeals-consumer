@@ -6,13 +6,15 @@ require "./app/models/concerns/message_payload_validator"
 class DummyClass
   include MessagePayloadValidator
 
+  ATTRIBUTES = {
+    attribute_one: String,
+    attribute_two: [String, NilClass],
+    attribute_three: Integer,
+    attribute_four: [TrueClass, FalseClass]
+  }.freeze
+
   def attribute_types
-    {
-      attribute_one: String,
-      attribute_two: [String, NilClass],
-      attribute_three: Integer,
-      attribute_four: [TrueClass, FalseClass]
-    }
+    ATTRIBUTES
   end
 end
 
