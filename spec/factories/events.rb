@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :event do
-    type { "Topics::DecisionReviewCreatedTopic::Events::DecisionReviewCreatedEvent" }
+    type { "Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent" }
     message_payload { "{\"something\": 1}" }
   end
 end
