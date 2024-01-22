@@ -39,7 +39,7 @@ describe MessagePayloadValidator do
 
     context "when the message payload is invalid" do
       context "because message payload is nil" do
-        let(:message_payload) { {} }
+        let(:message_payload) { nil }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DummyClass: Message payload cannot be empty or nil"
@@ -48,7 +48,7 @@ describe MessagePayloadValidator do
       end
 
       context "because message payload is empty" do
-        let(:message_payload) { nil }
+        let(:message_payload) { {} }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DummyClass: Message payload cannot be empty or nil"
