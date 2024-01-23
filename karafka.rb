@@ -39,16 +39,19 @@ class KarafkaApp < Karafka::App
   )
 
   routes.draw do
-    # Uncomment this if you use Karafka with ActiveJob
-    # You need to define the topic per each queue name you use
-    # active_job_topic :default
-    topic :example do
-      # Uncomment this if you want Karafka to manage your topics configuration
-      # Managing topics configuration via routing will allow you to ensure config consistency
-      # across multiple environments
-      #
-      # config(partitions: 2, 'cleanup.policy': 'compact')
-      consumer ExampleConsumer
+    consumer_group :decision_review_created_consumer do
+      # Uncomment this if you use Karafka with ActiveJob
+      # You need to define the topic per each queue name you use
+      # active_job_topic :default
+      topic :decision_review_created do
+        # Uncomment this if you want Karafka to manage your topics configuration
+        # Managing topics configuration via routing will allow you to ensure config consistency
+        # across multiple environments
+        #
+        # config(partitions: 2, 'cleanup.policy': 'compact')
+        consumer DecisionReviewCreatedConsumer
+        deserializer AvroDeserializerService.new
+      end
     end
   end
 end

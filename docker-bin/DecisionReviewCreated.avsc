@@ -1,6 +1,6 @@
 {
-  "type": "record",
   "name": "DecisionReviewCreated",
+  "type": "record",
   "namespace": "gov.va.bip.cest.decisionreview.avro",
   "doc": "An event that represents a new Decision Review created in the VBMS system",
   "fields": [
@@ -15,13 +15,28 @@
         "null",
         "string"
       ],
-      "doc": "The type of decision review (higher level review, supplemental)",
-      "default": null
+      "default": null,
+      "doc": "The type of decision review (higher level review, supplemental)"
+    },
+    {
+      "name": "veteranFirstName",
+      "type": "string",
+      "doc": "The first name of the Veteran"
+    },
+    {
+      "name": "veteranLastName",
+      "type": "string",
+      "doc": "The last name of the Veteran"
     },
     {
       "name": "veteranParticipantId",
       "type": "string",
       "doc": "The Participant ID of the Veteran"
+    },
+    {
+      "name": "fileNumber",
+      "type": "string",
+      "doc": "The File Number of the Veteran"
     },
     {
       "name": "claimantParticipantId",
@@ -34,6 +49,11 @@
       "doc": "The type of decision review that was created"
     },
     {
+      "name": "epCodeCategory",
+      "type": "string",
+      "doc": "Category of EP code (rating or non-rating)"
+    },
+    {
       "name": "claimReceivedDate",
       "type": {
         "type": "int",
@@ -42,6 +62,30 @@
         "logicalType": "date"
       },
       "doc": "The date that this decision review application was received"
+    },
+    {
+      "name": "claimLifecycleStatus",
+      "type": "string",
+      "doc": "The life cycle status of the claim"
+    },
+    {
+      "name": "payeeCode",
+      "type": "string",
+      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
+    },
+    {
+      "name": "modifier",
+      "type": "string",
+      "doc": "The third digit modifier"
+    },
+    {
+      "name": "originatedFromVacolsIssue",
+      "type": [
+        "null",
+        "boolean"
+      ],
+      "default": null,
+      "doc": "Whether a decision review originated from vacols"
     },
     {
       "name": "informalConferenceRequested",
@@ -93,8 +137,8 @@
       "type": {
         "type": "array",
         "items": {
-          "type": "record",
           "name": "DecisionReviewIssue",
+          "type": "record",
           "fields": [
             {
               "name": "contentionId",
@@ -105,13 +149,13 @@
               "doc": "The ID of the contention created to track this issue. Will be null for ineligible issues"
             },
             {
-              "name": "associatedRequestIssueId",
+              "name": "associatedCaseflowRequestIssueId",
               "type": [
                 "null",
                 "long"
               ],
-              "doc": "The ID of the associated request issue from Caseflow. This corresponds to RequestIssue.id in Caseflow.",
-              "default": null
+              "default": null,
+              "doc": "The ID of the associated request issue from Caseflow. This corresponds to RequestIssue.id in Caseflow."
             },
             {
               "name": "unidentified",
@@ -124,8 +168,8 @@
                 "null",
                 "long"
               ],
-              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with RequestIssue.contested_rating_decision_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue.",
-              "default": null
+              "default": null,
+              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with RequestIssue.contested_rating_issue_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue."
             },
             {
               "name": "priorNonRatingDecisionId",
@@ -133,8 +177,8 @@
                 "null",
                 "long"
               ],
-              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue.",
-              "default": null
+              "default": null,
+              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue."
             },
             {
               "name": "priorDecisionText",
@@ -147,8 +191,8 @@
                 "null",
                 "string"
               ],
-              "doc": "The type of decision that this issue is appealing",
-              "default": null
+              "default": null,
+              "doc": "The type of decision that this issue is appealing"
             },
             {
               "name": "priorDecisionNotificationDate",
@@ -166,8 +210,8 @@
                 "null",
                 "string"
               ],
-              "doc": "The diagnostic code(s) of the prior decision that is being reviewed by this issue",
-              "default": null
+              "default": null,
+              "doc": "The diagnostic code(s) of the prior decision that is being reviewed by this issue"
             },
             {
               "name": "priorDecisionRatingPercentage",
@@ -175,8 +219,8 @@
                 "null",
                 "string"
               ],
-              "doc": "The rating percentage of the prior decision that is being reviewed by this issue",
-              "default": null
+              "default": null,
+              "doc": "The rating percentage of the prior decision that is being reviewed by this issue"
             },
             {
               "name": "eligible",
@@ -211,8 +255,8 @@
                 "null",
                 "boolean"
               ],
-              "doc": "Whether this issue was ineligible due to the time restriction but that restriction was overridden",
-              "default": null
+              "default": null,
+              "doc": "Whether this issue was ineligible due to the time restriction but that restriction was overridden"
             },
             {
               "name": "timeOverrideReason",
@@ -220,8 +264,8 @@
                 "null",
                 "string"
               ],
-              "doc": "Optional reason why the user granted the time restriction override to the claimant",
-              "default": null
+              "default": null,
+              "doc": "Optional reason why the user granted the time restriction override to the claimant"
             },
             {
               "name": "contested",
@@ -229,8 +273,8 @@
                 "null",
                 "boolean"
               ],
-              "doc": "Whether or not this issue is being contested by another claimant. Only relevant for certain Prior Decision types",
-              "default": null
+              "default": null,
+              "doc": "Whether or not this issue is being contested by another claimant. Only relevant for certain Prior Decision types"
             },
             {
               "name": "socOptIn",
@@ -238,8 +282,8 @@
                 "null",
                 "boolean"
               ],
-              "doc": "Whether or not the claimant is opting in from the legacy appeals system",
-              "default": null
+              "default": null,
+              "doc": "Whether or not the claimant is opting in from the legacy appeals system"
             },
             {
               "name": "legacyAppealId",
@@ -247,8 +291,8 @@
                 "null",
                 "long"
               ],
-              "doc": "The ID of the legacy VACOLS appeal that is being opted-in from. This is associated with VacolsIssue.vacols_id in Caseflow. ",
-              "default": null
+              "default": null,
+              "doc": "The ID of the legacy VACOLS appeal that is being opted-in from. This is associated with VacolsIssue.vacols_id in Caseflow. "
             },
             {
               "name": "legacyAppealIssueId",
@@ -256,8 +300,8 @@
                 "null",
                 "long"
               ],
-              "doc": "The ID of the legacy VACOLS issue that is being opted-in from. This is associated with VacolsIssue.vacols_sequence_id in Caseflow. This issue should be closed out in VACOLS",
-              "default": null
+              "default": null,
+              "doc": "The ID of the legacy VACOLS issue that is being opted-in from. This is associated with VacolsIssue.vacols_sequence_id in Caseflow. This issue should be closed out in VACOLS"
             }
           ]
         }
