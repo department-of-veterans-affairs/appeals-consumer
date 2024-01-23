@@ -28,6 +28,22 @@ module AppealsConsumer
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
 
+    # setup the deploy env environment variable
+    ENV['DEPLOY_ENV'] ||= Rails.env
+
+    # set Shoryuken as the job queue adapter
+    config.active_job.queue_adapter = :shoryuken
+
+    # config for which SQS endpoint we should use. Override this for local testing
+    config.sqs_create_queues = false
+    config.sqs_endpoint = nil
+
+    # sqs details
+    config.active_job.queue_name_prefix = "appeals_consumer_" + ENV['DEPLOY_ENV']
+
+    # it's a safe assumption we're running on us-gov-west-1
+    ENV["AWS_REGION"] ||= "us-gov-west-1"
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
