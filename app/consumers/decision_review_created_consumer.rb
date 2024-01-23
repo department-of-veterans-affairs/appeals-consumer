@@ -1,35 +1,52 @@
 # frozen_string_literal: true
 
-# Example consumer that prints messages payloads
 class DecisionReviewCreatedConsumer < ApplicationConsumer
+  # Constants for hardcoded strings
+  NOT_STARTED_STATUS = "NOT_STARTED"
+  ERROR_MSG = "Error running DecisionReviewCreatedConsumer"
+  CONSUMER_NAME = "DecisionReviewCreatedConsumer"
+
   def consume
-    _message_arr = messages.map do |message|
-      begin
-        event = DecisionReviewCreatedEvent.where(message_payload: message.message)
-        event ||= DecisionReviewCreatedEvent.create(
-          type: message.writer_schema.fullname,
-          message_payload: message.message,
-          status: "NOT_STARTED"
-        )
-      rescue StandardError => error
-        # notify slack
-        slack_msg = "Error running DecisionReviewCreatedConsumer"
-        # slack_msg += " See Sentry event #{Raven.last_event_id}" if Raven.last_event_id.present
-        slack_service.send_notification(slack_msg, "DecisiionReviewCreatedConsumer")
+    message_arr = messages.map do |message|
+      event = handle_event_creation(message)
 
-        # notify sentry
-        Sentry.capture_message(error, level: "error")
-      end
+      #  Perform the job with the created event
+      DecisionReviewCreatedJob.perform_later(event) if event
 
-      DecisionReviewCreatedJob.perform_later(event)
-
-      decoded_message.message
+      # Return the decoded message
+      message.message
     end
 
-    Karafka.logger.info message_arr
+    Karafka.logger.info(message_arr)
   end
 
   private
+
+  def handle_event_creation(message)
+    DecisionReviewCreatedEvent.find_or_create_by(
+      message_payload: message.message
+    ) do |event|
+      event.type = message.writer_schema.fullname
+      event.status = NOT_STARTED_STATUS
+    end
+  rescue ActiveRecord::RecordInvalid => error
+    handle_error(error)
+    nil # Return nil to indicate failure
+  end
+
+  # Handles errors and notifies via Slack and Sentry
+  def handle_error(error)
+    notify_slack
+    notify_sentry(error)
+  end
+
+  def notify_slack
+    slack_service.send_notification(ERROR_MSG, CONSUMER_NAME)
+  end
+
+  def notify_sentry(error)
+    Sentry.capture_message(error, level: "error")
+  end
 
   # :reek:UtilityFunction
   def slack_url
