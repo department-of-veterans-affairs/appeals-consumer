@@ -9,11 +9,11 @@ describe DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
+  subject { build(:decision_review_created) }
+
   describe "#initialize" do
     context "when DecisionReviewCreated and DecisionReviewIssue portions of payload have valid attributes and
             data types" do
-      subject { build(:decision_review_created) }
-
       it "initializes a DecisionReviewCreated object" do
         expect(subject.claim_id).to eq(1_234_567)
         expect(subject.decision_review_type).to eq("HigherLevelReview")
