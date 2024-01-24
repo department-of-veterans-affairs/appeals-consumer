@@ -11,41 +11,53 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       event = handle_event_creation(message)
 
       #  Perform the job with the created event
-      DecisionReviewCreatedJob.perform_later(event) if event
+      if event&.new_record?
+        event.save
+        DecisionReviewCreatedJob.perform_later(event)
+      end
 
-      # Return the decoded message
+      # Return the message payload
       message.message
     end
 
     Karafka.logger.info(message_arr)
+  rescue ActiveRecord::RecordInvalid => error
+    handle_error(error, message)
+    nil # Return nil to indicate failure
   end
 
   private
 
   def handle_event_creation(message)
-    DecisionReviewCreatedEvent.find_or_create_by(
+    DecisionReviewCreatedEvent.find_or_initialize_by(
       message_payload: message.message
     ) do |event|
       event.type = message.writer_schema.fullname
       event.status = NOT_STARTED_STATUS
     end
-  rescue ActiveRecord::RecordInvalid => error
-    handle_error(error)
-    nil # Return nil to indicate failure
   end
 
   # Handles errors and notifies via Slack and Sentry
-  def handle_error(error)
+  def handle_error(error, message)
+    notify_sentry(error, message)
     notify_slack
-    notify_sentry(error)
   end
 
   def notify_slack
-    slack_service.send_notification(ERROR_MSG, CONSUMER_NAME)
+    slack_message = ERROR_MSG
+    slack_message += " See Sentry event #{Sentry.last_event_id}" if Sentry.last_event_id.present?
+    slack_service.send_notification(slack_message, CONSUMER_NAME)
   end
 
-  def notify_sentry(error)
-    Sentry.capture_message(error, level: "error")
+  def notify_sentry(error, message)
+    Sentry.capture_exception(error) do |scope|
+      scope.set_extras({
+                         claim_id: message.message.claim_id,
+                         source: CONSUMER_NAME,
+                         offset: message.metadata.offset,
+                         partition: message.metadata.partition
+                       })
+    end
   end
 
   # :reek:UtilityFunction
