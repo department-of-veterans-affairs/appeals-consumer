@@ -2,6 +2,33 @@
 
 FactoryBot.define do
   factory :decision_review_created do
+    message_payload do
+      {
+        claim_id: 1_234_567,
+        decision_review_type: "HigherLevelReview",
+        veteran_first_name: "John",
+        veteran_last_name: "Smith",
+        veteran_participant_id: "123456789",
+        veteran_file_number: "123456789",
+        claimant_participant_id: "01010101",
+        ep_code: "030HLRNR",
+        ep_code_category: "Rating",
+        claim_received_date: Date.new(2022, 1, 1),
+        claim_lifecycle_status: "RFD",
+        payee_code: "00",
+        modifier: "01",
+        originated_from_vacols_issue: false,
+        informal_conference_requested: false,
+        same_station_requested: false,
+        intake_creation_time: Time.now.utc,
+        claim_creation_time: Time.now.utc,
+        created_by_username: "BVADWISE101",
+        created_by_station: "101",
+        created_by_application: "PASYSACCTCREATE",
+        decision_review_issues: decision_review_issues
+      }
+    end
+
     transient do
       decision_review_issues do
         [
@@ -46,33 +73,6 @@ FactoryBot.define do
             legacy_appeal_issue_id: nil
           }
         ]
-      end
-
-      message_payload do
-        {
-          claim_id: 1_234_567,
-          decision_review_type: "HigherLevelReview",
-          veteran_first_name: "John",
-          veteran_last_name: "Smith",
-          veteran_participant_id: "123456789",
-          veteran_file_number: "123456789",
-          claimant_participant_id: "01010101",
-          ep_code: "030HLRNR",
-          ep_code_category: "Rating",
-          claim_received_date: Date.new(2022, 1, 1),
-          claim_lifecycle_status: "RFD",
-          payee_code: "00",
-          modifier: "01",
-          originated_from_vacols_issue: false,
-          informal_conference_requested: false,
-          same_station_requested: false,
-          intake_creation_time: Time.now.utc,
-          claim_creation_time: Time.now.utc,
-          created_by_username: "BVADWISE101",
-          created_by_station: "101",
-          created_by_application: "PASYSACCTCREATE",
-          decision_review_issues: decision_review_issues
-        }
       end
     end
 
