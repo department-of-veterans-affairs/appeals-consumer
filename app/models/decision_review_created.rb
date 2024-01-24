@@ -9,7 +9,7 @@ class DecisionReviewCreated
   # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
-  ATTRIBUTES = {
+  DECISION_REVIEW_CREATED_ATTRIBUTES = {
     claim_id: Integer,
     decision_review_type: [String, NilClass],
     veteran_first_name: String,
@@ -35,7 +35,7 @@ class DecisionReviewCreated
   }.freeze
 
   # Allows read and write access for attributes
-  ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
+  DECISION_REVIEW_CREATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
   # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
@@ -49,12 +49,12 @@ class DecisionReviewCreated
 
   # Lists the attributes and corresponding data types
   def attribute_types
-    ATTRIBUTES
+    DECISION_REVIEW_CREATED_ATTRIBUTES
   end
 
   # Assigns attributes from the message_payload to defined keys
   def assign(message_payload)
-    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
+    DECISION_REVIEW_CREATED_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
 
     decision_review_issues_array = message_payload[:decision_review_issues]
     @decision_review_issues = create_decision_review_issues(decision_review_issues_array)
@@ -79,7 +79,7 @@ class DecisionReviewIssue
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
-  ATTRIBUTES = {
+  DECISION_REVIEW_ISSUE_ATTRIBUTES = {
     contention_id: [Integer, NilClass],
     associated_caseflow_request_issue_id: [Integer, NilClass],
     unidentified: [TrueClass, FalseClass],
@@ -101,7 +101,7 @@ class DecisionReviewIssue
   }.freeze
 
   # Allows read and write access for attributes
-  ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
+  DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
   # When DecisionReviewIssue.new(issue_attrs) is called, this method will validate message_payload
   # presence, attribute names and data types and assign the incoming attributes to defined keys
@@ -114,11 +114,11 @@ class DecisionReviewIssue
 
   # Lists the attributes and corresponding data types
   def attribute_types
-    ATTRIBUTES
+    DECISION_REVIEW_ISSUE_ATTRIBUTES
   end
 
   # Assigns attributes from issue_attrs to defined keys
   def assign(issue)
-    ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", issue[attr]) }
+    DECISION_REVIEW_ISSUE_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", issue[attr]) }
   end
 end
