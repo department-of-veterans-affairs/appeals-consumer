@@ -9,83 +9,11 @@ describe DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
-  subject { described_class.new(message_payload) }
-
-  let!(:issues_array) do
-    [
-      {
-        contention_id: 123_456_789,
-        associated_caseflow_request_issue_id: nil,
-        unidentified: false,
-        prior_rating_decision_id: nil,
-        prior_non_rating_decision_id: 12,
-        prior_decision_text: "service connection for tetnus denied",
-        prior_decision_type: "DIC",
-        prior_decision_notification_date: Date.new(2022, 1, 1),
-        prior_decision_diagnostic_code: nil,
-        prior_decision_rating_percentage: nil,
-        eligible: true,
-        eligibility_result: "ELIGIBLE",
-        time_override: nil,
-        time_override_reason: nil,
-        contested: nil,
-        soc_opt_in: nil,
-        legacy_appeal_id: nil,
-        legacy_appeal_issue_id: nil
-      },
-      {
-        contention_id: 987_654_321,
-        associated_caseflow_request_issue_id: nil,
-        unidentified: false,
-        prior_rating_decision_id: nil,
-        prior_non_rating_decision_id: 13,
-        prior_decision_text: "service connection for ear infection denied",
-        prior_decision_type: "Basic Eligibility",
-        prior_decision_notification_date: Date.new(2022, 1, 1),
-        prior_decision_diagnostic_code: nil,
-        prior_decision_rating_percentage: nil,
-        eligible: true,
-        eligibility_result: "ELIGIBLE",
-        time_override: nil,
-        time_override_reason: nil,
-        contested: nil,
-        soc_opt_in: nil,
-        legacy_appeal_id: nil,
-        legacy_appeal_issue_id: nil
-      }
-    ]
-  end
-
-  let!(:message_payload) do
-    {
-      claim_id: 1_234_567,
-      decision_review_type: "HigherLevelReview",
-      veteran_first_name: "John",
-      veteran_last_name: "Smith",
-      veteran_participant_id: "123456789",
-      veteran_file_number: "123456789",
-      claimant_participant_id: "01010101",
-      ep_code: "030HLRNR",
-      ep_code_category: "Rating",
-      claim_received_date: Date.new(2022, 1, 1),
-      claim_lifecycle_status: "RFD",
-      payee_code: "00",
-      modifier: "01",
-      originated_from_vacols_issue: false,
-      informal_conference_requested: false,
-      same_station_requested: false,
-      intake_creation_time: Time.now.utc,
-      claim_creation_time: Time.now.utc,
-      created_by_username: "BVADWISE101",
-      created_by_station: "101",
-      created_by_application: "PASYSACCTCREATE",
-      decision_review_issues: issues_array
-    }
-  end
-
   describe "#initialize" do
     context "when DecisionReviewCreated and DecisionReviewIssue portions of payload have valid attributes and
             data types" do
+      subject { build(:decision_review_created) }
+
       it "initializes a DecisionReviewCreated object" do
         expect(subject.claim_id).to eq(1_234_567)
         expect(subject.decision_review_type).to eq("HigherLevelReview")
@@ -167,120 +95,128 @@ describe DecisionReviewCreated do
 
     context "when DecisionReviewCreated portion of message_payload is invalid" do
       context "because payload is nil" do
-        let(:message_payload) { nil }
+        let(:nil_message_payload) { build(:decision_review_created, :nil) }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { nil_message_payload }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload is empty" do
-        let(:message_payload) { {} }
+        let(:empty_message_payload) { build(:decision_review_created, :empty) }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { empty_message_payload }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload has invalid attribute name(s)" do
-        before do
-          message_payload[:first_invalid_attribute] = "causes initialization to fail"
-          message_payload[:second_invalid_attribute] = "causes initialization to fail"
-        end
+        let(:message_payload_with_invalid_attribute_name) { build(:decision_review_created, :invalid_attribute_name) }
 
         it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
-          error_message = "DecisionReviewCreated: Unknown attributes - first_invalid_attribute," \
-                          " second_invalid_attribute"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          error_message = "DecisionReviewCreated: Unknown attributes - invalid_attribute"
+          expect { message_payload_with_invalid_attribute_name }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload has invalid attribute data type(s)" do
-        before do
-          message_payload[:claim_id] = "invalid data type"
-        end
+        let(:message_payload_with_invalid_data_type) { build(:decision_review_created, :invalid_data_type) }
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
           error_message = "DecisionReviewCreated: claim_id must be one of the allowed types - [Integer], got String"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { message_payload_with_invalid_data_type }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because decision_review_issues is an empty array" do
-        before do
-          message_payload[:decision_review_issues] = []
+        let(:message_payload_without_decision_review_issues) do
+          build(:decision_review_created, :without_decision_review_issues)
         end
 
         it "raises ArgumentError with message: DecisionReviewCreated: Message payload must include at least one"\
            " decision review issue" do
           error_message = "DecisionReviewCreated: Message payload must include at least one decision review issue"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { message_payload_without_decision_review_issues }.to raise_error(ArgumentError, error_message)
         end
       end
     end
 
     context "when DecisionReviewIssue portion of message_payload is invalid" do
       context "because payload is nil" do
-        before do
-          message_payload[:decision_review_issues][0] = nil
-        end
+        let(:message_payload_with_nil_issue) { build(:decision_review_created, :with_nil_decision_review_issue) }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { message_payload_with_nil_issue }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload is empty" do
-        before do
-          message_payload[:decision_review_issues][1] = {}
-        end
+        let(:message_payload_with_empty_issue) { build(:decision_review_created, :with_empty_decision_review_issue) }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { message_payload_with_empty_issue }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload has invalid attribute name(s)" do
-        before do
-          issues_array.each do |issue_obj|
-            issue_obj[:first_invalid_attribute] = "causes initialization to fail"
-            issue_obj[:second_invalid_attribute] = "causes initialization to fail"
-          end
+        let(:message_payload_with_invalid_issue_attr_name) do
+          build(:decision_review_created, :with_invalid_decision_review_issue_attribute_name)
         end
 
         it "raises ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
-          error_message = "DecisionReviewIssue: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          error_message = "DecisionReviewIssue: Unknown attributes - invalid_attribute"
+          expect { message_payload_with_invalid_issue_attr_name }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload has invalid attribute data type(s)" do
-        before do
-          issues_array.each do |issue_obj|
-            issue_obj[:contention_id] = "invalid data type"
-          end
+        let(:message_payload_with_invalid_issue_data_type) do
+          build(:decision_review_created, :with_invalid_decision_review_issue_data_type)
         end
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
           error_message = "DecisionReviewIssue: contention_id must be one of the allowed types - [Integer, NilClass]," \
                           " got String"
-          expect { subject }.to raise_error(ArgumentError, error_message)
+          expect { message_payload_with_invalid_issue_data_type }.to raise_error(ArgumentError, error_message)
         end
       end
     end
   end
 
   describe "#attribute_types" do
+    let!(:issue_hash) do
+      {
+        contention_id: 123_456_789,
+        associated_caseflow_request_issue_id: nil,
+        unidentified: false,
+        prior_rating_decision_id: nil,
+        prior_non_rating_decision_id: 12,
+        prior_decision_text: "service connection for tetnus denied",
+        prior_decision_type: "DIC",
+        prior_decision_notification_date: Date.new(2022, 1, 1),
+        prior_decision_diagnostic_code: nil,
+        prior_decision_rating_percentage: nil,
+        eligible: true,
+        eligibility_result: "ELIGIBLE",
+        time_override: nil,
+        time_override_reason: nil,
+        contested: nil,
+        soc_opt_in: nil,
+        legacy_appeal_id: nil,
+        legacy_appeal_issue_id: nil
+      }
+    end
+
     let!(:drc_attribute_types) do
       subject.send(:attribute_types)
     end
 
     let!(:dri_attribute_types) do
-      DecisionReviewIssue.new(issues_array.first).send(:attribute_types)
+      DecisionReviewIssue.new(issue_hash).send(:attribute_types)
     end
 
     it "returns a frozen attribute_types hash for both classes" do
