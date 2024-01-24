@@ -89,6 +89,7 @@ group :development, :test do
   gem "rubocop-rails"
   gem "simplecov", require: false
   gem "sql_tracker"
+  gem "timecop"
   gem "webmock"
 end
 
