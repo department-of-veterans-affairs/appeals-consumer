@@ -74,6 +74,7 @@ group :development, :test do
   gem "bullet"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "byebug"
+  gem "climate_control"
   gem "danger"
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"

@@ -10,8 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_15_200540) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_13_041642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "event_audits", comment: "This table stores a record of each time event processing is attempted.", force: :cascade do |t|
+    t.bigint "event_id", null: false, comment: "Id of the Event that created or updated this record."
+    t.string "status", default: "NOT_STARTED", null: false, comment: "A status to indicate what state the record is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
+    t.text "error", comment: "Error message captured when an event fails to create or update records within Caseflow."
+    t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+    t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+    t.index ["event_id"], name: "index_event_audits_on_event_id"
+  end
+
+  create_table "events", comment: "This table stores events that are consumed from Kafka Topics.", force: :cascade do |t|
+    t.string "type", null: false, comment: "Type of Event being consumed"
+    t.jsonb "message_payload", null: false, comment: "JSON payload received from Kafka Topic"
+    t.datetime "completed_at", comment: "Timestamp of when event was successfully completed."
+    t.text "error", comment: "Error message captured when there is a problem parsing through message_payload attributes."
+    t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+    t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+  end
+
+  add_foreign_key "event_audits", "events"
 end
