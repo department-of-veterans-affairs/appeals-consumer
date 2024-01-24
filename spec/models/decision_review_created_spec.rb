@@ -9,7 +9,7 @@ describe DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
-  subject(:decision_review_created) { described_class.new(message_payload) }
+  subject { described_class.new(message_payload) }
 
   let!(:issues_array) do
     [
@@ -87,32 +87,32 @@ describe DecisionReviewCreated do
     context "when DecisionReviewCreated and DecisionReviewIssue portions of payload have valid attributes and
             data types" do
       it "initializes a DecisionReviewCreated object" do
-        expect(decision_review_created.claim_id).to eq(1_234_567)
-        expect(decision_review_created.decision_review_type).to eq("HigherLevelReview")
-        expect(decision_review_created.veteran_first_name).to eq("John")
-        expect(decision_review_created.veteran_last_name).to eq("Smith")
-        expect(decision_review_created.veteran_participant_id).to eq("123456789")
-        expect(decision_review_created.veteran_file_number).to eq("123456789")
-        expect(decision_review_created.claimant_participant_id).to eq("01010101")
-        expect(decision_review_created.ep_code).to eq("030HLRNR")
-        expect(decision_review_created.ep_code_category).to eq("Rating")
-        expect(decision_review_created.claim_received_date).to eq(Date.new(2022, 1, 1))
-        expect(decision_review_created.claim_lifecycle_status).to eq("RFD")
-        expect(decision_review_created.payee_code).to eq("00")
-        expect(decision_review_created.modifier).to eq("01")
-        expect(decision_review_created.originated_from_vacols_issue).to eq(false)
-        expect(decision_review_created.informal_conference_requested).to eq(false)
-        expect(decision_review_created.same_station_requested).to eq(false)
-        expect(decision_review_created.intake_creation_time).to eq(Time.now.utc)
-        expect(decision_review_created.claim_creation_time).to eq(Time.now.utc)
-        expect(decision_review_created.created_by_username).to eq("BVADWISE101")
-        expect(decision_review_created.created_by_station).to eq("101")
-        expect(decision_review_created.created_by_application).to eq("PASYSACCTCREATE")
-        expect(decision_review_created.decision_review_issues.size).to eq(2)
+        expect(subject.claim_id).to eq(1_234_567)
+        expect(subject.decision_review_type).to eq("HigherLevelReview")
+        expect(subject.veteran_first_name).to eq("John")
+        expect(subject.veteran_last_name).to eq("Smith")
+        expect(subject.veteran_participant_id).to eq("123456789")
+        expect(subject.veteran_file_number).to eq("123456789")
+        expect(subject.claimant_participant_id).to eq("01010101")
+        expect(subject.ep_code).to eq("030HLRNR")
+        expect(subject.ep_code_category).to eq("Rating")
+        expect(subject.claim_received_date).to eq(Date.new(2022, 1, 1))
+        expect(subject.claim_lifecycle_status).to eq("RFD")
+        expect(subject.payee_code).to eq("00")
+        expect(subject.modifier).to eq("01")
+        expect(subject.originated_from_vacols_issue).to eq(false)
+        expect(subject.informal_conference_requested).to eq(false)
+        expect(subject.same_station_requested).to eq(false)
+        expect(subject.intake_creation_time).to eq(Time.now.utc)
+        expect(subject.claim_creation_time).to eq(Time.now.utc)
+        expect(subject.created_by_username).to eq("BVADWISE101")
+        expect(subject.created_by_station).to eq("101")
+        expect(subject.created_by_application).to eq("PASYSACCTCREATE")
+        expect(subject.decision_review_issues.size).to eq(2)
       end
 
       it "initializes DecisionReviewIssue objects for every obj in issues_array" do
-        decision_review_created.decision_review_issues.each do |issue|
+        subject.decision_review_issues.each do |issue|
           expect(issue).to be_an_instance_of(DecisionReviewIssue)
 
           # this additional logic of checking the issues by contention_id enables us to not rely on the index each
@@ -161,7 +161,7 @@ describe DecisionReviewCreated do
       end
 
       it "does not raise ArgumentError" do
-        expect { decision_review_created }.not_to raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
@@ -171,7 +171,7 @@ describe DecisionReviewCreated do
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -180,7 +180,7 @@ describe DecisionReviewCreated do
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewCreated: Message payload cannot be empty or nil"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -193,7 +193,7 @@ describe DecisionReviewCreated do
         it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
           error_message = "DecisionReviewCreated: Unknown attributes - first_invalid_attribute," \
                           " second_invalid_attribute"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -204,7 +204,7 @@ describe DecisionReviewCreated do
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
           error_message = "DecisionReviewCreated: claim_id must be one of the allowed types - [Integer], got String"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -216,7 +216,7 @@ describe DecisionReviewCreated do
         it "raises ArgumentError with message: DecisionReviewCreated: Message payload must include at least one"\
            " decision review issue" do
           error_message = "DecisionReviewCreated: Message payload must include at least one decision review issue"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
     end
@@ -229,7 +229,7 @@ describe DecisionReviewCreated do
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -240,7 +240,7 @@ describe DecisionReviewCreated do
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
           error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -254,7 +254,7 @@ describe DecisionReviewCreated do
 
         it "raises ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
           error_message = "DecisionReviewIssue: Unknown attributes - first_invalid_attribute, second_invalid_attribute"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
 
@@ -268,18 +268,18 @@ describe DecisionReviewCreated do
         it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
           error_message = "DecisionReviewIssue: contention_id must be one of the allowed types - [Integer, NilClass]," \
                           " got String"
-          expect { decision_review_created }.to raise_error(ArgumentError, error_message)
+          expect { subject }.to raise_error(ArgumentError, error_message)
         end
       end
     end
   end
 
   describe "#attribute_types" do
-    subject(:drc_attribute_types) do
-      DecisionReviewCreated.new(message_payload).send(:attribute_types)
+    let!(:drc_attribute_types) do
+      subject.send(:attribute_types)
     end
 
-    subject(:dri_attribute_types) do
+    let!(:dri_attribute_types) do
       DecisionReviewIssue.new(issues_array.first).send(:attribute_types)
     end
 
