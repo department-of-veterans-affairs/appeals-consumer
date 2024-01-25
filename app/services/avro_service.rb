@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This class is used for encoding and decoding an event for/from an avro
 class AvroService
   require "avro_turf/messaging"
 
