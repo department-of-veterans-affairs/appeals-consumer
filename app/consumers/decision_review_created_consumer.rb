@@ -8,7 +8,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
 
   def consume
     message_arr = messages.map do |message|
-      event = handle_event_creation(message)
+      event = handle_event_creation(message.payload)
 
       #  Perform the job with the created event
       if event&.new_record?
@@ -17,23 +17,23 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       end
 
       # Return the message payload
-      message.message
+      message.payload.message
+    rescue ActiveRecord::RecordInvalid => error
+      handle_error(error, message)
+      nil # Return nil to indicate failure
     end
 
     Karafka.logger.info(message_arr)
-  rescue ActiveRecord::RecordInvalid => error
-    handle_error(error, message)
-    nil # Return nil to indicate failure
   end
 
   private
 
   def handle_event_creation(message)
-    DecisionReviewCreatedEvent.find_or_initialize_by(
+    Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.find_or_initialize_by(
       message_payload: message.message
     ) do |event|
       event.type = message.writer_schema.fullname
-      event.status = NOT_STARTED_STATUS
+      # event.status = NOT_STARTED_STATUS
     end
   end
 
@@ -52,7 +52,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   def notify_sentry(error, message)
     Sentry.capture_exception(error) do |scope|
       scope.set_extras({
-                         claim_id: message.message.claim_id,
+                         claim_id: message.payload.message[:claim_id],
                          source: CONSUMER_NAME,
                          offset: message.metadata.offset,
                          partition: message.metadata.partition

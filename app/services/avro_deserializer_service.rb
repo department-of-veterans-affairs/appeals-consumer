@@ -12,12 +12,12 @@ class AvroDeserializerService
 
   def call(message)
     decoded_message = decode_avro_message(message)
-    transformed_message_payload = transform_payload_to_snakecase(decoded_message.message)
+    transformed_message_payload = transform_payload_to_snakecase(decoded_message)
 
-    {
-      **decoded_message,
-      message: transformed_message_payload
-    }
+    AvroTurf::Messaging::DecodedMessage.new(decoded_message.schema_id,
+                                            decoded_message.writer_schema,
+                                            decoded_message.reader_schema,
+                                            transformed_message_payload)
   end
 
   private
@@ -27,6 +27,6 @@ class AvroDeserializerService
   end
 
   def transform_payload_to_snakecase(payload)
-    payload.message.deep_transform_keys { |key| key.to_s.underscore }
+    payload.message.deep_transform_keys { |key| key.to_s.underscore.to_sym }
   end
 end
