@@ -53,7 +53,7 @@ class SlackService
     channel.prepend("#") unless channel.match?(/^#/)
 
     {
-      username: "Caseflow (#{aws_env})",
+      username: "Appeals-Consumer (#{aws_env})",
       channel: channel,
       attachments: [
         {
