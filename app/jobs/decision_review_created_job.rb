@@ -4,6 +4,6 @@ class DecisionReviewCreatedJob < ApplicationJob
   queue_as :high_priority
 
   def perform(event)
-    DecisionReviewCreatedEvent.process!(event)
+    Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.process!(event)
   end
 end
