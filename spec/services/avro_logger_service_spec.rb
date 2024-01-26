@@ -22,6 +22,12 @@ RSpec.describe AvroLoggerService, type: :service do
 
         subject.error(error)
       end
+
+      it "should report an error with a block given" do
+        expect(subject).to receive(:report_error) { "yielding a block" }
+
+        subject.error(error)
+      end
     end
 
     describe "#report_error" do
