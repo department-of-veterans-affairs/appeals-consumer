@@ -15,11 +15,11 @@ RSpec.describe EventAudit, type: :model do
       expect(subject.valid?).to eq true
       expect { subject.status = "some_random_status" }.to raise_error(ArgumentError)
       subject.save!
-      expect(subject.status).to eq "not_started"
+      expect(subject.status).to eq "in_progress"
     end
 
-    it "should have a default status of 'not_started'" do
-      expect(subject.status).to eq "not_started"
+    it "should have a default status of 'in_progress'" do
+      expect(subject.status).to eq "in_progress"
     end
   end
 

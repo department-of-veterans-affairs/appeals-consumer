@@ -33,7 +33,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       message_payload: message.message
     ) do |event|
       event.type = message.writer_schema.fullname
-      # event.state = NOT_STARTED_STATUS
+      event.state = NOT_STARTED_STATUS
     end
   end
 

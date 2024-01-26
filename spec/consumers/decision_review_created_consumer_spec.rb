@@ -53,7 +53,7 @@ describe DecisionReviewCreatedConsumer do
       expect(event).to be_a(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
       expect(event.message_payload).to eq(payload.message)
       expect(event.type).to eq("SchemaName")
-      # expect(event.state).to eq(DecisionReviewCreatedConsumer::NOT_STARTED_STATUS)
+      expect(event.state).to eq("not_started")
     end
   end
 

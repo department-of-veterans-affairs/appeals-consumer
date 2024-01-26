@@ -47,16 +47,16 @@ RSpec.describe AvroLoggerService, type: :service do
 
     describe "#_notify_sentry" do
       before do
-        # mock needs to be monkey patched since exists in global namespace
-        module Sentry
-          def self.capture_exception(_error)
-            "sent"
-          end
-        end
+        allow(Sentry).to receive(:capture_exception)
       end
 
       it "should notify sentry" do
-        expect(subject.send(:notify_sentry, error)).to eq "sent"
+        expect(subject.send(:notify_sentry, error))
+        expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
+          scope = Sentry::Scope.new
+          block.call(scope)
+          expect(scope.instance_variable_get(:@extra)).to include({ source: subject.class::SERVICE_NAME })
+        end
       end
     end
 

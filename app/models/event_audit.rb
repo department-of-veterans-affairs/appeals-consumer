@@ -9,10 +9,8 @@ class EventAudit < ApplicationRecord
   validates :status, presence: true
 
   enum status: {
-    not_started: "NOT_STARTED",
     in_progress: "IN_PROGRESS",
-    processed: "PROCESSED",
-    error: "ERROR",
+    completed: "COMPLETED",
     failed: "FAILED"
   }
 end
