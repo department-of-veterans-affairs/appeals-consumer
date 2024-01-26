@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
 require "timecop"
 require "./app/models/decision_review_created"
 
