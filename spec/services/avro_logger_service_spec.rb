@@ -25,7 +25,7 @@ RSpec.describe AvroLoggerService, type: :service do
     end
 
     describe "#report_error" do
-      it "what" do
+      it "should call notify_sentry and notify_slack" do
         expect(subject).to receive(:notify_sentry).with(error)
         expect(subject).to receive(:notify_slack)
         subject.error(error)
@@ -50,7 +50,6 @@ RSpec.describe AvroLoggerService, type: :service do
       end
 
       it "should notify sentry" do
-        
         expect(subject.send(:notify_sentry, error)).to eq "sent"
       end
     end
