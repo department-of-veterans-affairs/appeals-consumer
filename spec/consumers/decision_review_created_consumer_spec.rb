@@ -2,12 +2,12 @@
 
 describe DecisionReviewCreatedConsumer do
   let(:consumer) { described_class.new }
+  let(:message) { instance_double("Message", payload: payload, metadata: metadata) }
+  let(:payload) { double("Payload", message: { "claim_id" => 123 }, writer_schema: writer_schema) }
+  let(:metadata) { double("Metadata", offset: 10, partition: 1) }
+  let(:writer_schema) { double(fullname: "SchemaName") }
 
   describe "#consume" do
-    let(:message) { instance_double("Message", payload: payload, metadata: metadata) }
-    let(:payload) { double("Payload", message: message_content) }
-    let(:metadata) { double("Metadata", offset: 10, partition: 1) }
-    let(:message_content) { { "claim_id" => 123 } }
     let(:event) { double("Event", new_record?: new_record) }
     let(:new_record) { true }
 
@@ -19,7 +19,7 @@ describe DecisionReviewCreatedConsumer do
     end
 
     context "when event is a new record" do
-      it "saves the even and performs DecisionReviewCreateJob" do
+      it "saves the even and performs DecisionReviewCreatedJob" do
         expect(event).to receive(:save)
         expect(DecisionReviewCreatedJob).to receive(:perform_later).with(event)
         consumer.consume
@@ -29,7 +29,7 @@ describe DecisionReviewCreatedConsumer do
     context "when event is not a new record" do
       let(:new_record) { false }
 
-      it "does not perform DecisionReviewCreateJob" do
+      it "does not perform DecisionReviewCreatedJob" do
         expect(DecisionReviewCreatedJob).not_to receive(:perform_later)
         consumer.consume
       end
@@ -48,16 +48,12 @@ describe DecisionReviewCreatedConsumer do
   end
 
   describe "#handle_event_creation" do
-    let(:message) { double(message: message_content, writer_schema: writer_schema) }
-    let(:message_content) { { "claim_id" => 123 } }
-    let(:writer_schema) { double(fullname: "SchemaName") }
-
-    it "initializes a new event with the correct type ans status" do
-      event = consumer.send(:handle_event_creation, message)
+    it "initializes a new event with the correct type and state" do
+      event = consumer.send(:handle_event_creation, payload)
       expect(event).to be_a(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
-      expect(event.message_payload).to eq(message.message)
+      expect(event.message_payload).to eq(payload.message)
       expect(event.type).to eq("SchemaName")
-      # expect(event.status).to eq(DecisionReviewCreatedConsumer::NOT_STARTED_STATUS)
+      # expect(event.state).to eq(DecisionReviewCreatedConsumer::NOT_STARTED_STATUS)
     end
   end
 
@@ -65,12 +61,13 @@ describe DecisionReviewCreatedConsumer do
     let(:error) { ActiveRecord::RecordInvalid.new }
     let(:message) { double("Message") }
 
-    it "calls notify_sentry and notify_slack" do
+    before do
       allow(consumer).to receive(:notify_sentry)
       allow(consumer).to receive(:notify_slack)
+    end
 
+    it "calls notify_sentry and notify_slack" do
       consumer.send(:handle_error, error, message)
-
       expect(consumer).to have_received(:notify_sentry).with(error, message)
       expect(consumer).to have_received(:notify_slack)
     end
@@ -78,20 +75,20 @@ describe DecisionReviewCreatedConsumer do
 
   describe "#notify_sentry" do
     let(:error) { StandardError.new }
-    let(:message) { double("Message", payload: double("Message", message: { claim_id: 123 }), metadata: metadata) }
-    let(:metadata) { double("Metadata", offset: 10, partition: 1) }
-    expected_extras = {
-      claim_id: 123,
-      source: DecisionReviewCreatedConsumer::CONSUMER_NAME,
-      offset: 10,
-      partition: 1
-    }
+    let(:expected_extras) do
+      {
+        claim_id: 123,
+        source: DecisionReviewCreatedConsumer::CONSUMER_NAME,
+        offset: 10,
+        partition: 1
+      }
+    end
 
     before do
       allow(Sentry).to receive(:capture_exception)
     end
 
-    it "sends an error report to Sentry" do
+    it "sends an error report to Sentry with correct extras" do
       consumer.send(:notify_sentry, error, message)
       expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
         scope = Sentry::Scope.new
@@ -109,7 +106,7 @@ describe DecisionReviewCreatedConsumer do
       allow(slack_service).to receive(:send_notification)
     end
 
-    it "sends a notification to slack" do
+    it "sends a notification to Slack" do
       consumer.send(:notify_slack)
       expect(slack_service)
         .to have_received(:send_notification)
@@ -126,7 +123,6 @@ describe DecisionReviewCreatedConsumer do
 
   describe "#slack_service" do
     before do
-
       allow(ENV).to receive(:[]).with("SLACK_DISPATCH_ALERT_URL").and_return("http://example.com")
       allow(ENV).to receive(:[]).with("DEPLOY_ENV").and_return("development")
     end

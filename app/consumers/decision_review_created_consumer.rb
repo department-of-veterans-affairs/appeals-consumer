@@ -52,7 +52,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   def notify_sentry(error, message)
     Sentry.capture_exception(error) do |scope|
       scope.set_extras({
-                         claim_id: message.payload.message[:claim_id],
+                         claim_id: message.payload.message["claim_id"],
                          source: CONSUMER_NAME,
                          offset: message.metadata.offset,
                          partition: message.metadata.partition
