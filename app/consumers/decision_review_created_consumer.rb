@@ -33,7 +33,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       message_payload: message.message
     ) do |event|
       event.type = message.writer_schema.fullname
-      # event.status = NOT_STARTED_STATUS
+      # event.state = NOT_STARTED_STATUS
     end
   end
 
@@ -52,7 +52,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   def notify_sentry(error, message)
     Sentry.capture_exception(error) do |scope|
       scope.set_extras({
-                         claim_id: message.payload.message[:claim_id],
+                         claim_id: message.payload.message["claim_id"],
                          source: CONSUMER_NAME,
                          offset: message.metadata.offset,
                          partition: message.metadata.partition

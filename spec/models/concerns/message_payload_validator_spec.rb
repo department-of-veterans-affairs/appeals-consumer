@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
 require "./app/models/concerns/message_payload_validator"
 
 describe MessagePayloadValidator do

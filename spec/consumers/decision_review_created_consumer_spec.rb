@@ -1,86 +1,139 @@
 # frozen_string_literal: true
 
-message_payload = {
-  claim_id: 1_234_567,
-  decision_review_type: "HigherLevelReview",
-  veteran_first_name: "John",
-  veteran_last_name: "Smith",
-  veteran_participant_id: "123456789",
-  file_number: "123456789",
-  claimant_participant_id: "01010101",
-  ep_code: "030HLRNR",
-  ep_code_category: "Rating",
-  claim_received_date: Date.new(2022, 1, 1),
-  claim_lifecycle_status: "RFD",
-  payee_code: "00",
-  modifier: "01",
-  originated_from_vacols_issue: false,
-  informal_conference_requested: false,
-  same_station_review_requested: false,
-  intake_creation_time: Time.now.utc,
-  claim_creation_time: Time.now.utc,
-  created_by_username: "BVADWISE101",
-  created_by_station: "101",
-  created_by_application: "PASYSACCTCREATE",
-  decision_review_issues: [
-    {
-      contention_id: 123_456_789,
-      associated_caseflow_request_issue_id: nil,
-      unidentified: false,
-      prior_rating_decision_id: nil,
-      prior_non_rating_decision_id: 12,
-      prior_decision_text: "service connection for tetnus denied",
-      prior_decision_type: "DIC",
-      prior_decision_notification_date: Date.new(2022, 1, 1),
-      prior_decision_diagnostic_code: nil,
-      prior_decision_rating_percentage: nil,
-      eligible: true,
-      eligibility_result: "ELIGIBLE",
-      time_override: nil,
-      time_override_reason: nil,
-      contested: nil,
-      soc_opt_in: nil,
-      legacy_appeal_id: nil,
-      legacy_appeal_issue_id: nil
-    },
-    {
-      contention_id: 987_654_321,
-      associated_caseflow_request_issue_id: nil,
-      unidentified: false,
-      prior_rating_decision_id: nil,
-      prior_non_rating_decision_id: 13,
-      prior_decision_text: "service connection for ear infection denied",
-      prior_decision_type: "Basic Eligibility",
-      prior_decision_notification_date: Date.new(2022, 1, 1),
-      prior_decision_diagnostic_code: nil,
-      prior_decision_rating_percentage: nil,
-      eligible: true,
-      eligibility_result: "ELIGIBLE",
-      time_override: nil,
-      time_override_reason: nil,
-      contested: nil,
-      soc_opt_in: nil,
-      legacy_appeal_id: nil,
-      legacy_appeal_issue_id: nil
-    }
-  ]
-}.deep_transform_keys { |key| key.to_s.camelize(:lower) }
-
-avro = AvroService.new
-
 describe DecisionReviewCreatedConsumer do
-  #    This will create a consumer instance with all the settings defined for the given topic
-  subject(:consumer) { karafka.consumer_for("decision_review_created") }
+  let(:consumer) { described_class.new }
+  let(:message) { instance_double("Message", payload: payload, metadata: metadata) }
+  let(:payload) { double("Payload", message: { "claim_id" => 123 }, writer_schema: writer_schema) }
+  let(:metadata) { double("Metadata", offset: 10, partition: 1) }
+  let(:writer_schema) { double(fullname: "SchemaName") }
 
-  before do
-    # Sends first message to Karafka consumer
-    karafka.produce(avro.encode(message_payload, "DecisionReviewCreated"))
+  describe "#consume" do
+    let(:event) { double("Event", new_record?: new_record) }
+    let(:new_record) { true }
 
-    allow(Karafka.logger).to receive(:info)
+    before do
+      allow(consumer).to receive(:messages).and_return([message])
+      allow(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
+        .to receive(:find_or_initialize_by)
+        .and_return(event)
+    end
+
+    context "when event is a new record" do
+      it "saves the even and performs DecisionReviewCreatedJob" do
+        expect(event).to receive(:save)
+        expect(DecisionReviewCreatedJob).to receive(:perform_later).with(event)
+        consumer.consume
+      end
+    end
+
+    context "when event is not a new record" do
+      let(:new_record) { false }
+
+      it "does not perform DecisionReviewCreatedJob" do
+        expect(DecisionReviewCreatedJob).not_to receive(:perform_later)
+        consumer.consume
+      end
+    end
+
+    context "when ActiveRecord::RecordInvalid is raised" do
+      before do
+        allow(event).to receive(:save).and_raise(ActiveRecord::RecordInvalid)
+      end
+
+      it "handles the error" do
+        expect(consumer).to receive(:handle_error).with(instance_of(ActiveRecord::RecordInvalid), message)
+        consumer.consume
+      end
+    end
   end
 
-  it "expects to log a proper message" do
-    expect(Karafka.logger).to receive(:info).with([message_payload])
-    consumer.consume
+  describe "#handle_event_creation" do
+    it "initializes a new event with the correct type and state" do
+      event = consumer.send(:handle_event_creation, payload)
+      expect(event).to be_a(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
+      expect(event.message_payload).to eq(payload.message)
+      expect(event.type).to eq("SchemaName")
+      # expect(event.state).to eq(DecisionReviewCreatedConsumer::NOT_STARTED_STATUS)
+    end
+  end
+
+  describe "#handle_error" do
+    let(:error) { ActiveRecord::RecordInvalid.new }
+    let(:message) { double("Message") }
+
+    before do
+      allow(consumer).to receive(:notify_sentry)
+      allow(consumer).to receive(:notify_slack)
+    end
+
+    it "calls notify_sentry and notify_slack" do
+      consumer.send(:handle_error, error, message)
+      expect(consumer).to have_received(:notify_sentry).with(error, message)
+      expect(consumer).to have_received(:notify_slack)
+    end
+  end
+
+  describe "#notify_sentry" do
+    let(:error) { StandardError.new }
+    let(:expected_extras) do
+      {
+        claim_id: 123,
+        source: DecisionReviewCreatedConsumer::CONSUMER_NAME,
+        offset: 10,
+        partition: 1
+      }
+    end
+
+    before do
+      allow(Sentry).to receive(:capture_exception)
+    end
+
+    it "sends an error report to Sentry with correct extras" do
+      consumer.send(:notify_sentry, error, message)
+      expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
+        scope = Sentry::Scope.new
+        block.call(scope)
+        expect(scope.instance_variable_get(:@extra)).to include(expected_extras)
+      end
+    end
+  end
+
+  describe "#notify_slack" do
+    let(:slack_service) { instance_double("SlackService") }
+
+    before do
+      allow(consumer).to receive(:slack_service).and_return(slack_service)
+      allow(slack_service).to receive(:send_notification)
+    end
+
+    it "sends a notification to Slack" do
+      consumer.send(:notify_slack)
+      expect(slack_service)
+        .to have_received(:send_notification)
+        .with(instance_of(String), "DecisionReviewCreatedConsumer")
+    end
+  end
+
+  describe "#slack_url" do
+    it "returns the Slack URL from environment variables" do
+      allow(ENV).to receive(:[]).with("SLACK_DISPATCH_ALERT_URL").and_return("http://example.com")
+      expect(consumer.send(:slack_url)).to eq("http://example.com")
+    end
+  end
+
+  describe "#slack_service" do
+    before do
+      allow(ENV).to receive(:[]).with("SLACK_DISPATCH_ALERT_URL").and_return("http://example.com")
+      allow(ENV).to receive(:[]).with("DEPLOY_ENV").and_return("development")
+    end
+
+    it "returns a SlackService instance" do
+      expect(consumer.send(:slack_service)).to be_a(SlackService)
+    end
+
+    it "memoizes the SlackService instance" do
+      first_instance = consumer.send(:slack_service)
+      expect(consumer.send(:slack_service)).to be(first_instance)
+    end
   end
 end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 RSpec.describe EventAudit, type: :model do
   describe "#save" do
     let!(:my_event) { create(:event) }

@@ -27,6 +27,6 @@ class AvroDeserializerService
   end
 
   def transform_payload_to_snakecase(payload)
-    payload.message.deep_transform_keys { |key| key.to_s.underscore.to_sym }
+    payload.message.deep_transform_keys { |key| key.to_s.underscore }
   end
 end
