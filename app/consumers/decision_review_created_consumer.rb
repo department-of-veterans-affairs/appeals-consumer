@@ -2,7 +2,6 @@
 
 class DecisionReviewCreatedConsumer < ApplicationConsumer
   # Constants for hardcoded strings
-  NOT_STARTED_STATUS = "NOT_STARTED"
   ERROR_MSG = "Error running DecisionReviewCreatedConsumer"
   CONSUMER_NAME = "DecisionReviewCreatedConsumer"
 
@@ -33,7 +32,6 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       message_payload: message.message
     ) do |event|
       event.type = message.writer_schema.fullname
-      event.state = NOT_STARTED_STATUS
     end
   end
 
