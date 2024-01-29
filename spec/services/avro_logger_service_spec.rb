@@ -46,6 +46,8 @@ RSpec.describe AvroLoggerService, type: :service do
     end
 
     describe "#_notify_sentry" do
+      let(:sentry_scope) { Sentry.get_current_hub.current_scope }
+
       before do
         allow(Sentry).to receive(:capture_exception)
       end
@@ -53,10 +55,9 @@ RSpec.describe AvroLoggerService, type: :service do
       it "should notify sentry" do
         expect(subject.send(:notify_sentry, error))
         expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
-          scope = Sentry::Scope.new
-          block.call(scope)
-          expect(scope.instance_variable_get(:@extra)).to include({ source: subject.class::SERVICE_NAME })
+          block.call(sentry_scope)
         end
+        expect(sentry_scope.instance_variable_get(:@extra)).to include({ source: subject.class::SERVICE_NAME })
       end
     end
 
