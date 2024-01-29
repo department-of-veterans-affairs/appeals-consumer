@@ -75,6 +75,7 @@ describe DecisionReviewCreatedConsumer do
 
   describe "#notify_sentry" do
     let(:error) { StandardError.new }
+    let(:sentry_scope) { Sentry.get_current_hub.current_scope }
     let(:expected_extras) do
       {
         claim_id: 123,
@@ -91,10 +92,9 @@ describe DecisionReviewCreatedConsumer do
     it "sends an error report to Sentry with correct extras" do
       consumer.send(:notify_sentry, error, message)
       expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
-        scope = Sentry::Scope.new
-        block.call(scope)
-        expect(scope.instance_variable_get(:@extra)).to include(expected_extras)
+        block.call(sentry_scope)
       end
+      expect(sentry_scope.instance_variable_get(:@extra)).to include(expected_extras)
     end
   end
 
