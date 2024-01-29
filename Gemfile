@@ -54,7 +54,7 @@ gem "shoryuken"
 gem "logstasher"
 
 gem "jruby-openssl", platforms: :jruby
-
+gem "jsonapi-serializer"
 gem "redis-mutex"
 
 gem "sentry-delayed_job"
