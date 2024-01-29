@@ -39,7 +39,7 @@ class KarafkaApp < Karafka::App
   )
 
   routes.draw do
-    consumer_group :decision_review_created_consumer do
+    consumer_group :decision_review_created_consumer_group do
       # Uncomment this if you use Karafka with ActiveJob
       # You need to define the topic per each queue name you use
       # active_job_topic :default
