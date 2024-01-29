@@ -5,5 +5,7 @@ class DecisionReviewCreatedJob < ApplicationJob
 
   def perform(event)
     Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.process!(event)
+  rescue StandardError => error
+    Rails.logger.error(error)
   end
 end

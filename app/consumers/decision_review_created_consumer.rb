@@ -6,7 +6,9 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   CONSUMER_NAME = "DecisionReviewCreatedConsumer"
 
   def consume
-    message_arr = messages.map do |message|
+    messages.map do |message|
+      Karafka.logger.info("[DecisionReviewCreatedConsumer] Starting consumption for partition: #{message.metadata.partition}, offset: #{message.metadata.offset}, with claim_id: #{message.payload.message['claimd_id']}")
+
       event = handle_event_creation(message.payload)
 
       #  Perform the job with the created event
@@ -15,19 +17,17 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
         DecisionReviewCreatedJob.perform_later(event)
       end
 
-      # Return the message payload
-      message.payload.message
+      Karafka.logger.info("[DecsisionReviewCreateConsumer] Completed consumption of message and dropped Event into processing job")
     rescue ActiveRecord::RecordInvalid => error
       handle_error(error, message)
       nil # Return nil to indicate failure
     end
-
-    Karafka.logger.info(message_arr)
   end
 
   private
 
   def handle_event_creation(message)
+    # TODO: This will be replaced by adding partition and offset to the Events table to compare instead of message_payload
     Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.find_or_initialize_by(
       message_payload: message.message
     ) do |event|
