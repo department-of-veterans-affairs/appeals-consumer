@@ -52,7 +52,7 @@ describe DecisionReviewCreatedConsumer do
       event = consumer.send(:handle_event_creation, payload)
       expect(event).to be_a(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
       expect(event.message_payload).to eq(payload.message)
-      expect(event.type).to eq("SchemaName")
+      expect(event.type).to eq("Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent")
       expect(event.state).to eq("not_started")
     end
   end
