@@ -10,9 +10,9 @@ class Builders::DecisionReviewCreatedDtoBuilder
 
   def initialize(dcr_event)
     @decision_review_created = DecisionReviewCreated.new(dcr_event.message_payload)
-    @css_id = @decision_review_created.css_id
-    @detail_type = @decision_review_created.detail_type
-    @station = @decision_review_created.station
+    @css_id = @decision_review_created.created_by_username
+    @detail_type = @decision_review_created.decision_review_type
+    @station = @decision_review_created.created_by_station
     @intake = build_intake
     @veteran = build_veteran
     @claimant = build_claimant
