@@ -41,6 +41,7 @@ module AppealsConsumer
     # sqs details
     config.active_job.queue_name_prefix = "appeals_consumer_" + ENV['DEPLOY_ENV']
 
+    config.redis_url = ENV["REDIS_URL_CACHE"] || "redis://appeals-consumer-redis-1:6379/0"
     # it's a safe assumption we're running on us-gov-west-1
     ENV["AWS_REGION"] ||= "us-gov-west-1"
 
