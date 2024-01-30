@@ -2,7 +2,7 @@
 
 describe ClaimantSerializer do
   let(:claimant) { build(:claimant) }
-  subject { described_class.new(claimant).attributes }
+  subject { described_class.new(claimant).serialized_attributes }
 
   it "serializes the attributes" do
     expect(subject).to eq(

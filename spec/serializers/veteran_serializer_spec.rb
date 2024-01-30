@@ -2,7 +2,7 @@
 
 describe VeteranSerializer do
   let(:veteran) { build(:veteran) }
-  subject { described_class.new(veteran).attributes }
+  subject { described_class.new(veteran).serialized_attributes }
 
   it "serializes the attributes" do
     expect(subject).to eq(
