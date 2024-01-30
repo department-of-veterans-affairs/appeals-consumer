@@ -6,3 +6,4 @@ export POSTGRES_PASSWORD=postgres
 export RAILS_ENV=development
 export DOCKERIZED=true
 export SHORYUKEN_SQS_ENDPOINT=http://localstack-consumer:4566
+export SCHEMA_REGISTRY_URL=http://schema-registry:9021/

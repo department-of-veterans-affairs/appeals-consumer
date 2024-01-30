@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 RSpec.describe Event, type: :model do
   describe "#save" do
     subject { Event.new(type: nil, message_payload: nil) }
@@ -16,6 +14,19 @@ RSpec.describe Event, type: :model do
       subject.type = "some_type"
       expect(subject.valid?).to eq false
       expect { subject.save! }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it "should fail creating an event_audit with incorrect status" do
+      subject.type = "some_type"
+      subject.message_payload = { "claim_id" => 123 }
+      expect(subject.valid?).to eq true
+      expect { subject.state = "some_random_status" }.to raise_error(ArgumentError)
+      subject.save!
+      expect(subject.state).to eq "not_started"
+    end
+
+    it "should have a default status of 'not_started'" do
+      expect(subject.state).to eq "not_started"
     end
   end
 

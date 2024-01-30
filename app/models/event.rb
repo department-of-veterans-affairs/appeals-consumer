@@ -8,6 +8,15 @@ class Event < ApplicationRecord
 
   validates :type, presence: true
   validates :message_payload, presence: true
+  validates :state, presence: true
+
+  enum state: {
+    not_started: "NOT_STARTED",
+    in_progress: "IN_PROGRESS",
+    processed: "PROCESSED",
+    error: "ERROR",
+    failed: "FAILED"
+  }
 
   def processed?
     completed_at?

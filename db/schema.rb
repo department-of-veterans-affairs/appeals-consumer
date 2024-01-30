@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_13_041642) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_26_181237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "event_audits", comment: "This table stores a record of each time event processing is attempted.", force: :cascade do |t|
     t.bigint "event_id", null: false, comment: "Id of the Event that created or updated this record."
-    t.string "status", default: "NOT_STARTED", null: false, comment: "A status to indicate what state the record is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
+    t.string "status", default: "IN_PROGRESS", null: false, comment: "A status to indicate what state the record is in such as IN_PROGRESS, COMPLETED, FAILED."
     t.text "error", comment: "Error message captured when an event fails to create or update records within Caseflow."
     t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
     t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_13_041642) do
     t.text "error", comment: "Error message captured when there is a problem parsing through message_payload attributes."
     t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
     t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+    t.string "state", default: "NOT_STARTED", null: false, comment: "A status to indicate what state the record is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
   end
 
   add_foreign_key "event_audits", "events"
