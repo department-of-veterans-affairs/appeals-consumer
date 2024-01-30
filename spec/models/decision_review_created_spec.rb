@@ -185,37 +185,4 @@ describe DecisionReviewCreated do
       end
     end
   end
-
-  describe "#attribute_types" do
-    let!(:issue_hash) do
-      {
-        "contention_id" => 123_456_789,
-        "associated_caseflow_request_issue_id" => nil,
-        "unidentified" => false,
-        "prior_rating_decision_id" => nil,
-        "prior_non_rating_decision_id" => 12,
-        "prior_decision_text" => "service connection for tetnus denied",
-        "prior_decision_type" => "DIC",
-        "prior_decision_notification_date" => Date.new(2022, 1, 1),
-        "prior_decision_diagnostic_code" => nil,
-        "prior_decision_rating_percentage" => nil,
-        "eligible" => true,
-        "eligibility_result" => "ELIGIBLE",
-        "time_override" => nil,
-        "time_override_reason" => nil,
-        "contested" => nil,
-        "soc_opt_in" => nil,
-        "legacy_appeal_id" => nil,
-        "legacy_appeal_issue_id" => nil
-      }
-    end
-
-    let!(:drc_attribute_types) do
-      subject.send(:attribute_types)
-    end
-
-    let!(:dri_attribute_types) do
-      DecisionReviewIssue.new(issue_hash).send(:attribute_types)
-    end
-  end
 end

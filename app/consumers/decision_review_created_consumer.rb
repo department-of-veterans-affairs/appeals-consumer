@@ -7,7 +7,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
 
   def consume
     messages.map do |message|
-      Karafka.logger.info("[DecisionReviewCreatedConsumer] Starting consumption for partition: #{message.metadata.partition}, offset: #{message.metadata.offset}, with claim_id: #{message.payload.message['claimd_id']}")
+      log_consumption_start(message)
 
       event = handle_event_creation(message.payload)
 
@@ -17,7 +17,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
         DecisionReviewCreatedJob.perform_later(event)
       end
 
-      Karafka.logger.info("[DecsisionReviewCreateConsumer] Completed consumption of message and dropped Event into processing job")
+      log_consumption_end
     rescue ActiveRecord::RecordInvalid => error
       handle_error(error, message)
       nil # Return nil to indicate failure
@@ -27,12 +27,35 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   private
 
   def handle_event_creation(message)
-    # TODO: This will be replaced by adding partition and offset to the Events table to compare instead of message_payload
+    # TODO: This will be replaced by adding partition and offset
+    # to the Events table to compare instead of message_payload
     Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.find_or_initialize_by(
       message_payload: message.message
     ) do |event|
       event.type = message.writer_schema.fullname
     end
+  end
+
+  def log_consumption_start(message)
+    log_info("Starting consumption", extra_details(message))
+  end
+
+  def log_consumption_end
+    log_info("Completed consumption of message and dropped Event into processing job")
+  end
+
+  def log_info(message, extra = {})
+    full_message = "[#{CONSUMER_NAME}] #{message}"
+    full_message += " | #{extra.to_json}" unless extra.empty?
+    Karafka.logger.info(full_message)
+  end
+
+  def extra_details(message)
+    {
+      partition: message.metadata.partition,
+      offset: message.metadata.offset,
+      claim_id: message.payload.message["claim_id"]
+    }
   end
 
   # Handles errors and notifies via Slack and Sentry
@@ -50,10 +73,8 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   def notify_sentry(error, message)
     Sentry.capture_exception(error) do |scope|
       scope.set_extras({
-                         claim_id: message.payload.message["claim_id"],
-                         source: CONSUMER_NAME,
-                         offset: message.metadata.offset,
-                         partition: message.metadata.partition
+                         **extra_details(message),
+                         source: CONSUMER_NAME
                        })
     end
   end
