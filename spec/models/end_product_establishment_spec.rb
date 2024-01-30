@@ -1,19 +1,12 @@
 # frozen_string_literal: true
 
 describe EndProductEstablishment do
-  describe "#new" do
-    subject { described_class.new }
+  let(:end_product_establishment) { build(:end_product_establishment) }
 
-    it "allows reader and writer access for attributes" do
-      subject.claim_date = Date.new(2022, 1, 1)
-      subject.code = "030HLRR"
-      subject.modifier = "030"
-      subject.reference_id = "147852369"
-
-      expect(subject.claim_date).to eq(Date.new(2022, 1, 1))
-      expect(subject.code).to eq("030HLRR")
-      expect(subject.modifier).to eq("030")
-      expect(subject.reference_id).to eq("147852369")
-    end
+  it "allows reader and writer access for attributes" do
+    expect(end_product_establishment.claim_date).to eq(Date.new(2022, 1, 1))
+    expect(end_product_establishment.code).to eq("030HLRR")
+    expect(end_product_establishment.modifier).to eq("030")
+    expect(end_product_establishment.reference_id).to eq("147852369")
   end
 end
