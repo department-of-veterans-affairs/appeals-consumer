@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ClaimReviewBuilder
+class Builders::ClaimReviewBuilder
 
 end

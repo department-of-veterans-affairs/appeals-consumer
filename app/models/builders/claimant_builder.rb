@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ClaimantBuilder
+class Builders::ClaimantBuilder
 
 end

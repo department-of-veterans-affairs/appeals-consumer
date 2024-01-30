@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class VeteranBuilder
+class Builders::VeteranBuilder
 
 end

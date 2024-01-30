@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class IntakeBuilder
+class Builders::IntakeBuilder
 
 end

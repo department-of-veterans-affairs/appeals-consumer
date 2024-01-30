@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class RequestIssueBuilder
+class Builders::RequestIssueBuilder
 
 end
