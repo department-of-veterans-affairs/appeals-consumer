@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This serializer is used to remove attributes containing PII from the Caseflow-ingestible payload
 class ClaimantSerializer
   attr_accessor :claimant
 
@@ -7,7 +8,7 @@ class ClaimantSerializer
     @claimant = claimant
   end
 
-  def attributes
+  def serialized_attributes
     {
       "payee_code" => claimant.payee_code,
       "type" => claimant.type,

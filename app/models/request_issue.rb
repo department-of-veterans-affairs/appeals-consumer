@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This class should be instantiated via Builders::RequestIssueBuilder
 class RequestIssue
   attr_accessor :contested_issue_description, :contention_reference_id, :contested_rating_decision_reference_id,
                 :contested_rating_issue_profile_date, :contested_rating_issue_reference_id,

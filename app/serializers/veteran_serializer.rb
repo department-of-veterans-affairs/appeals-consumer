@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This serializer is used to remove attributes containing PII from the Caseflow-ingestible payload
 class VeteranSerializer
   attr_accessor :veteran
 
@@ -7,7 +8,7 @@ class VeteranSerializer
     @veteran = veteran
   end
 
-  def attributes
+  def serialized_attributes
     {
       "participant_id" => veteran.participant_id,
       "bgs_last_synced_at" => veteran.bgs_last_synced_at,
