@@ -10,29 +10,29 @@ class DecisionReviewCreated
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
   DECISION_REVIEW_CREATED_ATTRIBUTES = {
-    claim_id: Integer,
-    decision_review_type: [String, NilClass],
-    veteran_first_name: String,
-    veteran_last_name: String,
-    veteran_participant_id: String,
-    veteran_file_number: String,
-    claimant_participant_id: String,
-    ep_code: String,
-    ep_code_category: String,
-    claim_received_date: Date,
-    claim_lifecycle_status: String,
-    payee_code: String,
-    modifier: String,
-    originated_from_vacols_issue: [TrueClass, FalseClass, NilClass],
-    informal_conference_requested: [TrueClass, FalseClass],
-    same_station_requested: [TrueClass, FalseClass],
-    intake_creation_time: Time,
-    claim_creation_time: Time,
-    created_by_username: String,
-    created_by_station: String,
-    created_by_application: String,
-    decision_review_issues: Array
-  }.freeze
+    "claim_id" => Integer,
+    "decision_review_type" => [String, NilClass],
+    "veteran_first_name" => String,
+    "veteran_last_name" => String,
+    "veteran_participant_id" => String,
+    "file_number" => String,
+    "claimant_participant_id" => String,
+    "ep_code" => String,
+    "ep_code_category" => String,
+    "claim_received_date" => Date,
+    "claim_lifecycle_status" => String,
+    "payee_code" => String,
+    "modifier" => String,
+    "originated_from_vacols_issue" => [TrueClass, FalseClass, NilClass],
+    "informal_conference_requested" => [TrueClass, FalseClass],
+    "same_station_review_requested" => [TrueClass, FalseClass],
+    "intake_creation_time" => Time,
+    "claim_creation_time" => Time,
+    "created_by_username" => String,
+    "created_by_station" => String,
+    "created_by_application" => String,
+    "decision_review_issues" => Array
+  }
 
   # Allows read and write access for attributes
   DECISION_REVIEW_CREATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -56,7 +56,7 @@ class DecisionReviewCreated
   def assign(message_payload)
     DECISION_REVIEW_CREATED_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
 
-    decision_review_issues_array = message_payload[:decision_review_issues]
+    decision_review_issues_array = message_payload["decision_review_issues"]
     @decision_review_issues = create_decision_review_issues(decision_review_issues_array)
   end
 
@@ -80,25 +80,25 @@ class DecisionReviewIssue
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
   DECISION_REVIEW_ISSUE_ATTRIBUTES = {
-    contention_id: [Integer, NilClass],
-    associated_caseflow_request_issue_id: [Integer, NilClass],
-    unidentified: [TrueClass, FalseClass],
-    prior_rating_decision_id: [Integer, NilClass],
-    prior_non_rating_decision_id: [Integer, NilClass],
-    prior_decision_text: String,
-    prior_decision_type: [String, NilClass],
-    prior_decision_notification_date: Date,
-    prior_decision_diagnostic_code: [String, NilClass],
-    prior_decision_rating_percentage: [String, NilClass],
-    eligible: [TrueClass, FalseClass],
-    eligibility_result: String,
-    time_override: [TrueClass, FalseClass, NilClass],
-    time_override_reason: [String, NilClass],
-    contested: [TrueClass, FalseClass, NilClass],
-    soc_opt_in: [TrueClass, FalseClass, NilClass],
-    legacy_appeal_id: [Integer, NilClass],
-    legacy_appeal_issue_id: [Integer, NilClass]
-  }.freeze
+    "contention_id" => [Integer, NilClass],
+    "associated_caseflow_request_issue_id" => [Integer, NilClass],
+    "unidentified" => [TrueClass, FalseClass],
+    "prior_rating_decision_id" => [Integer, NilClass],
+    "prior_non_rating_decision_id" => [Integer, NilClass],
+    "prior_decision_text" => String,
+    "prior_decision_type" => [String, NilClass],
+    "prior_decision_notification_date" => Date,
+    "prior_decision_diagnostic_code" => [String, NilClass],
+    "prior_decision_rating_percentage" => [String, NilClass],
+    "eligible" => [TrueClass, FalseClass],
+    "eligibility_result" => String,
+    "time_override" => [TrueClass, FalseClass, NilClass],
+    "time_override_reason" => [String, NilClass],
+    "contested" => [TrueClass, FalseClass, NilClass],
+    "soc_opt_in" => [TrueClass, FalseClass, NilClass],
+    "legacy_appeal_id" => [Integer, NilClass],
+    "legacy_appeal_issue_id" => [Integer, NilClass]
+  }
 
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
 require "timecop"
 require "./app/models/decision_review_created"
 
@@ -20,7 +19,7 @@ describe DecisionReviewCreated do
         expect(subject.veteran_first_name).to eq("John")
         expect(subject.veteran_last_name).to eq("Smith")
         expect(subject.veteran_participant_id).to eq("123456789")
-        expect(subject.veteran_file_number).to eq("123456789")
+        expect(subject.file_number).to eq("123456789")
         expect(subject.claimant_participant_id).to eq("01010101")
         expect(subject.ep_code).to eq("030HLRNR")
         expect(subject.ep_code_category).to eq("Rating")
@@ -30,7 +29,7 @@ describe DecisionReviewCreated do
         expect(subject.modifier).to eq("01")
         expect(subject.originated_from_vacols_issue).to eq(false)
         expect(subject.informal_conference_requested).to eq(false)
-        expect(subject.same_station_requested).to eq(false)
+        expect(subject.same_station_review_requested).to eq(false)
         expect(subject.intake_creation_time).to eq(Time.now.utc)
         expect(subject.claim_creation_time).to eq(Time.now.utc)
         expect(subject.created_by_username).to eq("BVADWISE101")
@@ -184,51 +183,6 @@ describe DecisionReviewCreated do
           expect { message_payload_with_invalid_issue_data_type }.to raise_error(ArgumentError, error_message)
         end
       end
-    end
-  end
-
-  describe "#attribute_types" do
-    let!(:issue_hash) do
-      {
-        contention_id: 123_456_789,
-        associated_caseflow_request_issue_id: nil,
-        unidentified: false,
-        prior_rating_decision_id: nil,
-        prior_non_rating_decision_id: 12,
-        prior_decision_text: "service connection for tetnus denied",
-        prior_decision_type: "DIC",
-        prior_decision_notification_date: Date.new(2022, 1, 1),
-        prior_decision_diagnostic_code: nil,
-        prior_decision_rating_percentage: nil,
-        eligible: true,
-        eligibility_result: "ELIGIBLE",
-        time_override: nil,
-        time_override_reason: nil,
-        contested: nil,
-        soc_opt_in: nil,
-        legacy_appeal_id: nil,
-        legacy_appeal_issue_id: nil
-      }
-    end
-
-    let!(:drc_attribute_types) do
-      subject.send(:attribute_types)
-    end
-
-    let!(:dri_attribute_types) do
-      DecisionReviewIssue.new(issue_hash).send(:attribute_types)
-    end
-
-    it "returns a frozen attribute_types hash for both classes" do
-      expect(drc_attribute_types).to be_frozen
-      expect(dri_attribute_types).to be_frozen
-    end
-
-    it "raises a FrozenError when attempting to modify the hashes" do
-      expect { drc_attribute_types[:invalid_attribute] = String }.to raise_error(FrozenError)
-      expect { dri_attribute_types[:invalid_attribute] = String }.to raise_error(FrozenError)
-      expect { drc_attribute_types[:claim_id] = String }.to raise_error(FrozenError)
-      expect { dri_attribute_types[:contention_id] = String }.to raise_error(FrozenError)
     end
   end
 end
