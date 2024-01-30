@@ -4,6 +4,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # Constants for hardcoded strings
   ERROR_MSG = "Error running DecisionReviewCreatedConsumer"
   CONSUMER_NAME = "DecisionReviewCreatedConsumer"
+  EVENT_TYPE = "Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent"
 
   def consume
     messages.map do |message|
@@ -15,13 +16,13 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       if event&.new_record?
         event.save
         DecisionReviewCreatedJob.perform_later(event)
+        log_consumption_job
       end
-
-      log_consumption_end
     rescue ActiveRecord::RecordInvalid => error
       handle_error(error, message)
       nil # Return nil to indicate failure
     end
+    log_consumption_end
   end
 
   private
@@ -32,7 +33,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
     Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.find_or_initialize_by(
       message_payload: message.message
     ) do |event|
-      event.type = message.writer_schema.fullname
+      event.type = EVENT_TYPE
     end
   end
 
@@ -40,8 +41,12 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
     log_info("Starting consumption", extra_details(message))
   end
 
+  def log_consumption_job
+    log_info("Dropped Event into processing job")
+  end
+
   def log_consumption_end
-    log_info("Completed consumption of message and dropped Event into processing job")
+    log_info("Completed consumption of message")
   end
 
   def log_info(message, extra = {})
