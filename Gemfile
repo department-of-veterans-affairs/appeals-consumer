@@ -3,7 +3,6 @@
 def next?
   File.basename(__FILE__) == "Gemfile.next"
 end
-# frozen_string_literal: true
 
 source "https://rubygems.org"
 
@@ -11,6 +10,8 @@ ruby "3.2.2"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
+
+gem "avro_turf"
 
 gem "aws-sdk-sqs"
 
@@ -21,6 +22,8 @@ gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git"
 gem "bootsnap", require: false
 
 gem "dotenv-rails"
+
+gem "httpclient"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -79,6 +82,7 @@ group :development, :test do
   gem "bullet"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "byebug"
+  gem "climate_control"
   gem "danger"
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"
@@ -94,6 +98,7 @@ group :development, :test do
   gem "rubocop-rails"
   gem "simplecov", require: false
   gem "sql_tracker"
+  gem "timecop"
   gem "webmock"
 end
 
