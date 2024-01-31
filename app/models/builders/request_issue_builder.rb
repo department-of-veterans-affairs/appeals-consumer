@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This class is used to build out a Request Issue object from an instance of DecisionReviewCreated
+# This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
 class Builders::RequestIssueBuilder
   attr_reader :request_issue
 
@@ -21,8 +21,8 @@ class Builders::RequestIssueBuilder
   def assign_attributes(issue)
     calculate_contested_issue_description(issue)
     assign_contention_reference_id(issue)
-    calculate_contested_rating_decision_reference_id(issue)
-    assign_contested_rating_issue_proile_date(issue)
+    assign_contested_rating_decision_reference_id(issue)
+    assign_contested_rating_issue_profile_date(issue)
     assign_contested_rating_issue_reference_id(issue)
     assign_contested_decision_issue_id(issue)
     assign_decision_date(issue)
@@ -44,9 +44,9 @@ class Builders::RequestIssueBuilder
 
   def assign_contention_reference_id(issue); end
 
-  def calculate_contested_rating_decision_reference_id(issue); end
+  def assign_contested_rating_decision_reference_id(issue); end
 
-  def assign_contested_rating_issue_proile_date(issue); end
+  def assign_contested_rating_issue_profile_date(issue); end
 
   def assign_contested_rating_issue_reference_id(issue); end
 

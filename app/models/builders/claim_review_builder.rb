@@ -24,7 +24,7 @@ class Builders::ClaimReviewBuilder
   end
 
   private
-  
+
   # always nil
   def assign_filed_by_va_gov(decision_review_created); end
 
