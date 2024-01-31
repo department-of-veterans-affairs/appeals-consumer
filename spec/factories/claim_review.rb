@@ -5,7 +5,6 @@ FactoryBot.define do
     filed_by_va_gov { true }
     receipt_date { Time.now.utc }
     legacy_opt_in_approved { true }
-    higher_level_review { true  }
     informal_conference { true }
     same_office { true }
   end

@@ -11,7 +11,6 @@ describe ClaimReview do
     expect(claim_review.filed_by_va_gov).to eq(true)
     expect(claim_review.receipt_date).to eq(Time.now.utc)
     expect(claim_review.legacy_opt_in_approved).to eq(true)
-    expect(claim_review.higher_level_review).to eq(true)
     expect(claim_review.informal_conference).to eq(true)
     expect(claim_review.same_office).to eq(true)
   end
