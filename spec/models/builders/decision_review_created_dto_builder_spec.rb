@@ -7,9 +7,19 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     it "should return a new empty object dcr dto builder" do
     end
   end
-  
+
   describe "#_build_decision_review_created" do
     it "should return a new DecisionReviewCreated object" do
+    end
+  end
+
+  describe "#_assign" do
+    it "should assign attributes of dcr dto builder correctly on correct payload" do
+    end
+  end
+
+  describe "#_reset" do
+    it "should assign attributes of dcr dto builder correctly on correct payload" do
     end
   end
 
