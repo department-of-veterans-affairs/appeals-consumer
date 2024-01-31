@@ -8,10 +8,21 @@ class Builders::DecisionReviewCreatedDtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
 
+  def initialize(dcr_event = nil)
+    @decision_review_created = build_decision_review_created(dcr_event.message_payload) if dcr_event
+    @decision_review_created ? assign : reset
+  end
+
+  private
+
+  # :reek:UtilityFunction
+  def build_decision_review_created(message_payload)
+    DecisionReviewCreated.new(message_payload)
+  end
+
+  # :reek:TooManyStatements
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
-  def initialize(dcr_event)
-    @decision_review_created = DecisionReviewCreated.new(dcr_event.message_payload)
+  def assign
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
     @station = @decision_review_created.created_by_station
@@ -35,9 +46,33 @@ class Builders::DecisionReviewCreatedDtoBuilder
     @hash_response = build_hash_response
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
-  private
+  # :reek:TooManyStatements
+  # rubocop:disable Metrics/MethodLength
+  def reset
+    @css_id = nil
+    @detail_type = nil
+    @station = nil
+    @intake = nil
+    @veteran = nil
+    @claimant = nil
+    @claim_review = nil
+    @end_product_establishment = nil
+    @request_issues = nil
+    @vet_file_number = nil
+    @vet_ssn = nil
+    @vet_first_name = nil
+    @vet_middle_name = nil
+    @vet_last_name = nil
+    @claimant_ssn = nil
+    @claimant_dob = nil
+    @claimant_first_name = nil
+    @claimant_middle_name = nil
+    @claimant_last_name = nil
+    @claimant_email = nil
+    @hash_response = nil
+  end
+  # rubocop:enable Metrics/MethodLength
 
   def build_intake
     Builders::IntakeBuilder.build(@decision_review_created)
