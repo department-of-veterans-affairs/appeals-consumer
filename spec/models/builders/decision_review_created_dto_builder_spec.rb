@@ -93,7 +93,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     end
   end
 
-  describe "#_retrieve_build_hash_response" do
+  describe "#_build_hash_response" do
     it "should return hash reponse object" do
     end
   end

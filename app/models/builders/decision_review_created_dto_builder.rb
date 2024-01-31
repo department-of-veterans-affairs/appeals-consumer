@@ -114,5 +114,5 @@ class Builders::DecisionReviewCreatedDtoBuilder
 
   def retrieve_claimant_email; end
 
-  def retrieve_build_hash_response; end
+  def build_hash_response; end
 end
