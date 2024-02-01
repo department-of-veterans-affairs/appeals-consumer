@@ -11,6 +11,8 @@ module Fakes
         @veteran_store ||= Fakes::VeteranStore.new
       end
 
+      delegate :store_veteran_record, to: :veteran_store
+
       def get_veteran_record(file_number)
         veteran_store.fetch_and_inflate(file_number)
       end
