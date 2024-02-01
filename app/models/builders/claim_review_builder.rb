@@ -15,17 +15,24 @@ class Builders::ClaimReviewBuilder
   end
 
   def assign_attributes(decision_review_created)
+    calculate_benefit_type(decision_review_created)
     assign_filed_by_va_gov(decision_review_created)
     assign_receipt_date(decision_review_created)
     assign_legacy_opt_in_approved(decision_review_created)
     calculate_veteran_is_not_claimant(decision_review_created)
+    calculate_establishment_attempted_at(decision_review_created)
+    calculate_establishment_last_submitted_at(decision_review_created)
+    calculate_establishment_processed_at(decision_review_created)
+    calculate_establishment_submitted_at(decision_review_created)
     assign_informal_conference(decision_review_created)
     assign_same_office(decision_review_created)
   end
 
   private
 
-  # always nil
+  def calculate_benefit_type(decision_review_created); end
+
+  # always false
   def assign_filed_by_va_gov(decision_review_created); end
 
   def assign_receipt_date(decision_review_created); end
@@ -33,6 +40,14 @@ class Builders::ClaimReviewBuilder
   def assign_legacy_opt_in_approved(decision_review_created); end
 
   def calculate_veteran_is_not_claimant(decision_review_created); end
+
+  def calculate_establishment_attempted_at(decision_review_created); end
+
+  def calculate_establishment_last_submitted_at(decision_review_created); end
+
+  def calculate_establishment_processed_at(decision_review_created); end
+
+  def calculate_establishment_submitted_at(decision_review_created); end
 
   def assign_informal_conference(decision_review_created); end
 

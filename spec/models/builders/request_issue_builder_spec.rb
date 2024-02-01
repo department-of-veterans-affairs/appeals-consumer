@@ -33,6 +33,7 @@ describe Builders::RequestIssueBuilder do
   describe "#assign_attributes(decision_review_created)" do
     it "calls private methods" do
       decision_review_issues.each do |issue|
+        allow(builder).to receive(:calculate_benefit_type)
         allow(builder).to receive(:calculate_contested_issue_description)
         allow(builder).to receive(:assign_contention_reference_id)
         allow(builder).to receive(:assign_contested_rating_decision_reference_id)
@@ -50,9 +51,17 @@ describe Builders::RequestIssueBuilder do
         allow(builder).to receive(:assign_untimely_exemption_notes)
         allow(builder).to receive(:assign_vacols_id)
         allow(builder).to receive(:assign_vacols_sequence_id)
+        allow(builder).to receive(:calculate_closed_at)
+        allow(builder).to receive(:calculate_closed_status)
+        allow(builder).to receive(:assign_contested_rating_issue_diagnostic_code)
+        allow(builder).to receive(:calculate_ramp_claim_id)
+        allow(builder).to receive(:calculate_rating_issue_associated_at)
+        allow(builder).to receive(:calculate_type)
+        allow(builder).to receive(:assign_nonrating_issue_bgs_id)
 
         builder.assign_attributes(issue)
 
+        expect(builder).to have_received(:calculate_benefit_type).with(issue)
         expect(builder).to have_received(:calculate_contested_issue_description).with(issue)
         expect(builder).to have_received(:assign_contention_reference_id).with(issue)
         expect(builder).to have_received(:assign_contested_rating_decision_reference_id).with(issue)
@@ -70,6 +79,13 @@ describe Builders::RequestIssueBuilder do
         expect(builder).to have_received(:assign_untimely_exemption_notes).with(issue)
         expect(builder).to have_received(:assign_vacols_id).with(issue)
         expect(builder).to have_received(:assign_vacols_sequence_id).with(issue)
+        expect(builder).to have_received(:calculate_closed_at).with(issue)
+        expect(builder).to have_received(:calculate_closed_status).with(issue)
+        expect(builder).to have_received(:assign_contested_rating_issue_diagnostic_code).with(issue)
+        expect(builder).to have_received(:calculate_ramp_claim_id).with(issue)
+        expect(builder).to have_received(:calculate_rating_issue_associated_at).with(issue)
+        expect(builder).to have_received(:calculate_type).with(issue)
+        expect(builder).to have_received(:assign_nonrating_issue_bgs_id).with(issue)
       end
     end
   end

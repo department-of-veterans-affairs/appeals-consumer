@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :request_issue do
+    benefit_type { "compensation" }
     contested_issue_description { "service connection for migraine is denied" }
     contention_reference_id { "123456789" }
     contested_rating_decision_reference_id { nil }
@@ -19,5 +20,12 @@ FactoryBot.define do
     untimely_exemption_notes { nil }
     vacols_id { nil }
     vacols_sequence_id { nil }
+    closed_at { nil }
+    closed_status { nil }
+    contested_rating_issue_diagnostic_code { nil }
+    ramp_claim_id { "123456789" }
+    rating_issue_associated_at { Time.now.utc }
+    type { "RatingRequestIssue" }
+    nonrating_issue_bgs_id { nil }
   end
 end
