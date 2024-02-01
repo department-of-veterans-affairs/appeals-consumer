@@ -28,19 +28,13 @@ describe Builders::IntakeBuilder do
 
   describe "#assign_attributes" do
     it "calls private methods" do
-      allow(builder).to receive(:assign_started_at)
-      allow(builder).to receive(:assign_completion_started_at)
-      allow(builder).to receive(:assign_completed_at)
-      allow(builder).to receive(:assign_completion_status)
-      allow(builder).to receive(:calculate_type)
+      expect(builder).to receive(:assign_started_at)
+      expect(builder).to receive(:assign_completion_started_at)
+      expect(builder).to receive(:assign_completed_at)
+      expect(builder).to receive(:assign_completion_status)
+      expect(builder).to receive(:calculate_type)
 
       builder.assign_attributes
-
-      expect(builder).to have_received(:assign_started_at)
-      expect(builder).to have_received(:assign_completion_started_at)
-      expect(builder).to have_received(:assign_completed_at)
-      expect(builder).to have_received(:assign_completion_status)
-      expect(builder).to have_received(:calculate_type)
     end
   end
 end

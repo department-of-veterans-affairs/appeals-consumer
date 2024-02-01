@@ -29,31 +29,19 @@ describe Builders::ClaimReviewBuilder do
 
   describe "#assign_attributes" do
     it "calls private methods" do
-      allow(builder).to receive(:calculate_benefit_type)
-      allow(builder).to receive(:assign_filed_by_va_gov)
-      allow(builder).to receive(:assign_receipt_date)
-      allow(builder).to receive(:assign_legacy_opt_in_approved)
-      allow(builder).to receive(:calculate_veteran_is_not_claimant)
-      allow(builder).to receive(:calculate_establishment_attempted_at)
-      allow(builder).to receive(:calculate_establishment_last_submitted_at)
-      allow(builder).to receive(:calculate_establishment_processed_at)
-      allow(builder).to receive(:calculate_establishment_submitted_at)
-      allow(builder).to receive(:assign_informal_conference)
-      allow(builder).to receive(:assign_same_office)
+      expect(builder).to receive(:calculate_benefit_type)
+      expect(builder).to receive(:assign_filed_by_va_gov)
+      expect(builder).to receive(:assign_receipt_date)
+      expect(builder).to receive(:assign_legacy_opt_in_approved)
+      expect(builder).to receive(:calculate_veteran_is_not_claimant)
+      expect(builder).to receive(:calculate_establishment_attempted_at)
+      expect(builder).to receive(:calculate_establishment_last_submitted_at)
+      expect(builder).to receive(:calculate_establishment_processed_at)
+      expect(builder).to receive(:calculate_establishment_submitted_at)
+      expect(builder).to receive(:assign_informal_conference)
+      expect(builder).to receive(:assign_same_office)
 
       builder.assign_attributes
-
-      expect(builder).to have_received(:calculate_benefit_type)
-      expect(builder).to have_received(:assign_filed_by_va_gov)
-      expect(builder).to have_received(:assign_receipt_date)
-      expect(builder).to have_received(:assign_legacy_opt_in_approved)
-      expect(builder).to have_received(:calculate_veteran_is_not_claimant)
-      expect(builder).to have_received(:calculate_establishment_attempted_at)
-      expect(builder).to have_received(:calculate_establishment_last_submitted_at)
-      expect(builder).to have_received(:calculate_establishment_processed_at)
-      expect(builder).to have_received(:calculate_establishment_submitted_at)
-      expect(builder).to have_received(:assign_informal_conference)
-      expect(builder).to have_received(:assign_same_office)
     end
   end
 end

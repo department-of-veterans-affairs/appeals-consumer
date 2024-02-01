@@ -29,29 +29,18 @@ describe Builders::ClaimantBuilder do
 
   describe "#assign_attributes" do
     it "calls private methods" do
-      allow(builder).to receive(:assign_payee_code)
-      allow(builder).to receive(:calculate_type)
-      allow(builder).to receive(:assign_participant_id)
-      allow(builder).to receive(:calculate_name_suffix)
-      allow(builder).to receive(:calculate_ssn)
-      allow(builder).to receive(:calculate_date_of_birth)
-      allow(builder).to receive(:calculate_first_name)
-      allow(builder).to receive(:calculate_middle_name)
-      allow(builder).to receive(:calculate_last_name)
-      allow(builder).to receive(:calculate_email)
+      expect(builder).to receive(:assign_payee_code)
+      expect(builder).to receive(:calculate_type)
+      expect(builder).to receive(:assign_participant_id)
+      expect(builder).to receive(:calculate_name_suffix)
+      expect(builder).to receive(:calculate_ssn)
+      expect(builder).to receive(:calculate_date_of_birth)
+      expect(builder).to receive(:calculate_first_name)
+      expect(builder).to receive(:calculate_middle_name)
+      expect(builder).to receive(:calculate_last_name)
+      expect(builder).to receive(:calculate_email)
 
       builder.assign_attributes
-
-      expect(builder).to have_received(:assign_payee_code)
-      expect(builder).to have_received(:calculate_type)
-      expect(builder).to have_received(:assign_participant_id)
-      expect(builder).to have_received(:calculate_name_suffix)
-      expect(builder).to have_received(:calculate_ssn)
-      expect(builder).to have_received(:calculate_date_of_birth)
-      expect(builder).to have_received(:calculate_first_name)
-      expect(builder).to have_received(:calculate_middle_name)
-      expect(builder).to have_received(:calculate_last_name)
-      expect(builder).to have_received(:calculate_email)
     end
   end
 end

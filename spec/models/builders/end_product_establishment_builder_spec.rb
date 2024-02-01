@@ -29,33 +29,20 @@ describe Builders::EndProductEstablishmentBuilder do
 
   describe "#assign_attributes" do
     it "calls private methods" do
-      allow(builder).to receive(:calculate_benefit_type_code)
-      allow(builder).to receive(:assign_claim_date)
-      allow(builder).to receive(:assign_code)
-      allow(builder).to receive(:assign_modifier)
-      allow(builder).to receive(:calculate_limited_poa_access)
-      allow(builder).to receive(:calculate_limited_poa_code)
-      allow(builder).to receive(:calculate_committed_at)
-      allow(builder).to receive(:calculate_established_at)
-      allow(builder).to receive(:calculate_last_synced_at)
-      allow(builder).to receive(:assign_synced_status)
-      allow(builder).to receive(:assign_development_item_reference_id)
-      allow(builder).to receive(:assign_reference_id)
+      expect(builder).to receive(:calculate_benefit_type_code)
+      expect(builder).to receive(:assign_claim_date)
+      expect(builder).to receive(:assign_code)
+      expect(builder).to receive(:assign_modifier)
+      expect(builder).to receive(:calculate_limited_poa_access)
+      expect(builder).to receive(:calculate_limited_poa_code)
+      expect(builder).to receive(:calculate_committed_at)
+      expect(builder).to receive(:calculate_established_at)
+      expect(builder).to receive(:calculate_last_synced_at)
+      expect(builder).to receive(:assign_synced_status)
+      expect(builder).to receive(:assign_development_item_reference_id)
+      expect(builder).to receive(:assign_reference_id)
 
       builder.assign_attributes
-
-      expect(builder).to have_received(:calculate_benefit_type_code)
-      expect(builder).to have_received(:assign_claim_date)
-      expect(builder).to have_received(:assign_code)
-      expect(builder).to have_received(:assign_modifier)
-      expect(builder).to have_received(:calculate_limited_poa_access)
-      expect(builder).to have_received(:calculate_limited_poa_code)
-      expect(builder).to have_received(:calculate_committed_at)
-      expect(builder).to have_received(:calculate_established_at)
-      expect(builder).to have_received(:calculate_last_synced_at)
-      expect(builder).to have_received(:assign_synced_status)
-      expect(builder).to have_received(:assign_development_item_reference_id)
-      expect(builder).to have_received(:assign_reference_id)
     end
   end
 end
