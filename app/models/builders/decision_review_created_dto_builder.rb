@@ -10,7 +10,7 @@ class Builders::DecisionReviewCreatedDtoBuilder
 
   def initialize(dcr_event = nil)
     @decision_review_created = build_decision_review_created(dcr_event.message_payload) if dcr_event
-    @decision_review_created ? assign : reset
+    @decision_review_created ? assign_attributes : reset_attributes
   end
 
   private
@@ -22,7 +22,7 @@ class Builders::DecisionReviewCreatedDtoBuilder
 
   # :reek:TooManyStatements
   # rubocop:disable Metrics/MethodLength
-  def assign
+  def assign_attributes
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
     @station = @decision_review_created.created_by_station
@@ -49,7 +49,7 @@ class Builders::DecisionReviewCreatedDtoBuilder
 
   # :reek:TooManyStatements
   # rubocop:disable Metrics/MethodLength
-  def reset
+  def reset_attributes
     @css_id = nil
     @detail_type = nil
     @station = nil
@@ -114,5 +114,13 @@ class Builders::DecisionReviewCreatedDtoBuilder
 
   def retrieve_claimant_email; end
 
-  def build_hash_response; end
+  def build_hash_response
+    # {
+    #   ...
+    #   "intake": @intake.as_json(except: PII_FIELDS),
+    #   "veteran": @veteran.as_json(except: PII_FIELDS),
+    #   "claimant": @claimant.as_json(except: PII_FIELDS),
+    #   ...
+    # }
+  end
 end
