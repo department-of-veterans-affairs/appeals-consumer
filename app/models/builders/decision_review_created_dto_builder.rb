@@ -4,11 +4,12 @@
 # that will be sent to Caseflow.
 # :reek:TooManyInstanceVariables
 # :reek:TooManyMethods
-class Builders::DecisionReviewCreatedDtoBuilder
+class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
 
   def initialize(dcr_event = nil)
+    super
     @decision_review_created = build_decision_review_created(dcr_event.message_payload) if dcr_event
     @decision_review_created ? assign_attributes : reset_attributes
   end
@@ -115,11 +116,12 @@ class Builders::DecisionReviewCreatedDtoBuilder
   def retrieve_claimant_email; end
 
   def build_hash_response
+    # maybe something like this?
     # {
     #   ...
-    #   "intake": @intake.as_json(except: PII_FIELDS),
-    #   "veteran": @veteran.as_json(except: PII_FIELDS),
-    #   "claimant": @claimant.as_json(except: PII_FIELDS),
+    #   "intake": @intake.to_json(except: PII_FIELDS),
+    #   "veteran": @veteran.to_json(except: PII_FIELDS),
+    #   "claimant": @claimant.to_json(except: PII_FIELDS),
     #   ...
     # }
   end
