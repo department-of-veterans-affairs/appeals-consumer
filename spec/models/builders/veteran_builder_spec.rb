@@ -2,7 +2,7 @@
 
 describe Builders::VeteranBuilder do
   let!(:decision_review_created) { build(:decision_review_created) }
-  let(:builder) { described_class.new }
+  let(:builder) { described_class.new(decision_review_created) }
 
   describe "#build" do
     subject { described_class.build(decision_review_created) }
@@ -11,8 +11,8 @@ describe Builders::VeteranBuilder do
     end
   end
 
-  describe "#initialize" do
-    let(:veteran) { described_class.new.veteran }
+  describe "#initialize(decision_review_created)" do
+    let(:veteran) { described_class.new(decision_review_created).veteran }
 
     it "initializes a new VeteranBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
@@ -21,9 +21,13 @@ describe Builders::VeteranBuilder do
     it "initializes a new Veteran object" do
       expect(veteran).to be_an_instance_of(Veteran)
     end
+
+    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
+      expect(builder.decision_review_created).to be_an_instance_of(DecisionReviewCreated)
+    end
   end
 
-  describe "#assign_attributes(decision_review_created)" do
+  describe "#assign_attributes" do
     it "calls private methods" do
       allow(builder).to receive(:assign_participant_id)
       allow(builder).to receive(:calculate_bgs_last_synced_at)
@@ -37,19 +41,19 @@ describe Builders::VeteranBuilder do
       allow(builder).to receive(:calculate_middle_name)
       allow(builder).to receive(:assign_last_name)
 
-      builder.assign_attributes(decision_review_created)
+      builder.assign_attributes
 
-      expect(builder).to have_received(:assign_participant_id).with(decision_review_created)
-      expect(builder).to have_received(:calculate_bgs_last_synced_at).with(decision_review_created)
-      expect(builder).to have_received(:calculate_closest_regional_office).with(decision_review_created)
-      expect(builder).to have_received(:calculate_date_of_death).with(decision_review_created)
-      expect(builder).to have_received(:calculate_date_of_death_reported_at).with(decision_review_created)
-      expect(builder).to have_received(:calculate_name_suffix).with(decision_review_created)
-      expect(builder).to have_received(:calculate_ssn).with(decision_review_created)
-      expect(builder).to have_received(:assign_file_number).with(decision_review_created)
-      expect(builder).to have_received(:assign_first_name).with(decision_review_created)
-      expect(builder).to have_received(:calculate_middle_name).with(decision_review_created)
-      expect(builder).to have_received(:assign_last_name).with(decision_review_created)
+      expect(builder).to have_received(:assign_participant_id)
+      expect(builder).to have_received(:calculate_bgs_last_synced_at)
+      expect(builder).to have_received(:calculate_closest_regional_office)
+      expect(builder).to have_received(:calculate_date_of_death)
+      expect(builder).to have_received(:calculate_date_of_death_reported_at)
+      expect(builder).to have_received(:calculate_name_suffix)
+      expect(builder).to have_received(:calculate_ssn)
+      expect(builder).to have_received(:assign_file_number)
+      expect(builder).to have_received(:assign_first_name)
+      expect(builder).to have_received(:calculate_middle_name)
+      expect(builder).to have_received(:assign_last_name)
     end
   end
 end

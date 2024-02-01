@@ -2,50 +2,51 @@
 
 # This class is used to build out a Claimant object from an instance of DecisionReviewCreated
 class Builders::ClaimantBuilder
-  attr_reader :claimant
+  attr_reader :claimant, :decision_review_created
 
   def self.build(decision_review_created)
-    builder = new
-    builder.assign_attributes(decision_review_created)
+    builder = new(decision_review_created)
+    builder.assign_attributes
     builder.claimant
   end
 
-  def initialize
+  def initialize(decision_review_created)
+    @decision_review_created = decision_review_created
     @claimant = Claimant.new
   end
 
-  def assign_attributes(decision_review_created)
-    assign_payee_code(decision_review_created)
-    calculate_type(decision_review_created)
-    assign_participant_id(decision_review_created)
-    calculate_name_suffix(decision_review_created)
-    calculate_ssn(decision_review_created)
-    calculate_date_of_birth(decision_review_created)
-    calculate_first_name(decision_review_created)
-    calculate_middle_name(decision_review_created)
-    calculate_last_name(decision_review_created)
-    calculate_email(decision_review_created)
+  def assign_attributes
+    assign_payee_code
+    calculate_type
+    assign_participant_id
+    calculate_name_suffix
+    calculate_ssn
+    calculate_date_of_birth
+    calculate_first_name
+    calculate_middle_name
+    calculate_last_name
+    calculate_email
   end
 
   private
 
-  def assign_payee_code(decision_review_created); end
+  def assign_payee_code; end
 
-  def calculate_type(decision_review_created); end
+  def calculate_type; end
 
-  def assign_participant_id(decision_review_created); end
+  def assign_participant_id; end
 
-  def calculate_name_suffix(decision_review_created); end
+  def calculate_name_suffix; end
 
-  def calculate_ssn(decision_review_created); end
+  def calculate_ssn; end
 
-  def calculate_date_of_birth(decision_review_created); end
+  def calculate_date_of_birth; end
 
-  def calculate_first_name(decision_review_created); end
+  def calculate_first_name; end
 
-  def calculate_middle_name(decision_review_created); end
+  def calculate_middle_name; end
 
-  def calculate_last_name(decision_review_created); end
+  def calculate_last_name; end
 
-  def calculate_email(decision_review_created); end
+  def calculate_email; end
 end

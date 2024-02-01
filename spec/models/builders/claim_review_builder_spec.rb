@@ -2,7 +2,7 @@
 
 describe Builders::ClaimReviewBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
-  let(:builder) { described_class.new }
+  let(:builder) { described_class.new(decision_review_created) }
 
   describe "#build" do
     subject { described_class.build(decision_review_created) }
@@ -11,8 +11,8 @@ describe Builders::ClaimReviewBuilder do
     end
   end
 
-  describe "#initialize" do
-    let(:claim_review) { described_class.new.claim_review }
+  describe "#initialize(decision_review_created)" do
+    let(:claim_review) { described_class.new(decision_review_created).claim_review }
 
     it "initializes a new ClaimReviewBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
@@ -21,9 +21,13 @@ describe Builders::ClaimReviewBuilder do
     it "initializes a new ClaimReview object" do
       expect(claim_review).to be_an_instance_of(ClaimReview)
     end
+
+    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
+      expect(builder.decision_review_created).to be_an_instance_of(DecisionReviewCreated)
+    end
   end
 
-  describe "#assign_attributes(decision_review_created)" do
+  describe "#assign_attributes" do
     it "calls private methods" do
       allow(builder).to receive(:calculate_benefit_type)
       allow(builder).to receive(:assign_filed_by_va_gov)
@@ -37,19 +41,19 @@ describe Builders::ClaimReviewBuilder do
       allow(builder).to receive(:assign_informal_conference)
       allow(builder).to receive(:assign_same_office)
 
-      builder.assign_attributes(decision_review_created)
+      builder.assign_attributes
 
-      expect(builder).to have_received(:calculate_benefit_type).with(decision_review_created)
-      expect(builder).to have_received(:assign_filed_by_va_gov).with(decision_review_created)
-      expect(builder).to have_received(:assign_receipt_date).with(decision_review_created)
-      expect(builder).to have_received(:assign_legacy_opt_in_approved).with(decision_review_created)
-      expect(builder).to have_received(:calculate_veteran_is_not_claimant).with(decision_review_created)
-      expect(builder).to have_received(:calculate_establishment_attempted_at).with(decision_review_created)
-      expect(builder).to have_received(:calculate_establishment_last_submitted_at).with(decision_review_created)
-      expect(builder).to have_received(:calculate_establishment_processed_at).with(decision_review_created)
-      expect(builder).to have_received(:calculate_establishment_submitted_at).with(decision_review_created)
-      expect(builder).to have_received(:assign_informal_conference).with(decision_review_created)
-      expect(builder).to have_received(:assign_same_office).with(decision_review_created)
+      expect(builder).to have_received(:calculate_benefit_type)
+      expect(builder).to have_received(:assign_filed_by_va_gov)
+      expect(builder).to have_received(:assign_receipt_date)
+      expect(builder).to have_received(:assign_legacy_opt_in_approved)
+      expect(builder).to have_received(:calculate_veteran_is_not_claimant)
+      expect(builder).to have_received(:calculate_establishment_attempted_at)
+      expect(builder).to have_received(:calculate_establishment_last_submitted_at)
+      expect(builder).to have_received(:calculate_establishment_processed_at)
+      expect(builder).to have_received(:calculate_establishment_submitted_at)
+      expect(builder).to have_received(:assign_informal_conference)
+      expect(builder).to have_received(:assign_same_office)
     end
   end
 end
