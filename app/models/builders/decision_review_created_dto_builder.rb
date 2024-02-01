@@ -96,7 +96,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   end
 
   def build_request_issues
-    Builders::RequestIssueBuilder.build(@decision_review_created.decision_review_issues)
+    Builders::RequestIssueBuilder.build(@decision_review_created)
   end
 
   def retrieve_vet_ssn; end
