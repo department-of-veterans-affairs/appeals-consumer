@@ -44,7 +44,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
     @claimant_middle_name = retrieve_claimant_middle_name
     @claimant_last_name = retrieve_claimant_last_name
     @claimant_email = retrieve_claimant_email
-    @hash_response = build_hash_response
+    @hash_response = validate_no_pii(build_hash_response)
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -116,13 +116,30 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   def retrieve_claimant_email; end
 
   def build_hash_response
-    # maybe something like this?
-    # {
-    #   ...
-    #   "intake": @intake.as_json(except: PII_FIELDS),
-    #   "veteran": @veteran.as_json(except: PII_FIELDS),
-    #   "claimant": @claimant.as_json(except: PII_FIELDS),
-    #   ...
-    # }
+    {
+      "css_id": @css_id,
+      "detail_type": @detail_type,
+      "station": @station,
+      "intake": clean_hash(@intake),
+      "veteran": clean_hash(@veteran),
+      "claimant": clean_hash(@claimant),
+      "claim_review": clean_hash(@claim_review),
+      "end_product_establishments": clean_hash(@end_product_establishment),
+      "request_issues": clean_hash(@request_issues) 
+    }
+  end
+
+  # :reek:UtilityFunction
+  def clean_hash(ivar)
+    ivar.as_json(except: PII_FIELDS)
+  end
+
+  def validate_no_pii(hash_response)
+    hash_response.extend Hashie::Extensions::DeepFind
+    PII_FIELDS.each do |field|
+      unless hash_response.deep_find(field).empty?
+        fail PIIFoundViolationError "PII field detected at: #{field}"
+      end
+    end
   end
 end

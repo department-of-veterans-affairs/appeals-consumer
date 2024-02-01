@@ -1,4 +1,7 @@
 class Builders::DtoBuilder
+
+  class PIIFoundViolationError < StandardError; end
+
   PII_FIELDS = %w[
     ssn
     filenumber
