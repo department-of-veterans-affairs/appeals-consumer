@@ -4,10 +4,10 @@ describe Builders::RequestIssueBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:decision_review_issues) { decision_review_created.decision_review_issues }
   let(:issue) { decision_review_issues.first }
-  let(:builder) { described_class.new(issue) }
+  let(:builder) { described_class.new(issue, decision_review_created) }
 
   describe "#build" do
-    subject(:request_issues) { described_class.build(decision_review_issues) }
+    subject(:request_issues) { described_class.build(decision_review_created) }
     it "a RequestIssueBuilder instance is initialized for every issue in the decision_review_issues array" do
       expect(described_class).to receive(:new).twice.and_call_original
       request_issues
@@ -19,8 +19,8 @@ describe Builders::RequestIssueBuilder do
     end
   end
 
-  describe "#initialize(issue)" do
-    let(:request_issue) { described_class.new(issue).request_issue }
+  describe "#initialize(issue, deicision_review_created)" do
+    let(:request_issue) { described_class.new(issue, decision_review_created).request_issue }
 
     it "initializes a new RequestIssueBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
@@ -30,8 +30,12 @@ describe Builders::RequestIssueBuilder do
       expect(request_issue).to be_an_instance_of(RequestIssue)
     end
 
-    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
+    it "assigns issue to the DecisionReviewIssue object passed in" do
       expect(builder.issue).to be_an_instance_of(DecisionReviewIssue)
+    end
+
+    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
+      expect(builder.decision_review_created).to be_an_instance_of(DecisionReviewCreated)
     end
   end
 

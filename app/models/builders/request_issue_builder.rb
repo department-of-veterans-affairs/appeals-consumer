@@ -2,19 +2,20 @@
 
 # This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
 class Builders::RequestIssueBuilder
-  attr_reader :request_issue, :issue
+  attr_reader :request_issue, :decision_review_created, :issue
 
-  def self.build(decision_review_issues)
+  def self.build(decision_review_created)
     issues = []
-    decision_review_issues.each do |issue|
-      builder = new(issue)
+    decision_review_created.decision_review_issues.each do |issue|
+      builder = new(issue, decision_review_created)
       builder.assign_attributes
       issues << builder.request_issue
     end
     issues
   end
 
-  def initialize(issue)
+  def initialize(issue, decision_review_created)
+    @decision_review_created = decision_review_created
     @issue = issue
     @request_issue = RequestIssue.new
   end
