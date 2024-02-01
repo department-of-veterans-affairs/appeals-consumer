@@ -138,7 +138,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
     hash_response.extend Hashie::Extensions::DeepFind
     PII_FIELDS.each do |field|
       unless hash_response.deep_find(field).empty?
-        fail PIIFoundViolationError "PII field detected at: #{field}"
+        fail PIIFoundViolationError "PII field detected: #{field}"
       end
     end
   end
