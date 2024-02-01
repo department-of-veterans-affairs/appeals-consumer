@@ -119,9 +119,9 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
     # maybe something like this?
     # {
     #   ...
-    #   "intake": @intake.to_json(except: PII_FIELDS),
-    #   "veteran": @veteran.to_json(except: PII_FIELDS),
-    #   "claimant": @claimant.to_json(except: PII_FIELDS),
+    #   "intake": @intake.as_json(except: PII_FIELDS),
+    #   "veteran": @veteran.as_json(except: PII_FIELDS),
+    #   "claimant": @claimant.as_json(except: PII_FIELDS),
     #   ...
     # }
   end
