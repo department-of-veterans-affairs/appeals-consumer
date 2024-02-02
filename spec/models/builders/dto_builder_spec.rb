@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 RSpec.describe Builders::DtoBuilder, type: :model do
   describe "#clean_pii" do
     context "when there are multiple PII attributes on an instance of a payload model" do

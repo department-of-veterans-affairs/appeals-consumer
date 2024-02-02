@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
   describe "#initialize" do
     context "when a decision_review_created object is found" do
