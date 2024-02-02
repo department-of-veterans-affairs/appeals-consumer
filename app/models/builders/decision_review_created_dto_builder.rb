@@ -4,6 +4,7 @@
 # that will be sent to Caseflow.
 # :reek:TooManyInstanceVariables
 # :reek:TooManyMethods
+# :reek:InstanceVariableAssumption
 class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
@@ -23,6 +24,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   # :reek:TooManyStatements
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def assign_attributes
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
@@ -46,10 +48,9 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
     @claimant_email = retrieve_claimant_email
     @hash_response = validate_no_pii(build_hash_response)
   end
-  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   # :reek:TooManyStatements
-  # rubocop:disable Metrics/MethodLength
   def reset_attributes
     @css_id = nil
     @detail_type = nil
@@ -120,26 +121,12 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
       "css_id": @css_id,
       "detail_type": @detail_type,
       "station": @station,
-      "intake": clean_hash(@intake),
-      "veteran": clean_hash(@veteran),
-      "claimant": clean_hash(@claimant),
-      "claim_review": clean_hash(@claim_review),
-      "end_product_establishments": clean_hash(@end_product_establishment),
-      "request_issues": clean_hash(@request_issues) 
+      "intake": clean_pii(@intake),
+      "veteran": clean_pii(@veteran),
+      "claimant": clean_pii(@claimant),
+      "claim_review": clean_pii(@claim_review),
+      "end_product_establishments": clean_pii(@end_product_establishment),
+      "request_issues": clean_pii(@request_issues)
     }
-  end
-
-  # :reek:UtilityFunction
-  def clean_hash(ivar)
-    ivar.as_json(except: PII_FIELDS)
-  end
-
-  def validate_no_pii(hash_response)
-    hash_response.extend Hashie::Extensions::DeepFind
-    PII_FIELDS.each do |field|
-      unless hash_response.deep_find(field).empty?
-        fail PIIFoundViolationError "PII field detected: #{field}"
-      end
-    end
   end
 end
