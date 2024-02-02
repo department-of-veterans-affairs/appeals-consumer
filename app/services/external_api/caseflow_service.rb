@@ -1,74 +1,89 @@
 # frozen_string_literal: true
 
 class ExternalApi::CaseflowService
-  def self.establish_decision_review_created_records_from_event!(drc_dto_builder)
-    payload = drc_dto_builder.build_hash_response
-    headers = build_headers(drc_dto_builder)
-    endpoint = "api/events/v1/decision_review_created"
-    response = send_caseflow_request(payload, headers, endpoint)
-    response_body = JSON.parse(response.body)
-    check_for_error(response_body, response.code)
-    response.code
-  end
+  BASE_ENDPOINT = "api/events/v1/"
 
-  def self.establish_decision_review_created_event_error!(event_id, claim_id, error_message)
-    payload = {}
-    payload.event_id = event_id
-    payload.claim_id = claim_id
-    payload.error = error_message
-    endpoint = "api/events/v1/decision_review_created_error"
-    response = send_caseflow_request(payload, headers, endpoint)
-    response_body = JSON.parse(response.body)
-    check_for_error(response_body, response.code.to_i, payload.claim_id)
-    response
-  end
-
-  def self.send_caseflow_request(payload, headers = {}, endpoint)
-    url = URI::DEFAULT_PARSER.escape(caseflow_base_url + endpoint)
-    request = HTTPI::Request.new(url)
-    request.open_timeout = 600 # seconds
-    request.read_timeout = 600 # seconds
-    request.auth.ssl.ssl_version  = :TLSv1_2
-    request.auth.ssl.ca_cert_file = ENV["SSL_CERT_FILE"]
-
-    headers["AUTHORIZATION"] = "Token token=#{caseflow_key}"
-    headers["CSS-ID"] = ENV["CSS-ID"]
-    headers["STATION-ID"] = ENV["STATION-ID"]
-    request.headers = headers
-
-    request.body = payload
-
-    HTTPI.post(request)
-  end
-
-  def self.casflow_base_url
-    Rails.application.config.caseflow_url.to_s
-  end
-
-  def self.caseflow_key
-    Rails.application.config.caseflow_key.to_s
-  end
-
-  def self.check_for_error(response_body, code, claim_id)
-    if code == 409 || code == 500
-      msg = "Failed for claim_id: #{claim_id}, error: #{response_body}, HTTP code: #{code}"
-      fail AppealsConsumer::Error::ClientRequestError, code: code, message: msg
+  class << self
+    def establish_decision_review_created_records_from_event!(drc_dto_builder)
+      payload = drc_dto_builder.build_hash_response
+      headers = build_headers(drc_dto_builder)
+      endpoint = "#{BASE_ENDPOINT}decision_review_created"
+      response = send_caseflow_request(payload, endpoint, headers)
+      response_body = JSON.parse(response.body)
+      check_for_error(response_body, response.code)
+      response.code
     end
-  end
 
-  def self.build_headers(drc_dto_builder)
-    headers = {}
-    headers["X-VA-Vet-SSN"] = drc_dto_builder.vet_ssn
-    headers["X-VA-File-Number"] = drc_dto_builder.vet_file_number
-    headers["X-VA-Vet-First-Name"] = drc_dto_builder.vet_fisrt_name
-    headers["X-VA-Vet-Last-Name"] = drc_dto_builder.vet_last_name
-    headers["X-VA-Vet-Middle-Name"] = drc_dto_builder.vet_middle_name
-    headers["X-VA-Claiment-SSN"] = drc_dto_builder.claimant_ssn
-    headers["X-VA-Claiment-DOB"] = drc_dto_builder.claiment_dob
-    headers["X-VA-Claiment-First-Name"] = drc_dto_builder.claiment_first_name
-    headers["X-VA-Claiment-Last-Name"] = drc_dto_builder.claiment_last_name
-    headers["X-VA-Claiment-Middle-Name"] = drc_dto_builder.claiment_middle_name
-    headers["X-VA-Claiment-Email"] = drc_dto_builder.claiment_email
-    headers
+    def establish_decision_review_created_event_error!(event_id, claim_id, error_message)
+      payload = { event_id: event_id, claim_id: claim_id, error: error_message }.to_json
+      endpoint = "#{BASE_ENDPOINT}decision_review_created_error"
+      response = send_caseflow_request(payload, endpoint, headers)
+      response_body = JSON.parse(response.body)
+      check_for_error(response_body, response.code.to_i, payload.claim_id)
+      response
+    end
+
+    private
+
+    def send_caseflow_request(payload, endpoint, headers = {})
+      url = URI.join(caseflow_base_url, endpoint).to_s
+      request = build_request(url, payload, headers)
+      HTTPI.post(request)
+    end
+
+    def build_request(url, payload, headers)
+      request = HTTPI::Request.new(url)
+      request.open_timeout = 600 # seconds
+      request.read_timeout = 600 # seconds
+      request.auth.ssl.ssl_version  = :TLSv1_2
+      request.auth.ssl.ca_cert_file = ENV["SSL_CERT_FILE"]
+      request.headers = default_headers.merge(headers)
+      request.body = payload
+      request
+    end
+
+    def default_headers
+      {
+        "AUTHORIZATION" => "Token token=#{caseflow_key}",
+        "CSS-ID" => ENV["CSS_ID"],
+        "STATION-ID" => ENV["STATION_ID"]
+      }
+    end
+
+    def casflow_base_url
+      Rails.application.config.caseflow_url.to_s
+    end
+
+    def caseflow_key
+      Rails.application.config.caseflow_key.to_s
+    end
+
+    def build_headers(drc_dto_builder)
+      {
+        "X-VA-Vet-SSN" => drc_dto_builder.vet_ssn,
+        "X-VA-File-Number" => drc_dto_builder.vet_file_number,
+        "X-VA-Vet-First-Name" => drc_dto_builder.vet_first_name,
+        "X-VA-Vet-Last-Name" => drc_dto_builder.vet_last_name,
+        "X-VA-Vet-Middle-Name" => drc_dto_builder.vet_middle_name,
+        "X-VA-Claimant-SSN" => drc_dto_builder.claimant_ssn,
+        "X-VA-Claimant-DOB" => drc_dto_builder.claimant_dob,
+        "X-VA-Claimant-First-Name" => drc_dto_builder.claimant_first_name,
+        "X-VA-Claimant-Last-Name" => drc_dto_builder.claimant_last_name,
+        "X-VA-Claimant-Middle-Name" => drc_dto_builder.claimant_middle_name,
+        "X-VA-Claimant-Email" => drc_dto_builder.claimant_email
+      }
+    end
+
+    def parse_response(response, claim_id)
+      response_body = JSON.parse(response.body)
+      check_for_error(response_body, response.code.to_i, claim_id)
+    end
+
+    def check_for_error(response_body, code, claim_id)
+      if [409, 500].include?(code)
+        msg = "Failed for claim_id: #{claim_id}, error: #{response_body}, HTTP code: #{code}"
+        fail AppealsConsumer::Error::ClientRequestError, code: code, message: msg
+      end
+    end
   end
 end
