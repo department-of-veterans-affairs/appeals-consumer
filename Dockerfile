@@ -21,6 +21,8 @@ RUN gem install bundler:$(cat Gemfile.lock | tail -1 | tr -d " ")
 
 RUN bundle install
 
+COPY . ./
+
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ARG DEFAULT_PORT 3000

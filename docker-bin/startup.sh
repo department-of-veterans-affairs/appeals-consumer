@@ -18,4 +18,4 @@ fi
 
 # echo "LocalStack is ready."
 
-exec "$@"
+exec "/usr/bin/supervisord"
