@@ -23,8 +23,8 @@ describe ExternalApi::BISService do
     }}
     let(:bis_limited_poas) { { authzn_poa_access_ind: "Y", bnft_claim_id: "600130321", poa_cd: "OU3" } }
     let(:participant_id) { "123" }
-    let(:vbms_id) { "55554444" }
-    let(:cache_key) { "bis_veteran_info_#{vbms_id}" }
+    let(:file_number) { "55554444" }
+    let(:cache_key) { "bis_veteran_info_#{file_number}" }
     let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
     let(:cache) { Rails.cache }
 
@@ -47,13 +47,13 @@ describe ExternalApi::BISService do
     end
 
     after do
-      bis.bust_fetch_veteran_info_cache(vbms_id)
+      bis.bust_fetch_veteran_info_cache(file_number)
     end
 
     describe "#fetch_veteran_info" do
       context "when called without previous .can_access?" do
         it "reads from BIS" do
-          vet_record = bis.fetch_veteran_info(vbms_id)
+          vet_record = bis.fetch_veteran_info(file_number)
 
           expect(bis_veteran_service).to have_received(:find_by_file_number).once
           expect(vet_record).to eq(veteran_record)

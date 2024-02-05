@@ -17,11 +17,11 @@ module ExternalApi
       @person_info = {}
     end
   
-    def fetch_veteran_info(vbms_id)
-      Rails.logger.info("BIS: Fetching veteran info for vbms id: #{vbms_id}")
-      @veteran_info[vbms_id] ||=
-        Rails.cache.fetch(fetch_veteran_info_cache_key(vbms_id), expires_in: 10.minutes) do
-          client.veteran.find_by_file_number(vbms_id)
+    def fetch_veteran_info(file_number)
+      Rails.logger.info("BIS: Fetching veteran info for vbms id: #{file_number}")
+      @veteran_info[file_number] ||=
+        Rails.cache.fetch(fetch_veteran_info_cache_key(file_number), expires_in: 10.minutes) do
+          client.veteran.find_by_file_number(file_number)
         end
     end
 
@@ -50,14 +50,14 @@ module ExternalApi
       get_limited_poas_hash_from_bis(bis_limited_poas)
     end
 
-    def bust_fetch_veteran_info_cache(vbms_id)
-      Rails.cache.delete(fetch_veteran_info_cache_key(vbms_id))
+    def bust_fetch_veteran_info_cache(file_number)
+      Rails.cache.delete(fetch_veteran_info_cache_key(file_number))
     end
     
     private
     
-    def fetch_veteran_info_cache_key(vbms_id)
-      "bis_veteran_info_#{vbms_id}"
+    def fetch_veteran_info_cache_key(file_number)
+      "bis_veteran_info_#{file_number}"
     end
 
     # client_ip to be added but not needed for deployment and demo

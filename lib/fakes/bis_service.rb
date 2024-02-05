@@ -22,8 +22,8 @@ module Fakes
       self.class.get_veteran_record(file_number)
     end
 
-    def fetch_veteran_info(vbms_id)
-      get_veteran_record(vbms_id)
+    def fetch_veteran_info(file_number)
+      get_veteran_record(file_number)
     end
 
     # rubocop:disable Metrics/MethodLength
