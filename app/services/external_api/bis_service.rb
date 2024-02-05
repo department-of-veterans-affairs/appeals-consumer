@@ -18,7 +18,7 @@ module ExternalApi
     end
   
     def fetch_veteran_info(file_number)
-      Rails.logger.info("BIS: Fetching veteran info for vbms id: #{file_number}")
+      Rails.logger.info("BIS: Fetching veteran info for file number: #{file_number}")
       @veteran_info[file_number] ||=
         Rails.cache.fetch(fetch_veteran_info_cache_key(file_number), expires_in: 10.minutes) do
           client.veteran.find_by_file_number(file_number)
