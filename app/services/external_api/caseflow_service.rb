@@ -9,18 +9,14 @@ class ExternalApi::CaseflowService
       headers = build_headers(drc_dto_builder)
       endpoint = "#{BASE_ENDPOINT}decision_review_created"
       response = send_caseflow_request(payload, endpoint, headers)
-      response_body = JSON.parse(response.body)
-      check_for_error(response_body, response.code)
-      response.code
+      parse_response(response, payload["claim_id"])
     end
 
     def establish_decision_review_created_event_error!(event_id, claim_id, error_message)
-      payload = { event_id: event_id, claim_id: claim_id, error: error_message }.to_json
+      payload = { event_id: event_id, errored_claim_id: claim_id, error: error_message }
       endpoint = "#{BASE_ENDPOINT}decision_review_created_error"
-      response = send_caseflow_request(payload, endpoint, headers)
-      response_body = JSON.parse(response.body)
-      check_for_error(response_body, response.code.to_i, payload.claim_id)
-      response
+      response = send_caseflow_request(payload, endpoint)
+      parse_response(response, claim_id)
     end
 
     private
@@ -38,7 +34,7 @@ class ExternalApi::CaseflowService
       request.auth.ssl.ssl_version  = :TLSv1_2
       request.auth.ssl.ca_cert_file = ENV["SSL_CERT_FILE"]
       request.headers = default_headers.merge(headers)
-      request.body = payload
+      request.body = payload.to_json
       request
     end
 
@@ -46,11 +42,12 @@ class ExternalApi::CaseflowService
       {
         "AUTHORIZATION" => "Token token=#{caseflow_key}",
         "CSS-ID" => ENV["CSS_ID"],
-        "STATION-ID" => ENV["STATION_ID"]
+        "STATION-ID" => ENV["STATION_ID"],
+        "Content-type" => "application/json"
       }
     end
 
-    def casflow_base_url
+    def caseflow_base_url
       Rails.application.config.caseflow_url.to_s
     end
 
@@ -77,6 +74,7 @@ class ExternalApi::CaseflowService
     def parse_response(response, claim_id)
       response_body = JSON.parse(response.body)
       check_for_error(response_body, response.code.to_i, claim_id)
+      response
     end
 
     def check_for_error(response_body, code, claim_id)

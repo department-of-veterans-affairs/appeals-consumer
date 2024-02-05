@@ -26,6 +26,8 @@ gem "hashie"
 
 gem "httpclient"
 
+gem "httpi"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
