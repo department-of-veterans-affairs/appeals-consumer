@@ -10,7 +10,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
 
   def initialize(dcr_event = nil)
-    super
+    super()
     @decision_review_created = build_decision_review_created(dcr_event.message_payload) if dcr_event
     @decision_review_created ? assign_attributes : reset_attributes
   end
@@ -35,7 +35,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
     @claim_review = build_claim_review
     @end_product_establishment = build_end_product_establishment
     @request_issues = build_request_issues
-    @vet_file_number = @decision_review_created.veteran_file_number
+    @vet_file_number = @decision_review_created.file_number
     @vet_ssn = retrieve_vet_ssn
     @vet_first_name = @decision_review_created.veteran_first_name
     @vet_middle_name = retrieve_vet_middle_name
@@ -125,8 +125,8 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
       "veteran": clean_pii(@veteran),
       "claimant": clean_pii(@claimant),
       "claim_review": clean_pii(@claim_review),
-      "end_product_establishments": clean_pii(@end_product_establishment),
+      "end_product_establishment": clean_pii(@end_product_establishment),
       "request_issues": clean_pii(@request_issues)
-    }
+    }.as_json
   end
 end
