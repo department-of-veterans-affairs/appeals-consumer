@@ -65,7 +65,7 @@ RSpec.describe Builders::DtoBuilder, type: :model do
       end
 
       it "shoud return a hash of a model without any PII fields" do
-        clean_hash = { "id": 1, "person": { "p_id": 1 }}.as_json
+        clean_hash = { "id": 1, "person": { "p_id": 1 } }.as_json
         expect(subject.clean_pii(sample_hash)).to eq clean_hash
       end
     end
