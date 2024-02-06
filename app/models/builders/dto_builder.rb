@@ -1,7 +1,12 @@
-class Builders::DtoBuilder
+# frozen_string_literal: true
 
+# This is the parent DTO Builder class. It holds common functionality used amungst
+# various DTO Builders.
+class Builders::DtoBuilder
+  # Custom error specifically for PII existance in payload hashes
   class PIIFoundViolationError < StandardError; end
 
+  # rubocop:disable Style/MutableConstant
   PII_FIELDS = %w[
     ssn
     filenumber
@@ -11,6 +16,7 @@ class Builders::DtoBuilder
     date_of_birth
     email
   ]
+  # rubocop:enable Style/MutableConstant
 
   # :reek:UtilityFunction
   def clean_pii(hashable_model)
