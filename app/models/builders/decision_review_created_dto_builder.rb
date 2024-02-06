@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# TODO: investigate and nail down error handling/notification
+
 # This class is ultimately responsible for constructing a DecisionReviewCreated payload
 # that will be sent to Caseflow.
 # :reek:TooManyInstanceVariables
@@ -24,31 +26,54 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   # :reek:TooManyStatements
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def assign_attributes
+    assign_from_decision_review_created
+    assign_from_builders
+    assign_from_retrievals
+    assign_hash_response
+  end
+
+  # :reek:TooManyStatements
+  def assign_from_decision_review_created
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
     @station = @decision_review_created.created_by_station
-    @intake = build_intake
-    @veteran = build_veteran
-    @claimant = build_claimant
-    @claim_review = build_claim_review
-    @end_product_establishment = build_end_product_establishment
-    @request_issues = build_request_issues
     @vet_file_number = @decision_review_created.file_number
-    @vet_ssn = retrieve_vet_ssn
     @vet_first_name = @decision_review_created.veteran_first_name
-    @vet_middle_name = retrieve_vet_middle_name
     @vet_last_name = @decision_review_created.veteran_last_name
+  end
+
+  # :reek:TooManyStatements
+  def assign_from_builders
+    begin
+      @intake = build_intake
+      @veteran = build_veteran
+      @claimant = build_claimant
+      @claim_review = build_claim_review
+      @end_product_establishment = build_end_product_establishment
+      @request_issues = build_request_issues
+    rescue StandardError => error
+      # TODO: make sure this is notified in sentry/slack
+      raise DtoBuildError, "Failed building from Builders::DecisionReviewCreatedDtoBuilder:
+        #{error.message}"
+    end
+  end
+
+  # :reek:TooManyStatements
+  def assign_from_retrievals
+    @vet_ssn = retrieve_vet_ssn
+    @vet_middle_name = retrieve_vet_middle_name
     @claimant_ssn = retrieve_claimant_ssn
     @claimant_dob = retrieve_claimant_dob
     @claimant_first_name = retrieve_claimant_first_name
     @claimant_middle_name = retrieve_claimant_middle_name
     @claimant_last_name = retrieve_claimant_last_name
     @claimant_email = retrieve_claimant_email
+  end
+
+  def assign_hash_response
     @hash_response = validate_no_pii(build_hash_response)
   end
-  # rubocop:enable Metrics/AbcSize
 
   # :reek:TooManyStatements
   def reset_attributes
