@@ -6,6 +6,9 @@ class Builders::DtoBuilder
   # Custom error specifically for PII existance in payload hashes
   class PIIFoundViolationError < StandardError; end
 
+  # Custom error specifically for build errors
+  class DtoBuildError < StandardError; end
+
   # rubocop:disable Style/MutableConstant
   PII_FIELDS = %w[
     ssn
@@ -28,6 +31,7 @@ class Builders::DtoBuilder
     hash_response.extend Hashie::Extensions::DeepFind
     Builders::DtoBuilder::PII_FIELDS.each do |field|
       unless hash_response.deep_find_all(field).blank?
+        # TODO: make sure this is notified in sentry/slack
         fail PIIFoundViolationError, "PII field detected: #{field}"
       end
     end
