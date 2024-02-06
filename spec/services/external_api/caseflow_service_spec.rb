@@ -3,10 +3,15 @@
 describe ExternalApi::CaseflowService do
   before(:each) do
     WebMock.disable_net_connect!(allow_localhost: true)
+    RequestStore.store[:current_user] = {
+      css_id: "css_id",
+      station_id: "station_id"
+    }
   end
 
   after(:each) do
     WebMock.allow_net_connect!
+    RequestStore.clear!
   end
 
   describe ".establish_decision_review_created_records_from_event!" do
@@ -32,8 +37,8 @@ describe ExternalApi::CaseflowService do
     let(:headers) do
       {
         "AUTHORIZATION" => "Token token=secret",
-        "CSS-ID" => "css_id",
-        "STATION-ID" => "station_id",
+        "CSS-ID" => RequestStore[:current_user][:css_id],
+        "STATION-ID" => RequestStore[:current_user][:station_id],
         "X-VA-Vet-SSN" => "1234-56-789",
         "X-VA-File-Number" => "12345",
         "X-VA-Vet-First-Name" => "John",

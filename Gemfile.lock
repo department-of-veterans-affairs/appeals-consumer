@@ -518,6 +518,7 @@ DEPENDENCIES
   faker
   httpclient
   hashie
+  httpi
   immigrant
   jruby-openssl
   karafka (~> 2.2)

@@ -98,4 +98,65 @@ RSpec.describe Event, type: :model do
       end
     end
   end
+
+  describe "#process!" do
+    let(:event) { FactoryBot.create(:event) }
+    let(:dto_builder_instance) { instance_double("Builders::DecisionReviewCreatedDTOBuilder") }
+    let(:caseflow_response) { instance_double("Response", code: response_code, message: "Some message") }
+
+    before do
+      allow(Builders::DecisionReviewCreatedDTOBuilder).to receive(:new).with(event).and_return(dto_builder_instance)
+      allow(CaseflowService)
+        .to receive(:establish_decision_review_created_records_from_event!)
+        .with(dto_builder_instance)
+        .and_return(caseflow_response)
+    end
+
+    context "when processing is successful" do
+      let(:responce_code) { 201 }
+
+      it "updates the event with a completed_at timestamp" do
+        Timecop.freeze do
+          expect { event.process! }.to change(event, :completed_at).from(nil).to(Time.zone.now)
+        end
+      end
+    end
+
+    context "when a ClientRequestError is raised" do
+      let(:response_code) { 500 }
+      let(:error_message) { "Client Request Error" }
+
+      before do
+        allow(CaseflowService)
+          .to receive(:establish_decision_review_created_records_from_event!)
+          .and_raise(AppealsConsumer::Error::ClientRequestError.new(error_message))
+      end
+
+      it "logs the error and updates the event error field" do
+        expect(Rails.logger).to receive(:error).with(error_message)
+        expect { event.process! }.to change(event, :error).from(nil).to(error_message)
+      end
+    end
+
+    context "when an unexpected error occurs" do
+      let(:response_code) { 500 }
+      let(:standard_error) { StandardError.new("Unexpected error") }
+      let(:error_message) { "Unexpected error" }
+
+      before do
+        allow(CaseflowService)
+          .to receive(:establish_decision_review_created_records_from_event!)
+          .and_raise(standard_error)
+        allow(CaseflowService)
+          .to received(:establish_decision_review_created_event_error!)
+          .with(event.id, event.message_payload["claim_id"], error_message)
+          .and_return(caseflow_response)
+      end
+
+      it "logs the error" do
+        expect(Rails.logger).to receive(:error).with(error_message)
+        expect { event.process! }.not_to raise_error
+      end
+    end
+  end
 end

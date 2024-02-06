@@ -16,6 +16,20 @@ RSpec.describe DecisionReviewCreatedJob, type: :job do
     end
   end
 
+  context "when an error occurs" do
+    let(:error) { StandardError.new("test error") }
+
+    before do
+      allow(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent).to receive(:process!).and_raise(error)
+      allow(Rails.logger).to receive(:error)
+    end
+
+    it "logs the error" do
+      described_class.perform_now(event)
+      expect(Rails.logger).to have_received(:error).with(error)
+    end
+  end
+
   describe "#perform_later(event)" do
     subject { DecisionReviewCreatedJob.perform_later(event) }
 

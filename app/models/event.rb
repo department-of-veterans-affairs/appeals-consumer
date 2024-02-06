@@ -33,19 +33,19 @@ class Event < ApplicationRecord
   end
 
   def process!
-    dto = DecsisionReviewCreatedDTOBuilder.new(self)
-    response = CaseflowService.establish_decision_review_created_records_from_event(dto)
+    dto = Builders::DecisionReviewCreatedDTOBuilder.new(self)
+    response = CaseflowService.establish_decision_review_created_records_from_event!(dto)
 
     Rails.logger.info("Received #{response.code}")
 
-    if response.code == 201
+    if response.code.to_i == 201
       update!(completed_at: Time.zone.now)
     end
   rescue AppealsConsumer::Error::ClientRequestError => error
     Rails.logger.error(error.message)
     update!(error: error.message)
   rescue StandardError => error
-    response = CaseflowService.establish_decision_review_created_event_error(
+    response = CaseflowService.establish_decision_review_created_event_error!(
       id,
       message_payload["claim_id"],
       error.message

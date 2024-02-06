@@ -52,6 +52,11 @@ module AppealsConsumer
     # it's a safe assumption we're running on us-gov-west-1
     ENV["AWS_REGION"] ||= "us-gov-west-1"
 
+    RequestStore.store[:current_user] = {
+      css_id: ENV["CSS_ID"],
+      station_id: ENV["STATION_ID"]
+    }
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

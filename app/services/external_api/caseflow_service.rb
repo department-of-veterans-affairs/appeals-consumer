@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
+#  Service class for interacting with the Caseflow API, handling decision review events and errors.
 class ExternalApi::CaseflowService
+  # Base endpoint for the Caseflow API events.
   BASE_ENDPOINT = "api/events/v1/"
 
   class << self
+    # Creates records for a new decision review based on the provided DTO builder.
+    # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
       payload = drc_dto_builder.build_hash_response
       headers = build_headers(drc_dto_builder)
@@ -12,6 +16,7 @@ class ExternalApi::CaseflowService
       parse_response(response, payload["claim_id"])
     end
 
+    # Reports an error during decision review creation, using detailed error information.
     def establish_decision_review_created_event_error!(event_id, claim_id, error_message)
       payload = { event_id: event_id, errored_claim_id: claim_id, error: error_message }
       endpoint = "#{BASE_ENDPOINT}decision_review_created_error"
@@ -21,12 +26,15 @@ class ExternalApi::CaseflowService
 
     private
 
+    # Sends a request to the Caseflow API with specified payload, endpoint, and optional headers.
+    # returns the API's response
     def send_caseflow_request(payload, endpoint, headers = {})
       url = URI.join(caseflow_base_url, endpoint).to_s
       request = build_request(url, payload, headers)
       HTTPI.post(request)
     end
 
+    # Constructs an HTTPI request, setting timeouts, SSL configuration, headrs and body
     def build_request(url, payload, headers)
       request = HTTPI::Request.new(url)
       request.open_timeout = 600 # seconds
@@ -38,11 +46,12 @@ class ExternalApi::CaseflowService
       request
     end
 
+    # Default headers required for all requests to the Caseflow API, including authorization and content type.
     def default_headers
       {
         "AUTHORIZATION" => "Token token=#{caseflow_key}",
-        "CSS-ID" => ENV["CSS_ID"],
-        "STATION-ID" => ENV["STATION_ID"],
+        "CSS-ID" => RequestStore[:current_user][:css_id],
+        "STATION-ID" => RequestStore[:current_user][:station_id],
         "Content-type" => "application/json"
       }
     end
@@ -55,6 +64,7 @@ class ExternalApi::CaseflowService
       Rails.application.config.caseflow_key.to_s
     end
 
+    # Builds headers required for all requests to the Caseflow API, including authorization and content type.
     def build_headers(drc_dto_builder)
       {
         "X-VA-Vet-SSN" => drc_dto_builder.vet_ssn,
@@ -71,12 +81,14 @@ class ExternalApi::CaseflowService
       }
     end
 
+    # Parses and checks the API response for errors, raising an exception for specific error conditions.
     def parse_response(response, claim_id)
       response_body = JSON.parse(response.body)
       check_for_error(response_body, response.code.to_i, claim_id)
       response
     end
 
+    # Checks for common error responses and raises a custom exception of encountered.
     def check_for_error(response_body, code, claim_id)
       if [409, 500].include?(code)
         msg = "Failed for claim_id: #{claim_id}, error: #{response_body}, HTTP code: #{code}"

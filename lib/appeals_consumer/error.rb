@@ -9,10 +9,6 @@ module AppealsConsumer::Error
       @message = args[:message]
       @title = args[:title]
     end
-
-    def serialize_response
-      { json: { "errors": [{ "status": code, "title": title || message, "detail": message }] }, status: code }
-    end
   end
 
   class SerializableError < StandardError
