@@ -20,6 +20,7 @@ RSpec.describe Builders::DtoBuilder, type: :model do
       expect(subject.class::PII_FIELDS).to eq %w[
         ssn
         filenumber
+        file_number
         first_name
         middle_name
         last_name

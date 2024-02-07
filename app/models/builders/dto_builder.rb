@@ -13,6 +13,7 @@ class Builders::DtoBuilder
   PII_FIELDS = %w[
     ssn
     filenumber
+    file_number
     first_name
     middle_name
     last_name
