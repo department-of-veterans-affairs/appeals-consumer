@@ -9,6 +9,12 @@ RSpec.describe Builders::DtoBuilder, type: :model do
     end
   end
 
+  describe "DtoBuildError" do
+    it "should be appropriately namespaced and inherits StandardError" do
+      expect(subject.class::DtoBuildError.new).to be_kind_of(StandardError)
+    end
+  end
+
   describe "PII_FIELDS" do
     it "should include all the listed pii fields" do
       expect(subject.class::PII_FIELDS).to eq %w[
