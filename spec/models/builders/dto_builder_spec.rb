@@ -34,7 +34,7 @@ RSpec.describe Builders::DtoBuilder, type: :model do
   end
 
   # accepts instance of model which is then converted to a hash via `.as_json`,
-  # but tested here with a hash already to show depth field cleaning
+  # but tested here mostly with a hash already to show depth field cleaning
   describe "#clean_pii" do
     context "when there are multiple PII attributes on an instance of a payload model" do
       let(:sample_hash) do
@@ -44,10 +44,12 @@ RSpec.describe Builders::DtoBuilder, type: :model do
           "date_of_birth": Time.current
         }.as_json
       end
+      let(:veteran) { build(:veteran) }
 
       it "should return a hash of a model without any PII fields" do
         clean_hash = { "id": 1 }.as_json
         expect(subject.clean_pii(sample_hash)).to eq clean_hash
+        expect((subject.clean_pii(veteran).keys & subject.class::PII_FIELDS).blank?).to eq true
       end
     end
     context "when a PII field is an attribute on an instance of a payload model" do
