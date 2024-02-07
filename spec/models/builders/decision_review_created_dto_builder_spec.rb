@@ -120,14 +120,13 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
 
     describe "#_assign_from_decision_review_created" do
       let(:dcr) { build(:decision_review_created) }
-      let(:dcr_dto_builder) do
+      let!(:dcr_dto_builder) do
         Builders::DecisionReviewCreatedDtoBuilder.new.tap do |dcr_dto_builder|
           dcr_dto_builder.instance_variable_set(:@decision_review_created, dcr)
         end
       end
 
       it "should assign instance variables based on decision_review_created" do
-        dcr_dto_builder.instance_variable_set(:@decision_review_created, dcr)
         dcr_dto_builder.send(:assign_from_decision_review_created)
 
         expect(dcr_dto_builder.instance_variable_get(:@decision_review_created)).to eq dcr
