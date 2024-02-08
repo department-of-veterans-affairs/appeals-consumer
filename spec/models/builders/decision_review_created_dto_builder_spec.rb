@@ -97,17 +97,19 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
           .to be_instance_of(Builders::DecisionReviewCreatedDtoBuilder)
       end
     end
+
+    # TODO: add accessor test once all implementation details are hammered out
   end
 
-  context "when we instantiate an empty DecisionReviewCreatedDtoBuilder object" do
-    describe "#_build_decision_review_created" do
-      subject { Builders::DecisionReviewCreatedDtoBuilder.new }
+  describe "#_build_decision_review_created" do
+    subject { Builders::DecisionReviewCreatedDtoBuilder.new }
 
-      it "should return a new DecisionReviewCreated object" do
-        expect(subject.send(:build_decision_review_created, message_payload)).to be_instance_of(DecisionReviewCreated)
-      end
+    it "should return a new DecisionReviewCreated object" do
+      expect(subject.send(:build_decision_review_created, message_payload)).to be_instance_of(DecisionReviewCreated)
     end
+  end
 
+  context "when there is no DecisionReviewCreated object" do
     describe "#_assign_attributes" do
       it "should call various assign methods" do
         expect(subject).to receive(:assign_from_decision_review_created)
@@ -119,23 +121,14 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     end
 
     describe "#_assign_from_decision_review_created" do
-      let(:dcr) { build(:decision_review_created) }
-      let!(:dcr_dto_builder) do
-        Builders::DecisionReviewCreatedDtoBuilder.new.tap do |dcr_dto_builder|
-          dcr_dto_builder.instance_variable_set(:@decision_review_created, dcr)
-        end
-      end
-
-      it "should assign instance variables based on decision_review_created" do
-        dcr_dto_builder.send(:assign_from_decision_review_created)
-
-        expect(dcr_dto_builder.instance_variable_get(:@decision_review_created)).to eq dcr
-        expect(dcr_dto_builder.instance_variable_get(:@css_id)).to eq dcr.created_by_username
-        expect(dcr_dto_builder.instance_variable_get(:@station)).to eq dcr.created_by_station
-        expect(dcr_dto_builder.instance_variable_get(:@detail_type)).to eq dcr.decision_review_type
-        expect(dcr_dto_builder.instance_variable_get(:@vet_file_number)).to eq dcr.file_number
-        expect(dcr_dto_builder.instance_variable_get(:@vet_first_name)).to eq dcr.veteran_first_name
-        expect(dcr_dto_builder.instance_variable_get(:@vet_last_name)).to eq dcr.veteran_last_name
+      it "should not assign any values if there is no DecisionReviewCreated object" do
+        expect(subject.send(:assign_from_decision_review_created)).to eq nil
+        expect(subject.instance_variable_get(:@css_id)).to eq nil
+        expect(subject.instance_variable_get(:@detail_type)).to eq nil
+        expect(subject.instance_variable_get(:@station)).to eq nil
+        expect(subject.instance_variable_get(:@vet_file_number)).to eq nil
+        expect(subject.instance_variable_get(:@vet_first_name)).to eq nil
+        expect(subject.instance_variable_get(:@vet_last_name)).to eq nil
       end
     end
 
@@ -213,6 +206,271 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
         expect(subject.instance_variable_get(:@claimant_last_name).nil?).to eq true
         expect(subject.instance_variable_get(:@claimant_email).nil?).to eq true
         expect(subject.instance_variable_get(:@hash_response).nil?).to eq true
+      end
+    end
+
+    describe "accessor fields" do
+      it "should return nil on DecisionReviewCreatedDtoBuilder with empty decision_review_created" do
+        expect(subject.vet_file_number).to eq nil
+        expect(subject.vet_ssn).to eq nil
+        expect(subject.vet_first_name).to eq nil
+        expect(subject.vet_middle_name).to eq nil
+        expect(subject.vet_last_name).to eq nil
+        expect(subject.claimant_ssn).to eq nil
+        expect(subject.claimant_dob).to eq nil
+        expect(subject.claimant_first_name).to eq nil
+        expect(subject.claimant_middle_name).to eq nil
+        expect(subject.claimant_last_name).to eq nil
+        expect(subject.claimant_email).to eq nil
+      end
+    end
+
+    describe "builder methods" do
+      describe "#_build_intake" do
+        it "should return built intake object" do
+          expect(subject.send(:build_intake)).to be_instance_of(Intake)
+        end
+      end
+
+      describe "#_build_veteran" do
+        it "should return built veteran object" do
+          expect(subject.send(:build_veteran)).to be_instance_of(Veteran)
+        end
+      end
+
+      describe "#_build_claimant" do
+        it "should return built claimant object" do
+          expect(subject.send(:build_claimant)).to be_instance_of(Claimant)
+        end
+      end
+
+      describe "#_build_claim_review" do
+        it "should return built claim review object" do
+          expect(subject.send(:build_claim_review)).to be_instance_of(ClaimReview)
+        end
+      end
+
+      describe "#_build_end_product_establishment" do
+        it "should return built epe object" do
+          expect(subject.send(:build_end_product_establishment)).to be_instance_of(EndProductEstablishment)
+        end
+      end
+
+      describe "#_build_request_issues" do
+        it "should return built request issues object" do
+          expect { subject.send(:build_request_issues) }.to raise_error(NoMethodError)
+        end
+      end
+    end
+
+    describe "#_build_hash_response" do
+      it "should return hash reponse object" do
+        subject.instance_variable_set(:@css_id, 1)
+        subject.instance_variable_set(:@detail_type, "HigherLevelReview")
+        subject.instance_variable_set(:@station, "101")
+        subject.instance_variable_set(:@intake, Intake.new)
+        subject.instance_variable_set(:@veteran, Veteran.new)
+        subject.instance_variable_set(:@claimant, Claimant.new)
+        subject.instance_variable_set(:@claim_review, ClaimReview.new)
+        subject.instance_variable_set(:@end_product_establishment, EndProductEstablishment.new)
+        subject.instance_variable_set(:@request_issues, [])
+
+        built_hash = subject.send(:build_hash_response)
+
+        expect(built_hash["css_id"]).to eq 1
+        expect(built_hash["detail_type"]).to eq "HigherLevelReview"
+        expect(built_hash["station"]).to eq "101"
+        expect(built_hash["intake"].blank?).to eq true
+        expect(built_hash["veteran"].blank?).to eq true
+        expect(built_hash["claimant"].blank?).to eq true
+        expect(built_hash["claim_review"].blank?).to eq true
+        expect(built_hash["end_product_establishment"].blank?).to eq true
+        expect(built_hash["request_issues"].blank?).to eq true
+      end
+    end
+
+    # TODO: finish "_retrieve..." method specs on implementation
+
+    describe "retrieval methods" do
+      describe "#_retrieve_vet_ssn" do
+        it "should return vet ssn" do
+        end
+      end
+
+      describe "#_retrieve_vet_middle_name" do
+        it "should return vet middle name" do
+        end
+      end
+
+      describe "#_retrieve_claimant_ssn" do
+        it "should return claimant ssn" do
+        end
+      end
+
+      describe "#_retrieve_claimant_dob" do
+        it "should return claimant dob" do
+        end
+      end
+
+      describe "#_retrieve_claimant_first_name" do
+        it "should return cliamant first name" do
+        end
+      end
+
+      describe "#_retrieve_claimant_middle_name" do
+        it "should return claimant middle name" do
+        end
+      end
+
+      describe "#_retrieve_claimant_last_name" do
+        it "should return claimant last name" do
+        end
+      end
+
+      describe "#_retrieve_claimant_email" do
+        it "should return claimant email" do
+        end
+      end
+    end
+  end
+
+  context "when there is a DecisionReviewCreated object" do
+    let(:dcr) { build(:decision_review_created) }
+    let!(:dcr_dto_builder) do
+      Builders::DecisionReviewCreatedDtoBuilder.new.tap do |dcr_dto_builder|
+        dcr_dto_builder.instance_variable_set(:@decision_review_created, dcr)
+      end
+    end
+
+    describe "#_assign_attributes" do
+      it "should call various assign methods" do
+        expect(dcr_dto_builder).to receive(:assign_from_decision_review_created)
+        expect(dcr_dto_builder).to receive(:assign_from_builders)
+        expect(dcr_dto_builder).to receive(:assign_from_retrievals)
+        expect(dcr_dto_builder).to receive(:assign_hash_response)
+        dcr_dto_builder.send(:assign_attributes)
+      end
+    end
+
+    describe "#_assign_from_decision_review_created" do
+      it "should assign instance variables based on decision_review_created" do
+        dcr_dto_builder.send(:assign_from_decision_review_created)
+
+        expect(dcr_dto_builder.instance_variable_get(:@decision_review_created)).to eq dcr
+        expect(dcr_dto_builder.instance_variable_get(:@css_id)).to eq dcr.created_by_username
+        expect(dcr_dto_builder.instance_variable_get(:@station)).to eq dcr.created_by_station
+        expect(dcr_dto_builder.instance_variable_get(:@detail_type)).to eq dcr.decision_review_type
+        expect(dcr_dto_builder.instance_variable_get(:@vet_file_number)).to eq dcr.file_number
+        expect(dcr_dto_builder.instance_variable_get(:@vet_first_name)).to eq dcr.veteran_first_name
+        expect(dcr_dto_builder.instance_variable_get(:@vet_last_name)).to eq dcr.veteran_last_name
+      end
+    end
+
+    describe "#_assign_from_builders" do
+      context "should not throw an error" do
+        it "should recieve the following methods:" do
+          expect(subject).to receive(:build_intake)
+          expect(subject).to receive(:build_veteran)
+          expect(subject).to receive(:build_claimant)
+          expect(subject).to receive(:build_claim_review)
+          expect(subject).to receive(:build_end_product_establishment)
+          expect(subject).to receive(:build_request_issues)
+          subject.send(:assign_from_builders)
+        end
+
+        it "should assign correct ivars" do
+          dcr_dto_builder.send(:assign_attributes)
+          expect(dcr_dto_builder.instance_variable_get(:@intake)).to be_instance_of(Intake)
+          expect(dcr_dto_builder.instance_variable_get(:@veteran)).to be_instance_of(Veteran)
+          expect(dcr_dto_builder.instance_variable_get(:@claimant)).to be_instance_of(Claimant)
+          expect(dcr_dto_builder.instance_variable_get(:@claim_review)).to be_instance_of(ClaimReview)
+          expect(dcr_dto_builder.instance_variable_get(:@end_product_establishment)).to be_instance_of(EndProductEstablishment)
+          expect(dcr_dto_builder.instance_variable_get(:@request_issues)).to be_instance_of(Array)
+          expect(dcr_dto_builder.instance_variable_get(:@request_issues).flatten.first).to be_instance_of(RequestIssue)
+        end
+      end
+
+      context "should raise error if error in builder methods" do
+        let(:dcr_dto_builder) { Builders::DecisionReviewCreatedDtoBuilder.new }
+        it "should raise an error" do
+          dcr_dto_builder.instance_eval do
+            def build_intake
+              fail StandardError
+            end
+          end
+          expect { dcr_dto_builder.send(:assign_from_builders) }.to raise_error(Builders::DtoBuilder::DtoBuildError)
+        end
+      end
+    end
+
+    describe "#_assign_from_retrievals" do
+      it "should receive the following methods: " do
+        expect(dcr_dto_builder).to receive(:retrieve_vet_ssn)
+        expect(dcr_dto_builder).to receive(:retrieve_vet_middle_name)
+        expect(dcr_dto_builder).to receive(:retrieve_claimant_ssn)
+        expect(dcr_dto_builder).to receive(:retrieve_claimant_dob)
+        expect(dcr_dto_builder).to receive(:retrieve_claimant_first_name)
+        expect(dcr_dto_builder).to receive(:retrieve_claimant_middle_name)
+        expect(dcr_dto_builder).to receive(:retrieve_claimant_last_name)
+        expect(dcr_dto_builder).to receive(:retrieve_claimant_email)
+        dcr_dto_builder.send(:assign_from_retrievals)
+
+        # TODO: instance_variable_get after implementation to verify correctness
+      end
+    end
+
+    describe "#_assign_hash_response" do
+      it "should recieve the following methods: " do
+        expect(dcr_dto_builder).to receive(:build_hash_response)
+        expect(dcr_dto_builder).to receive(:validate_no_pii)
+        dcr_dto_builder.send(:assign_hash_response)
+      end
+      it "should assing to @hash_response" do
+        dcr_dto_builder.send(:assign_hash_response)
+        expect(dcr_dto_builder.instance_variable_get(:@hash_response)).to be_instance_of(Hash)
+      end
+    end
+
+    describe "#_reset_attributes" do
+      it "should assign attributes of dcr dto builder correctly on correct payload" do
+        dcr_dto_builder.send(:reset_attributes)
+        expect(dcr_dto_builder.instance_variable_get(:@css_id).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@detail_type).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@station).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@intake).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@veteran).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claim_review).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@end_product_establishment).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@request_issues).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@vet_file_number).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@vet_ssn).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@vet_first_name).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@vet_middle_name).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@vet_last_name).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant_ssn).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant_dob).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant_first_name).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant_middle_name).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant_last_name).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@claimant_email).nil?).to eq true
+        expect(dcr_dto_builder.instance_variable_get(:@hash_response).nil?).to eq true
+      end
+    end
+
+    describe "accessor fields" do
+      it "should return nil on DecisionReviewCreatedDtoBuilder with empty decision_review_created" do
+        expect(dcr_dto_builder.vet_file_number).to eq nil
+        expect(dcr_dto_builder.vet_ssn).to eq nil
+        expect(dcr_dto_builder.vet_first_name).to eq nil
+        expect(dcr_dto_builder.vet_middle_name).to eq nil
+        expect(dcr_dto_builder.vet_last_name).to eq nil
+        expect(dcr_dto_builder.claimant_ssn).to eq nil
+        expect(dcr_dto_builder.claimant_dob).to eq nil
+        expect(dcr_dto_builder.claimant_first_name).to eq nil
+        expect(dcr_dto_builder.claimant_middle_name).to eq nil
+        expect(dcr_dto_builder.claimant_last_name).to eq nil
+        expect(dcr_dto_builder.claimant_email).to eq nil
       end
     end
 
@@ -302,32 +560,6 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       describe "#_retrieve_claimant_email" do
         it "should return claimant email" do
         end
-      end
-    end
-
-    describe "#_build_hash_response" do
-      it "should return hash reponse object" do
-        subject.instance_variable_set(:@css_id, 1)
-        subject.instance_variable_set(:@detail_type, "HigherLevelReview")
-        subject.instance_variable_set(:@station, "101")
-        subject.instance_variable_set(:@intake, Intake.new)
-        subject.instance_variable_set(:@veteran, Veteran.new)
-        subject.instance_variable_set(:@claimant, Claimant.new)
-        subject.instance_variable_set(:@claim_review, ClaimReview.new)
-        subject.instance_variable_set(:@end_product_establishment, EndProductEstablishment.new)
-        subject.instance_variable_set(:@request_issues, [])
-
-        built_hash = subject.send(:build_hash_response)
-
-        expect(built_hash["css_id"]).to eq 1
-        expect(built_hash["detail_type"]).to eq "HigherLevelReview"
-        expect(built_hash["station"]).to eq "101"
-        expect(built_hash["intake"].blank?).to eq true
-        expect(built_hash["veteran"].blank?).to eq true
-        expect(built_hash["claimant"].blank?).to eq true
-        expect(built_hash["claim_review"].blank?).to eq true
-        expect(built_hash["end_product_establishment"].blank?).to eq true
-        expect(built_hash["request_issues"].blank?).to eq true
       end
     end
   end
