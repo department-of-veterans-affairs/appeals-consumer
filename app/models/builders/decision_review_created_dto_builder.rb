@@ -11,10 +11,10 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
 
-  def initialize(dcr_event = nil)
+  def initialize(dcr_event)
     super()
-    @decision_review_created = build_decision_review_created(dcr_event.message_payload) if dcr_event
-    @decision_review_created ? assign_attributes : reset_attributes
+    @decision_review_created = build_decision_review_created(dcr_event.message_payload)
+    assign_attributes
   end
 
   private
@@ -35,8 +35,6 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   # :reek:TooManyStatements
   def assign_from_decision_review_created
-    return unless @decision_review_created
-
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
     @station = @decision_review_created.created_by_station
