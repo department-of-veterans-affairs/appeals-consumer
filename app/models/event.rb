@@ -45,12 +45,12 @@ class Event < ApplicationRecord
     Rails.logger.error(error.message)
     update!(error: error.message)
   rescue StandardError => error
-    response = ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
+    ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
       id,
-      message_payload["claim_id"],
+      JSON.parse(message_payload)["claim_id"],
       error.message
     )
-    Rails.logger.error(response.message)
+    Rails.logger.error(error.message)
   end
 
   private
