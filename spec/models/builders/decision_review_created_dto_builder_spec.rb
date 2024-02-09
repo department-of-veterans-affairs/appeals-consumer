@@ -91,7 +91,8 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       let(:dcr_event) { build(:event, message_payload: message_payload.to_json) }
 
       it "should return a DecisionReviewCreatedBuilder with a DCR and associated attributes" do
-        expect(Builders::DecisionReviewCreatedDtoBuilder.new(dcr_event)).to be_instance_of(Builders::DecisionReviewCreatedDtoBuilder)
+        expect(Builders::DecisionReviewCreatedDtoBuilder.new(dcr_event))
+          .to be_instance_of(Builders::DecisionReviewCreatedDtoBuilder)
       end
     end
   end
@@ -186,14 +187,14 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
 
     describe "#_assign_from_retrievals" do
       it "should receive the following methods: " do
-        expect(dcr_dto_builder).to receive(:retrieve_vet_ssn)
-        expect(dcr_dto_builder).to receive(:retrieve_vet_middle_name)
-        expect(dcr_dto_builder).to receive(:retrieve_claimant_ssn)
-        expect(dcr_dto_builder).to receive(:retrieve_claimant_dob)
-        expect(dcr_dto_builder).to receive(:retrieve_claimant_first_name)
-        expect(dcr_dto_builder).to receive(:retrieve_claimant_middle_name)
-        expect(dcr_dto_builder).to receive(:retrieve_claimant_last_name)
-        expect(dcr_dto_builder).to receive(:retrieve_claimant_email)
+        expect(dcr_dto_builder).to receive(:assign_vet_ssn)
+        expect(dcr_dto_builder).to receive(:assign_vet_middle_name)
+        expect(dcr_dto_builder).to receive(:assign_claimant_ssn)
+        expect(dcr_dto_builder).to receive(:assign_claimant_dob)
+        expect(dcr_dto_builder).to receive(:assign_claimant_first_name)
+        expect(dcr_dto_builder).to receive(:assign_claimant_middle_name)
+        expect(dcr_dto_builder).to receive(:assign_claimant_last_name)
+        expect(dcr_dto_builder).to receive(:assign_claimant_email)
         dcr_dto_builder.send(:assign_from_retrievals)
 
         # instance_variable_get after implementation to verify correctness
@@ -302,43 +303,60 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     # finish "_retrieve..." method specs on implementation
 
     describe "retrieval methods" do
-      describe "#_retrieve_vet_ssn" do
+      let(:veteran) { build(:veteran) }
+      let(:claimant) { build(:claimant) }
+      let(:dcr_dto_builder) do
+        Builders::DecisionReviewCreatedDtoBuilder.new.tap do |dcr_dto_builder|
+          dcr_dto_builder.instance_variable_set(:@veteran, veteran)
+          dcr_dto_builder.instance_variable_set(:@claimant, claimant)
+        end
+      end
+
+      describe "#_assign_vet_ssn" do
         it "should return vet ssn" do
+          expect(dcr_dto_builder.send(:assign_vet_ssn)).to eq veteran.ssn
         end
       end
 
-      describe "#_retrieve_vet_middle_name" do
+      describe "#_assign_vet_middle_name" do
         it "should return vet middle name" do
+          expect(dcr_dto_builder.send(:assign_vet_middle_name)).to eq veteran.middle_name
         end
       end
 
-      describe "#_retrieve_claimant_ssn" do
+      describe "#_assign_claimant_ssn" do
         it "should return claimant ssn" do
+          expect(dcr_dto_builder.send(:assign_claimant_ssn)).to eq claimant.ssn
         end
       end
 
-      describe "#_retrieve_claimant_dob" do
+      describe "#_assign_claimant_dob" do
         it "should return claimant dob" do
+          expect(dcr_dto_builder.send(:assign_claimant_dob)).to eq claimant.date_of_birth
         end
       end
 
-      describe "#_retrieve_claimant_first_name" do
+      describe "#_assign_claimant_first_name" do
         it "should return cliamant first name" do
+          expect(dcr_dto_builder.send(:assign_claimant_first_name)).to eq claimant.first_name
         end
       end
 
-      describe "#_retrieve_claimant_middle_name" do
+      describe "#_assign_claimant_middle_name" do
         it "should return claimant middle name" do
+          expect(dcr_dto_builder.send(:assign_claimant_middle_name)).to eq claimant.middle_name
         end
       end
 
-      describe "#_retrieve_claimant_last_name" do
+      describe "#_assign_claimant_last_name" do
         it "should return claimant last name" do
+          expect(dcr_dto_builder.send(:assign_claimant_last_name)).to eq claimant.last_name
         end
       end
 
-      describe "#_retrieve_claimant_email" do
+      describe "#_assign_claimant_email" do
         it "should return claimant email" do
+          expect(dcr_dto_builder.send(:assign_claimant_email)).to eq claimant.email
         end
       end
     end

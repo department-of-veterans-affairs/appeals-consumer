@@ -60,14 +60,14 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   # :reek:TooManyStatements
   def assign_from_retrievals
-    @vet_ssn = retrieve_vet_ssn
-    @vet_middle_name = retrieve_vet_middle_name
-    @claimant_ssn = retrieve_claimant_ssn
-    @claimant_dob = retrieve_claimant_dob
-    @claimant_first_name = retrieve_claimant_first_name
-    @claimant_middle_name = retrieve_claimant_middle_name
-    @claimant_last_name = retrieve_claimant_last_name
-    @claimant_email = retrieve_claimant_email
+    @vet_ssn = assign_vet_ssn
+    @vet_middle_name = assign_vet_middle_name
+    @claimant_ssn = assign_claimant_ssn
+    @claimant_dob = assign_claimant_dob
+    @claimant_first_name = assign_claimant_first_name
+    @claimant_middle_name = assign_claimant_middle_name
+    @claimant_last_name = assign_claimant_last_name
+    @claimant_email = assign_claimant_email
   end
 
   def assign_hash_response
@@ -98,21 +98,37 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
     Builders::RequestIssueBuilder.build(@decision_review_created)
   end
 
-  def retrieve_vet_ssn; end
+  def assign_vet_ssn
+    @veteran.ssn
+  end
 
-  def retrieve_vet_middle_name; end
+  def assign_vet_middle_name
+    @veteran.middle_name
+  end
 
-  def retrieve_claimant_ssn; end
+  def assign_claimant_ssn
+    @claimant.ssn
+  end
 
-  def retrieve_claimant_dob; end
+  def assign_claimant_dob
+    @claimant.date_of_birth
+  end
 
-  def retrieve_claimant_first_name; end
+  def assign_claimant_first_name
+    @claimant.first_name
+  end
 
-  def retrieve_claimant_middle_name; end
+  def assign_claimant_middle_name
+    @claimant.middle_name
+  end
 
-  def retrieve_claimant_last_name; end
+  def assign_claimant_last_name
+    @claimant.last_name
+  end
 
-  def retrieve_claimant_email; end
+  def assign_claimant_email
+    @claimant.email
+  end
 
   def build_hash_response
     {
