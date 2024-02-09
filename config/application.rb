@@ -31,6 +31,8 @@ module AppealsConsumer
     # setup the deploy env environment variable
     ENV['DEPLOY_ENV'] ||= Rails.env
 
+    config.eager_load_paths << Rails.root.join('lib')
+
     # set Shoryuken as the job queue adapter
     config.active_job.queue_adapter = :shoryuken
 
@@ -49,6 +51,11 @@ module AppealsConsumer
 
     # it's a safe assumption we're running on us-gov-west-1
     ENV["AWS_REGION"] ||= "us-gov-west-1"
+
+    RequestStore.store[:current_user] = {
+      css_id: ENV["CSS_ID"],
+      station_id: ENV["STATION_ID"]
+    }
 
     # Configuration for the application, engines, and railties goes here.
     #
