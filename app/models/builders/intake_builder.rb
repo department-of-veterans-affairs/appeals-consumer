@@ -25,14 +25,28 @@ class Builders::IntakeBuilder
 
   private
 
-  def assign_started_at; end
+  def assign_started_at
+    @started_at = @decision_review_created.intake_creation_time
+  end
 
-  def assign_completion_started_at; end
+  def assign_completion_started_at
+    @completion_started_at = @decision_review_created.claim_creation_time
+  end
 
-  def assign_completed_at; end
+  def assign_completed_at
+    @completion_completed_at = @decision_review_created.claim_creation_time
+  end
 
   # always "success"
-  def assign_completion_status; end
+  def assign_completion_status
+    @completed_status = "success"
+  end
 
-  def calculate_type; end
+  def calculate_type
+    @type = nil
+  end
+
+  def calculate_detail_type
+    @detail_type = nil
+  end
 end
