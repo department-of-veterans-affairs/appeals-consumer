@@ -13,7 +13,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   def initialize(dcr_event)
     super()
-    @decision_review_created = build_decision_review_created(dcr_event.message_payload)
+    @decision_review_created = build_decision_review_created(JSON.parse(dcr_event.message_payload))
     assign_attributes
   end
 
@@ -25,7 +25,6 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   end
 
   # :reek:TooManyStatements
-  # rubocop:disable Metrics/MethodLength
   def assign_attributes
     assign_from_decision_review_created
     assign_from_builders
@@ -74,32 +73,6 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   def assign_hash_response
     @hash_response = validate_no_pii(build_hash_response)
   end
-
-  # :reek:TooManyStatements
-  def reset_attributes
-    @css_id = nil
-    @detail_type = nil
-    @station = nil
-    @intake = nil
-    @veteran = nil
-    @claimant = nil
-    @claim_review = nil
-    @end_product_establishment = nil
-    @request_issues = nil
-    @vet_file_number = nil
-    @vet_ssn = nil
-    @vet_first_name = nil
-    @vet_middle_name = nil
-    @vet_last_name = nil
-    @claimant_ssn = nil
-    @claimant_dob = nil
-    @claimant_first_name = nil
-    @claimant_middle_name = nil
-    @claimant_last_name = nil
-    @claimant_email = nil
-    @hash_response = nil
-  end
-  # rubocop:enable Metrics/MethodLength
 
   def build_intake
     Builders::IntakeBuilder.build(@decision_review_created)
