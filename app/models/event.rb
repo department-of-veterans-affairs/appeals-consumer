@@ -32,6 +32,10 @@ class Event < ApplicationRecord
     audits.map(&:error).last(max_errors_for_failure).include?(nil) ? false : true
   end
 
+  def self.process!
+    fail NoMethodError, "Please define a .process! method for the #{self} class"
+  end
+
   private
 
   # :reek:UtilityFunction
