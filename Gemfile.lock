@@ -200,6 +200,7 @@ GEM
     httpclient (2.8.3)
     httpi (3.0.1)
       rack
+    hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     immigrant (0.3.6)
@@ -516,6 +517,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   httpclient
+  hashie
   immigrant
   jruby-openssl
   karafka (~> 2.2)
