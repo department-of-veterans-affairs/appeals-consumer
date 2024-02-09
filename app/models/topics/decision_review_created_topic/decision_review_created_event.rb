@@ -3,5 +3,24 @@
 # A subclass of Event, representing the DecisionReviewCreated Kafka topic event.
 class Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent < Event
   # Skeleton method used for rspec. It will be populated next sprint (1/29)
-  def self.process!(event); end
+  def self.process!(event)
+    dto = Builders::DecisionReviewCreatedDtoBuilder.new(event)
+    response = ExternalApi::CaseflowService.establish_decision_review_created_records_from_event!(dto)
+
+    Rails.logger.info("Received #{response.code}")
+
+    if response.code.to_i == 201
+      event.update!(completed_at: Time.zone.now)
+    end
+  rescue AppealsConsumer::Error::ClientRequestError => error
+    Rails.logger.error(error.message)
+    event.update!(error: error.message)
+  rescue StandardError => error
+    ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
+      event.id,
+      JSON.parse(event.message_payload)["claim_id"],
+      error.message
+    )
+    Rails.logger.error(error.message)
+  end
 end

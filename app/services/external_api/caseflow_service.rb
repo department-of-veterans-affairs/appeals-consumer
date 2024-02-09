@@ -6,7 +6,7 @@ class ExternalApi::CaseflowService
   BASE_ENDPOINT = "api/events/v1/"
 
   class << self
-    # Creates records for a new decision review based on the provided DTO builder.
+    # Creates records for a new decision review based on the provided Decision Review Created DTO builder.
     # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
       payload = drc_dto_builder.build_hash_response
