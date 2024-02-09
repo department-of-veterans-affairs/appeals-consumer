@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :model do
+describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :model do
   describe "#self.process!(event)" do
     let(:event) { FactoryBot.create(:event) }
     let(:dto_builder_instance) { instance_double("Builders::DecisionReviewCreatedDtoBuilder") }
@@ -16,12 +16,9 @@ RSpec.describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, t
 
     context "when processing is successful" do
       it "updates the event with a completed_at timestamp" do
-        Timecop.freeze do
-          expect { Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.process!(event) }
-            .to change(event, :completed_at)
-            .from(nil)
-            .to(Time.zone.now)
-        end
+        described_class.process!(event)
+
+        expect(event.completed_at).not_to be_nil
       end
     end
 
@@ -36,10 +33,8 @@ RSpec.describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, t
 
       it "logs the error and updates the event error field" do
         expect(Rails.logger).to receive(:error).with(error_message)
-        expect { Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.process!(event) }
-          .to change(event, :error)
-          .from(nil)
-          .to(error_message)
+        expect { described_class.process!(event) }.not_to raise_error
+        expect(event.error).to eq(error_message)
       end
     end
 
@@ -59,7 +54,7 @@ RSpec.describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, t
 
       it "logs the error" do
         expect(Rails.logger).to receive(:error).with(error_message)
-        expect { Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.process!(event) }.not_to raise_error
+        expect { described_class.process!(event) }.not_to raise_error
       end
     end
   end

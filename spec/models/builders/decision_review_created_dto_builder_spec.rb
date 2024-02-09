@@ -107,6 +107,16 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       end
     end
 
+    after(:all) do
+      Builders::DecisionReviewCreatedDtoBuilder.class_eval do
+        def initialize(dcr_event)
+          super()
+          @decision_review_created = build_decision_review_created(JSON.parse(dcr_event.message_payload))
+          assign_attributes
+        end
+      end
+    end
+
     let(:dcr) { build(:decision_review_created) }
     let!(:dcr_dto_builder) do
       Builders::DecisionReviewCreatedDtoBuilder.new.tap do |dcr_dto_builder|

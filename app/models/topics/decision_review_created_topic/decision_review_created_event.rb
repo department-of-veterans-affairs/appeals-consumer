@@ -2,7 +2,6 @@
 
 # A subclass of Event, representing the DecisionReviewCreated Kafka topic event.
 class Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent < Event
-  # Skeleton method used for rspec. It will be populated next sprint (1/29)
   def self.process!(event)
     dto = Builders::DecisionReviewCreatedDtoBuilder.new(event)
     response = ExternalApi::CaseflowService.establish_decision_review_created_records_from_event!(dto)
