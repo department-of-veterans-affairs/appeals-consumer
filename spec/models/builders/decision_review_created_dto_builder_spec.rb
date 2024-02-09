@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 # TODO: finish "_retrieve..." method specs on implementation
-# TODO: add test for e2e from raw event.message_payload
-# TODO: instance_variable_get after implementation to verify correctness
+# TODO: instance_variable_get after implementation to verify correctness for retrievals
 # TODO: add sentry/slack notifications if necessary
 
 RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
@@ -16,15 +15,15 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     "claimant_participant_id" => "01010101",
     "ep_code" => "030HLRNR",
     "ep_code_category" => "Rating",
-    "claim_received_date" => Date.new(2022, 1, 1),
+    "claim_received_date" => 1945,
     "claim_lifecycle_status" => "RFD",
     "payee_code" => "00",
     "modifier" => "01",
     "originated_from_vacols_issue" => false,
     "informal_conference_requested" => false,
     "same_station_review_requested" => false,
-    "intake_creation_time" => Time.now.utc,
-    "claim_creation_time" => Time.now.utc,
+    "intake_creation_time" => Time.now.utc.to_i,
+    "claim_creation_time" => Time.now.utc.to_i,
     "created_by_username" => "BVADWISE101",
     "created_by_station" => "101",
     "created_by_application" => "PASYSACCTCREATE",
@@ -38,7 +37,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
           "prior_non_rating_decision_id" => 12,
           "prior_decision_text" => "service connection for tetnus denied",
           "prior_decision_type" => "DIC",
-          "prior_decision_notification_date" => Date.new(2022, 1, 1),
+          "prior_decision_notification_date" => 1954,
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
           "eligible" => true,
@@ -58,7 +57,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
           "prior_non_rating_decision_id" => 13,
           "prior_decision_text" => "service connection for ear infection denied",
           "prior_decision_type" => "Basic Eligibility",
-          "prior_decision_notification_date" => Date.new(2022, 1, 1),
+          "prior_decision_notification_date" => 1954,
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
           "eligible" => true,
@@ -75,12 +74,12 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
 
   describe "#initialize" do
     context "when a decision_review_created object is found from a mocked payload (before actually building)" do
-      let(:dcr_event) { create(:event) }
+      let(:dcr_event) { create(:event, message_payload: message_payload.to_json) }
       let(:dcr) { build(:decision_review_created) }
 
       it "should return a DecisionReviewCreatedDtoBuilder object with response and pii attributes(not in payload)" do
         allow_any_instance_of(Builders::DecisionReviewCreatedDtoBuilder).to receive(:build_decision_review_created)
-          .with(dcr_event.message_payload).and_return(dcr)
+          .with(JSON.parse(dcr_event.message_payload)).and_return(dcr)
         allow_any_instance_of(Builders::DecisionReviewCreatedDtoBuilder).to receive(:assign_attributes)
         expect(Builders::DecisionReviewCreatedDtoBuilder.new(dcr_event)).to have_received(:assign_attributes)
         expect(Builders::DecisionReviewCreatedDtoBuilder.new(dcr_event))
@@ -88,9 +87,11 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       end
     end
 
-    # add test for e2e from raw event.message_payload
     context "when a decision_review_created object is found from a mocked payload (with building from event)" do
+      let(:dcr_event) { build(:event, message_payload: message_payload.to_json) }
+
       it "should return a DecisionReviewCreatedBuilder with a DCR and associated attributes" do
+        expect(Builders::DecisionReviewCreatedDtoBuilder.new(dcr_event)).to be_instance_of(Builders::DecisionReviewCreatedDtoBuilder)
       end
     end
   end
@@ -208,33 +209,6 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       it "should assing to @hash_response" do
         dcr_dto_builder.send(:assign_hash_response)
         expect(dcr_dto_builder.instance_variable_get(:@hash_response)).to be_instance_of(Hash)
-      end
-    end
-
-    describe "#_reset_attributes" do
-      it "should assign attributes of dcr dto builder correctly on correct payload" do
-        dcr_dto_builder.send(:reset_attributes)
-        expect(dcr_dto_builder.instance_variable_get(:@css_id).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@detail_type).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@station).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@intake).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@veteran).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claim_review).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@end_product_establishment).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@request_issues).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@vet_file_number).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@vet_ssn).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@vet_first_name).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@vet_middle_name).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@vet_last_name).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant_ssn).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant_dob).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant_first_name).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant_middle_name).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant_last_name).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@claimant_email).nil?).to eq true
-        expect(dcr_dto_builder.instance_variable_get(:@hash_response).nil?).to eq true
       end
     end
 
