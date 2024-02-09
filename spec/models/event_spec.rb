@@ -98,4 +98,25 @@ RSpec.describe Event, type: :model do
       end
     end
   end
+
+  describe ".process!" do
+    it "raises a NoMethodError to enforce subclass implementation" do
+      expect { Event.process! }.to raise_error(NoMethodError, /Please define a .process! method/)
+    end
+  end
+
+  context "when subclassing Event" do
+    let(:subclass) do
+      Class.new(Event) do
+        def self.process!
+          "Processed"
+        end
+      end
+    end
+
+    it "allows the subclass to implement .process!" do
+      expect { subclass.process! }.not_to raise_error
+      expect(subclass.process!).to eq("Processed")
+    end
+  end
 end
