@@ -33,8 +33,8 @@ class Event < ApplicationRecord
   end
 
   def process!
-    dto = Builders::DecisionReviewCreatedDTOBuilder.new(self)
-    response = CaseflowService.establish_decision_review_created_records_from_event!(dto)
+    dto = Builders::DecisionReviewCreatedDtoBuilder.new(self)
+    response = ExternalApi::CaseflowService.establish_decision_review_created_records_from_event!(dto)
 
     Rails.logger.info("Received #{response.code}")
 
@@ -45,7 +45,7 @@ class Event < ApplicationRecord
     Rails.logger.error(error.message)
     update!(error: error.message)
   rescue StandardError => error
-    response = CaseflowService.establish_decision_review_created_event_error!(
+    response = ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
       id,
       message_payload["claim_id"],
       error.message
