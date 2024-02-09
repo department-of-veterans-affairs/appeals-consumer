@@ -42,7 +42,7 @@ Rails.application.configure do
   ENV["AWS_ACCESS_KEY_ID"] ||= "dummykeyid"
   ENV["AWS_SECRET_ACCESS_KEY"] ||= "dummysecretkey"
 
-  config.caseflow_url = ENV["CASEFLOW_URL"] ||= "http://localhost:3000"
+  config.caseflow_url = ENV["CASEFLOW_URL"] ||= "http://host.docker.internal:3000"
   config.caseflow_key = ENV["CASEFLOW_KEY"]
   
   # Print deprecation notices to the Rails logger.

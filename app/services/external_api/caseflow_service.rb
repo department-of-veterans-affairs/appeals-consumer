@@ -90,7 +90,7 @@ class ExternalApi::CaseflowService
 
     # Checks for common error responses and raises a custom exception of encountered.
     def check_for_error(response_body, code, claim_id)
-      if [409, 500].include?(code)
+      unless [200, 201].include?(code)
         msg = "Failed for claim_id: #{claim_id}, error: #{response_body}, HTTP code: #{code}"
         fail AppealsConsumer::Error::ClientRequestError, code: code, message: msg
       end
