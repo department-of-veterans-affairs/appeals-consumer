@@ -14,7 +14,7 @@ class Api::V1::ApplicationController < ApplicationController
   end
 
   def unauthorized
-    render json: { status: "unauthorized" }, status: 401
+    render json: { status: "unauthorized" }, status: :unauthorized
   end
 
   def authenticate
