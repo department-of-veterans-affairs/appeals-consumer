@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'redis'
+
+require "redis"
 
 class Fakes::PersistentStore
   class << self
@@ -19,8 +20,14 @@ class Fakes::PersistentStore
     end
 
     def clear!
-      self.class.clear!
+      all_keys.each do |key|
+        cache_store.redis.del(key)
+      end
     end
+  end
+
+  def clear!
+    self.class.clear!
   end
 
   def all_keys
@@ -75,5 +82,6 @@ class Fakes::PersistentStore
       data
     end
   end
-
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
 end
