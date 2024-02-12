@@ -47,7 +47,7 @@ module AppealsConsumer
 
     config.station_id = "317"
     config.css_id = "APPEALSCONSUMER1"
-    config.redis_url = "redis://appeals-consumer-redis-1:6379/0"
+    config.redis_url = "redis://appeals-consumer-redis-1:7936/0"
 
     # it's a safe assumption we're running on us-gov-west-1
     ENV["AWS_REGION"] ||= "us-gov-west-1"
