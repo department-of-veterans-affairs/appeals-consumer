@@ -49,7 +49,7 @@ describe DecisionReviewCreatedConsumer do
 
   describe "#handle_event_creation" do
     it "initializes a new event with the correct type and state" do
-      event = consumer.send(:handle_event_creation, payload)
+      event = consumer.send(:handle_event_creation, message)
       expect(event).to be_a(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
       expect(event.message_payload).to eq(payload.message)
       expect(event.type).to eq("Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent")
@@ -59,7 +59,7 @@ describe DecisionReviewCreatedConsumer do
 
   describe "#handle_error" do
     let(:error) { ActiveRecord::RecordInvalid.new }
-    let(:message) { double("Message") }
+    let(:error_message) { double("Message") }
 
     before do
       allow(consumer).to receive(:notify_sentry)
@@ -67,8 +67,8 @@ describe DecisionReviewCreatedConsumer do
     end
 
     it "calls notify_sentry and notify_slack" do
-      consumer.send(:handle_error, error, message)
-      expect(consumer).to have_received(:notify_sentry).with(error, message)
+      consumer.send(:handle_error, error, error_message)
+      expect(consumer).to have_received(:notify_sentry).with(error, error_message)
       expect(consumer).to have_received(:notify_slack)
     end
   end
@@ -76,6 +76,7 @@ describe DecisionReviewCreatedConsumer do
   describe "#notify_sentry" do
     let(:error) { StandardError.new }
     let(:sentry_scope) { Sentry.get_current_hub.current_scope }
+    let(:error_message) { double("Message") }
     let(:expected_extras) do
       {
         claim_id: 123,

@@ -10,7 +10,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
     messages.map do |message|
       log_consumption_start(message)
 
-      event = handle_event_creation(message.payload)
+      event = handle_event_creation(message)
 
       #  Perform the job with the created event
       if event&.new_record?
@@ -28,12 +28,12 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   private
 
   def handle_event_creation(message)
-    # TODO: This will be replaced by adding partition and offset
-    # to the Events table to compare instead of message_payload
     Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.find_or_initialize_by(
-      message_payload: message.message
+      partition: message.metadata.partition,
+      offset: message.metadata.offset
     ) do |event|
       event.type = EVENT_TYPE
+      event.message_payload = message.payload.message
     end
   end
 
