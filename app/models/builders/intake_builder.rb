@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This class is used to build out an Intake object from an instance of DecisionReviewCreated
+# :reek:TooManyInstanceVariables
 class Builders::IntakeBuilder
   attr_reader :intake, :decision_review_created
 
@@ -37,23 +38,24 @@ class Builders::IntakeBuilder
     @completion_completed_at = @decision_review_created.claim_creation_time
   end
 
-  # always "success"
   def assign_completion_status
     @completed_status = "success"
   end
 
   def calculate_type
-    if @decision_review_created == "HigherLevelReview"
+    decision_review_type = @decision_review_created.decision_review_type
+    if decision_review_type == "HigherLevelReview"
       @type = "HigherLevelReviewIntake"
-    elsif @decision_review_created == "SupplementalClaim"
+    elsif decision_review_type == "SupplementalClaim"
       @type = "SupplementalClaimIntake"
     end
   end
 
   def calculate_detail_type
-    if @decision_review_created == "HigherLevelReview"
+    decision_review_type = @decision_review_created.decision_review_type
+    if decision_review_type == "HigherLevelReview"
       @detail_type = "HigherLevelReview"
-    elsif @decision_review_created == "SupplementalClaim"
+    elsif decision_review_type == "SupplementalClaim"
       @detail_type = "SupplementalClaim"
     end
   end
