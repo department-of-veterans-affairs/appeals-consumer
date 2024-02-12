@@ -22,11 +22,6 @@ jobs:
     - name: Set up Karafka
       run: |
           make -f Makefile build 
-
-    - name: make registry
-      run: |
-        sleep 15
-        make -f Makefile registry
     
     - name: Run RSpec test suite
       run: |
