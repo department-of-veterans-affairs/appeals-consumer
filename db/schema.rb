@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_26_181237) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_12_164840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_181237) do
     t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
     t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
     t.string "state", default: "NOT_STARTED", null: false, comment: "A status to indicate what state the record is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
+    t.integer "partition", null: false
+    t.integer "offset", null: false
+    t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type"
   end
 
   add_foreign_key "event_audits", "events"
