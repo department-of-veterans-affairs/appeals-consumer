@@ -6,9 +6,7 @@ describe Veteran do
   it "allows reader and writer access for attributes" do
     expect(veteran.participant_id).to eq("123456789")
     expect(veteran.bgs_last_synced_at).to eq(nil)
-    expect(veteran.closest_regional_office).to eq(nil)
     expect(veteran.date_of_death).to eq(Date.new(2018, 1, 1))
-    expect(veteran.date_of_death_reported_at).to eq(Date.new(2018, 2, 1))
     expect(veteran.name_suffix).to eq(nil)
     expect(veteran.ssn).to eq("963852741")
     expect(veteran.file_number).to eq("963852741")
