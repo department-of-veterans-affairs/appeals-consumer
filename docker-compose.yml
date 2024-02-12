@@ -65,7 +65,7 @@ services:
 
   redis:
     image: 'redis:7.0-alpine'
-    command: redis-server
+    command: redis-server --port 7936
     ports:
       - '7936:7936'
     volumes:
