@@ -72,6 +72,31 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       ]
   }
 
+  let(:veteran_bis_record) do
+    {
+      file_number: message_payload["file_number"],
+      ptcpnt_id: message_payload["veteran_participant_id"],
+      sex: "M",
+      first_name: message_payload["veteran_first_name"],
+      middle_name: "Russell",
+      last_name: message_payload["veteran_last_name"],
+      name_suffix: "II",
+      ssn: "987654321",
+      address_line1: "122 Mullberry St.",
+      address_line2: "PO BOX 123",
+      address_line3: "Daisies",
+      city: "Orlando",
+      state: "FL",
+      country: "USA",
+      date_of_birth: "12/21/1989",
+      date_of_death: "12/31/2019",
+      zip_code: "94117",
+      military_post_office_type_code: nil,
+      military_postal_type_code: nil,
+      service: [{ branch_of_service: "army", pay_grade: "E4" }]
+    }
+  end
+
   describe "#initialize" do
     context "when a decision_review_created object is found from a mocked payload (before actually building)" do
       let(:dcr_event) { create(:event, message_payload: message_payload.to_json) }
@@ -88,6 +113,10 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     end
 
     context "when a decision_review_created object is found from a mocked payload (with building from event)" do
+      before do
+        Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+      end
+
       let(:dcr_event) { build(:event, message_payload: message_payload.to_json) }
 
       it "should return a DecisionReviewCreatedBuilder with a DCR and associated attributes" do
@@ -158,6 +187,10 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     end
 
     describe "#_assign_from_builders" do
+      before do
+        Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+      end
+
       context "should not throw an error" do
         it "should recieve the following methods:" do
           expect(dcr_dto_builder).to receive(:build_intake)
@@ -254,6 +287,10 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       end
 
       describe "#_build_veteran" do
+        before do
+          Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+        end
+
         it "should return built veteran object" do
           expect(dcr_dto_builder.send(:build_veteran)).to be_instance_of(Veteran)
         end
