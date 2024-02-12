@@ -43,10 +43,18 @@ class Builders::IntakeBuilder
   end
 
   def calculate_type
-    @type = nil
+    if @decision_review_created == "HigherLevelReview"
+      @type = "HigherLevelReviewIntake"
+    elsif @decision_review_created == "SupplementalClaim"
+      @type = "SupplementalClaimIntake"
+    end
   end
 
   def calculate_detail_type
-    @detail_type = nil
+    if @decision_review_created == "HigherLevelReview"
+      @detail_type = "HigherLevelReview"
+    elsif @decision_review_created == "SupplementalClaim"
+      @detail_type = "SupplementalClaim"
+    end
   end
 end
