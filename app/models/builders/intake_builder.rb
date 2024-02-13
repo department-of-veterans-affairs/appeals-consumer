@@ -5,6 +5,8 @@
 class Builders::IntakeBuilder
   attr_reader :intake, :decision_review_created
 
+  COMPLETION_SUCCESS_STATUS = "success"
+
   def self.build(decision_review_created)
     builder = new(decision_review_created)
     builder.assign_attributes
@@ -41,23 +43,23 @@ class Builders::IntakeBuilder
   end
 
   def assign_completion_status
-    @intake.completion_status = "success"
+    @intake.completion_status = COMPLETION_SUCCESS_STATUS
   end
 
   def calculate_type
     decision_review_type = @decision_review_created.decision_review_type
-    if decision_review_type == "HigherLevelReview"
+    if decision_review_type == "HIGHER_LEVEL_REVIEW"
       @intake.type = "HigherLevelReviewIntake"
-    elsif decision_review_type == "SupplementalClaim"
+    elsif decision_review_type == "SUPPLEMENTAL_CLAIM"
       @intake.type = "SupplementalClaimIntake"
     end
   end
 
   def calculate_detail_type
     decision_review_type = @decision_review_created.decision_review_type
-    if decision_review_type == "HigherLevelReview"
+    if decision_review_type == "HIGHER_LEVEL_REVIEW"
       @intake.detail_type = "HigherLevelReview"
-    elsif decision_review_type == "SupplementalClaim"
+    elsif decision_review_type == "SUPPLEMENTAL_CLAIM"
       @intake.detail_type = "SupplementalClaim"
     end
   end

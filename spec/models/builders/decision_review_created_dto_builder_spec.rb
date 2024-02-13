@@ -7,7 +7,7 @@
 RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
   message_payload = {
     "claim_id" => 1_234_567,
-    "decision_review_type" => "HigherLevelReview",
+    "decision_review_type" => "HIGHER_LEVEL_REVIEW",
     "veteran_first_name" => "John",
     "veteran_last_name" => "Smith",
     "veteran_participant_id" => "123456789",
@@ -277,7 +277,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     describe "#_build_hash_response" do
       it "should return hash reponse object" do
         dcr_dto_builder.instance_variable_set(:@css_id, 1)
-        dcr_dto_builder.instance_variable_set(:@detail_type, "HigherLevelReview")
+        dcr_dto_builder.instance_variable_set(:@detail_type, "HIGHER_LEVEL_REVIEW")
         dcr_dto_builder.instance_variable_set(:@station, "101")
         dcr_dto_builder.instance_variable_set(:@intake, Intake.new)
         dcr_dto_builder.instance_variable_set(:@veteran, Veteran.new)
@@ -289,7 +289,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
         built_hash = dcr_dto_builder.send(:build_hash_response)
 
         expect(built_hash["css_id"]).to eq 1
-        expect(built_hash["detail_type"]).to eq "HigherLevelReview"
+        expect(built_hash["detail_type"]).to eq "HIGHER_LEVEL_REVIEW"
         expect(built_hash["station"]).to eq "101"
         expect(built_hash["intake"].blank?).to eq true
         expect(built_hash["veteran"].blank?).to eq true

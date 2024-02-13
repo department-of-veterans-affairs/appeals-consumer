@@ -76,7 +76,7 @@ describe Builders::IntakeBuilder do
       it "should assign @type" do
         builder.send(:calculate_type)
         expect(builder.instance_variable_get(:@intake).type).to eq "HigherLevelReviewIntake"
-        decision_review_created.instance_variable_set(:@decision_review_type, "SupplementalClaim")
+        decision_review_created.instance_variable_set(:@decision_review_type, "SUPPLEMENTAL_CLAIM")
         builder.instance_variable_set(:@decision_review_created, decision_review_created)
         builder.send(:calculate_type)
         expect(builder.instance_variable_get(:@intake).type).to eq "SupplementalClaimIntake"
@@ -87,7 +87,7 @@ describe Builders::IntakeBuilder do
       it "should assign @detail_type" do
         builder.send(:calculate_detail_type)
         expect(builder.instance_variable_get(:@intake).detail_type).to eq "HigherLevelReview"
-        decision_review_created.instance_variable_set(:@decision_review_type, "SupplementalClaim")
+        decision_review_created.instance_variable_set(:@decision_review_type, "SUPPLEMENTAL_CLAIM")
         builder.instance_variable_set(:@decision_review_created, decision_review_created)
         builder.send(:calculate_detail_type)
         expect(builder.instance_variable_get(:@intake).detail_type).to eq "SupplementalClaim"
