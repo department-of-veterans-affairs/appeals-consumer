@@ -118,28 +118,28 @@ describe Builders::VeteranBuilder do
 
   describe "#calculate_date_of_death" do
     subject { builder.send(:calculate_date_of_death) }
-    it "assigns the veteran's date_of_death to the date_of_death value retrieved from BGS" do
+    it "assigns the veteran's date_of_death to the date_of_death value retrieved from BIS" do
       expect(subject).to eq(bis_record[:date_of_death])
     end
   end
 
   describe "#calculate_name_suffix" do
     subject { builder.send(:calculate_name_suffix) }
-    it "assigns the veteran's name_suffix to the name_suffix value retrieved from BGS" do
+    it "assigns the veteran's name_suffix to the name_suffix value retrieved from BIS" do
       expect(subject).to eq(bis_record[:name_suffix])
     end
   end
 
   describe "#calculate_ssn" do
     subject { builder.send(:calculate_ssn) }
-    it "assigns the veteran's ssn to the ssn value retrieved from BGS" do
+    it "assigns the veteran's ssn to the ssn value retrieved from BIS" do
       expect(subject).to eq(bis_record[:ssn])
     end
   end
 
   describe "#calculate_middle_name" do
     subject { builder.send(:calculate_middle_name) }
-    it "assigns the veteran's middle_name to the middle_name value retrieved from BGS" do
+    it "assigns the veteran's middle_name to the middle_name value retrieved from BIS" do
       expect(subject).to eq(bis_record[:middle_name])
     end
   end
