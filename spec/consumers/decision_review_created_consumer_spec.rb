@@ -11,7 +11,7 @@ describe DecisionReviewCreatedConsumer do
   end
 
   describe "#consume" do
-    let(:event) { double("Event", new_record?: new_record) }
+    let(:event) { double("Event", new_record?: new_record, id: 1) }
     let(:new_record) { true }
 
     before do

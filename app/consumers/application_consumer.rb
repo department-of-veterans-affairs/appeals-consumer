@@ -8,14 +8,21 @@ class ApplicationConsumer < Karafka::BaseConsumer
 
   private
 
-  def process_event(event)
+  def process_event(event, extra_details)
     # Check if the event is newly initialized and does not exists in the database already
     if event&.new_record?
       event.save
+
       yield event if block_given?
-      log_consumption_job
+      log_consumption_job({
+                            **extra_details,
+                            event_id: event.id
+                          })
     else
-      log_repeat_consumption
+      log_repeat_consumption({
+                               **extra_details,
+                               event_id: event.id
+                             })
     end
   end
 
@@ -23,16 +30,16 @@ class ApplicationConsumer < Karafka::BaseConsumer
     log_info("Starting consumption", extra_details)
   end
 
-  def log_consumption_job
-    log_info("Dropped Event into processing job")
+  def log_consumption_job(extra_details)
+    log_info("Dropped Event into processing job", extra_details)
   end
 
-  def log_repeat_consumption
-    log_info("Event record already exists. Skipping enqueueing job")
+  def log_repeat_consumption(extra_details)
+    log_info("Event record already exists. Skipping enqueueing job", extra_details)
   end
 
-  def log_consumption_end
-    log_info("Completed consumption of message")
+  def log_consumption_end(extra_details)
+    log_info("Completed consumption of message", extra_details)
   end
 
   def log_info(message, extra = {})
