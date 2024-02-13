@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_12_164840) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_13_162312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_12_164840) do
     t.integer "partition", null: false
     t.integer "offset", null: false
     t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type"
+    t.index ["type"], name: "index_events_on_type"
   end
 
   add_foreign_key "event_audits", "events"
