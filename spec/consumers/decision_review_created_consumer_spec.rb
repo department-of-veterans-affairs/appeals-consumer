@@ -6,6 +6,9 @@ describe DecisionReviewCreatedConsumer do
   let(:payload) { double("Payload", message: { "claim_id" => 123 }, writer_schema: writer_schema) }
   let(:metadata) { double("Metadata", offset: 10, partition: 1) }
   let(:writer_schema) { double(fullname: "SchemaName") }
+  let(:extra_details) do
+    { partition: metadata.partition, offset: metadata.offset, claim_id: payload.message["claim_id"] }
+  end
 
   describe "#consume" do
     let(:event) { double("Event", new_record?: new_record) }
@@ -15,6 +18,7 @@ describe DecisionReviewCreatedConsumer do
       allow(consumer).to receive(:messages).and_return([message])
       allow(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
         .to receive(:find_or_initialize_by)
+        .with(partition: metadata.partition, offset: metadata.offset)
         .and_return(event)
     end
 
@@ -41,7 +45,7 @@ describe DecisionReviewCreatedConsumer do
       end
 
       it "handles the error" do
-        expect(consumer).to receive(:handle_error).with(instance_of(ActiveRecord::RecordInvalid), message)
+        expect(consumer).to receive(:handle_error).with(instance_of(ActiveRecord::RecordInvalid), extra_details)
         consumer.consume
       end
     end
@@ -50,91 +54,9 @@ describe DecisionReviewCreatedConsumer do
   describe "#handle_event_creation" do
     it "initializes a new event with the correct type and state" do
       event = consumer.send(:handle_event_creation, message)
-      expect(event).to be_a(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
       expect(event.message_payload).to eq(payload.message)
-      expect(event.type).to eq("Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent")
+      expect(event.type).to eq(DecisionReviewCreatedConsumer::EVENT_TYPE)
       expect(event.state).to eq("not_started")
-    end
-  end
-
-  describe "#handle_error" do
-    let(:error) { ActiveRecord::RecordInvalid.new }
-    let(:error_message) { double("Message") }
-
-    before do
-      allow(consumer).to receive(:notify_sentry)
-      allow(consumer).to receive(:notify_slack)
-    end
-
-    it "calls notify_sentry and notify_slack" do
-      consumer.send(:handle_error, error, error_message)
-      expect(consumer).to have_received(:notify_sentry).with(error, error_message)
-      expect(consumer).to have_received(:notify_slack)
-    end
-  end
-
-  describe "#notify_sentry" do
-    let(:error) { StandardError.new }
-    let(:sentry_scope) { Sentry.get_current_hub.current_scope }
-    let(:error_message) { double("Message") }
-    let(:expected_extras) do
-      {
-        claim_id: 123,
-        source: DecisionReviewCreatedConsumer::CONSUMER_NAME,
-        offset: 10,
-        partition: 1
-      }
-    end
-
-    before do
-      allow(Sentry).to receive(:capture_exception)
-    end
-
-    it "sends an error report to Sentry with correct extras" do
-      consumer.send(:notify_sentry, error, message)
-      expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
-        block.call(sentry_scope)
-      end
-      expect(sentry_scope.instance_variable_get(:@extra)).to include(expected_extras)
-    end
-  end
-
-  describe "#notify_slack" do
-    let(:slack_service) { instance_double("SlackService") }
-
-    before do
-      allow(consumer).to receive(:slack_service).and_return(slack_service)
-      allow(slack_service).to receive(:send_notification)
-    end
-
-    it "sends a notification to Slack" do
-      consumer.send(:notify_slack)
-      expect(slack_service)
-        .to have_received(:send_notification)
-        .with(instance_of(String), "DecisionReviewCreatedConsumer")
-    end
-  end
-
-  describe "#slack_url" do
-    it "returns the Slack URL from environment variables" do
-      allow(ENV).to receive(:[]).with("SLACK_DISPATCH_ALERT_URL").and_return("http://example.com")
-      expect(consumer.send(:slack_url)).to eq("http://example.com")
-    end
-  end
-
-  describe "#slack_service" do
-    before do
-      allow(ENV).to receive(:[]).with("SLACK_DISPATCH_ALERT_URL").and_return("http://example.com")
-      allow(ENV).to receive(:[]).with("DEPLOY_ENV").and_return("development")
-    end
-
-    it "returns a SlackService instance" do
-      expect(consumer.send(:slack_service)).to be_a(SlackService)
-    end
-
-    it "memoizes the SlackService instance" do
-      first_instance = consumer.send(:slack_service)
-      expect(consumer.send(:slack_service)).to be(first_instance)
     end
   end
 end

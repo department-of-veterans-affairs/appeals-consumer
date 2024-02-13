@@ -17,9 +17,6 @@ class ApplicationConsumer < Karafka::BaseConsumer
     else
       log_repeat_consumption
     end
-  rescue ActiveRecord::RecordInvalid => error
-    handle_error(error, extra_details(message))
-    nil # Return nil to indicate failure
   end
 
   def log_consumption_start(extra_details)

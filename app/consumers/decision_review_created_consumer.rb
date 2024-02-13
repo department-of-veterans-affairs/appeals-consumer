@@ -8,11 +8,16 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
     messages.map do |message|
       log_consumption_start(extra_details(message))
 
-      event = handle_event_creation(message)
+      begin
+        event = handle_event_creation(message)
 
-      process_event(event) do |new_event|
-        #  Perform the job with the created event
-        DecisionReviewCreatedJob.perform_later(new_event)
+        process_event(event) do |new_event|
+          #  Perform the job with the created event
+          DecisionReviewCreatedJob.perform_later(new_event)
+        end
+      rescue ActiveRecord::RecordInvalid => error
+        handle_error(error, extra_details(message))
+        nil # Return nil to indicate failure
       end
 
       log_consumption_end
