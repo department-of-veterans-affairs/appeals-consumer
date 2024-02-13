@@ -17,6 +17,8 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
         event.save
         DecisionReviewCreatedJob.perform_later(event)
         log_consumption_job
+      else
+        log_repeat_consumption
       end
     rescue ActiveRecord::RecordInvalid => error
       handle_error(error, message)
@@ -43,6 +45,10 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
 
   def log_consumption_job
     log_info("Dropped Event into processing job")
+  end
+
+  def log_repeat_consumption
+    log_info("Event record already exists. Skipping enqueueing job")
   end
 
   def log_consumption_end
