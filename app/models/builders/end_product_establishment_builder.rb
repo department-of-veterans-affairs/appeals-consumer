@@ -13,6 +13,7 @@ class Builders::EndProductEstablishmentBuilder
   def initialize(decision_review_created)
     @decision_review_created = decision_review_created
     @end_product_establishment = EndProductEstablishment.new
+    @bis_record = fetch_bis_record
   end
 
   def assign_attributes
@@ -58,4 +59,8 @@ class Builders::EndProductEstablishmentBuilder
   def assign_development_item_reference_id; end
 
   def assign_reference_id; end
+  
+  def fetch_bis_record
+    
+  end
 end

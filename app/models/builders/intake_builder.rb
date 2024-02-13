@@ -16,47 +16,49 @@ class Builders::IntakeBuilder
     @intake = Intake.new
   end
 
+  # :reek:TooManyStatements
   def assign_attributes
     assign_started_at
     assign_completion_started_at
     assign_completed_at
     assign_completion_status
     calculate_type
+    calculate_detail_type
   end
 
   private
 
   def assign_started_at
-    @started_at = @decision_review_created.intake_creation_time
+    @intake.started_at = @decision_review_created.intake_creation_time
   end
 
   def assign_completion_started_at
-    @completion_started_at = @decision_review_created.claim_creation_time
+    @intake.completion_started_at = @decision_review_created.claim_creation_time
   end
 
   def assign_completed_at
-    @completion_completed_at = @decision_review_created.claim_creation_time
+    @intake.completed_at = @decision_review_created.claim_creation_time
   end
 
   def assign_completion_status
-    @completed_status = "success"
+    @intake.completion_status = "success"
   end
 
   def calculate_type
     decision_review_type = @decision_review_created.decision_review_type
     if decision_review_type == "HigherLevelReview"
-      @type = "HigherLevelReviewIntake"
+      @intake.type = "HigherLevelReviewIntake"
     elsif decision_review_type == "SupplementalClaim"
-      @type = "SupplementalClaimIntake"
+      @intake.type = "SupplementalClaimIntake"
     end
   end
 
   def calculate_detail_type
     decision_review_type = @decision_review_created.decision_review_type
     if decision_review_type == "HigherLevelReview"
-      @detail_type = "HigherLevelReview"
+      @intake.detail_type = "HigherLevelReview"
     elsif decision_review_type == "SupplementalClaim"
-      @detail_type = "SupplementalClaim"
+      @intake.detail_type = "SupplementalClaim"
     end
   end
 end
