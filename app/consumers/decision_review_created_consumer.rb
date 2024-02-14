@@ -51,10 +51,10 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # These details include the kafka partition, offset, and the claim ID extracted from the message payload.
   def extra_details(message)
     {
+      type: EVENT_TYPE,
       partition: message.metadata.partition,
       offset: message.metadata.offset,
-      claim_id: message.payload.message["claim_id"],
-      type: EVENT_TYPE
+      claim_id: message.payload.message["claim_id"]
     }
   end
 end

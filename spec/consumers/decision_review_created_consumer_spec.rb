@@ -7,7 +7,12 @@ describe DecisionReviewCreatedConsumer do
   let(:metadata) { double("Metadata", offset: 10, partition: 1) }
   let(:writer_schema) { double(fullname: "SchemaName") }
   let(:extra_details) do
-    { partition: metadata.partition, offset: metadata.offset, claim_id: payload.message["claim_id"] }
+    {
+      partition: metadata.partition,
+      offset: metadata.offset,
+      claim_id: payload.message["claim_id"],
+      type: described_class::EVENT_TYPE
+    }
   end
 
   describe "#consume" do
