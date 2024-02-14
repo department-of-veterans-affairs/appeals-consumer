@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::JobsController < Api::V1::ApplicationController
+class Api::V1::JobsController < Api::ApplicationController
   SCHEDULED_JOBS = {
     "heartbeat" => HeartbeatJob,
   }.freeze
