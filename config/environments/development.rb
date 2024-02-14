@@ -39,6 +39,9 @@ Rails.application.configure do
   # since we mock aws using localstack, provide dummy creds to the aws gem
   ENV["AWS_ACCESS_KEY_ID"] ||= "dummykeyid"
   ENV["AWS_SECRET_ACCESS_KEY"] ||= "dummysecretkey"
+
+  config.caseflow_url = ENV["CASEFLOW_URL"] ||= "http://host.docker.internal:3000"
+  config.caseflow_key = ENV["CASEFLOW_KEY"]
   
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -70,4 +73,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Max failed errors until event is switched to "failed"
+  ENV["MAX_ERRORS_FOR_FAILURE"] ||= "3"
 end

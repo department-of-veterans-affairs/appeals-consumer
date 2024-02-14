@@ -3,7 +3,6 @@
 def next?
   File.basename(__FILE__) == "Gemfile.next"
 end
-# frozen_string_literal: true
 
 source "https://rubygems.org"
 
@@ -12,12 +11,22 @@ ruby "3.2.2"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
+gem "avro_turf"
+
 gem "aws-sdk-sqs"
+
+# BGS
+gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git", ref: "7d7c67f7bad5e5aa03e257f0d8e57a4aa1a6cbbf"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
 gem "dotenv-rails"
+gem "hashie"
+
+gem "httpclient"
+
+gem "httpi"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -43,6 +52,8 @@ gem "rails", "~> 7.1.2"
 gem "redis", ">= 4.0.1"
 
 gem "redis-namespace"
+
+gem "request_store"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:windows, :jruby]
@@ -74,6 +85,7 @@ group :development, :test do
   gem "bullet"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "byebug"
+  gem "climate_control"
   gem "danger"
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"
@@ -89,6 +101,7 @@ group :development, :test do
   gem "rubocop-rails"
   gem "simplecov", require: false
   gem "sql_tracker"
+  gem "timecop"
   gem "webmock"
 end
 
