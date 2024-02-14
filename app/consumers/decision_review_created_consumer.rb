@@ -10,7 +10,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # job enqueueing and error management. It iterates over each message, logging the start and end of
   # the consumption process, and uses a block within `process_event` for job execution.
   def consume
-    messages.map do |message|
+    messages.each do |message|
       extra_details = extra_details(message)
 
       log_consumption_start(extra_details)
@@ -26,7 +26,6 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       rescue ActiveRecord::RecordInvalid => error
         # Handles any ActiveRecord validation errors by logging and notifying the error.
         handle_error(error, extra_details)
-        nil # Return nil to indicate failure
       end
 
       log_consumption_end(extra_details)
@@ -54,7 +53,8 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
     {
       partition: message.metadata.partition,
       offset: message.metadata.offset,
-      claim_id: message.payload.message["claim_id"]
+      claim_id: message.payload.message["claim_id"],
+      type: EVENT_TYPE
     }
   end
 end
