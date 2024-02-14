@@ -22,6 +22,7 @@ gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git"
 gem "bootsnap", require: false
 
 gem "dotenv-rails"
+gem "faraday-retry"
 gem "hashie"
 
 gem "httpclient"

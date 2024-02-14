@@ -2,7 +2,7 @@
 
 RSpec.describe Event, type: :model do
   describe "#save" do
-    subject { Event.new(type: nil, message_payload: nil) }
+    subject { Event.new(type: nil, message_payload: nil, partition: 1, offset: 1) }
 
     it "should fail creating an event with empty type" do
       subject.message_payload = "{\"something\": 1}"
