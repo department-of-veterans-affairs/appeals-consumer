@@ -99,7 +99,8 @@ group :development, :test do
   gem "rubocop"
   gem "rubocop-performance"
   gem "rubocop-rails"
-  gem "simplecov", require: false
+  gem "simplecov"
+  gem "simplecov-lcov"
   gem "sql_tracker"
   gem "timecop"
   gem "webmock"
