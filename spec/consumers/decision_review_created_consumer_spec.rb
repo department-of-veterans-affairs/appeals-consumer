@@ -26,6 +26,9 @@ describe DecisionReviewCreatedConsumer do
       it "saves the even and performs DecisionReviewCreatedJob" do
         expect(event).to receive(:save)
         expect(DecisionReviewCreatedJob).to receive(:perform_later).with(event)
+        expect(Karafka.logger).to receive(:info).with(/Starting consumption/)
+        expect(Karafka.logger).to receive(:info).with(/Dropped Event into processing job/)
+        expect(Karafka.logger).to receive(:info).with(/Completed consumption of message/)
         consumer.consume
       end
     end
@@ -35,6 +38,9 @@ describe DecisionReviewCreatedConsumer do
 
       it "does not perform DecisionReviewCreatedJob" do
         expect(DecisionReviewCreatedJob).not_to receive(:perform_later)
+        expect(Karafka.logger).to receive(:info).with(/Starting consumption/)
+        expect(Karafka.logger).to receive(:info).with(/Event record already exists. Skipping enqueueing job/)
+        expect(Karafka.logger).to receive(:info).with(/Completed consumption of message/)
         consumer.consume
       end
     end
