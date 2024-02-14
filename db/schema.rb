@@ -33,7 +33,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_13_162312) do
     t.string "state", default: "NOT_STARTED", null: false, comment: "A status to indicate what state the record is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
     t.integer "partition", null: false
     t.integer "offset", null: false
-    t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type"
+    t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type", unique: true
     t.index ["type"], name: "index_events_on_type"
   end
 
