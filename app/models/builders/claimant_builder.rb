@@ -44,39 +44,38 @@ class Builders::ClaimantBuilder
   end
 
   def calculate_name_suffix
-    claimant.name_suffix = @bis_record.name_suffix
+    claimant.name_suffix = @bis_record[:name_suffix]
   end
 
   def calculate_ssn
-    claimant.ssn = @bis_record.ssn
+    claimant.ssn = @bis_record[:ssn]
   end
 
   def calculate_date_of_birth
-    claimant.date_of_birth = Date.new(@bis_record.birth_date)
+    claimant.date_of_birth = @bis_record[:birth_date]
   end
 
   def calculate_first_name
-    claimant.first_name = @bis_record.first_name
+    claimant.first_name = @bis_record[:first_name]
   end
 
   def calculate_middle_name
-    claimant.middle_name = @bis_record.middle_name
+    claimant.middle_name = @bis_record[:middle_name]
   end
 
   def calculate_last_name
-    claimant.last_name = @bis_record.last_name
+    claimant.last_name = @bis_record[:last_name]
   end
 
   def calculate_email
-    claimant.email = @bis_record.email_address
+    claimant.email = @bis_record[:email_address]
   end
 
   def fetch_bis_record
     bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
 
-    # If the result is nil, the veteran wasn't found
-    # If the participant id is nil, that's another way of saying the veteran wasn't found
-    unless bis_record && bis_record[:ptcpnt_id]
+    # If the result is empty, the claimant wasn't found
+    if bis_record.empty?
       fail AppealsConsumer::Error::BisClaimantError, "DecisionReviewCreated claimant_participant_id"\
      " #{decision_review_created.claimant_participant_id} does not have a valid BIS record"
     end
