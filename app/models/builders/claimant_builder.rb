@@ -2,7 +2,7 @@
 
 # This class is used to build out a Claimant object from an instance of DecisionReviewCreated
 class Builders::ClaimantBuilder
-  attr_reader :claimant, :decision_review_created
+  attr_reader :claimant, :decision_review_created, :bis_record
 
   def self.build(decision_review_created)
     builder = new(decision_review_created)
@@ -52,7 +52,7 @@ class Builders::ClaimantBuilder
   end
 
   def calculate_date_of_birth
-    claimant.date_of_birth = @bis_record[:birth_date]
+    claimant.date_of_birth = @bis_record[:birth_date].to_i * 1000
   end
 
   def calculate_first_name
@@ -76,11 +76,10 @@ class Builders::ClaimantBuilder
 
     # If the result is empty, the claimant wasn't found
     if bis_record.empty?
-      fail AppealsConsumer::Error::BisClaimantError, "DecisionReviewCreated claimant_participant_id"\
+      fail AppealsConsumer::Error::BisClaimantNotFound, "DecisionReviewCreated claimant_participant_id"\
      " #{decision_review_created.claimant_participant_id} does not have a valid BIS record"
     end
 
-    @bis_synced_at = Time.zone.now
     bis_record
   end
 end

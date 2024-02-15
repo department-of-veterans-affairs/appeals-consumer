@@ -38,7 +38,7 @@ module Fakes
           first_name: "Bob",
           middle_name: "Billy",
           last_name: "Vance",
-          ssn_nbr: "666001234",
+          ssn: "666001234",
           email_address: "bob.vance@caseflow.gov"
         }
       elsif participant_id == "1129318238"
@@ -48,7 +48,7 @@ module Fakes
           middle_name: "",
           last_name: "Smith",
           name_suffix: "Jr.",
-          ssn_nbr: "666002222",
+          ssn: "666002222",
           email_address: "cathy.smith@caseflow.gov"
         }
       elsif participant_id == "600153863"
@@ -57,7 +57,7 @@ module Fakes
           fist_name: "Clarence",
           middle_name: "",
           last_name: "Darrow",
-          ssn_nbr: "666003333",
+          ssn: "666003333",
           email_address: "clarence.darrow@caseflow.gov"
         }
       elsif participant_id.starts_with?("RANDOM_CLAIMANT_PID")
@@ -68,7 +68,7 @@ module Fakes
           first_name: first_name,
           middle_name: "",
           last_name: last_name,
-          ssn_nbr: "666005555",
+          ssn: "666005555",
           email_address: "#{first_name}.#{last_name}@email.com"
         }
       elsif participant_id == ""
@@ -79,7 +79,7 @@ module Fakes
           first_name: "Tom",
           middle_name: "Edward",
           last_name: "Brady",
-          ssn_nbr: "666004444",
+          ssn: "666004444",
           email_address: "tom.brady@caseflow.gov"
         }
       end
