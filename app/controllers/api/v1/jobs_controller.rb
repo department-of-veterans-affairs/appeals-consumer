@@ -2,7 +2,7 @@
 
 class Api::V1::JobsController < Api::ApplicationController
   SCHEDULED_JOBS = {
-    "heartbeat" => HeartbeatJob,
+    "heartbeat" => HeartbeatJob
   }.freeze
 
   def create
