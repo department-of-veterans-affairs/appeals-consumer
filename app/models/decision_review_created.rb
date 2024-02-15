@@ -56,7 +56,7 @@ class DecisionReviewCreated
 
   # Assigns attributes from the message_payload to defined keys
   def assign(message_payload)
-    DECISION_REVIEW_CREATED_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
+    DECISION_REVIEW_CREATED_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", message_payload[attr]) }
 
     decision_review_issues_array = message_payload["decision_review_issues"]
     @decision_review_issues = create_decision_review_issues(decision_review_issues_array)
@@ -123,6 +123,6 @@ class DecisionReviewIssue
 
   # Assigns attributes from issue_attrs to defined keys
   def assign(issue)
-    DECISION_REVIEW_ISSUE_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", issue[attr]) }
+    DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", issue[attr]) }
   end
 end
