@@ -64,6 +64,8 @@ module AppealsConsumer
       station_id: ENV["STATION_ID"]
     }
 
+    config.host_authorization = { exclude: ->(request) { request.path =~ /health-check/ } }
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
