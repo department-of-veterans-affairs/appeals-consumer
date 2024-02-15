@@ -3,6 +3,34 @@
 describe Builders::EndProductEstablishmentBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:builder) { described_class.new(decision_review_created) }
+  let(:veteran_bis_record) do
+    {
+      file_number: decision_review_created.file_number,
+      ptcpnt_id: decision_review_created.veteran_participant_id,
+      sex: "M",
+      first_name: decision_review_created.veteran_first_name,
+      middle_name: "Russell",
+      last_name: decision_review_created.veteran_last_name,
+      name_suffix: "II",
+      ssn: "987654321",
+      address_line1: "122 Mullberry St.",
+      address_line2: "PO BOX 123",
+      address_line3: "Daisies",
+      city: "Orlando",
+      state: "FL",
+      country: "USA",
+      date_of_birth: "12/21/1989",
+      date_of_death: "12/31/2019",
+      zip_code: "94117",
+      military_post_office_type_code: nil,
+      military_postal_type_code: nil,
+      service: [{ branch_of_service: "army", pay_grade: "E4" }]
+    }
+  end
+
+  before do
+    Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+  end
 
   describe "#build" do
     subject { described_class.build(decision_review_created) }

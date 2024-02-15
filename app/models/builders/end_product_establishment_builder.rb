@@ -14,7 +14,7 @@ class Builders::EndProductEstablishmentBuilder < Builders::ModelBuilder
     super()
     @decision_review_created = decision_review_created
     @end_product_establishment = EndProductEstablishment.new
-    #@veteran_bis_record = fetch_veteran_bis_record
+    @veteran_bis_record = fetch_veteran_bis_record
     @limited_poa_hash = fetch_limited_poa
   end
 
