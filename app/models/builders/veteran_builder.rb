@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This class is used to build out a Veteran object from an instance of DecisionReviewCreated
-class Builders::VeteranBuilder
+class Builders::VeteranBuilder < Builders::ModelBuilder
   attr_reader :veteran, :decision_review_created, :bis_record
 
   def self.build(decision_review_created)
@@ -11,9 +11,10 @@ class Builders::VeteranBuilder
   end
 
   def initialize(decision_review_created)
+    super()
     @decision_review_created = decision_review_created
     @veteran = Veteran.new
-    @bis_record = fetch_bis_record
+    @bis_record = fetch_veteran_bis_record
   end
 
   def assign_attributes
@@ -47,11 +48,11 @@ class Builders::VeteranBuilder
   end
 
   def calculate_bgs_last_synced_at
-    @veteran.bgs_last_synced_at = @bis_synced_at
+    @veteran.bgs_last_synced_at = convert_bis_synced_at_to_milliseconds
   end
 
   def calculate_date_of_death
-    @veteran.date_of_death = bis_record[:date_of_death]
+    @veteran.date_of_death = convert_date_of_death_to_logical_type_int
   end
 
   def calculate_name_suffix
@@ -66,17 +67,14 @@ class Builders::VeteranBuilder
     @veteran.middle_name = bis_record[:middle_name]
   end
 
-  def fetch_bis_record
-    bis_record = BISService.new.fetch_veteran_info(decision_review_created.file_number)
+  def convert_bis_synced_at_to_milliseconds
+    @bis_synced_at.to_i * 1000
+  end
 
-    # If the result is nil, the veteran wasn't found
-    # If the participant id is nil, that's another way of saying the veteran wasn't found
-    unless bis_record && bis_record[:ptcpnt_id]
-      fail AppealsConsumer::Error::BisVeteranNotFound, "DecisionReviewCreated file number"\
-     " #{decision_review_created.file_number} does not have a valid BIS record"
-    end
+  def convert_date_of_death_to_logical_type_int
+    date = bis_record[:date_of_death]
+    target_date = Date.strptime(date, "%m/%d/%Y")
 
-    @bis_synced_at = Time.zone.now
-    bis_record
+    (target_date - EPOCH_DATE).to_i
   end
 end

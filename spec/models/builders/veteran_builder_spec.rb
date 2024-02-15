@@ -86,12 +86,10 @@ describe Builders::VeteranBuilder do
 
   describe "#calculate_bgs_last_synced_at" do
     subject { builder.send(:calculate_bgs_last_synced_at) }
-    it "assigns the veteran's bgs_last_synced_at to the time BIS was called (@bis_synced_at in #fetch_bis_record)" do
-      allow(builder).to receive(:fetch_bis_record).and_return(veteran_bis_record)
-      subject
-      builder.send(:fetch_bis_record)
 
-      expect(builder.instance_variable_get(:@bis_synced_at)).to eq(Time.zone.now)
+    it "assigns the veteran's bgs_last_synced_at to the datetime BIS was called in milliseconds"\
+     " (@bis_synced_at initialized in Builders::ModelBuilder#fetch_veteran_bis_record)" do
+      expect(subject).to eq(Time.zone.now.to_i * 1000)
     end
   end
 
@@ -118,8 +116,13 @@ describe Builders::VeteranBuilder do
 
   describe "#calculate_date_of_death" do
     subject { builder.send(:calculate_date_of_death) }
-    it "assigns the veteran's date_of_death to the date_of_death value retrieved from BIS" do
-      expect(subject).to eq(bis_record[:date_of_death])
+    let(:epoch_date) { Builders::ModelBuilder::EPOCH_DATE }
+    let(:date_of_death) { bis_record[:date_of_death] }
+    let(:target_date) { Date.strptime(date_of_death, "%m/%d/%Y") }
+    let(:date_of_death_logical_type) { (target_date - epoch_date).to_i }
+
+    it "assigns the veteran's date_of_death to the date_of_death retrieved from BIS converted to logical type int" do
+      expect(subject).to eq(date_of_death_logical_type)
     end
   end
 
@@ -141,54 +144,6 @@ describe Builders::VeteranBuilder do
     subject { builder.send(:calculate_middle_name) }
     it "assigns the veteran's middle_name to the middle_name value retrieved from BIS" do
       expect(subject).to eq(bis_record[:middle_name])
-    end
-  end
-
-  describe "#fetch_bis_record" do
-    let(:error) { AppealsConsumer::Error::BisVeteranNotFound }
-    let(:error_msg) do
-      "DecisionReviewCreated file number #{decision_review_created.file_number} does not have a valid BIS record"
-    end
-    subject { builder.send(:fetch_bis_record) }
-
-    context "when the bis record is found and is valid" do
-      it "returns the bis record" do
-        expect(subject).to eq(veteran_bis_record)
-      end
-
-      it "sets @bis_synced_at to the datetime that the record was successfully retrieved" do
-        expect(builder.instance_variable_get(:@bis_synced_at)).to eq(Time.zone.now)
-      end
-    end
-
-    context "when the bis record is found but there isn't a ptcpnt_id value" do
-      before do
-        Fakes::BISService.clean!
-        veteran_bis_record[:ptcpnt_id] = nil
-        Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
-      end
-
-      it "raises error AppealsConsumer::Error::BisVeteranNotFound with error message" do
-        expect { subject }.to raise_error(error, error_msg)
-      end
-
-      it "does not set @bis_synced_at since the record wasn't successfully retrieved" do
-        expect { builder.instance_variable_get(:@bis_synced_at) }.to raise_error(error, error_msg)
-      end
-    end
-
-    context "when the bis record is not found" do
-      before do
-        Fakes::BISService.clean!
-      end
-
-      it "raises error AppealsConsumer::Error::BisVeteranNotFound with error message" do
-        expect { subject }.to raise_error(error, error_msg)
-      end
-
-      it "does not set @bis_synced_at since the record wasn't successfully retrieved" do
-        expect { builder.instance_variable_get(:@bis_synced_at) }.to raise_error(error, error_msg)
-      end
     end
   end
 end
