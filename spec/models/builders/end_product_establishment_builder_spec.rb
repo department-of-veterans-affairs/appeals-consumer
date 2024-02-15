@@ -81,11 +81,13 @@ describe Builders::EndProductEstablishmentBuilder do
 
     describe "#_calculate_limited_poa_access" do
       it "should calculate the limited poa access and assign to the epe instance" do
+        expect(builder.end_product_establishment.limited_poa_access).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_access]
       end
     end
 
     describe "#_calculate_limited_poa_code" do
       it "should calculate limited poa code and assign to the epe instance" do
+        expect(builder.end_product_establishment.limited_poa_code).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_code]
       end
     end
 
@@ -115,6 +117,7 @@ describe Builders::EndProductEstablishmentBuilder do
 
     describe "#_assign_development_item_reference_id" do
       it "should assign a development item referecne id to the epe instance" do
+        expect(builder.end_product_establishment.development_item_reference_id).to eq decision_review_created.informal_conference_tracked_item_id
       end
     end
 

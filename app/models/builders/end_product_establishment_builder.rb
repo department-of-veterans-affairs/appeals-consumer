@@ -15,7 +15,7 @@ class Builders::EndProductEstablishmentBuilder < Builders::ModelBuilder
     @decision_review_created = decision_review_created
     @end_product_establishment = EndProductEstablishment.new
     #@veteran_bis_record = fetch_veteran_bis_record
-    #@limited_poa_hash = fetch_limited_poa
+    @limited_poa_hash = fetch_limited_poa
   end
 
   # :reek:TooManyStatements
@@ -63,11 +63,11 @@ class Builders::EndProductEstablishmentBuilder < Builders::ModelBuilder
   end
 
   def calculate_limited_poa_access
-    #@limited_poa_hash[claim_id][:limited_poa_access]
+    @end_product_establishment.limited_poa_access = @limited_poa_hash[:limited_poa_access]
   end
 
   def calculate_limited_poa_code
-    #@limited_poa_hash[claim_id][:limited_poa_code]
+    @end_product_establishment.limited_poa_code = @limited_poa_hash[:limited_poa_code]
   end
 
   def assign_committed_at
@@ -87,7 +87,7 @@ class Builders::EndProductEstablishmentBuilder < Builders::ModelBuilder
   end
 
   def assign_development_item_reference_id
-    #@end_product_establishment.development_item_reference_id = @decision_review_created.informal_conference_tracked_item_id
+    @end_product_establishment.development_item_reference_id = @decision_review_created.informal_conference_tracked_item_id
   end
 
   def assign_reference_id

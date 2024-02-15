@@ -20,6 +20,6 @@ class Builders::ModelBuilder
     return unless @decision_review_created
 
     limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(@decision_review_created.claim_id)
-    limited_poa ? limited_poa[claim_id] : nil
+    limited_poa ? limited_poa[@decision_review_created.claim_id] : nil
   end
 end

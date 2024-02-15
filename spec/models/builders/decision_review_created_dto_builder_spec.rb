@@ -22,6 +22,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     "originated_from_vacols_issue" => false,
     "informal_conference_requested" => false,
     "same_station_review_requested" => false,
+    "informal_conference_tracked_item_id" => 1,
     "intake_creation_time" => Time.now.utc.to_i,
     "claim_creation_time" => Time.now.utc.to_i,
     "created_by_username" => "BVADWISE101",
