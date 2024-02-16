@@ -36,7 +36,7 @@ class Builders::ClaimantBuilder
   end
 
   def calculate_type
-    claimant.type = (decision_review_created.payee_code == "00") ? "VeteranClaimant" : "DepenentClaimant"
+    claimant.type = (decision_review_created.payee_code == "00") ? "VeteranClaimant" : "DependentClaimant"
   end
 
   def assign_participant_id

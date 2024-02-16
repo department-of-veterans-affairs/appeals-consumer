@@ -10,7 +10,7 @@ FactoryBot.define do
         "veteran_last_name" => "Smith",
         "veteran_participant_id" => "123456789",
         "file_number" => "123456789",
-        "claimant_participant_id" => "5382910292",
+        "claimant_participant_id" => "01010101",
         "ep_code" => "030HLRNR",
         "ep_code_category" => "Rating",
         "claim_received_date" => 1954,

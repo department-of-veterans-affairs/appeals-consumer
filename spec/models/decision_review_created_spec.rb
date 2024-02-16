@@ -20,7 +20,7 @@ describe DecisionReviewCreated do
         expect(subject.veteran_last_name).to eq("Smith")
         expect(subject.veteran_participant_id).to eq("123456789")
         expect(subject.file_number).to eq("123456789")
-        expect(subject.claimant_participant_id).to eq("5382910292")
+        expect(subject.claimant_participant_id).to eq("01010101")
         expect(subject.ep_code).to eq("030HLRNR")
         expect(subject.ep_code_category).to eq("Rating")
         expect(subject.claim_received_date).to eq(1954)
