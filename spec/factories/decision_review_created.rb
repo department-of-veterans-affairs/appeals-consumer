@@ -5,7 +5,7 @@ FactoryBot.define do
     message_payload do
       {
         "claim_id" => 1_234_567,
-        "decision_review_type" => "HigherLevelReview",
+        "decision_review_type" => "HIGHER_LEVEL_REVIEW",
         "veteran_first_name" => "John",
         "veteran_last_name" => "Smith",
         "veteran_participant_id" => "123456789",
