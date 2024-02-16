@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # This class is used to build out an Intake object from an instance of DecisionReviewCreated
-# :reek:TooManyInstanceVariables
 class Builders::IntakeBuilder
   attr_reader :intake, :decision_review_created
 
