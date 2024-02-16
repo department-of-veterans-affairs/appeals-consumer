@@ -39,11 +39,11 @@ class Builders::EndProductEstablishmentBuilder < Builders::ModelBuilder
   private
 
   def calculate_benefit_type_code
-    # @end_product_establishment.benefit_type_code = if @veteran_bis_record[:date_of_death]
-    #                                                  2
-    #                                                else
-    #                                                  1
-    #                                                end
+    @end_product_establishment.benefit_type_code = if @veteran_bis_record[:date_of_death]
+                                                     2
+                                                   else
+                                                     1
+                                                   end
   end
 
   def assign_claim_date
