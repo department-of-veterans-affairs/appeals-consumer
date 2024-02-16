@@ -15,7 +15,7 @@ describe DecisionReviewCreated do
             data types" do
       it "initializes a DecisionReviewCreated object" do
         expect(subject.claim_id).to eq(1_234_567)
-        expect(subject.decision_review_type).to eq("HigherLevelReview")
+        expect(subject.decision_review_type).to eq("HIGHER_LEVEL_REVIEW")
         expect(subject.veteran_first_name).to eq("John")
         expect(subject.veteran_last_name).to eq("Smith")
         expect(subject.veteran_participant_id).to eq("123456789")
