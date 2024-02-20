@@ -4,6 +4,9 @@
 class Builders::ClaimantBuilder
   attr_reader :claimant, :decision_review_created, :bis_record
 
+  VETERAN_TYPE = "VeteranClaimant"
+  DEPENDENT_TYPE = "DependentClaimant"
+
   def self.build(decision_review_created)
     builder = new(decision_review_created)
     builder.assign_attributes
@@ -36,7 +39,7 @@ class Builders::ClaimantBuilder
   end
 
   def calculate_type
-    claimant.type = (decision_review_created.payee_code == "00") ? "VeteranClaimant" : "DependentClaimant"
+    claimant.type = (decision_review_created.payee_code == "00") ? VETERAN_TYPE : DEPENDENT_TYPE
   end
 
   def assign_participant_id
