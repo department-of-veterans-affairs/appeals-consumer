@@ -59,7 +59,7 @@ module ExternalApi
       Rails.cache.delete(fetch_veteran_info_cache_key(file_number))
     end
 
-    def bust_fetch_limited_poa(claim_ids)
+    def bust_fetch_limited_poa_cache(claim_ids)
       Rails.cache.delete(claim_ids)
     end
     
