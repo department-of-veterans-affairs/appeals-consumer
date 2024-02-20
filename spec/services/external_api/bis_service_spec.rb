@@ -72,10 +72,25 @@ describe ExternalApi::BISService do
     end
 
     describe "#fetch_limited_poas_by_claim_ids" do 
+      let!(:claim_ids) { ["600130321", "1", "2"] }
       it "find_limited_poas_by_bnft_claim_ids is called" do
-        bis_info = bis.fetch_limited_poas_by_claim_ids(nil)
+        bis_info = bis.fetch_limited_poas_by_claim_ids(claim_ids)
 
         expect(bis_org_service).to have_received(:find_limited_poas_by_bnft_claim_ids).once
+      end
+
+      it "should set cache key,value if not exists" do
+        expect(Rails.cache.exist?(claim_ids)).to eq false
+        bis_info = bis.fetch_limited_poas_by_claim_ids(claim_ids)
+        expect(Rails.cache.exist?(claim_ids)).to eq true
+        expect(Rails.cache.read(claim_ids)).to eq bis_info
+      end
+
+      it "should retrieve cache key,value if exists" do
+        expect(Rails.cache.exist?(claim_ids)).to eq false
+        bis_info = bis.fetch_limited_poas_by_claim_ids(claim_ids)
+        Rails.cache.write(claim_ids, bis_info)
+        expect(Rails.cache.read(claim_ids)).to eq bis_info
       end
     end
   end

@@ -15,6 +15,7 @@ module ExternalApi
       # respective requests
       @veteran_info = {}
       @person_info = {}
+      @limited_poa = {}
     end
   
     def fetch_veteran_info(file_number)
@@ -45,13 +46,21 @@ module ExternalApi
 
     def fetch_limited_poas_by_claim_ids(claim_ids)
       Rails.logger.info("BIS: Fetching limited poas for claim ids: #{claim_ids}")
-      bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
       
-      get_limited_poas_hash_from_bis(bis_limited_poas)
+      @limited_poa[claim_ids] ||=
+        Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
+          bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
+      
+          get_limited_poas_hash_from_bis(bis_limited_poas)
+        end
     end
 
     def bust_fetch_veteran_info_cache(file_number)
       Rails.cache.delete(fetch_veteran_info_cache_key(file_number))
+    end
+
+    def bust_fetch_limited_poa(claim_ids)
+      Rails.cache.delete(claim_ids)
     end
     
     private
