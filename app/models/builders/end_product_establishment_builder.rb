@@ -12,7 +12,6 @@ class Builders::EndProductEstablishmentBuilder
   end
 
   def initialize(decision_review_created)
-    super()
     @decision_review_created = decision_review_created
     @end_product_establishment = EndProductEstablishment.new
     @veteran_bis_record = fetch_veteran_bis_record
@@ -40,11 +39,7 @@ class Builders::EndProductEstablishmentBuilder
   private
 
   def calculate_benefit_type_code
-    @end_product_establishment.benefit_type_code = if @veteran_bis_record[:date_of_death]
-                                                     2
-                                                   else
-                                                     1
-                                                   end
+    @end_product_establishment.benefit_type_code = @veteran_bis_record[:date_of_death].nil? ? 1 : 2
   end
 
   def assign_claim_date
@@ -88,7 +83,8 @@ class Builders::EndProductEstablishmentBuilder
   end
 
   def assign_development_item_reference_id
-    @end_product_establishment.development_item_reference_id = @decision_review_created.informal_conference_tracked_item_id
+    @end_product_establishment.development_item_reference_id =
+      @decision_review_created.informal_conference_tracked_item_id
   end
 
   def assign_reference_id
