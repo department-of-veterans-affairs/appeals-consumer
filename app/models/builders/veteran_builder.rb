@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # This class is used to build out a Veteran object from an instance of DecisionReviewCreated
-class Builders::VeteranBuilder < Builders::ModelBuilder
+class Builders::VeteranBuilder
+  include ModelBuilder
   attr_reader :veteran, :decision_review_created, :bis_record
 
   def self.build(decision_review_created)
@@ -11,7 +12,6 @@ class Builders::VeteranBuilder < Builders::ModelBuilder
   end
 
   def initialize(decision_review_created)
-    super()
     @decision_review_created = decision_review_created
     @veteran = Veteran.new
     @bis_record = fetch_veteran_bis_record

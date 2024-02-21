@@ -116,7 +116,7 @@ describe Builders::VeteranBuilder do
 
   describe "#calculate_date_of_death" do
     subject { builder.send(:calculate_date_of_death) }
-    let(:epoch_date) { Builders::ModelBuilder::EPOCH_DATE }
+    let(:epoch_date) { ModelBuilder::EPOCH_DATE }
     let(:date_of_death) { bis_record[:date_of_death] }
     let(:target_date) { Date.strptime(date_of_death, "%m/%d/%Y") }
     let(:date_of_death_logical_type) { (target_date - epoch_date).to_i }
