@@ -53,6 +53,13 @@ describe Builders::EndProductEstablishmentBuilder do
     it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
       expect(builder.decision_review_created).to be_an_instance_of(DecisionReviewCreated)
     end
+
+    context "no bis_record or participant_id in fetch_veteran_info call" do
+      it "should throw error" do
+        allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return(nil)
+        expect { described_class.new(decision_review_created) }.to raise_error(AppealsConsumer::Error::BisVeteranNotFound)
+      end
+    end
   end
 
   describe "#assign_attributes" do
