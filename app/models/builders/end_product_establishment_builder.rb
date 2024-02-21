@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # This class is used to build out an End Product Establishment object from an instance of DecisionReviewCreated
-class Builders::EndProductEstablishmentBuilder < Builders::ModelBuilder
+class Builders::EndProductEstablishmentBuilder
+  include ModelBuilder
   attr_reader :end_product_establishment, :decision_review_created
 
   def self.build(decision_review_created)

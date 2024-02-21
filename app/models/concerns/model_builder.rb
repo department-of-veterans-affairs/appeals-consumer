@@ -1,6 +1,9 @@
-class Builders::ModelBuilder
+# frozen_string_literal: true
 
-  class AppealsConsumer::Error::BisVeteranNotFound; end
+# This module is to encapsulate common functionanlity amungst the individiual
+# model builder classes such as Builders::EndProductEstablishment
+module ModelBuilder
+  class AppealsConsumer::Error::BisVeteranNotFound < StandardError; end
 
   def fetch_veteran_bis_record
     return unless @decision_review_created
