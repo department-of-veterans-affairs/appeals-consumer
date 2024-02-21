@@ -39,7 +39,7 @@ class Builders::EndProductEstablishmentBuilder
   private
 
   def calculate_benefit_type_code
-    @end_product_establishment.benefit_type_code = @veteran_bis_record[:date_of_death].nil? ? 1 : 2
+    @end_product_establishment.benefit_type_code = @veteran_bis_record[:date_of_death].nil? ? "1" : "2"
   end
 
   def assign_claim_date
@@ -59,11 +59,11 @@ class Builders::EndProductEstablishmentBuilder
   end
 
   def calculate_limited_poa_access
-    @end_product_establishment.limited_poa_access = @limited_poa_hash[:limited_poa_access]
+    @end_product_establishment.limited_poa_access = @limited_poa_hash&.dig(:limited_poa_access)
   end
 
   def calculate_limited_poa_code
-    @end_product_establishment.limited_poa_code = @limited_poa_hash[:limited_poa_code]
+    @end_product_establishment.limited_poa_code = @limited_poa_hash&.dig(:limited_poa_code)
   end
 
   def assign_committed_at
