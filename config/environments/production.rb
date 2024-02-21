@@ -78,5 +78,5 @@ Rails.application.configure do
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
   # Skip DNS rebinding protection for the health check endpoint.
-  config.host_authorization = { exclude: ->(request) { request.path =~ /health-check/ } }
+  # config.host_authorization = { exclude: ->(request) { request.path =~ /health-check/ } }
 end
