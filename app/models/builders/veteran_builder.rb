@@ -73,8 +73,10 @@ class Builders::VeteranBuilder < Builders::ModelBuilder
 
   def convert_date_of_death_to_logical_type_int
     date = bis_record[:date_of_death]
-    target_date = Date.strptime(date, "%m/%d/%Y")
 
-    (target_date - EPOCH_DATE).to_i
+    if date
+      target_date = Date.strptime(date, "%m/%d/%Y")
+      (target_date - EPOCH_DATE).to_i
+    end
   end
 end
