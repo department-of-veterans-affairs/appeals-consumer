@@ -18,7 +18,6 @@ class Builders::DtoBuilder
     middle_name
     last_name
     date_of_birth
-    date_of_death
     email
   ]
   # rubocop:enable Style/MutableConstant
