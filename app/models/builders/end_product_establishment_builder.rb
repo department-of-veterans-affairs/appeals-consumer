@@ -89,7 +89,7 @@ class Builders::EndProductEstablishmentBuilder
 
   def assign_development_item_reference_id
     @end_product_establishment.development_item_reference_id =
-      @decision_review_created.informal_conference_tracked_item_id
+      @decision_review_created.informal_conference_tracked_item_id.to_s
   end
 
   def assign_reference_id

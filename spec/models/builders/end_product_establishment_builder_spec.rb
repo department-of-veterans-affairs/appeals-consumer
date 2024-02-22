@@ -176,7 +176,7 @@ describe Builders::EndProductEstablishmentBuilder do
     describe "#_assign_development_item_reference_id" do
       subject { builder.end_product_establishment.development_item_reference_id }
       it "should assign a development item referecne id to the epe instance" do
-        expect(subject).to eq decision_review_created.informal_conference_tracked_item_id
+        expect(subject).to eq decision_review_created.informal_conference_tracked_item_id.to_s
       end
     end
 
