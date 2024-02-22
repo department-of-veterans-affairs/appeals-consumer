@@ -88,6 +88,6 @@ class Builders::EndProductEstablishmentBuilder
   end
 
   def assign_reference_id
-    @end_product_establishment.reference_id = @decision_review_created.claim_id
+    @end_product_establishment.reference_id = @decision_review_created.claim_id.to_s
   end
 end

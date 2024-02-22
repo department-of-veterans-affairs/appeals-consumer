@@ -163,7 +163,7 @@ describe Builders::EndProductEstablishmentBuilder do
 
     describe "#_assign_reference_id" do
       it "should assign a reference id to the epe instance" do
-        expect(builder.end_product_establishment.reference_id).to eq decision_review_created.claim_id
+        expect(builder.end_product_establishment.reference_id).to eq decision_review_created.claim_id.to_s
       end
     end
   end
