@@ -31,12 +31,6 @@ module AppealsConsumer
     # setup the deploy env environment variable
     ENV['DEPLOY_ENV'] ||= Rails.env
 
-    Rails.autoloaders.each do |autoloader|
-      autoloader.inflector.inflect(
-        "bis_service" => "BISService"
-      )
-    end
-
     config.eager_load_paths << Rails.root.join('lib')
 
     # set Shoryuken as the job queue adapter
