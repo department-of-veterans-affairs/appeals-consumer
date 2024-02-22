@@ -87,7 +87,7 @@ describe Builders::EndProductEstablishmentBuilder do
 
     describe "#_calculate_benefit_type_code" do
       it "should calculate benefit type code" do
-        expect(builder.end_product_establishment.benefit_type_code).to eq 2
+        expect(builder.end_product_establishment.benefit_type_code).to eq "2"
       end
     end
 
