@@ -59,7 +59,12 @@ class Builders::EndProductEstablishmentBuilder
   end
 
   def calculate_limited_poa_access
-    @end_product_establishment.limited_poa_access = @limited_poa_hash&.dig(:limited_poa_access)
+    @end_product_establishment.limited_poa_access =
+      if limited_poa_access == "Y"
+        true
+      elsif limited_poa_access == "N"
+        false
+      end
   end
 
   def calculate_limited_poa_code
@@ -89,5 +94,9 @@ class Builders::EndProductEstablishmentBuilder
 
   def assign_reference_id
     @end_product_establishment.reference_id = @decision_review_created.claim_id.to_s
+  end
+
+  def limited_poa_access
+    @limited_poa_hash&.dig(:limited_poa_access)
   end
 end

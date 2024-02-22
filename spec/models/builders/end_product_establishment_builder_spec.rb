@@ -118,15 +118,34 @@ describe Builders::EndProductEstablishmentBuilder do
 
     describe "#_calculate_limited_poa_access" do
       subject { builder.end_product_establishment.limited_poa_access }
-      it "should calculate the limited poa access and assign to the epe instance" do
-        expect(subject).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_access]
+
+      context "the limited_poa_access result returns 'Y'" do
+        it "should calculate the limited poa access and assign to the epe instance" do
+          expect(subject).to eq true
+        end
+      end
+
+      context "the limited_poa_access result returns 'N'" do
+        let(:decision_review_created) { build(:decision_review_created, claim_id: 2) }
+
+        it "should calculate the limited poa access and assign to the epe instance" do
+          expect(subject).to eq false
+        end
+      end
+
+      context "the limited_poa_access result returns nil" do
+        let(:decision_review_created) { build(:decision_review_created, claim_id: 6) }
+
+        it "should calculate the limited poa access and assign to the epe instance" do
+          expect(subject).to eq nil
+        end
       end
     end
 
     describe "#_calculate_limited_poa_code" do
       subject { builder.end_product_establishment.limited_poa_code }
       it "should calculate limited poa code and assign to the epe instance" do
-        expect(subject).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_code]
+        expect(subject).to eq builder.instance_variable_get(:@limited_poa_hash)&.dig(:limited_poa_code)
       end
     end
 
