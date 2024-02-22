@@ -44,4 +44,4 @@ describe PowerOfAttorneyMapper do
       end
     end
   end
-end 
+end

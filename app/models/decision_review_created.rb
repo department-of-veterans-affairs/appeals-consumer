@@ -9,6 +9,7 @@ class DecisionReviewCreated
   # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
+  # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_CREATED_ATTRIBUTES = {
     "claim_id" => Integer,
     "decision_review_type" => [String, NilClass],
@@ -34,6 +35,7 @@ class DecisionReviewCreated
     "created_by_application" => String,
     "decision_review_issues" => Array
   }
+  # rubocop:enable Style/MutableConstant
 
   # Allows read and write access for attributes
   DECISION_REVIEW_CREATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -55,7 +57,7 @@ class DecisionReviewCreated
 
   # Assigns attributes from the message_payload to defined keys
   def assign(message_payload)
-    DECISION_REVIEW_CREATED_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", message_payload[attr]) }
+    DECISION_REVIEW_CREATED_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", message_payload[attr]) }
 
     decision_review_issues_array = message_payload["decision_review_issues"]
     @decision_review_issues = create_decision_review_issues(decision_review_issues_array)
@@ -80,6 +82,7 @@ class DecisionReviewIssue
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
+  # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_ISSUE_ATTRIBUTES = {
     "contention_id" => [Integer, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
@@ -100,6 +103,7 @@ class DecisionReviewIssue
     "legacy_appeal_id" => [Integer, NilClass],
     "legacy_appeal_issue_id" => [Integer, NilClass]
   }
+  # rubocop:enable Style/MutableConstant
 
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -120,6 +124,6 @@ class DecisionReviewIssue
 
   # Assigns attributes from issue_attrs to defined keys
   def assign(issue)
-    DECISION_REVIEW_ISSUE_ATTRIBUTES.each { |attr, _| instance_variable_set("@#{attr}", issue[attr]) }
+    DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", issue[attr]) }
   end
 end

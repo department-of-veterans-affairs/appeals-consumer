@@ -32,6 +32,36 @@ jobs:
       run: |
         make -f Makefile all-test
 
+    - name: Add code coverage comment
+      uses: romeovs/lcov-reporter-action@v0.2.16
+      with: 
+        lcov-file: ./coverage/lcov/appeals-consumer.lcov
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  appeals_consumer_lint_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+  
+      - name: Set up Ruby and Install Ruby dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      
+      - name: Set up Karafka
+        run: |
+            make -f Makefile build 
+  
+      - name: make registry
+        run: |
+          sleep 15
+          make -f Makefile registry
+      
+      - name: Lint
+        run:  "bundle exec rubocop"
+        if: ${{ always() }}
   
 
 

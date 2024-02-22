@@ -1,7 +1,9 @@
-require 'bgs'
+# frozen_string_literal: true
+
+require "bgs"
 
 module Fakes
-  class BISService 
+  class BISService
     class << self
       def clean!
         veteran_store.clear!
@@ -82,6 +84,7 @@ module Fakes
         }
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def fetch_limited_poas_by_claim_ids(claim_ids)
       result = {}
