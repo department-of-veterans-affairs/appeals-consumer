@@ -51,7 +51,7 @@ module ExternalApi
       @limited_poa[claim_ids] ||=
         Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
           bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
-      
+
           get_limited_poas_hash_from_bis(bis_limited_poas)
         end
     end
