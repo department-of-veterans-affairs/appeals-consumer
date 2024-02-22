@@ -24,10 +24,8 @@ RSpec.describe Builders::DtoBuilder, type: :model do
         first_name
         middle_name
         last_name
-        name_suffix
         date_of_birth
         date_of_death
-        date_of_death_reported_at
         email
       ]
     end
