@@ -78,15 +78,14 @@ describe ExternalApi::BISService do
   end
 
   describe "#fetch_limited_poas_by_claim_ids" do
-    let!(:claim_ids) { ["600130321", "1", "2"] }
+    let!(:claim_ids) { %w[600130321 1 2] }
 
     after do
       bis.bust_fetch_limited_poa_cache(claim_ids)
     end
 
     it "find_limited_poas_by_bnft_claim_ids is called" do
-      bis_info = bis.fetch_limited_poas_by_claim_ids(claim_ids)
-
+      bis.fetch_limited_poas_by_claim_ids(claim_ids)
       expect(bis_org_service).to have_received(:find_limited_poas_by_bnft_claim_ids).once
     end
 

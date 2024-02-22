@@ -55,9 +55,10 @@ describe Builders::EndProductEstablishmentBuilder do
     end
 
     context "no bis_record or participant_id in fetch_veteran_info call" do
+      let(:error) { AppealsConsumer::Error::BisVeteranNotFound }
       it "should throw error" do
         allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return(nil)
-        expect { described_class.new(decision_review_created) }.to raise_error(AppealsConsumer::Error::BisVeteranNotFound)
+        expect { described_class.new(decision_review_created) }.to raise_error(error)
       end
     end
   end
@@ -116,14 +117,16 @@ describe Builders::EndProductEstablishmentBuilder do
     end
 
     describe "#_calculate_limited_poa_access" do
+      subject { builder.end_product_establishment.limited_poa_access }
       it "should calculate the limited poa access and assign to the epe instance" do
-        expect(builder.end_product_establishment.limited_poa_access).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_access]
+        expect(subject).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_access]
       end
     end
 
     describe "#_calculate_limited_poa_code" do
+      subject { builder.end_product_establishment.limited_poa_code }
       it "should calculate limited poa code and assign to the epe instance" do
-        expect(builder.end_product_establishment.limited_poa_code).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_code]
+        expect(subject).to eq builder.instance_variable_get(:@limited_poa_hash)[:limited_poa_code]
       end
     end
 
@@ -152,8 +155,9 @@ describe Builders::EndProductEstablishmentBuilder do
     end
 
     describe "#_assign_development_item_reference_id" do
+      subject { builder.end_product_establishment.development_item_reference_id }
       it "should assign a development item referecne id to the epe instance" do
-        expect(builder.end_product_establishment.development_item_reference_id).to eq decision_review_created.informal_conference_tracked_item_id
+        expect(subject).to eq decision_review_created.informal_conference_tracked_item_id
       end
     end
 
