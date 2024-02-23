@@ -10,12 +10,18 @@ class Event < ApplicationRecord
   validates :message_payload, presence: true
   validates :state, presence: true
 
+  NOT_STARTED = "NOT_STARTED"
+  IN_PROGRESS = "IN_PROGRESS"
+  PROCESSED = "PROCESSED"
+  ERROR = "ERROR"
+  FAILED = "FAILED"
+
   enum state: {
-    not_started: "NOT_STARTED",
-    in_progress: "IN_PROGRESS",
-    processed: "PROCESSED",
-    error: "ERROR",
-    failed: "FAILED"
+    not_started: NOT_STARTED,
+    in_progress: IN_PROGRESS,
+    processed: PROCESSED,
+    error: ERROR,
+    failed: FAILED
   }
 
   def processed?
@@ -41,5 +47,20 @@ class Event < ApplicationRecord
   # :reek:UtilityFunction
   def retrieve_max_errors_for_failure
     ENV["MAX_ERRORS_FOR_FAILURE"].to_i
+  end
+  def in_progress!
+    update(state: IN_PROGRESS)
+  end
+
+  def processed!
+    update(state: PROCESSED)
+  end
+
+  def errored!
+    update(state: FAILED)
+  end
+
+  def failed!
+    update(state: FAILED)
   end
 end
