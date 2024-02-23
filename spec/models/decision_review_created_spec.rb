@@ -29,6 +29,7 @@ describe DecisionReviewCreated do
         expect(subject.modifier).to eq("01")
         expect(subject.originated_from_vacols_issue).to eq(false)
         expect(subject.informal_conference_requested).to eq(false)
+        expect(subject.informal_conference_tracked_item_id).to eq 1
         expect(subject.same_station_review_requested).to eq(false)
         expect(subject.intake_creation_time).to be_an_instance_of(Integer)
         expect(subject.claim_creation_time).to be_an_instance_of(Integer)

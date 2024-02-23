@@ -11,4 +11,6 @@ curl -s -X POST -H "Content-Type:application/vnd.schemaregistry.v1+json" --data 
 
 echo "Avro was uploaded to the Schema-registry successfully"
 
+export SCHEMA_VERSION=$(curl -s -X GET http://schema-registry:9021/subjects/$TOPIC/versions/latest | jq '.version')
+
 rm temp-schema.json

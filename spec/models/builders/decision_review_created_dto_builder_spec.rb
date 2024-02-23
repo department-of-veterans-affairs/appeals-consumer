@@ -21,6 +21,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     "modifier" => "01",
     "originated_from_vacols_issue" => false,
     "informal_conference_requested" => false,
+    "informal_conference_tracked_item_id" => 1,
     "same_station_review_requested" => false,
     "intake_creation_time" => Time.now.utc.to_i,
     "claim_creation_time" => Time.now.utc.to_i,
@@ -192,6 +193,10 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       end
 
       context "should not throw an error" do
+        before do
+          Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+        end
+
         it "should recieve the following methods:" do
           expect(dcr_dto_builder).to receive(:build_intake)
           expect(dcr_dto_builder).to receive(:build_veteran)
@@ -309,6 +314,10 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
       end
 
       describe "#_build_end_product_establishment" do
+        before do
+          Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+        end
+
         it "should return built epe object" do
           expect(dcr_dto_builder.send(:build_end_product_establishment)).to be_instance_of(EndProductEstablishment)
         end

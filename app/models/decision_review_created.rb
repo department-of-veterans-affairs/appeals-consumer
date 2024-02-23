@@ -26,6 +26,7 @@ class DecisionReviewCreated
     "modifier" => String,
     "originated_from_vacols_issue" => [TrueClass, FalseClass, NilClass],
     "informal_conference_requested" => [TrueClass, FalseClass],
+    "informal_conference_tracked_item_id" => [Integer, NilClass],
     "same_station_review_requested" => [TrueClass, FalseClass],
     "intake_creation_time" => Integer,
     "claim_creation_time" => Integer,
