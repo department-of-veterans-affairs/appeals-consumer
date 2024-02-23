@@ -28,4 +28,16 @@ module ModelBuilder
     limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(@decision_review_created.claim_id)
     limited_poa ? limited_poa[@decision_review_created.claim_id] : nil
   end
+
+  def fetch_person_bis_record
+    bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
+
+    # If the result is empty, the claimant wasn't found
+    if bis_record.empty?
+      fail AppealsConsumer::Error::BisClaimantNotFound, "DecisionReviewCreated claimant_participant_id"\
+     " #{decision_review_created.claimant_participant_id} does not have a valid BIS record"
+    end
+
+    bis_record
+  end
 end
