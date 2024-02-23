@@ -98,6 +98,10 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     }
   end
 
+  let(:store_veteran_record) do
+    Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+  end
+
   describe "#initialize" do
     context "when a decision_review_created object is found from a mocked payload (before actually building)" do
       let(:dcr_event) { create(:event, message_payload: message_payload.to_json) }
@@ -115,7 +119,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
 
     context "when a decision_review_created object is found from a mocked payload (with building from event)" do
       before do
-        Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+        store_veteran_record
       end
 
       let(:dcr_event) { build(:event, message_payload: message_payload.to_json) }
@@ -188,13 +192,9 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     end
 
     describe "#_assign_from_builders" do
-      before do
-        Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
-      end
-
       context "should not throw an error" do
         before do
-          Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+          store_veteran_record
         end
 
         it "should recieve the following methods:" do
@@ -293,7 +293,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
 
       describe "#_build_veteran" do
         before do
-          Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+          store_veteran_record
         end
 
         it "should return built veteran object" do
@@ -315,7 +315,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
 
       describe "#_build_end_product_establishment" do
         before do
-          Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+          store_veteran_record
         end
 
         it "should return built epe object" do
