@@ -93,6 +93,14 @@
       "doc": "Whether an informal conference was requested by the claimant"
     },
     {
+      "name": "informalConferenceTrackedItemId",
+      "type": [
+        "null",
+        "long"
+      ],
+      "doc": "The ID of the tracked item for the informal conference. Will be null if one was not requested."
+    },
+    {
       "name": "sameStationReviewRequested",
       "type": "boolean",
       "doc": "Whether the claimant requested that this decision review be performed at the same station that handled the original claim"

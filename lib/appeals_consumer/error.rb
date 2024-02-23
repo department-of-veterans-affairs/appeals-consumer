@@ -18,4 +18,5 @@ module AppealsConsumer::Error
 
   class CaseflowError < SerializableError; end
   class ClientRequestError < CaseflowError; end
+  class BisVeteranNotFound < StandardError; end
 end
