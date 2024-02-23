@@ -70,8 +70,8 @@ class Event < ApplicationRecord
     update(state: PROCESSED)
   end
 
-  def errored!
-    update(state: FAILED)
+  def error!
+    update(state: ERROR)
   end
 
   def failed!
