@@ -2,6 +2,7 @@
 
 # This class is used to build out a Claimant object from an instance of DecisionReviewCreated
 class Builders::ClaimantBuilder
+  include ModelBuilder
   attr_reader :claimant, :decision_review_created, :bis_record
 
   VETERAN_TYPE = "VeteranClaimant"
@@ -16,7 +17,7 @@ class Builders::ClaimantBuilder
   def initialize(decision_review_created)
     @decision_review_created = decision_review_created
     @claimant = Claimant.new
-    @bis_record = fetch_bis_record
+    @bis_record = fetch_person_bis_record
   end
 
   def assign_attributes
@@ -72,17 +73,5 @@ class Builders::ClaimantBuilder
 
   def calculate_email
     claimant.email = @bis_record[:email_address]
-  end
-
-  def fetch_bis_record
-    bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
-
-    # If the result is empty, the claimant wasn't found
-    if bis_record.empty?
-      fail AppealsConsumer::Error::BisClaimantNotFound, "DecisionReviewCreated claimant_participant_id"\
-     " #{decision_review_created.claimant_participant_id} does not have a valid BIS record"
-    end
-
-    bis_record
   end
 end
