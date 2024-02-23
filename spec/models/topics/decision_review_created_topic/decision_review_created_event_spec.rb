@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :model do
-  describe "#self.process!(event)" do
-    let(:event) { FactoryBot.create(:event) }
+  describe "#process!" do
+    let(:event) { FactoryBot.create(:decision_review_created_event) }
     let(:dto_builder_instance) { instance_double("Builders::DecisionReviewCreatedDtoBuilder") }
     let(:caseflow_response) { instance_double("Response", code: 201, message: "Some message") }
 
@@ -16,7 +16,7 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
 
     context "when processing is successful" do
       it "updates the event with a completed_at timestamp" do
-        described_class.process!(event)
+        event.process!
 
         expect(event.completed_at).not_to be_nil
       end
@@ -33,7 +33,7 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
 
       it "logs the error and updates the event error field" do
         expect(Rails.logger).to receive(:error).with(error_message)
-        expect { described_class.process!(event) }.not_to raise_error
+        expect { event.process! }.not_to raise_error
         expect(event.error).to eq(error_message)
       end
     end
@@ -54,7 +54,7 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
 
       it "logs the error" do
         expect(Rails.logger).to receive(:error).with(error_message)
-        expect { described_class.process!(event) }.not_to raise_error
+        expect { event.process! }.not_to raise_error
       end
     end
   end
