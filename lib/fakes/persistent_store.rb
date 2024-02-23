@@ -20,8 +20,14 @@ class Fakes::PersistentStore
     end
 
     def clear!
-      self.class.clear!
+      all_keys.each do |key|
+        cache_store.redis.del(key)
+      end
     end
+  end
+
+  def clear!
+    self.class.clear!
   end
 
   def all_keys

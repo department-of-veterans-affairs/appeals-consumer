@@ -83,7 +83,7 @@ class DecisionReviewIssue
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
   # rubocop:disable Style/MutableConstant
-  DECISION_REVIEW_ISSUE_ATTRIBUTES = {
+  DECISION_REVIEW_ISSUE_ATTRIBUTES ||= {
     "contention_id" => [Integer, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
     "unidentified" => [TrueClass, FalseClass],
