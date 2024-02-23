@@ -2,10 +2,13 @@ version: '3.7'
 services:
   db:
     image: 'postgres:latest'
+    container_name: db
     volumes:
       - postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5555:5432
     networks:
       - ls
 
@@ -65,7 +68,8 @@ services:
 
   redis:
     image: 'redis:7.0-alpine'
-    command: redis-server
+    container_name: redis
+    command: --port 7936
     ports:
       - '7936:7936'
     volumes:

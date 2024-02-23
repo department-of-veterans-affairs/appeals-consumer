@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module PowerOfAttorneyMapper
-
   # This is here so when we include this module
   # in classes (e.g. in PoaRepository),
   # the class itself and not just its instance
@@ -24,4 +23,4 @@ module PowerOfAttorneyMapper
 
     limited_poas_hash
   end
-end 
+end

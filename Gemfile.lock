@@ -187,6 +187,8 @@ GEM
     faraday-http-cache (2.5.0)
       faraday (>= 0.8)
     faraday-net_http (3.0.2)
+    faraday-retry (2.2.0)
+      faraday (~> 2.0)
     ffi (1.16.3)
     git (1.18.0)
       addressable (~> 2.8)
@@ -197,10 +199,10 @@ GEM
       builder (>= 2.1.2)
       rexml (~> 3.0)
     hashdiff (1.1.0)
+    hashie (5.0.0)
     httpclient (2.8.3)
     httpi (3.0.1)
       rack
-    hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     immigrant (0.3.6)
@@ -211,7 +213,7 @@ GEM
       reline (>= 0.3.8)
     jaro_winkler (1.5.6)
     jmespath (1.6.2)
-    json (2.6.3)
+    json (2.7.1)
     karafka (2.2.12)
       karafka-core (>= 2.2.7, < 2.3.0)
       waterdrop (>= 2.6.11, < 3.0.0)
@@ -278,8 +280,8 @@ GEM
       faraday (>= 1, < 3)
       sawyer (~> 0.9)
     open4 (1.3.4)
-    parallel (1.23.0)
-    parser (3.2.2.4)
+    parallel (1.24.0)
+    parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
@@ -350,7 +352,7 @@ GEM
       redis-classy (~> 2.0)
     redis-namespace (1.11.0)
       redis (>= 4)
-    regexp_parser (2.8.2)
+    regexp_parser (2.9.0)
     reline (0.4.0)
       io-console (~> 0.5)
     request_store (1.5.1)
@@ -380,15 +382,15 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
-    rubocop (1.57.2)
+    rubocop (1.60.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
-      parser (>= 3.2.2.4)
+      parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.28.1, < 2.0)
+      rubocop-ast (>= 1.30.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.30.0)
@@ -442,6 +444,7 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
+    simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
     sinatra (1.0)
       rack (>= 1.0)
@@ -516,8 +519,9 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  httpclient
+  faraday-retry
   hashie
+  httpclient
   httpi
   immigrant
   jruby-openssl
@@ -545,6 +549,7 @@ DEPENDENCIES
   sentry-sidekiq
   shoryuken
   simplecov
+  simplecov-lcov
   solargraph
   sql_tracker
   strong_migrations
