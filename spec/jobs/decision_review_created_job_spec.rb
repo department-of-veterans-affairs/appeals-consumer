@@ -7,7 +7,7 @@ RSpec.describe DecisionReviewCreatedJob, type: :job do
     subject { DecisionReviewCreatedJob.perform_now(event) }
 
     it "calls DecisionReviewCreatedEvent.process!(event) immediately" do
-      expect(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent).to receive(:process!).with(event)
+      expect(event).to receive(:process!)
       subject
     end
 
@@ -20,7 +20,7 @@ RSpec.describe DecisionReviewCreatedJob, type: :job do
     let(:error) { StandardError.new("test error") }
 
     before do
-      allow(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent).to receive(:process!).and_raise(error)
+      allow(event).to receive(:process!).and_raise(error)
       allow(Rails.logger).to receive(:error)
     end
 
