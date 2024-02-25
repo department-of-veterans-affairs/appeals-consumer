@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_13_162312) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_25_003322) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_13_162312) do
     t.text "error", comment: "Error message captured when an event fails to create or update records within Caseflow."
     t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
     t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+    t.datetime "started_at", precision: nil, comment: "The time that the event_audit started processing."
+    t.datetime "ended_at", precision: nil, comment: "The time that the event_audit finished processing."
     t.index ["event_id"], name: "index_event_audits_on_event_id"
   end
 
