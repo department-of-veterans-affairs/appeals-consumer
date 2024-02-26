@@ -133,8 +133,12 @@ describe Builders::RequestIssueBuilder do
 
       context "decision issue that has an associated nonrating issue" do
         let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+        let(:duplicate_text_removed_from_prior_decision_text) do
+          "Service connection for tetnus denied"
+        end
+
         it "sets the Request Issue's contested_issue_description to issue.prior_decision_text" do
-          expect(subject).to eq(issue.prior_decision_text)
+          expect(subject).to eq(duplicate_text_removed_from_prior_decision_text)
         end
       end
     end
@@ -234,15 +238,6 @@ describe Builders::RequestIssueBuilder do
         end
       end
 
-      context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
-
-        it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date"\
-         " converted to logical type int" do
-          expect(subject).to eq(profile_date_converted_to_logical_type_int)
-        end
-      end
-
       context "decision issue with an associated rating issue" do
         let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
 
@@ -254,6 +249,14 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue does not correspond to a rating issue" do
+      context "rating decision" do
+        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+
+        it "assigns the Request Issue's contested_rating_profile_date to nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+
       context "nonrating" do
         it "assigns the Request Issue's contested_rating_profile_date to nil" do
           expect(subject).to eq(nil)
@@ -889,13 +892,6 @@ describe Builders::RequestIssueBuilder do
           end
         end
 
-        context "rating decision" do
-          let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
-          it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
-            expect(subject).to eq(issue.prior_decision_diagnostic_code)
-          end
-        end
-
         context "decision issue associated with a rating issue" do
           let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
           it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
@@ -911,13 +907,6 @@ describe Builders::RequestIssueBuilder do
 
         context "rating" do
           let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
-          it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
-            expect(subject).to eq nil
-          end
-        end
-
-        context "rating decision" do
-          let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
           it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
             expect(subject).to eq nil
           end
@@ -950,6 +939,13 @@ describe Builders::RequestIssueBuilder do
     context "when the issue is an unidentified issue" do
       let(:decision_review_created) { build(:decision_review_created, :unidentified) }
       it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when the issue is a rating decision" do
+      let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+      it "sets Request Issue's contested_rating_issue_diagnostic_code to nil" do
         expect(subject).to eq nil
       end
     end
@@ -1001,19 +997,19 @@ describe Builders::RequestIssueBuilder do
           expect(subject).to eq nil
         end
       end
+
+      context "rating decision" do
+        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        it "sets the Request Issue's rating_issue_associated_at to nil" do
+          expect(subject).to eq nil
+        end
+      end
     end
 
     context "when the issue has a value for prior_rating_decision_id" do
       context "and the issue is eligible" do
         context "rating" do
           let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
-          it "sets the Request Issue's rating_issue_associated_at to decision_review_created.claim_creation_time" do
-            expect(subject).to eq(decision_review_created.claim_creation_time)
-          end
-        end
-
-        context "rating decision" do
-          let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
           it "sets the Request Issue's rating_issue_associated_at to decision_review_created.claim_creation_time" do
             expect(subject).to eq(decision_review_created.claim_creation_time)
           end

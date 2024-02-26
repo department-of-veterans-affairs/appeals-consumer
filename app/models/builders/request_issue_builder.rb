@@ -129,7 +129,7 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_contested_issue_description
-    @request_issue.contested_issue_description = issue.prior_decision_text if rating_or_decision_issue?
+    @request_issue.contested_issue_description = remove_duplicate_prior_decision_type_text if rating_or_decision_issue?
   end
 
   def calculate_contention_reference_id
@@ -146,7 +146,7 @@ class Builders::RequestIssueBuilder
 
   def calculate_contested_rating_issue_profile_date
     @request_issue.contested_rating_issue_profile_date =
-      if rating_or_rating_decision?
+      if rating?
         convert_profile_date_to_logical_type_int
       end
   end
@@ -225,7 +225,7 @@ class Builders::RequestIssueBuilder
 
   def calculate_contested_rating_issue_diagnostic_code
     @request_issue.contested_rating_issue_diagnostic_code =
-      if rating_or_rating_decision?
+      if rating?
         issue.prior_decision_diagnostic_code
       end
   end
@@ -236,7 +236,7 @@ class Builders::RequestIssueBuilder
 
   def calculate_rating_issue_associated_at
     @request_issue.rating_issue_associated_at =
-      if rating_or_rating_decision? && eligible?
+      if rating? && eligible?
         decision_review_created.claim_creation_time
       end
   end
@@ -311,12 +311,8 @@ class Builders::RequestIssueBuilder
     description.gsub(/#{Regexp.escape(category)}/i, "")
   end
 
-  def rating_or_rating_decision?
-    rating? || rating_decision?
-  end
-
   def rating_or_decision_issue?
-    rating_or_rating_decision? || decision_issue?
+    rating? || rating_decision? || decision_issue?
   end
 
   def pending_claim_review?
@@ -353,7 +349,7 @@ class Builders::RequestIssueBuilder
   end
 
   def identified?
-    rating_or_rating_decision? || nonrating?
+    rating? || rating_decision? || nonrating?
   end
 
   def prior_decision_notification_date_not_present?
