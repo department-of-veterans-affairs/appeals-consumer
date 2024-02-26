@@ -335,10 +335,6 @@ class Builders::RequestIssueBuilder
     LEGACY_APPEAL_NOT_ELIGIBLE.include?(issue.eligibility_result)
   end
 
-  def completed_hlr?
-    issue.eligibility_result == COMPLETED_HLR
-  end
-
   def completed_board?
     issue.eligibility_result == COMPLETED_BOARD
   end
