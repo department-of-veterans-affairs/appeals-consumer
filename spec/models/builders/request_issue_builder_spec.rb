@@ -224,9 +224,6 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:calculate_contested_rating_issue_profile_date) }
 
     context "when the issue is a rating issue" do
-      before do
-        issue.prior_decision_rating_profile_date = nil
-      end
       let(:profile_date_converted_to_logical_type_int) { builder.send(:convert_profile_date_to_logical_type_int) }
 
       context "rating" do
@@ -619,6 +616,22 @@ describe Builders::RequestIssueBuilder do
         it "sets the Request Issue's ineligible_reason to 'higher_level_review_to_higher_level_review'" do
           expect(subject).to eq(hlr_to_hlr)
         end
+      end
+    end
+
+    context "when issue has an unrecognized eligibility_result" do
+      before do
+        issue.eligibility_result = "UNKNOWN"
+      end
+
+      let(:error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
+      let(:error_msg) do
+        "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} does not have a"\
+         " recognizable eligibility result"
+      end
+
+      it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
+        expect { subject }.to raise_error(error, error_msg)
       end
     end
   end
