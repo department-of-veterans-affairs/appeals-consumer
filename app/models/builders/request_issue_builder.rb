@@ -5,6 +5,8 @@ class Builders::RequestIssueBuilder
   include ModelBuilder
   attr_reader :decision_review_created, :issue, :index, :request_issue
 
+  REQUEST_ISSUE = "RequestIssue"
+
   # the date AMA was launched is used to determine if
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
   AMA_ACTIVATION_DATE = Date.new(2019, 2, 19)
@@ -65,6 +67,7 @@ class Builders::RequestIssueBuilder
     assign_vacols_id
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
+    assign_type
   end
 
   def calculate_methods
@@ -129,7 +132,8 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_contested_issue_description
-    @request_issue.contested_issue_description = remove_duplicate_prior_decision_type_text if rating_or_decision_issue?
+    @request_issue.contested_issue_description =
+      rating_or_decision_issue? ? remove_duplicate_prior_decision_type_text : nil
   end
 
   def calculate_contention_reference_id
@@ -145,10 +149,7 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_contested_rating_issue_profile_date
-    @request_issue.contested_rating_issue_profile_date =
-      if rating?
-        convert_profile_date_to_logical_type_int
-      end
+    @request_issue.contested_rating_issue_profile_date = rating? ? convert_profile_date_to_logical_type_int : nil
   end
 
   def assign_contested_rating_issue_reference_id
@@ -185,7 +186,7 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_unidentified_issue_text
-    @request_issue.unidentified_issue_text = issue.prior_decision_text if unidentified?
+    @request_issue.unidentified_issue_text =  unidentified? ? issue.prior_decision_text : nil
   end
 
   def calculate_nonrating_issue_category
@@ -215,23 +216,24 @@ class Builders::RequestIssueBuilder
     @request_issue.vacols_sequence_id = issue.legacy_appeal_issue_id
   end
 
+  def assign_type
+    @request_issue.type = REQUEST_ISSUE
+  end
+
   def calculate_closed_at
-    @request_issue.closed_at = decision_review_created.claim_creation_time if ineligible?
+    @request_issue.closed_at = ineligible? ? decision_review_created.claim_creation_time : nil
   end
 
   def calculate_closed_status
-    @request_issue.closed_status = INELIGIBLE_CLOSED_STATUS if ineligible?
+    @request_issue.closed_status = ineligible? ? INELIGIBLE_CLOSED_STATUS : nil
   end
 
   def calculate_contested_rating_issue_diagnostic_code
-    @request_issue.contested_rating_issue_diagnostic_code =
-      if rating?
-        issue.prior_decision_diagnostic_code
-      end
+    @request_issue.contested_rating_issue_diagnostic_code = rating? ? issue.prior_decision_diagnostic_code : nil
   end
 
   def calculate_ramp_claim_id
-    @request_issue.ramp_claim_id = issue.prior_decision_ramp_id if rating?
+    @request_issue.ramp_claim_id = rating? ? issue.prior_decision_ramp_id : nil
   end
 
   def calculate_rating_issue_associated_at

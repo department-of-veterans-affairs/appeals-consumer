@@ -22,6 +22,34 @@ describe Builders::RequestIssueBuilder do
         expect(subject.count).to eq(decision_review_issues.count - 1)
         expect(subject).to all(be_an_instance_of(RequestIssue))
       end
+
+      it "returns all attributes listed in the Request Issue class" do
+        expect(subject.first.instance_variable_defined?(:@contested_issue_description)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@contention_reference_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@contested_rating_decision_reference_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@contested_rating_issue_profile_date)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@contested_rating_issue_reference_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@contested_decision_issue_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@decision_date)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@ineligible_due_to_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@is_unidentified)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@unidentified_issue_text)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@nonrating_issue_category)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@ineligible_reason)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@nonrating_issue_description)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@untimely_exemption)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@untimely_exemption_notes)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@vacols_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@vacols_sequence_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@benefit_type)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@closed_at)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@closed_status)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@contested_rating_issue_diagnostic_code)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@ramp_claim_id)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@rating_issue_associated_at)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@type)).to be_truthy
+        expect(subject.first.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
+      end
     end
 
     context "when there is one decision_review_issue and it has 'CONTESTED' eligibility_result" do
@@ -1049,6 +1077,13 @@ describe Builders::RequestIssueBuilder do
           end
         end
       end
+    end
+  end
+
+  describe "#assign_type" do
+    subject { builder.send(:assign_type) }
+    it "sets the Request Issue's type to 'RequestIssue'" do
+      expect(subject).to eq(described_class::REQUEST_ISSUE)
     end
   end
 end
