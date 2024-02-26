@@ -20,4 +20,9 @@ module AppealsConsumer::Error
   class ClientRequestError < CaseflowError; end
   class BisVeteranNotFound < StandardError; end
   class BisClaimantNotFound < StandardError; end
+  class NullContentionIdError < StandardError; end
+  class NullPriorDecisionNotificationDate < StandardError; end
+  class NullAssociatedCaseflowRequestIssueId < StandardError; end
+  class IssueEligibilityResultNotRecognized < StandardError; end
+  class NoIssuesFound < StandardError; end
 end
