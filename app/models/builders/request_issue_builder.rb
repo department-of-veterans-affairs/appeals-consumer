@@ -170,7 +170,7 @@ class Builders::RequestIssueBuilder
   def calculate_ineligible_due_to_id
     @request_issue.ineligible_due_to_id =
       if pending_claim_review?
-        fail_if_associated_request_issue_not_present
+        handle_associated_request_issue_not_present
 
         issue.associated_caseflow_request_issue_id
       end
@@ -297,7 +297,7 @@ class Builders::RequestIssueBuilder
     INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
   end
 
-  def fail_if_associated_request_issue_not_present
+  def handle_associated_request_issue_not_present
     unless associated_caseflow_request_issue_present?
       fail AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId, "DecisionReviewCreated Claim ID"\
       " #{decision_review_created.claim_id} - Issue index #{index} has a null associated_caseflow_request_issue_id"
