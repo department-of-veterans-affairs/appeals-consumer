@@ -305,7 +305,10 @@ class Builders::RequestIssueBuilder
   end
 
   def remove_duplicate_prior_decision_type_text
-    category = issue.prior_decision_type += ": "
+    category = issue.prior_decision_type
+    return unless category
+
+    category += ": "
     description = issue.prior_decision_text
 
     description.gsub(/#{Regexp.escape(category)}/i, "")
