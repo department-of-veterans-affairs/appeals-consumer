@@ -190,7 +190,7 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_nonrating_issue_category
-    @request_issue.nonrating_issue_category = issue.prior_decision_type if nonrating?
+    @request_issue.nonrating_issue_category = nonrating? ? issue.prior_decision_type : nil
   end
 
   def calculate_nonrating_issue_description
