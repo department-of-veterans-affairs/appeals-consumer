@@ -2,6 +2,20 @@
 
 # This is the base processing job class
 class BaseProcessingJob < ApplicationJob
+  queue_as :high_priority
+
+  def perform(event)
+    init_setup(event)
+  rescue StandardError => error
+    Rails.logger.error(error)
+  ensure
+    ended_at
+  end
+
+  def ended_at
+    EventAudit.find_by(event_id: @event.id).update!(ended_at: Time.current)
+  end
+
   private
 
   def init_setup(event)
