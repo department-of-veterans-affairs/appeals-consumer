@@ -187,36 +187,6 @@ FactoryBot.define do
       end
     end
 
-    trait :nonrating_message_payload do
-      message_payload do
-        {
-          "claim_id" => 1_234_567,
-          "decision_review_type" => "HIGHER_LEVEL_REVIEW",
-          "veteran_first_name" => "John",
-          "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "01010101",
-          "ep_code" => "030HLRNR",
-          "ep_code_category" => "non-rating",
-          "claim_received_date" => 1954,
-          "claim_lifecycle_status" => "RW",
-          "payee_code" => "00",
-          "modifier" => "01",
-          "originated_from_vacols_issue" => false,
-          "informal_conference_requested" => false,
-          "informal_conference_tracked_item_id" => nil,
-          "same_station_review_requested" => false,
-          "intake_creation_time" => Time.now.utc.to_i * 1000,
-          "claim_creation_time" => Time.now.utc.to_i * 1000,
-          "created_by_username" => "BVADWISE101",
-          "created_by_station" => "101",
-          "created_by_application" => "PASYSACCTCREATE",
-          "decision_review_issues" => decision_review_issues
-        }
-      end
-    end
-
     trait :pension do
       message_payload do
         {
@@ -498,7 +468,6 @@ FactoryBot.define do
     end
 
     trait :decision_issue_prior_non_rating_issue do
-      nonrating_message_payload
       decision_review_issues do
         [
           {
@@ -594,7 +563,7 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_pending_hlr do
+    trait :ineligible_nonrating_pending_hlr do
       decision_review_issues do
         [
           {
@@ -626,7 +595,40 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_pending_board do
+    trait :ineligible_rating_pending_hlr do
+      rating_message_payload
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 12,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => 17_946,
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "12/20/2021",
+            "eligible" => false,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_pending_board do
       decision_review_issues do
         [
           {
@@ -658,7 +660,40 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_pending_supplemental do
+    trait :ineligible_rating_pending_board do
+      rating_message_payload
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 12,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => 17_946,
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "12/20/2021",
+            "eligible" => false,
+            "eligibility_result" => "PENDING_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_pending_supplemental do
       decision_review_issues do
         [
           {
@@ -677,6 +712,39 @@ FactoryBot.define do
             "prior_decision_rating_disability_sequence_number" => nil,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => nil,
+            "eligible" => false,
+            "eligibility_result" => "PENDING_SUPPLEMENTAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_pending_supplemental do
+      rating_message_payload
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 12,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => 17_946,
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "12/20/2021",
             "eligible" => false,
             "eligibility_result" => "PENDING_SUPPLEMENTAL",
             "time_override" => nil,
