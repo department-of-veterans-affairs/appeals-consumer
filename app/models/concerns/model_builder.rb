@@ -5,6 +5,9 @@
 module ModelBuilder
   # used to convert date type to date logical type
   EPOCH_DATE = Date.new(1970, 1, 1)
+  PENSION_IDENTIFIER = "PMC"
+  PENSION_BENEFIT_TYPE = "pension"
+  COMPENSATION_BENEFIT_TYPE = "compensation"
 
   def fetch_veteran_bis_record
     return unless @decision_review_created
