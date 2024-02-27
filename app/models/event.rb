@@ -36,6 +36,19 @@ class Event < ApplicationRecord
     fail NoMethodError, "Please define a .process! method for the #{self} class"
   end
 
+  def handle_response(response)
+    if response.code.to_i == 201
+      update!(completed_at: Time.zone.now)
+    end
+    Rails.logger.info("Received #{code}")
+  end
+
+  def handle_client_error(error_message)
+    Rails.logger.error(error_message)
+    update!(error: error_message)
+  end
+  
+
   private
 
   # :reek:UtilityFunction
