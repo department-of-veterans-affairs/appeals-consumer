@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe BaseProcessingJob, type: :job do
+RSpec.describe BaseEventProcessingJob, type: :job do
   let!(:event) { create(:event) }
 
   describe "#perform_now" do
