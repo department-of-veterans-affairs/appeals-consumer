@@ -37,7 +37,7 @@ gem "puma", ">= 5.0"
 # gem "rack-cors"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.2"
+gem "rails", "~> 7.1.3"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", ">= 4.0.1"
