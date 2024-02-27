@@ -308,7 +308,7 @@ class Builders::RequestIssueBuilder
 
   def remove_duplicate_prior_decision_type_text
     category = issue.prior_decision_type
-    return unless category
+    return issue.prior_decision_text unless category
 
     category += ": "
     description = issue.prior_decision_text
