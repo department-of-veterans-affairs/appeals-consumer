@@ -25,9 +25,7 @@ class AvroLoggerService < ActiveSupport::Logger
   end
 
   def notify_sentry(error)
-    Sentry.capture_exception(error) do |scope|
-      scope.set_extras({ source: SERVICE_NAME })
-    end
+    Raven.capture_exception(error, extra: { source: SERVICE_NAME })
   end
 
   # :reek:UtilityFunction

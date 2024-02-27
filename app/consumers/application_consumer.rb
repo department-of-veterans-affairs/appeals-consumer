@@ -71,12 +71,7 @@ class ApplicationConsumer < Karafka::BaseConsumer
 
   # Reports an exception to Sentry, including additional details for debugging.
   def notify_sentry(error, extra_details)
-    Sentry.capture_exception(error) do |scope|
-      scope.set_extras({
-                         **extra_details,
-                         source: self.class.name
-                       })
-    end
+    Raven.capture_exception(error, extra: { **extra_details, source: self.class.name })
   end
 
   # :reek:UtilityFunction
