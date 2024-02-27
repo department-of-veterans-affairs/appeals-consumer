@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This is the base processing job class
-class BaseProcessingJob < ApplicationJob
+class BaseEventProcessingJob < ApplicationJob
   queue_as :high_priority
 
   def perform(event)
