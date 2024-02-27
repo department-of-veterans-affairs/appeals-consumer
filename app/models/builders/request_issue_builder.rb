@@ -7,7 +7,7 @@ class Builders::RequestIssueBuilder
 
   REQUEST_ISSUE = "RequestIssue"
 
-  # the date AMA was launched is used to determine if
+  # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
   AMA_ACTIVATION_DATE = Date.new(2019, 2, 19)
 
