@@ -70,11 +70,7 @@ gem "jruby-openssl", platforms: :jruby
 
 gem "redis-mutex"
 
-gem "sentry-delayed_job"
-gem "sentry-rails"
 gem "sentry-raven"
-gem "sentry-resque"
-gem "sentry-sidekiq"
 
 gem "strong_migrations"
 
