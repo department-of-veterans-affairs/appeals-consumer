@@ -50,6 +50,8 @@ module AppealsConsumer
     config.css_id = "APPEALSCONSUMER1"
     config.redis_url = ENV["REDIS_URL_CACHE"]
 
+    config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL_CACHE"], expires_in: 24.hours }
+
     # it's a safe assumption we're running on us-gov-west-1
     ENV["AWS_REGION"] ||= "us-gov-west-1"
 
