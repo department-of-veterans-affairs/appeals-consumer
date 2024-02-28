@@ -20,14 +20,12 @@ class AvroLoggerService < ActiveSupport::Logger
 
   def notify_slack
     slack_message = ERROR_MSG
-    slack_message += " See Sentry event #{Sentry.last_event_id}" if Sentry.last_event_id.present?
+    slack_message += " See Sentry event #{Raven.last_event_id}" if Raven.last_event_id.present?
     slack_service.send_notification(slack_message, SERVICE_NAME)
   end
 
   def notify_sentry(error)
-    Sentry.capture_exception(error) do |scope|
-      scope.set_extras({ source: SERVICE_NAME })
-    end
+    Raven.capture_exception(error, extra: { source: SERVICE_NAME })
   end
 
   # :reek:UtilityFunction

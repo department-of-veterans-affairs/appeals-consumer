@@ -422,6 +422,8 @@ GEM
     sentry-rails (5.15.2)
       railties (>= 5.0)
       sentry-ruby (~> 5.15.2)
+    sentry-raven (3.1.2)
+      faraday (>= 1.0)
     sentry-resque (5.15.2)
       resque (>= 1.24)
       sentry-ruby (~> 5.15.2)
@@ -544,8 +546,8 @@ DEPENDENCIES
   rubocop-rails
   sentry-delayed_job
   sentry-rails
+  sentry-raven
   sentry-resque
-  sentry-ruby
   sentry-sidekiq
   shoryuken
   simplecov
