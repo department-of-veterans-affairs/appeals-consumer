@@ -157,17 +157,17 @@ FactoryBot.define do
       end
     end
 
-    trait :rating_message_payload do
+    trait :supplemental_message_payload do
       message_payload do
         {
           "claim_id" => 1_234_567,
-          "decision_review_type" => "HIGHER_LEVEL_REVIEW",
+          "decision_review_type" => "SUPPLEMENTAL_CLAIM",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
           "veteran_participant_id" => "123456789",
           "file_number" => "123456789",
           "claimant_participant_id" => "01010101",
-          "ep_code" => "030HLRNRPMC",
+          "ep_code" => "040SCNR",
           "ep_code_category" => "non-rating",
           "claim_received_date" => 18_475,
           "claim_lifecycle_status" => "RW",
@@ -185,6 +185,11 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+    end
+
+    trait :unidentified_supplemental do
+      supplemental_message_payload
+      unidentified
     end
 
     trait :pension do
