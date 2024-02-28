@@ -48,11 +48,13 @@ describe DecisionReviewCreated do
           case issue.contention_id
           when 123_456_789
             expect(issue.contention_id).to eq(123_456_789)
+            expect(issue.associated_caseflow_decision_id).to eq(nil)
             expect(issue.associated_caseflow_request_issue_id).to eq(nil)
             expect(issue.unidentified).to eq(false)
             expect(issue.prior_rating_decision_id).to eq(nil)
             expect(issue.prior_non_rating_decision_id).to eq(12)
             expect(issue.prior_decision_award_event_id).to eq(17_945)
+            expect(issue.prior_decision_ramp_id).to eq(nil)
             expect(issue.prior_decision_text).to eq("DIC: Service connection for tetnus denied")
             expect(issue.prior_decision_type).to eq("DIC")
             expect(issue.prior_decision_notification_date).to eq(1954)
@@ -70,11 +72,13 @@ describe DecisionReviewCreated do
             expect(issue.legacy_appeal_issue_id).to eq(nil)
           when 123_456_790
             expect(issue.contention_id).to eq(123_456_790)
+            expect(issue.associated_caseflow_decision_id).to eq(nil)
             expect(issue.associated_caseflow_request_issue_id).to eq(nil)
             expect(issue.unidentified).to eq(false)
             expect(issue.prior_rating_decision_id).to eq(nil)
             expect(issue.prior_non_rating_decision_id).to eq(13)
             expect(issue.prior_decision_award_event_id).to eq(17_945)
+            expect(issue.prior_decision_ramp_id).to eq(nil)
             expect(issue.prior_decision_text).to eq("Basic Eligibility: Service connection for ear infection denied")
             expect(issue.prior_decision_type).to eq("Basic Eligibility")
             expect(issue.prior_decision_notification_date).to eq(1954)
