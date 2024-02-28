@@ -505,18 +505,32 @@ describe Builders::RequestIssueBuilder do
 
     context "when issue does not have a prior_decision_notification_date" do
       context "when the issue is identified" do
-        before do
-          issue.prior_decision_notification_date = nil
+        context "when the decision review created's decision_review_type is 'HIGHER_LEVEL_REVIEW'" do
+          before do
+            issue.prior_decision_notification_date = nil
+          end
+
+          let(:error) { AppealsConsumer::Error::NullPriorDecisionNotificationDate }
+          let(:error_msg) do
+            "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
+              " a null prior_decision_notification_date"
+          end
+
+          it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
+            expect { subject }.to raise_error(error, error_msg)
+          end
         end
 
-        let(:error) { AppealsConsumer::Error::NullPriorDecisionNotificationDate }
-        let(:error_msg) do
-          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
-            " a null prior_decision_notification_date"
-        end
+        context "when the decision review created's decision_review_type is 'SUPPLEMENTAL_CLAIM'" do
+          before do
+            issue.prior_decision_notification_date = nil
+          end
 
-        it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
-          expect { subject }.to raise_error(error, error_msg)
+          let(:decision_review_created) { build(:decision_review_created, :supplemental_message_payload) }
+
+          it "sets the Request Issue's decision_date to nil" do
+            expect(subject).to eq(nil)
+          end
         end
       end
 
@@ -2022,6 +2036,57 @@ describe Builders::RequestIssueBuilder do
 
     it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
       expect { subject }.to raise_error(error, error_msg)
+    end
+  end
+
+  describe "#hlr?" do
+    subject { builder.send(:hlr?) }
+
+    context "when the decision review created's decision_review_type is 'HIGHER_LEVEL_REVIEW'" do
+      it "returns true" do
+        expect(subject).to eq true
+      end
+    end
+
+    context "when the decision review created's decision_review_type is 'SUPPLEMENTAL_CLAIM'" do
+      let(:decision_review_created) { build(:decision_review_created, :supplemental_message_payload) }
+      it "returns false" do
+        expect(subject).to eq false
+      end
+    end
+  end
+
+  describe "#identified_hlr?" do
+    subject { builder.send(:identified_hlr?) }
+    context "when the decision review created's decision_review_type is 'HIGHER_LEVEL_REVIEW'" do
+      context "identified" do
+        it "returns true" do
+          expect(subject).to eq true
+        end
+      end
+
+      context "unidentified" do
+        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        it "returns false" do
+          expect(subject).to eq false
+        end
+      end
+    end
+
+    context "when the decision review created's decision_review_type is 'SUPPLEMENTAL_CLAIM'" do
+      context "identified" do
+        let(:decision_review_created) { build(:decision_review_created, :supplemental_message_payload) }
+        it "returns false" do
+          expect(subject).to eq false
+        end
+      end
+
+      context "unidentified" do
+        let(:decision_review_created) { build(:decision_review_created, :unidentified_supplemental) }
+        it "returns false" do
+          expect(subject).to eq false
+        end
+      end
     end
   end
 end

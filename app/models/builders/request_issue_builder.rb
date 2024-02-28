@@ -6,6 +6,7 @@ class Builders::RequestIssueBuilder
   attr_reader :decision_review_created, :issue, :index, :request_issue
 
   REQUEST_ISSUE = "RequestIssue"
+  HLR_DECISION_REVIEW_TYPE = "HIGHER_LEVEL_REVIEW"
 
   # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
@@ -161,7 +162,7 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_decision_date
-    if prior_decision_notification_date_not_present? && identified?
+    if prior_decision_notification_date_not_present? && identified_hlr?
       handle_missing_notification_date
     end
 
@@ -351,6 +352,14 @@ class Builders::RequestIssueBuilder
 
   def associated_caseflow_request_issue_present?
     !!issue.associated_caseflow_request_issue_id
+  end
+
+  def identified_hlr?
+    identified? && hlr?
+  end
+
+  def hlr?
+    decision_review_created.decision_review_type == HLR_DECISION_REVIEW_TYPE
   end
 
   def identified?
