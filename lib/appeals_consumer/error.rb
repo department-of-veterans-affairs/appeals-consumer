@@ -25,4 +25,5 @@ module AppealsConsumer::Error
   class NullAssociatedCaseflowRequestIssueId < StandardError; end
   class IssueEligibilityResultNotRecognized < StandardError; end
   class NoIssuesFound < StandardError; end
+  class NotNullContentionIdError < StandardError; end
 end

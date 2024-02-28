@@ -138,11 +138,16 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_contention_reference_id
-    if contention_id_not_present? && eligible?
-      handle_missing_contention_id
-    end
+    @request_issue.contention_reference_id =
+      if eligible?
+        handle_missing_contention_id if contention_id_not_present?
 
-    @request_issue.contention_reference_id = issue.contention_id
+        issue.contention_id
+      elsif ineligible?
+        handle_contention_id_present if contention_id_present?
+
+        nil
+      end
   end
 
   def assign_contested_rating_decision_reference_id
@@ -429,6 +434,15 @@ class Builders::RequestIssueBuilder
 
   def determine_completed_claim_review_type
     completed_board? ? appeal_to_higher_level_review : higher_level_review_to_higher_level_review
+  end
+
+  def contention_id_present?
+    !!issue.contention_id
+  end
+
+  def handle_contention_id_present
+    fail AppealsConsumer::Error::NotNullContentionIdError, "DecisionReviewCreated Claim ID"\
+    " #{decision_review_created.claim_id} - Issue index #{index} is ineligible but has a not-null contention_id value"
   end
 
   def handle_unrecognized_eligibility_result

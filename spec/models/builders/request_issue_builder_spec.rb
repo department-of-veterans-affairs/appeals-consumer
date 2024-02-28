@@ -379,10 +379,19 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "ineligible issue" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+        before do
+          issue.contention_id = 123_456_789
+        end
 
-        it "assigns the Request Issue's contention_id to nil" do
-          expect(subject).to eq(nil)
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+        let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
+        let(:error_msg) do
+          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} is ineligible"\
+           " but has a not-null contention_id value"
+        end
+
+        it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
+          expect { subject }.to raise_error(error, error_msg)
         end
       end
     end
@@ -2087,6 +2096,35 @@ describe Builders::RequestIssueBuilder do
           expect(subject).to eq false
         end
       end
+    end
+  end
+
+  describe "#contention_id_present?" do
+    subject { builder.send(:contention_id_present?) }
+    context "when the issue has a not null value for contention_id" do
+      it "returns true" do
+        expect(subject).to eq true
+      end
+    end
+
+    context "when the issue has a null value for contention_id" do
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_hlr) }
+      it "returns false" do
+        expect(subject).to eq false
+      end
+    end
+  end
+
+  describe "#handle_contention_id_present" do
+    subject { builder.send(:handle_contention_id_present) }
+    let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
+    let(:error_msg) do
+      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} is ineligible but has"\
+       " a not-null contention_id value"
+    end
+
+    it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
+      expect { subject }.to raise_error(error, error_msg)
     end
   end
 end
