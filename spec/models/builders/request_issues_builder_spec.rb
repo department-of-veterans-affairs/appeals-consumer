@@ -113,8 +113,8 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
-  describe "#build_issues(drc, issues)" do
-    subject { builder.build_issues(decision_review_created, decision_review_issues) }
+  describe "#build_issues(issues)" do
+    subject { builder.build_issues(decision_review_issues) }
 
     context "when there aren't any issues after removing 'CONTESTED' issues" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested) }
@@ -144,8 +144,8 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
-  describe "#handle_no_issues_after_removing_contested(drc)" do
-    subject { builder.send(:handle_no_issues_after_removing_contested, decision_review_created) }
+  describe "#handle_no_issues_after_removing_contested" do
+    subject { builder.send(:handle_no_issues_after_removing_contested) }
     let(:error) { AppealsConsumer::Error::NoIssuesFound }
     let(:error_msg) do
       "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} does not contain any valid issues after"\
@@ -157,8 +157,8 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
-  describe "#remove_ineligible_contested_issues(decision_review_created)" do
-    subject { builder.send(:remove_ineligible_contested_issues, decision_review_created) }
+  describe "#remove_ineligible_contested_issues" do
+    subject { builder.send(:remove_ineligible_contested_issues) }
     let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
 
     it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do

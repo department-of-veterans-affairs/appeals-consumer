@@ -50,7 +50,7 @@ class Builders::RequestIssuesBuilder
     builder = new(decision_review_created)
 
     issues = []
-    builder.build_issues(decision_review_created, issues)
+    builder.build_issues(issues)
     issues
   end
 
@@ -58,11 +58,11 @@ class Builders::RequestIssuesBuilder
     @decision_review_created = decision_review_created
   end
 
-  def build_issues(drc, issues)
-    valid_issues = remove_ineligible_contested_issues(drc)
+  def build_issues(issues)
+    valid_issues = remove_ineligible_contested_issues
 
     if valid_issues.empty?
-      handle_no_issues_after_removing_contested(drc)
+      handle_no_issues_after_removing_contested
     else
       valid_issues.each_with_index do |issue, index|
         build_request_issue(issue, issues, index)
@@ -74,13 +74,13 @@ class Builders::RequestIssuesBuilder
 
   # removes "CONTESTED" issues from final array
   # caseflow does not track or have a concept of this when determining ineligible_reason
-  def remove_ineligible_contested_issues(decision_review_created)
+  def remove_ineligible_contested_issues
     decision_review_created.decision_review_issues.reject { |issue| issue.eligibility_result == CONTESTED }
   end
 
-  def handle_no_issues_after_removing_contested(drc)
-    fail AppealsConsumer::Error::NoIssuesFound, "DecisionReviewCreated Claim ID"\
-    " #{drc.claim_id} does not contain any valid issues after removing 'CONTESTED' ineligible issues"
+  def handle_no_issues_after_removing_contested
+    fail AppealsConsumer::Error::NoIssuesFound, "DecisionReviewCreated Claim ID #{decision_review_created.claim_id}"\
+     " does not contain any valid issues after removing 'CONTESTED' ineligible issues"
   end
 
   def build_request_issue(issue, issues, index)
