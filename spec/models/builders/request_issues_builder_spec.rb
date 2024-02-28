@@ -6,15 +6,19 @@ describe Builders::RequestIssuesBuilder do
   let(:issue) { decision_review_issues.first }
   let(:issues) { [] }
   let(:index) { decision_review_issues.index(issue) }
-  let(:builder) { described_class.new(decision_review_created, issue, index) }
+  let(:builder) do
+    builder = described_class.new(decision_review_created)
+    builder.send(:initialize_issue, issue, index)
+    builder
+  end
 
-  describe "#build(decision_review_created)" do
+  describe "#self.build(decision_review_created)" do
     subject { described_class.build(decision_review_created) }
 
     context "when there are multiple decision_review_issues and one contains 'CONTESTED' eligibility_result" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
 
-      it "a RequestIssuesBuilder instance is only initialized for non-contested issues in array" do
+      it "a RequestIssuesBuilder instance is only initialized once" do
         expect(described_class).to receive(:new).once.and_call_original
         subject
       end
@@ -67,8 +71,8 @@ describe Builders::RequestIssuesBuilder do
     end
 
     context "when there are multiple decision_review_issues and none of them contain 'CONTESTED' eligibility_result" do
-      it "a RequestIssuesBuilder instance is only initialized for non-contested issues in array" do
-        expect(described_class).to receive(:new).twice.and_call_original
+      it "a RequestIssuesBuilder instance is only initialized once" do
+        expect(described_class).to receive(:new).once.and_call_original
         subject
       end
 
@@ -110,7 +114,7 @@ describe Builders::RequestIssuesBuilder do
   end
 
   describe "#build_issues(drc, issues)" do
-    subject { described_class.build_issues(decision_review_created, decision_review_issues) }
+    subject { builder.build_issues(decision_review_created, decision_review_issues) }
 
     context "when there aren't any issues after removing 'CONTESTED' issues" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested) }
@@ -129,7 +133,7 @@ describe Builders::RequestIssuesBuilder do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
       let(:contested) { described_class::CONTESTED }
 
-      it "a RequestIssuesBuilder instance is only initialized for non-contested issues in array" do
+      it "a RequestIssuesBuilder instance is only initialized once" do
         expect(described_class).to receive(:new).once.and_call_original
         subject
       end
@@ -141,7 +145,7 @@ describe Builders::RequestIssuesBuilder do
   end
 
   describe "#handle_no_issues_after_removing_contested(drc)" do
-    subject { described_class.handle_no_issues_after_removing_contested(decision_review_created) }
+    subject { builder.send(:handle_no_issues_after_removing_contested, decision_review_created) }
     let(:error) { AppealsConsumer::Error::NoIssuesFound }
     let(:error_msg) do
       "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} does not contain any valid issues after"\
@@ -154,7 +158,7 @@ describe Builders::RequestIssuesBuilder do
   end
 
   describe "#remove_ineligible_contested_issues(decision_review_created)" do
-    subject { described_class.remove_ineligible_contested_issues(decision_review_created) }
+    subject { builder.send(:remove_ineligible_contested_issues, decision_review_created) }
     let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
 
     it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do
@@ -162,20 +166,23 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
-  describe "#build_request_issue(decision_review_created, issue, issues, index)" do
-    subject { described_class.build_request_issue(decision_review_created, issue, issues, index) }
-
-    it "initializes a Builder::RequestIssuesBuilder instance" do
-      expect(described_class).to receive(:new).once.and_call_original
-      subject
-    end
+  describe "#build_request_issue(issue, issues, index)" do
+    subject { builder.send(:build_request_issue, issue, issues, index) }
 
     it "returns a RequestIssue instance for the issue passed in" do
       expect(subject.first).to be_an_instance_of(RequestIssue)
       expect(subject.count).to eq(1)
     end
 
-    it "assigns values to attributes for every Request Issue instance returned" do
+    it "initializes an issue variable" do
+      expect(builder.issue).to be_an_instance_of(DecisionReviewIssue)
+    end
+
+    it "initializes an index variable matching the index of the issue passed in" do
+      expect(builder.index).to eq(index)
+    end
+
+    it "assigns values to attributes for the Request Issue instance" do
       expect(subject.first.instance_variable_defined?(:@contested_issue_description)).to be_truthy
       expect(subject.first.instance_variable_defined?(:@contention_reference_id)).to be_truthy
       expect(subject.first.instance_variable_defined?(:@contested_rating_decision_reference_id)).to be_truthy
@@ -204,23 +211,25 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
-  describe "#initialize(issue, deicision_review_created)" do
-    let(:request_issue) { builder.request_issue }
-
+  describe "#initialize(decision_review_created)" do
     it "initializes a new RequestIssuesBuilder instance for an individual DecisionReviewIssue" do
       expect(builder).to be_an_instance_of(described_class)
     end
+  end
 
-    it "initializes a new RequestIssue object for an individual DecisionReviewIssue" do
-      expect(request_issue).to be_an_instance_of(RequestIssue)
-    end
+  describe "#initialize_issue(issue, index)" do
+    subject { builder.send(:initialize_issue, issue, index) }
 
-    it "assigns issue to the DecisionReviewIssue object passed in" do
+    it "initializes an issue variable" do
       expect(builder.issue).to be_an_instance_of(DecisionReviewIssue)
     end
 
-    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(DecisionReviewCreated)
+    it "initializes an index variable matching the index of the issue passed in" do
+      expect(builder.index).to eq(index)
+    end
+
+    it "initializes a RequestIssue instance" do
+      expect(builder.request_issue).to be_an_instance_of(RequestIssue)
     end
   end
 
@@ -229,7 +238,7 @@ describe Builders::RequestIssuesBuilder do
       expect(builder).to receive(:assign_methods)
       expect(builder).to receive(:calculate_methods)
 
-      builder.assign_attributes
+      builder.send(:assign_attributes)
     end
   end
 
@@ -246,7 +255,7 @@ describe Builders::RequestIssuesBuilder do
       expect(builder).to receive(:assign_nonrating_issue_bgs_id)
       expect(builder).to receive(:assign_type)
 
-      builder.assign_methods
+      builder.send(:assign_methods)
     end
   end
 
@@ -268,7 +277,7 @@ describe Builders::RequestIssuesBuilder do
       expect(builder).to receive(:calculate_ramp_claim_id)
       expect(builder).to receive(:calculate_rating_issue_associated_at)
 
-      builder.calculate_methods
+      builder.send(:calculate_methods)
     end
   end
 
