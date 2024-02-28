@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Builders::RequestIssueBuilder do
+describe Builders::RequestIssuesBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:decision_review_issues) { decision_review_created.decision_review_issues }
   let(:issue) { decision_review_issues.first }
@@ -14,7 +14,7 @@ describe Builders::RequestIssueBuilder do
     context "when there are multiple decision_review_issues and one contains 'CONTESTED' eligibility_result" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
 
-      it "a RequestIssueBuilder instance is only initialized for non-contested issues in array" do
+      it "a RequestIssuesBuilder instance is only initialized for non-contested issues in array" do
         expect(described_class).to receive(:new).once.and_call_original
         subject
       end
@@ -67,7 +67,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when there are multiple decision_review_issues and none of them contain 'CONTESTED' eligibility_result" do
-      it "a RequestIssueBuilder instance is only initialized for non-contested issues in array" do
+      it "a RequestIssuesBuilder instance is only initialized for non-contested issues in array" do
         expect(described_class).to receive(:new).twice.and_call_original
         subject
       end
@@ -129,7 +129,7 @@ describe Builders::RequestIssueBuilder do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
       let(:contested) { described_class::CONTESTED }
 
-      it "a RequestIssueBuilder instance is only initialized for non-contested issues in array" do
+      it "a RequestIssuesBuilder instance is only initialized for non-contested issues in array" do
         expect(described_class).to receive(:new).once.and_call_original
         subject
       end
@@ -165,7 +165,7 @@ describe Builders::RequestIssueBuilder do
   describe "#build_request_issue(decision_review_created, issue, issues, index)" do
     subject { described_class.build_request_issue(decision_review_created, issue, issues, index) }
 
-    it "initializes a Builder::RequestIssueBuilder instance" do
+    it "initializes a Builder::RequestIssuesBuilder instance" do
       expect(described_class).to receive(:new).once.and_call_original
       subject
     end
@@ -207,7 +207,7 @@ describe Builders::RequestIssueBuilder do
   describe "#initialize(issue, deicision_review_created)" do
     let(:request_issue) { builder.request_issue }
 
-    it "initializes a new RequestIssueBuilder instance for an individual DecisionReviewIssue" do
+    it "initializes a new RequestIssuesBuilder instance for an individual DecisionReviewIssue" do
       expect(builder).to be_an_instance_of(described_class)
     end
 
@@ -278,13 +278,13 @@ describe Builders::RequestIssueBuilder do
     context "when decision_review_created.ep_code includes 'PMC'" do
       let(:decision_review_created) { build(:decision_review_created, :pension) }
       it "assigns the claim_review's benefit_type to 'pension'" do
-        expect(subject).to eq(Builders::RequestIssueBuilder::PENSION_BENEFIT_TYPE)
+        expect(subject).to eq(described_class::PENSION_BENEFIT_TYPE)
       end
     end
 
     context "when decision_review_created.ep_code DOES NOT include 'PMC'" do
       it "assigns the claim_review's benefit_type to 'compensation'" do
-        expect(subject).to eq(Builders::RequestIssueBuilder::COMPENSATION_BENEFIT_TYPE)
+        expect(subject).to eq(described_class::COMPENSATION_BENEFIT_TYPE)
       end
     end
   end
@@ -1911,13 +1911,13 @@ describe Builders::RequestIssueBuilder do
     context "when DecisionReviewCreated has an ep_code that includes 'PMC'" do
       let(:decision_review_created) { build(:decision_review_created, :pension) }
       it "returns 'pension'" do
-        expect(subject).to eq(ModelBuilder::PENSION_BENEFIT_TYPE)
+        expect(subject).to eq(described_class::PENSION_BENEFIT_TYPE)
       end
     end
 
     context "when DecisionReviewCreated has an ep_code that does not include 'PMC'" do
       it "returns 'compensation'" do
-        expect(subject).to eq(ModelBuilder::COMPENSATION_BENEFIT_TYPE)
+        expect(subject).to eq(described_class::COMPENSATION_BENEFIT_TYPE)
       end
     end
   end
@@ -1927,7 +1927,7 @@ describe Builders::RequestIssueBuilder do
     let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
     let(:date) { issue.prior_decision_rating_profile_date }
     let(:target_date) { Date.strptime(date, "%m/%d/%Y") }
-    let(:epoch) { ModelBuilder::EPOCH_DATE }
+    let(:epoch) { described_class::EPOCH_DATE }
 
     it "returns the date converted to logical type date int" do
       expect(subject).to eq((target_date - epoch).to_i)
