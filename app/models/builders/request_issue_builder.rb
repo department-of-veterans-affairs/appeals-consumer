@@ -167,9 +167,7 @@ class Builders::RequestIssueBuilder
   end
 
   def calculate_decision_date
-    if prior_decision_notification_date_not_present? && identified_hlr?
-      handle_missing_notification_date
-    end
+    handle_missing_notification_date if prior_decision_notification_date_not_present? && identified_hlr?
 
     @request_issue.decision_date = issue.prior_decision_notification_date
   end

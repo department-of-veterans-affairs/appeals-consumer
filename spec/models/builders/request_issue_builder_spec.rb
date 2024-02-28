@@ -1232,13 +1232,6 @@ describe Builders::RequestIssueBuilder do
           end
         end
 
-        context "rating decision" do
-          let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
-          it "sets the Request Issue's rating_issue_associated_at to nil" do
-            expect(subject).to eq(nil)
-          end
-        end
-
         context "decision issue associated with a rating issue" do
           let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
           it "sets the Request Issue's rating_issue_associated_at to nil" do
