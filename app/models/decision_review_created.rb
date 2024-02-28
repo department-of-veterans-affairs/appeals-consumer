@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "./concerns/message_payload_validator"
-
 # DecisionReviewCreated represents the message_payload from an individual DecisionReviewCreatedEvent
 class DecisionReviewCreated
   include MessagePayloadValidator
