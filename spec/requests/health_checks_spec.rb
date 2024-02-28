@@ -3,7 +3,7 @@
 describe "Health Check", type: :request do
   describe "#show" do
     before do
-      Rails.application.config.build_version = { commit: "The deployed git hash"}
+      Rails.application.config.build_version = { commit: "The deployed git hash" }
     end
 
     it "returns healthy status and the git hash used for deployment" do
