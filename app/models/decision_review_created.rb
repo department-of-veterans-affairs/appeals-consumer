@@ -79,6 +79,8 @@ end
 class DecisionReviewIssue
   include MessagePayloadValidator
 
+  # TODO: VERIFY ATTRIBUTES NAMES: prior_decision_ramp_id, prior_decision_rating_disability_sequence_number
+  # TODO: VERIFY DATATYPES: prior_decision_rating_profile_date
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
