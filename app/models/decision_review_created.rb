@@ -106,7 +106,7 @@ class DecisionReviewIssue
     "time_override_reason" => [String, NilClass],
     "contested" => [TrueClass, FalseClass, NilClass],
     "soc_opt_in" => [TrueClass, FalseClass, NilClass],
-    "legacy_appeal_id" => [Integer, NilClass],
+    "legacy_appeal_id" => [String, NilClass],
     "legacy_appeal_issue_id" => [Integer, NilClass]
   }
   # rubocop:enable Style/MutableConstant

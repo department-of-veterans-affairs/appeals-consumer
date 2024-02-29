@@ -247,7 +247,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => false,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => 987_654_321,
+            "legacy_appeal_id" => "987654321",
             "legacy_appeal_issue_id" => 1
           }
         ]
@@ -852,7 +852,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => 123_456,
+            "legacy_appeal_id" => "123456",
             "legacy_appeal_issue_id" => 1
           }
         ]
@@ -884,7 +884,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => 123_456,
+            "legacy_appeal_id" => "123456",
             "legacy_appeal_issue_id" => 1
           }
         ]
@@ -916,7 +916,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => false,
-            "legacy_appeal_id" => 123_456,
+            "legacy_appeal_id" => "123456",
             "legacy_appeal_issue_id" => 1
           }
         ]
@@ -1012,7 +1012,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => 12_345,
+            "legacy_appeal_id" => "12345",
             "legacy_appeal_issue_id" => 1
           }
         ]
