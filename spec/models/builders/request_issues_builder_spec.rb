@@ -429,22 +429,18 @@ describe Builders::RequestIssuesBuilder do
     subject { builder.send(:calculate_contested_rating_issue_profile_date) }
 
     context "when the issue is a rating issue" do
-      let(:profile_date_converted_to_logical_type_int) { builder.send(:convert_profile_date_to_logical_type_int) }
-
       context "rating" do
         let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
-        it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date"\
-         " converted to logical type int" do
-          expect(subject).to eq(profile_date_converted_to_logical_type_int)
+        it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date" do
+          expect(subject).to eq(issue.prior_decision_rating_profile_date)
         end
       end
 
       context "decision issue with an associated rating issue" do
         let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
 
-        it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date"\
-         " converted to logical type int" do
-          expect(subject).to eq(profile_date_converted_to_logical_type_int)
+        it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date" do
+          expect(subject).to eq(issue.prior_decision_rating_profile_date)
         end
       end
     end
@@ -1928,18 +1924,6 @@ describe Builders::RequestIssuesBuilder do
       it "returns 'compensation'" do
         expect(subject).to eq(described_class::COMPENSATION_BENEFIT_TYPE)
       end
-    end
-  end
-
-  describe "#convert_profile_date_to_logical_type_int" do
-    subject { builder.send(:convert_profile_date_to_logical_type_int) }
-    let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
-    let(:date) { issue.prior_decision_rating_profile_date }
-    let(:target_date) { Date.strptime(date, "%m/%d/%Y") }
-    let(:epoch) { described_class::EPOCH_DATE }
-
-    it "returns the date converted to logical type date int" do
-      expect(subject).to eq((target_date - epoch).to_i)
     end
   end
 

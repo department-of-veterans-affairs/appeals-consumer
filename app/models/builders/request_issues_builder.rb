@@ -158,7 +158,7 @@ class Builders::RequestIssuesBuilder
   end
 
   def calculate_contested_rating_issue_profile_date
-    @request_issue.contested_rating_issue_profile_date = rating? ? convert_profile_date_to_logical_type_int : nil
+    @request_issue.contested_rating_issue_profile_date = rating? ? issue.prior_decision_rating_profile_date : nil
   end
 
   def assign_contested_rating_issue_reference_id
@@ -410,15 +410,6 @@ class Builders::RequestIssuesBuilder
 
   def determine_benefit_type
     decision_review_created.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
-  end
-
-  def convert_profile_date_to_logical_type_int
-    date = issue.prior_decision_rating_profile_date
-
-    if date
-      target_date = Date.strptime(date, "%m/%d/%Y")
-      (target_date - EPOCH_DATE).to_i
-    end
   end
 
   def determine_pending_claim_review_type
