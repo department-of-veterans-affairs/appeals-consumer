@@ -4,7 +4,6 @@ describe Builders::RequestIssuesBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:decision_review_issues) { decision_review_created.decision_review_issues }
   let(:issue) { decision_review_issues.first }
-  let(:issues) { [] }
   let(:index) { decision_review_issues.index(issue) }
   let(:builder) do
     builder = described_class.new(decision_review_created)
@@ -113,8 +112,8 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
-  describe "#build_issues(issues)" do
-    subject { builder.build_issues(decision_review_issues) }
+  describe "#build_issues" do
+    subject { builder.build_issues }
 
     context "when there aren't any issues after removing 'CONTESTED' issues" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested) }
@@ -132,6 +131,7 @@ describe Builders::RequestIssuesBuilder do
     context "when there are still issues after removing 'CONTESTED' issues" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
       let(:contested) { described_class::CONTESTED }
+      let(:valid_issues) { builder.send(:remove_ineligible_contested_issues) }
 
       it "a RequestIssuesBuilder instance is only initialized once" do
         expect(described_class).to receive(:new).once.and_call_original
@@ -139,7 +139,7 @@ describe Builders::RequestIssuesBuilder do
       end
 
       it "does not return the issue with 'CONTESTED' eligibility_result in the request issues array" do
-        expect(subject.any? { |issue| issue.eligibility_result == contested }).to eq false
+        expect(valid_issues.any? { |issue| issue.eligibility_result == contested }).to eq false
       end
     end
   end
@@ -162,16 +162,15 @@ describe Builders::RequestIssuesBuilder do
     let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
 
     it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do
-      expect(subject.count).to eq(decision_review_created.decision_review_issues.count - 1)
+      expect(subject.count).to eq(decision_review_issues.count - 1)
     end
   end
 
-  describe "#build_request_issue(issue, issues, index)" do
-    subject { builder.send(:build_request_issue, issue, issues, index) }
+  describe "#build_request_issue(issue, index)" do
+    subject { builder.send(:build_request_issue, issue, index) }
 
     it "returns a RequestIssue instance for the issue passed in" do
-      expect(subject.first).to be_an_instance_of(RequestIssue)
-      expect(subject.count).to eq(1)
+      expect(subject).to be_an_instance_of(RequestIssue)
     end
 
     it "initializes an issue variable" do
@@ -183,31 +182,31 @@ describe Builders::RequestIssuesBuilder do
     end
 
     it "assigns values to attributes for the Request Issue instance" do
-      expect(subject.first.instance_variable_defined?(:@contested_issue_description)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@contention_reference_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@contested_rating_decision_reference_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@contested_rating_issue_profile_date)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@contested_rating_issue_reference_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@contested_decision_issue_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@decision_date)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@ineligible_due_to_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@is_unidentified)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@unidentified_issue_text)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@nonrating_issue_category)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@ineligible_reason)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@nonrating_issue_description)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@untimely_exemption)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@untimely_exemption_notes)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@vacols_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@vacols_sequence_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@benefit_type)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@closed_at)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@closed_status)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@contested_rating_issue_diagnostic_code)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@ramp_claim_id)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@rating_issue_associated_at)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@type)).to be_truthy
-      expect(subject.first.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contested_issue_description)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contention_reference_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contested_rating_decision_reference_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contested_rating_issue_profile_date)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contested_rating_issue_reference_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contested_decision_issue_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@decision_date)).to be_truthy
+      expect(subject.instance_variable_defined?(:@ineligible_due_to_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@is_unidentified)).to be_truthy
+      expect(subject.instance_variable_defined?(:@unidentified_issue_text)).to be_truthy
+      expect(subject.instance_variable_defined?(:@nonrating_issue_category)).to be_truthy
+      expect(subject.instance_variable_defined?(:@ineligible_reason)).to be_truthy
+      expect(subject.instance_variable_defined?(:@nonrating_issue_description)).to be_truthy
+      expect(subject.instance_variable_defined?(:@untimely_exemption)).to be_truthy
+      expect(subject.instance_variable_defined?(:@untimely_exemption_notes)).to be_truthy
+      expect(subject.instance_variable_defined?(:@vacols_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@vacols_sequence_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@benefit_type)).to be_truthy
+      expect(subject.instance_variable_defined?(:@closed_at)).to be_truthy
+      expect(subject.instance_variable_defined?(:@closed_status)).to be_truthy
+      expect(subject.instance_variable_defined?(:@contested_rating_issue_diagnostic_code)).to be_truthy
+      expect(subject.instance_variable_defined?(:@ramp_claim_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@rating_issue_associated_at)).to be_truthy
+      expect(subject.instance_variable_defined?(:@type)).to be_truthy
+      expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
     end
   end
 
@@ -538,7 +537,7 @@ describe Builders::RequestIssuesBuilder do
 
       context "when the issue is unidentified" do
         before do
-          decision_review_created.decision_review_issues.first.prior_decision_notification_date = nil
+          decision_review_issues.first.prior_decision_notification_date = nil
         end
 
         let(:decision_review_created) { build(:decision_review_created, :unidentified) }

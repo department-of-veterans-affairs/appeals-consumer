@@ -47,25 +47,19 @@ class Builders::RequestIssuesBuilder
 
   def self.build(decision_review_created)
     builder = new(decision_review_created)
-
-    issues = []
-    builder.build_issues(issues)
-    issues
+    builder.build_issues
   end
 
   def initialize(decision_review_created)
     @decision_review_created = decision_review_created
   end
 
-  def build_issues(issues)
+  def build_issues
     valid_issues = remove_ineligible_contested_issues
+    handle_no_issues_after_removing_contested if valid_issues.empty?
 
-    if valid_issues.empty?
-      handle_no_issues_after_removing_contested
-    else
-      valid_issues.each_with_index do |issue, index|
-        build_request_issue(issue, issues, index)
-      end
+    valid_issues.map.with_index do |issue, index|
+      build_request_issue(issue, index)
     end
   end
 
@@ -82,10 +76,10 @@ class Builders::RequestIssuesBuilder
      " does not contain any valid issues after removing 'CONTESTED' ineligible issues"
   end
 
-  def build_request_issue(issue, issues, index)
+  def build_request_issue(issue, index)
     initialize_issue(issue, index)
     assign_attributes
-    issues << @request_issue
+    @request_issue
   end
 
   def initialize_issue(issue, index)
