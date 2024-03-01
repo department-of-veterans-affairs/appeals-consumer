@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DecisionReviewCreatedJob < ApplicationJob
+class DecisionReviewCreatedEventProcessingJob < ApplicationJob
   queue_as :high_priority
 
   def perform(event)

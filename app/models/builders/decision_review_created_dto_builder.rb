@@ -12,10 +12,10 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email,
               :hash_response
 
-  def initialize(dcr_event)
+  def initialize(drc_event)
     super()
-    @decision_review_created = build_decision_review_created(JSON.parse(dcr_event.message_payload))
-    @event_id = dcr_event&.id
+    @decision_review_created = build_decision_review_created(JSON.parse(drc_event.message_payload))
+    @event_id = drc_event.id
     assign_attributes
   end
 
