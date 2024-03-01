@@ -9,4 +9,4 @@ export SHORYUKEN_SQS_ENDPOINT=http://localstack-consumer:4566
 export SCHEMA_REGISTRY_URL=http://schema-registry:9021/
 export CSS_ID=APPEALSCONSUMER1
 export STATION_ID=283
-export CASFLEOW_KEY=12345
+export CASEFLOW_KEY=12345

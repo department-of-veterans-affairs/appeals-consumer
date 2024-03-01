@@ -9,7 +9,7 @@ class ExternalApi::CaseflowService
     # Creates records for a new decision review based on the provided Decision Review Created DTO builder.
     # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
-      payload = drc_dto_builder.build_hash_response
+      payload = drc_dto_builder.hash_response
       headers = build_headers(drc_dto_builder)
       endpoint = "#{BASE_ENDPOINT}decision_review_created"
       response = send_caseflow_request(payload, endpoint, headers)
@@ -34,7 +34,7 @@ class ExternalApi::CaseflowService
       HTTPI.post(request)
     end
 
-    # Constructs an HTTPI request, setting timeouts, SSL configuration, headrs and body
+    # Constructs an HTTPI request, setting timeouts, SSL configuration, headers and body
     def build_request(url, payload, headers)
       request = HTTPI::Request.new(url)
       request.open_timeout = 600 # seconds
@@ -64,7 +64,7 @@ class ExternalApi::CaseflowService
       Rails.application.config.caseflow_key.to_s
     end
 
-    # Builds headers required for all requests to the Caseflow API, including authorization and content type.
+    # Builds headers to inlcude any PII that is scrubbed from the request body.
     def build_headers(drc_dto_builder)
       {
         "X-VA-Vet-SSN" => drc_dto_builder.vet_ssn,
