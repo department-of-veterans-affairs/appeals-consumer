@@ -413,8 +413,8 @@ describe Builders::RequestIssuesBuilder do
       let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
 
       it "assigns the Request Issue's contested_rating_decision_reference_id to"\
-         " issue.prior_decision_rating_disability_sequence_number" do
-        expect(subject).to eq(issue.prior_decision_rating_disability_sequence_number)
+         " issue.prior_decision_rating_disability_sequence_number converted to a string" do
+        expect(subject).to eq(issue.prior_decision_rating_disability_sequence_number.to_s)
       end
     end
 
@@ -1163,8 +1163,8 @@ describe Builders::RequestIssuesBuilder do
     context "when the issue has a value for prior_rating_decision_id" do
       context "and the issue has a value for prior_decision_ramp_id" do
         let(:decision_review_created) { build(:decision_review_created, :rating_with_ramp_id) }
-        it "sets the Request Issue's ramp_claim_id to issue.prior_decision_ramp_id" do
-          expect(subject).to eq(issue.prior_decision_ramp_id)
+        it "sets the Request Issue's ramp_claim_id to issue.prior_decision_ramp_id converted to a string" do
+          expect(subject).to eq(issue.prior_decision_ramp_id.to_s)
         end
       end
 

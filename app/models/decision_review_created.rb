@@ -96,7 +96,7 @@ class DecisionReviewIssue
     "prior_decision_type" => [String, NilClass],
     "prior_decision_notification_date" => Integer,
     "prior_decision_diagnostic_code" => [String, NilClass],
-    "prior_decision_rating_disability_sequence_number" => [String, NilClass],
+    "prior_decision_rating_disability_sequence_number" => [Integer, NilClass],
     "prior_decision_rating_percentage" => [String, NilClass],
     "prior_decision_rating_profile_date" => [String, NilClass],
     "eligible" => [TrueClass, FalseClass],

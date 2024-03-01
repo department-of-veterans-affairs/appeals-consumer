@@ -154,7 +154,7 @@ class Builders::RequestIssuesBuilder
   end
 
   def assign_contested_rating_decision_reference_id
-    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_disability_sequence_number
+    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_disability_sequence_number&.to_s
   end
 
   def calculate_contested_rating_issue_profile_date
@@ -241,7 +241,7 @@ class Builders::RequestIssuesBuilder
   end
 
   def calculate_ramp_claim_id
-    @request_issue.ramp_claim_id = rating? ? issue.prior_decision_ramp_id : nil
+    @request_issue.ramp_claim_id = rating? ? issue.prior_decision_ramp_id&.to_s : nil
   end
 
   def calculate_rating_issue_associated_at

@@ -423,7 +423,7 @@ FactoryBot.define do
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => 18_475,
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_disability_sequence_number" => "1623547",
+            "prior_decision_rating_disability_sequence_number" => 1623547,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
