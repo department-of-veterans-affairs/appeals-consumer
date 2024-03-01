@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe DecisionReviewCreatedJob, type: :job do
+RSpec.describe DecisionReviewCreatedEventProcessingJob, type: :job do
   let!(:event) { create(:event) }
 
   describe "#perform_now(event)" do
-    subject { DecisionReviewCreatedJob.perform_now(event) }
+    subject { DecisionReviewCreatedEventProcessingJob.perform_now(event) }
 
-    it "calls DecisionReviewCreatedEvent.process!(event) immediately" do
+    it "calls DecisionReviewCreatedEventProcessingJob.process!(event) immediately" do
       expect(event).to receive(:process!)
       subject
     end
@@ -31,12 +31,15 @@ RSpec.describe DecisionReviewCreatedJob, type: :job do
   end
 
   describe "#perform_later(event)" do
-    subject { DecisionReviewCreatedJob.perform_later(event) }
+    subject { DecisionReviewCreatedEventProcessingJob.perform_later(event) }
 
     it "enqueues the job with the event as an argument" do
       ActiveJob::Base.queue_adapter = :test
-      expect { subject }.to have_enqueued_job(DecisionReviewCreatedJob).with(event).on_queue("appeals_consumer"\
-        "_development_high_priority")
+      expect { subject }
+        .to have_enqueued_job(DecisionReviewCreatedEventProcessingJob)
+        .with(event)
+        .on_queue("appeals_consumer"\
+          "_development_high_priority")
     end
 
     it "does not raise an error" do
