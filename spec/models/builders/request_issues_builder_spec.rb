@@ -514,37 +514,24 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
+  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   describe "#calculate_decision_date" do
     subject { builder.send(:calculate_decision_date) }
 
     context "when issue does not have a prior_decision_notification_date" do
       context "when the issue is identified" do
-        context "when the decision review created's decision_review_type is 'HIGHER_LEVEL_REVIEW'" do
-          before do
-            issue.prior_decision_notification_date = nil
-          end
-
-          let(:error) { AppealsConsumer::Error::NullPriorDecisionNotificationDate }
-          let(:error_msg) do
-            "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
-              " a null prior_decision_notification_date"
-          end
-
-          it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
-            expect { subject }.to raise_error(error, error_msg)
-          end
+        before do
+          issue.prior_decision_notification_date = nil
         end
 
-        context "when the decision review created's decision_review_type is 'SUPPLEMENTAL_CLAIM'" do
-          before do
-            issue.prior_decision_notification_date = nil
-          end
+        let(:error) { AppealsConsumer::Error::NullPriorDecisionNotificationDate }
+        let(:error_msg) do
+          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
+            " a null prior_decision_notification_date"
+        end
 
-          let(:decision_review_created) { build(:decision_review_created, :supplemental_message_payload) }
-
-          it "sets the Request Issue's decision_date to nil" do
-            expect(subject).to eq(nil)
-          end
+        it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
+          expect { subject }.to raise_error(error, error_msg)
         end
       end
 
@@ -1697,6 +1684,7 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
+  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   describe "#decision_date_before_ama?" do
     subject { builder.send(:decision_date_before_ama?) }
     context "when the issue's prior_decision_notification_date is BEFORE February 19, 2019" do
@@ -2031,57 +2019,6 @@ describe Builders::RequestIssuesBuilder do
 
     it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
       expect { subject }.to raise_error(error, error_msg)
-    end
-  end
-
-  describe "#hlr?" do
-    subject { builder.send(:hlr?) }
-
-    context "when the decision review created's decision_review_type is 'HIGHER_LEVEL_REVIEW'" do
-      it "returns true" do
-        expect(subject).to eq true
-      end
-    end
-
-    context "when the decision review created's decision_review_type is 'SUPPLEMENTAL_CLAIM'" do
-      let(:decision_review_created) { build(:decision_review_created, :supplemental_message_payload) }
-      it "returns false" do
-        expect(subject).to eq false
-      end
-    end
-  end
-
-  describe "#identified_hlr?" do
-    subject { builder.send(:identified_hlr?) }
-    context "when the decision review created's decision_review_type is 'HIGHER_LEVEL_REVIEW'" do
-      context "identified" do
-        it "returns true" do
-          expect(subject).to eq true
-        end
-      end
-
-      context "unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
-        it "returns false" do
-          expect(subject).to eq false
-        end
-      end
-    end
-
-    context "when the decision review created's decision_review_type is 'SUPPLEMENTAL_CLAIM'" do
-      context "identified" do
-        let(:decision_review_created) { build(:decision_review_created, :supplemental_message_payload) }
-        it "returns false" do
-          expect(subject).to eq false
-        end
-      end
-
-      context "unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified_supplemental) }
-        it "returns false" do
-          expect(subject).to eq false
-        end
-      end
     end
   end
 

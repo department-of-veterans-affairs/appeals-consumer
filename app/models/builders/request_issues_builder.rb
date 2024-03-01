@@ -169,8 +169,9 @@ class Builders::RequestIssuesBuilder
     @request_issue.contested_decision_issue_id = issue.associated_caseflow_decision_id
   end
 
+  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   def calculate_decision_date
-    handle_missing_notification_date if prior_decision_notification_date_not_present? && identified_hlr?
+    handle_missing_notification_date if prior_decision_notification_date_not_present? && identified?
 
     @request_issue.decision_date = issue.prior_decision_notification_date
   end
@@ -347,6 +348,7 @@ class Builders::RequestIssuesBuilder
     issue.eligibility_result == COMPLETED_BOARD
   end
 
+  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   def decision_date_before_ama?
     decision_date = issue.prior_decision_notification_date
 
@@ -360,18 +362,11 @@ class Builders::RequestIssuesBuilder
     !!issue.associated_caseflow_request_issue_id
   end
 
-  def identified_hlr?
-    identified? && hlr?
-  end
-
-  def hlr?
-    decision_review_created.decision_review_type == HLR_DECISION_REVIEW_TYPE
-  end
-
   def identified?
     rating? || rating_decision? || nonrating?
   end
 
+  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   def prior_decision_notification_date_not_present?
     !issue.prior_decision_notification_date
   end
