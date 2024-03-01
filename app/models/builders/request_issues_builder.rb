@@ -6,7 +6,6 @@ class Builders::RequestIssuesBuilder
   attr_reader :decision_review_created, :issue, :index, :request_issue
 
   REQUEST_ISSUE = "RequestIssue"
-  HLR_DECISION_REVIEW_TYPE = "HIGHER_LEVEL_REVIEW"
 
   # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
