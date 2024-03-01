@@ -31,7 +31,9 @@ class ExternalApi::CaseflowService
     def send_caseflow_request(payload, endpoint, headers = {})
       url = URI.join(caseflow_base_url, endpoint).to_s
       request = build_request(url, payload, headers)
-      HTTPI.post(request)
+      response = HTTPI.post(request)
+      Rails.logger.info("[CaseflowService] #{response}")
+      response
     end
 
     # Constructs an HTTPI request, setting timeouts, SSL configuration, headers and body
