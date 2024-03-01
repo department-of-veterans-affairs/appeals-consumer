@@ -484,8 +484,9 @@ describe Builders::RequestIssuesBuilder do
     context "when the issue has a prior_rating_decision_id" do
       let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
 
-      it "assigns the Request Issue's contested_rating_issue_reference_id to issue.prior_rating_decision_id" do
-        expect(subject).to eq(issue.prior_rating_decision_id)
+      it "assigns the Request Issue's contested_rating_issue_reference_id to issue.prior_rating_decision_id converted"\
+       " to a string" do
+        expect(subject).to eq(issue.prior_rating_decision_id.to_s)
       end
     end
 

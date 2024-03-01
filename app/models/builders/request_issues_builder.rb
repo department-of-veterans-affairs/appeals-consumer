@@ -162,7 +162,7 @@ class Builders::RequestIssuesBuilder
   end
 
   def assign_contested_rating_issue_reference_id
-    @request_issue.contested_rating_issue_reference_id = issue.prior_rating_decision_id
+    @request_issue.contested_rating_issue_reference_id = issue.prior_rating_decision_id&.to_s
   end
 
   def assign_contested_decision_issue_id
