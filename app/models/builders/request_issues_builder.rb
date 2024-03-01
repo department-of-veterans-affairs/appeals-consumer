@@ -252,7 +252,7 @@ class Builders::RequestIssuesBuilder
   end
 
   def assign_nonrating_issue_bgs_id
-    @request_issue.nonrating_issue_bgs_id = issue.prior_non_rating_decision_id
+    @request_issue.nonrating_issue_bgs_id = issue.prior_non_rating_decision_id&.to_s
   end
 
   def determine_ineligible_reason

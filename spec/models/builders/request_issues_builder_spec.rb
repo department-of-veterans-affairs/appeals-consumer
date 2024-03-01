@@ -863,6 +863,23 @@ describe Builders::RequestIssuesBuilder do
     end
   end
 
+  describe "#assign_nonrating_issue_bgs_id" do
+    subject { builder.send(:assign_nonrating_issue_bgs_id) }
+    context "when the issue has a prior_non_rating_decision_id present" do
+      it "sets the Request Issue's nonrating_issue_bgs_id to issue.prior_non_rating_decision_id converted"\
+       " to a string" do
+        expect(subject).to eq(issue.prior_non_rating_decision_id.to_s)
+      end
+    end
+
+    context "when the issue does not have a prior_non_rating_decision_id present" do
+      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      it "sets the Request Issue's nonrating_issue_bgs_id to nil" do
+        expect(subject).to eq nil
+      end
+    end
+  end
+
   describe "#calculate_nonrating_issue_category" do
     subject { builder.send(:calculate_nonrating_issue_category) }
     context "when the issue is nonrating" do
