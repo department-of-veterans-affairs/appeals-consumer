@@ -256,23 +256,21 @@ class Builders::RequestIssuesBuilder
   end
 
   def determine_ineligible_reason
-    @request_issue.ineligible_reason =
-      case
-      when eligible?
-        nil
-      when pending_claim_review?
-        determine_pending_claim_review_type
-      when time_restriction?
-        determine_time_restriction_type
-      when completed_claim_review?
-        determine_completed_claim_review_type
-      when pending_legacy_appeal?
-        legacy_issue_not_withdrawn
-      when legacy_time_restriction_or_no_soc_ssoc?
-        legacy_appeal_not_eligible
-      else
-        handle_unrecognized_eligibility_result
-      end
+    if eligible?
+      nil
+    elsif pending_claim_review?
+      determine_pending_claim_review_type
+    elsif time_restriction?
+      determine_time_restriction_type
+    elsif completed_claim_review?
+      determine_completed_claim_review_type
+    elsif pending_legacy_appeal?
+      legacy_issue_not_withdrawn
+    elsif legacy_time_restriction_or_no_soc_ssoc?
+      legacy_appeal_not_eligible
+    else
+      handle_unrecognized_eligibility_result
+    end
   end
 
   def duplicate_of_nonrating_issue_in_active_review
