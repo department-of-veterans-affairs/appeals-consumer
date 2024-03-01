@@ -99,9 +99,9 @@ RSpec.describe Event, type: :model do
     end
   end
 
-  describe ".process!" do
+  describe "#process!" do
     it "raises a NoMethodError to enforce subclass implementation" do
-      expect { Event.process! }.to raise_error(NoMethodError, /Please define a .process! method/)
+      expect { Event.new.process! }.to raise_error(NoMethodError, /Please define a .process! method/)
     end
   end
 
@@ -117,6 +117,38 @@ RSpec.describe Event, type: :model do
     it "allows the subclass to implement .process!" do
       expect { subclass.process! }.not_to raise_error
       expect(subclass.process!).to eq("Processed")
+    end
+  end
+
+  describe "#in_progress!" do
+    it "updates the state to in_progress" do
+      event = create(:event)
+      event.send(:in_progress!)
+      expect(event.reload.state).to eq("in_progress")
+    end
+  end
+
+  describe "#processed!" do
+    it "updates the state to processed" do
+      event = create(:event)
+      event.send(:processed!)
+      expect(event.reload.state).to eq("processed")
+    end
+  end
+
+  describe "#error!" do
+    it "updates the state to error" do
+      event = create(:event)
+      event.send(:error!)
+      expect(event.reload.state).to eq("error")
+    end
+  end
+
+  describe "#failed!" do
+    it "updates the state to failed" do
+      event = create(:event)
+      event.send(:failed!)
+      expect(event.reload.state).to eq("failed")
     end
   end
 end

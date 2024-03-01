@@ -9,11 +9,13 @@
 # :reek:InstanceVariableAssumption
 class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
-              :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
+              :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email,
+              :hash_response
 
-  def initialize(dcr_event)
+  def initialize(drc_event)
     super()
-    @decision_review_created = build_decision_review_created(JSON.parse(dcr_event.message_payload))
+    @decision_review_created = build_decision_review_created(JSON.parse(drc_event.message_payload))
+    @event_id = drc_event.id
     assign_attributes
   end
 
@@ -132,6 +134,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   def build_hash_response
     {
+      "event_id": @event_id,
       "css_id": @css_id,
       "detail_type": @detail_type,
       "station": @station,
