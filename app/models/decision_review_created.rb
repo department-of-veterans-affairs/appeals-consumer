@@ -22,6 +22,7 @@ class DecisionReviewCreated
     "claim_lifecycle_status" => String,
     "payee_code" => String,
     "modifier" => String,
+    "limited_poa_code" => [String, NilClass],
     "originated_from_vacols_issue" => [TrueClass, FalseClass, NilClass],
     "informal_conference_requested" => [TrueClass, FalseClass],
     "informal_conference_tracked_item_id" => [Integer, NilClass],
