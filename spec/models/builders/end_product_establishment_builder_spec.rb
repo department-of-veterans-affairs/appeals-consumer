@@ -175,17 +175,8 @@ describe Builders::EndProductEstablishmentBuilder do
 
     describe "#_assign_development_item_reference_id" do
       subject { builder.end_product_establishment.development_item_reference_id }
-      context "when decision review created has a NOT-NIL value for informal_conference_tracked_item_id" do
-        it "should assign a development item referecne id to the epe instance" do
-          expect(subject).to eq decision_review_created.informal_conference_tracked_item_id.to_s
-        end
-      end
-
-      context "when decision review created has a NIL value for informal_conference_tracked_item_id" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
-        it "should assign nil to the epe instance" do
-          expect(subject).to eq nil
-        end
+      it "should assign a development item referecne id to the epe instance" do
+        expect(subject).to eq decision_review_created.informal_conference_tracked_item_id
       end
     end
 
