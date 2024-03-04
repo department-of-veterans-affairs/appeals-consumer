@@ -230,7 +230,10 @@ class Builders::RequestIssuesBuilder
   end
 
   def calculate_contested_rating_issue_diagnostic_code
-    @request_issue.contested_rating_issue_diagnostic_code = rating? ? issue.prior_decision_diagnostic_code : nil
+    @request_issue.contested_rating_issue_diagnostic_code =
+      if rating_or_rating_decision?
+        issue.prior_decision_diagnostic_code
+      end
   end
 
   def calculate_ramp_claim_id
@@ -372,6 +375,10 @@ class Builders::RequestIssuesBuilder
 
   def eligible?
     ELIGIBLE.include?(issue.eligibility_result)
+  end
+
+  def rating_or_rating_decision?
+    rating? || rating_decision?
   end
 
   def unidentified?
