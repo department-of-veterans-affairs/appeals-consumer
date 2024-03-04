@@ -6,17 +6,21 @@ class BaseEventProcessingJob < ApplicationJob
 
   def perform(event)
     init_setup(event)
+    start_processing!
+    @event.process!
+    complete_processing!
   rescue StandardError => error
+    handle_job_error!(error)
     Rails.logger.error(error)
   ensure
     ended_at
   end
 
-  def ended_at
-    EventAudit.find_by(event_id: @event.id).update!(ended_at: Time.current)
-  end
-
   private
+
+  def ended_at
+    @event_audit.update!(ended_at: Time.current)
+  end
 
   def init_setup(event)
     @event = event
@@ -46,8 +50,8 @@ class BaseEventProcessingJob < ApplicationJob
 
   def set_current_user_to_system_admin
     RequestStore.store[:current_user] = {
-      css_id: "system_admin_css_id",
-      station_id: "system_admin_station_id"
+      css_id: ENV["CSS_ID"],
+      station_id: ENV["STATION_ID"]
     }
   end
 end
