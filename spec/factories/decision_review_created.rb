@@ -214,7 +214,7 @@ FactoryBot.define do
           "limited_poa_code" => nil,
           "originated_from_vacols_issue" => false,
           "informal_conference_requested" => false,
-          "informal_conference_tracked_item_id" => 1,
+          "informal_conference_tracked_item_id" => "1",
           "same_station_review_requested" => false,
           "intake_creation_time" => 1_702_067_143_435,
           "claim_creation_time" => 1_702_067_145_000,
