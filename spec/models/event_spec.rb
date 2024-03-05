@@ -123,7 +123,7 @@ RSpec.describe Event, type: :model do
   describe "#in_progress!" do
     it "updates the state to in_progress" do
       event = create(:event)
-      event.send(:in_progress!)
+      event.in_progress!
       expect(event.reload.state).to eq("in_progress")
     end
   end
@@ -131,7 +131,7 @@ RSpec.describe Event, type: :model do
   describe "#processed!" do
     it "updates the state to processed" do
       event = create(:event)
-      event.send(:processed!)
+      event.processed!
       expect(event.reload.state).to eq("processed")
     end
   end
@@ -139,7 +139,7 @@ RSpec.describe Event, type: :model do
   describe "#error!" do
     it "updates the state to error" do
       event = create(:event)
-      event.send(:error!)
+      event.error!
       expect(event.reload.state).to eq("error")
     end
   end
@@ -147,7 +147,7 @@ RSpec.describe Event, type: :model do
   describe "#failed!" do
     it "updates the state to failed" do
       event = create(:event)
-      event.send(:failed!)
+      event.failed!
       expect(event.reload.state).to eq("failed")
     end
   end

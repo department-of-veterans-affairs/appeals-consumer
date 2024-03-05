@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe DecisionReviewCreatedEventProcessingJob, type: :job do
-  let!(:event) { create(:event) }
+  let!(:event) { create(:decision_review_created_event) }
 
   describe "#perform_now(event)" do
     subject { DecisionReviewCreatedEventProcessingJob.perform_now(event) }

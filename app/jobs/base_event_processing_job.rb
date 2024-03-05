@@ -11,7 +11,6 @@ class BaseEventProcessingJob < ApplicationJob
     complete_processing!
   rescue StandardError => error
     handle_job_error!(error)
-    Rails.logger.error(error)
   ensure
     ended_at
   end
@@ -19,7 +18,7 @@ class BaseEventProcessingJob < ApplicationJob
   private
 
   def ended_at
-    @event_audit.update!(ended_at: Time.current)
+    @event_audit.update!(ended_at: Time.zone.now)
   end
 
   def init_setup(event)
@@ -30,7 +29,8 @@ class BaseEventProcessingJob < ApplicationJob
   def start_processing!
     ActiveRecord::Base.transaction do
       @event.in_progress!
-      @event_audit = EventAudit.create(id: @event.id)
+      @event_audit = EventAudit.create(event: @event)
+      @event_audit.started_at!
     end
   end
 
@@ -43,7 +43,7 @@ class BaseEventProcessingJob < ApplicationJob
 
   def handle_job_error!(error)
     ActiveRecord::Base.transaction do
-      @event.handle_failure!
+      @event.handle_client_error(error)
       @event_audit.failed!(error.message)
     end
   end
