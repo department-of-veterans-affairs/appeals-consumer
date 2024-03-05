@@ -29,15 +29,17 @@ RSpec.describe BaseEventProcessingJob, type: :job do
       subject { job.perform(event) }
 
       before do
-        allow(event).to receive(:process!).and_raise(StandardError.new("test error"))
-        allow(Rails.logger).to receive(:error).with(instance_of(StandardError))
+        allow(event).to receive(:process!).and_raise(StandardError.new)
+        allow(Rails.logger).to receive(:error)
         subject
       end
 
-      it "handles the error and logs it" do
+      it "handles the error and logs a message" do
         expect { subject.not_to raise_error }
-        expect(Rails.logger).to have_received(:error).with(instance_of(StandardError))
-        expect(event.reload.state).to eq("failed")
+        expect(Rails.logger)
+          .to have_received(:error)
+          .with(/An error has occured while processing a job for the event with event_id/)
+        expect(event.reload.state).to eq("error")
         expect(EventAudit.last.status).to eq("failed")
         expect(EventAudit.last.ended_at).not_to be_nil
       end

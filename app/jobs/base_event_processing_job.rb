@@ -42,8 +42,9 @@ class BaseEventProcessingJob < ApplicationJob
   end
 
   def handle_job_error!(error)
+    log_error
     ActiveRecord::Base.transaction do
-      @event.handle_client_error(error)
+      @event.handle_failure(error.message)
       @event_audit.failed!(error.message)
     end
   end
@@ -53,5 +54,11 @@ class BaseEventProcessingJob < ApplicationJob
       css_id: ENV["CSS_ID"],
       station_id: ENV["STATION_ID"]
     }
+  end
+
+  def log_error
+    msg = "[#{self.class.name}] An error has occured while processing a job for the event with event_id: #{@event.id}."
+    msg += " Please check EventAudit with id: #{@event_audit.id} for details." if @event_audit
+    Rails.logger.error(msg)
   end
 end

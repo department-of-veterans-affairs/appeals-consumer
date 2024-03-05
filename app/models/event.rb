@@ -50,9 +50,9 @@ class Event < ApplicationRecord
     end
   end
 
-  def handle_client_error(error)
-    Rails.logger.error(error)
-    update!(state: FAILED, error: error.message)
+  def handle_failure(error_message)
+    update!(error: error_message)
+    failed? ? failed! : error!
   end
 
   def in_progress!
@@ -63,6 +63,8 @@ class Event < ApplicationRecord
     update!(state: PROCESSED)
   end
 
+  private
+
   def error!
     update!(state: ERROR)
   end
@@ -70,8 +72,6 @@ class Event < ApplicationRecord
   def failed!
     update!(state: FAILED)
   end
-
-  private
 
   # :reek:UtilityFunction
   def retrieve_max_errors_for_failure

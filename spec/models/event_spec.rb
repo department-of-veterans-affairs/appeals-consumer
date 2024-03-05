@@ -139,7 +139,7 @@ RSpec.describe Event, type: :model do
   describe "#error!" do
     it "updates the state to error" do
       event = create(:event)
-      event.error!
+      event.send(:error!)
       expect(event.reload.state).to eq("error")
     end
   end
@@ -147,7 +147,7 @@ RSpec.describe Event, type: :model do
   describe "#failed!" do
     it "updates the state to failed" do
       event = create(:event)
-      event.failed!
+      event.send(:failed!)
       expect(event.reload.state).to eq("failed")
     end
   end
