@@ -19,22 +19,22 @@ class EventAudit < ApplicationRecord
   }
 
   def in_progress!
-    update(status: IN_PROGRESS)
+    update!(status: IN_PROGRESS)
   end
 
   def completed!
-    update(status: COMPLETED)
+    update!(status: COMPLETED)
   end
 
-  def failed!
-    update(status: FAILED)
+  def failed!(error_message)
+    update!(status: FAILED, error: error_message)
   end
 
   def started_at!
-    update(started_at: Time.zone.now)
+    update!(started_at: Time.zone.now)
   end
 
   def ended_at!
-    update(ended_at: Time.zone.now)
+    update!(ended_at: Time.zone.now)
   end
 end

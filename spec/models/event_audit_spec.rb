@@ -43,7 +43,7 @@ RSpec.describe EventAudit, type: :model do
   describe "#in_progress!" do
     it "updates the state to in_progress" do
       event_audit = create(:event_audit)
-      event_audit.send(:in_progress!)
+      event_audit.in_progress!
       expect(event_audit.reload.status).to eq("in_progress")
     end
   end
@@ -51,23 +51,26 @@ RSpec.describe EventAudit, type: :model do
   describe "#completed!" do
     it "updates the state to completed" do
       event_audit = create(:event_audit)
-      event_audit.send(:completed!)
+      event_audit.completed!
       expect(event_audit.reload.status).to eq("completed")
     end
   end
 
   describe "#failed!" do
+    let(:error_message) { "test error message" }
+
     it "updates the state to failed" do
       event_audit = create(:event_audit)
-      event_audit.send(:failed!)
+      event_audit.failed!(error_message)
       expect(event_audit.reload.status).to eq("failed")
+      expect(event_audit.reload.error).to eq(error_message)
     end
   end
 
   describe "#started_at!" do
     it "updates the started_at to the correct time" do
       event_audit = create(:event_audit)
-      event_audit.send(:started_at!)
+      event_audit.started_at!
       expect(event_audit.reload.started_at).to eq(Time.now.utc)
     end
   end
@@ -75,7 +78,7 @@ RSpec.describe EventAudit, type: :model do
   describe "#ended_at!" do
     it "updates the ended_at to the correct time" do
       event_audit = create(:event_audit)
-      event_audit.send(:ended_at!)
+      event_audit.ended_at!
       expect(event_audit.reload.ended_at).to eq(Time.now.utc)
     end
   end

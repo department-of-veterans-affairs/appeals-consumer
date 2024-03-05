@@ -8,7 +8,7 @@ class Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent < Event
 
     handle_response(response)
   rescue AppealsConsumer::Error::ClientRequestError => error
-    handle_client_error(error.message)
+    handle_client_error(error)
   rescue StandardError => error
     ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
       id,
