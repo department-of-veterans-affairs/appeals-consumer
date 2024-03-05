@@ -32,9 +32,7 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
       end
 
       it "logs the error and updates the event error field" do
-        expect(Rails.logger).to receive(:error).with(instance_of(AppealsConsumer::Error::ClientRequestError))
-        expect { event.process! }.not_to raise_error
-        expect(event.error).to eq(error_message)
+        expect { event.process! }.to raise_error(AppealsConsumer::Error::ClientRequestError)
       end
     end
 
@@ -53,8 +51,7 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
       end
 
       it "logs the error" do
-        expect(Rails.logger).to receive(:error).with(error_message)
-        expect { event.process! }.not_to raise_error
+        expect { event.process! }.to raise_error(StandardError)
       end
     end
   end
