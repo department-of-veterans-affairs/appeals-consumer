@@ -24,7 +24,7 @@ class Builders::RequestIssueCollectionBuilder
 
   private
 
-  # exception thrown if there aren't any valid issues after removing issues with "CONTESTED" eligibility_result
+  # exception thrown if there aren't any issues after removing issues with "CONTESTED" eligibility_result
   def valid_issues
     valid_issues = remove_ineligible_contested_issues
     handle_no_issues_after_removing_contested if valid_issues.empty?

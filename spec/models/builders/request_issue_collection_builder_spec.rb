@@ -7,20 +7,21 @@ describe Builders::RequestIssueCollectionBuilder do
   let(:builder) { described_class.new(decision_review_created) }
   let(:index) { decision_review_issues.index(issue) }
   let(:issue) { decision_review_issues.first }
+  let(:claim_id) { decision_review_created.claim_id }
 
   describe "#self.build(decision_review_created)" do
     it "initializes an instance of Builders::RequestIssueCollectionBuilder" do
       expect(builder).to be_an_instance_of(Builders::RequestIssueCollectionBuilder)
     end
 
-    it "returns an array of RequestIssue(s) for every issue in the decision_review_issues array" do
+    it "returns an array of RequestIssue(s) for every non-'CONTESTED' issue in the decision_review_issues array" do
       expect(request_issues.count).to eq(decision_review_issues.count)
       expect(request_issues).to all(be_an_instance_of(RequestIssue))
     end
   end
 
   describe "#initialize(decision_review_created)" do
-    it "initializes a new RequestIssuesBuilder instance for an individual DecisionReviewIssue" do
+    it "initializes a new instance of Builders::RequestIssueCollectionBuilder" do
       expect(builder).to be_an_instance_of(described_class)
     end
   end
@@ -28,10 +29,10 @@ describe Builders::RequestIssueCollectionBuilder do
   describe "#build_issues" do
     subject { builder.build_issues }
     let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
-    let(:valid_issues) { builder.send(:remove_ineligible_contested_issues) }
 
     it "maps valid decision_review_issues into an array of RequestIssue(s)" do
       expect(subject).to all(be_an_instance_of(RequestIssue))
+      expect(subject).to be_an_instance_of(Array)
     end
   end
 
@@ -54,7 +55,6 @@ describe Builders::RequestIssueCollectionBuilder do
 
     context "when there are still issues after removing 'CONTESTED' issues" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
-      let(:valid_issues) { builder.send(:remove_ineligible_contested_issues) }
 
       it "returns an array of valid DecisionReviewIssue(s)" do
         expect(subject).to all(be_an_instance_of(DecisionReviewIssue))
@@ -68,8 +68,7 @@ describe Builders::RequestIssueCollectionBuilder do
     let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
     let(:error_msg) do
       "Failed building from Builders::RequestIssueCollectionBuilder for DecisionReviewCreated Claim ID:"\
-      " #{decision_review_created.claim_id} does not contain any valid issues after removing 'CONTESTED'"\
-      " ineligible issues"
+      " #{claim_id} does not contain any valid issues after removing 'CONTESTED' ineligible issues"
     end
 
     it "raises error AppealsConsumer::Error::RequestIssueCollectionBuildError with message" do
@@ -80,9 +79,11 @@ describe Builders::RequestIssueCollectionBuilder do
   describe "#remove_ineligible_contested_issues" do
     subject { builder.send(:remove_ineligible_contested_issues) }
     let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
+    let(:contested) { described_class::CONTESTED }
 
     it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do
       expect(subject.count).to eq(decision_review_issues.count - 1)
+      expect(subject.any? { |issue| issue.eligibility_result == contested }).to eq false
     end
   end
 
@@ -99,7 +100,7 @@ describe Builders::RequestIssueCollectionBuilder do
       end
     end
 
-    context "when an exception is thrown while building RequestIssue(s)" do
+    context "when an exception is thrown while building the RequestIssue" do
       let(:ri_collection_builder_error) { AppealsConsumer::Error::RequestIssueBuildError }
 
       context "when the issue has a NIL contention_id value" do
@@ -107,11 +108,9 @@ describe Builders::RequestIssueCollectionBuilder do
           issue.contention_id = nil
         end
 
-        let(:ri_builder_error) { AppealsConsumer::Error::NullContentionIdError }
-        let(:ri_builder_error_msg) { "Issue is eligible but has null for contention_id" }
         let(:ri_collection_builder_error_msg) do
-          "Failed building from Builders::RequestIssueCollectionBuilder for DecisionReviewCreated Claim ID: 1234567"\
-          " Issue Index: 0 - Issue is eligible but has null for contention_id"
+          "Failed building from Builders::RequestIssueCollectionBuilder for DecisionReviewCreated Claim ID:"\
+          " #{claim_id} Issue Index: #{index} - Issue is eligible but has null for contention_id"
         end
 
         it "catches the error and raises AppealsConsumer::Error::RequestIssueBuildError with message using index as"\
@@ -125,11 +124,10 @@ describe Builders::RequestIssueCollectionBuilder do
           issue.eligibility_result = "UNKNOWN"
         end
 
-        let(:ri_builder_error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
-        let(:ri_builder_error_msg) { "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}" }
         let(:ri_collection_builder_error_msg) do
-          "Failed building from Builders::RequestIssueCollectionBuilder for DecisionReviewCreated Claim ID: 1234567"\
-          " Issue Contention ID: 123456789 - Issue has an unrecognized eligibility_result: UNKNOWN"
+          "Failed building from Builders::RequestIssueCollectionBuilder for DecisionReviewCreated Claim ID:"\
+          " #{claim_id} Issue Contention ID: #{issue.contention_id} - Issue has an unrecognized eligibility_result:"\
+          " #{issue.eligibility_result}"
         end
 
         it "catches the error and raises AppealsConsumer::Error::RequestIssueBuildError with message using"\
@@ -154,7 +152,7 @@ describe Builders::RequestIssueCollectionBuilder do
         issue.contention_id = nil
       end
 
-      it "returns 'Issue Index: 0" do
+      it "returns 'Issue Index: decision_review_issues.index(issue)" do
         expect(subject).to eq("Issue Index: #{index}")
       end
     end
