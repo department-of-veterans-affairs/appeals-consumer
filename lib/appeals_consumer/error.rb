@@ -24,6 +24,7 @@ module AppealsConsumer::Error
   class NullPriorDecisionNotificationDate < StandardError; end
   class NullAssociatedCaseflowRequestIssueId < StandardError; end
   class IssueEligibilityResultNotRecognized < StandardError; end
-  class NoIssuesFound < StandardError; end
+  class RequestIssueCollectionBuildError < StandardError; end
+  class RequestIssueBuildError < StandardError; end
   class NotNullContentionIdError < StandardError; end
 end

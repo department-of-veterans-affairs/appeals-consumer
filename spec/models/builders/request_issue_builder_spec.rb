@@ -1,187 +1,18 @@
 # frozen_string_literal: true
 
-describe Builders::RequestIssuesBuilder do
+describe Builders::RequestIssueBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
-  let(:decision_review_issues) { decision_review_created.decision_review_issues }
-  let(:issue) { decision_review_issues.first }
-  let(:index) { decision_review_issues.index(issue) }
-  let(:builder) do
-    builder = described_class.new(decision_review_created)
-    builder.send(:initialize_issue, issue, index)
-    builder
-  end
+  let(:issue) { decision_review_created.decision_review_issues.first }
+  let(:builder) { described_class.new(issue, decision_review_created) }
 
-  describe "#self.build(decision_review_created)" do
-    subject { described_class.build(decision_review_created) }
+  describe "#self.build(issue, decision_review_created)" do
+    subject { described_class.build(issue, decision_review_created) }
 
-    context "when there are multiple decision_review_issues and one contains 'CONTESTED' eligibility_result" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
-
-      it "a RequestIssuesBuilder instance is only initialized once" do
-        expect(described_class).to receive(:new).once.and_call_original
-        subject
-      end
-
-      it "does not return the issue with 'CONTESTED' eligibility_result in the request issues array" do
-        expect(subject.count).to eq(decision_review_issues.count - 1)
-        expect(subject).to all(be_an_instance_of(RequestIssue))
-      end
-
-      it "returns all attributes listed in the Request Issue class" do
-        expect(subject.first.instance_variable_defined?(:@contested_issue_description)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@contention_reference_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@contested_rating_decision_reference_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@contested_rating_issue_profile_date)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@contested_rating_issue_reference_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@contested_decision_issue_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@decision_date)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@ineligible_due_to_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@is_unidentified)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@unidentified_issue_text)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@nonrating_issue_category)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@ineligible_reason)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@nonrating_issue_description)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@untimely_exemption)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@untimely_exemption_notes)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@vacols_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@vacols_sequence_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@benefit_type)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@closed_at)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@closed_status)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@contested_rating_issue_diagnostic_code)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@ramp_claim_id)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@rating_issue_associated_at)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@type)).to be_truthy
-        expect(subject.first.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
-      end
+    it "initializes a new RequestIssuesBuilder instance for an individual DecisionReviewIssue" do
+      expect(builder).to be_an_instance_of(described_class)
     end
 
-    context "when there is one decision_review_issue and it has 'CONTESTED' eligibility_result" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_contested) }
-      let(:error) { AppealsConsumer::Error::NoIssuesFound }
-      let(:error_msg) do
-        "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} does not contain any valid issues"\
-        " after removing 'CONTESTED' ineligible issues"
-      end
-
-      it "raises AppealsConsumer::Error::NoIssueFoundError with message" do
-        expect { subject }.to raise_error(error, error_msg)
-      end
-    end
-
-    context "when there are multiple decision_review_issues and none of them contain 'CONTESTED' eligibility_result" do
-      it "a RequestIssuesBuilder instance is only initialized once" do
-        expect(described_class).to receive(:new).once.and_call_original
-        subject
-      end
-
-      it "returns a Request Issue instance for every issue in the decision_review_issues array" do
-        expect(subject.count).to eq(decision_review_issues.count)
-        expect(subject).to all(be_an_instance_of(RequestIssue))
-      end
-
-      it "defines all attributes listed in the Request Issue class" do
-        expect(subject.all? do |issue|
-          issue.instance_variable_defined?(:@contested_issue_description) &&
-          issue.instance_variable_defined?(:@contention_reference_id) &&
-          issue.instance_variable_defined?(:@contested_rating_decision_reference_id) &&
-          issue.instance_variable_defined?(:@contested_rating_issue_profile_date) &&
-          issue.instance_variable_defined?(:@contested_rating_issue_reference_id) &&
-          issue.instance_variable_defined?(:@contested_decision_issue_id) &&
-          issue.instance_variable_defined?(:@decision_date) &&
-          issue.instance_variable_defined?(:@ineligible_due_to_id) &&
-          issue.instance_variable_defined?(:@is_unidentified) &&
-          issue.instance_variable_defined?(:@unidentified_issue_text) &&
-          issue.instance_variable_defined?(:@nonrating_issue_category) &&
-          issue.instance_variable_defined?(:@ineligible_reason) &&
-          issue.instance_variable_defined?(:@nonrating_issue_description) &&
-          issue.instance_variable_defined?(:@untimely_exemption) &&
-          issue.instance_variable_defined?(:@untimely_exemption_notes) &&
-          issue.instance_variable_defined?(:@vacols_id) &&
-          issue.instance_variable_defined?(:@vacols_sequence_id) &&
-          issue.instance_variable_defined?(:@benefit_type) &&
-          issue.instance_variable_defined?(:@closed_at) &&
-          issue.instance_variable_defined?(:@closed_status) &&
-          issue.instance_variable_defined?(:@contested_rating_issue_diagnostic_code) &&
-          issue.instance_variable_defined?(:@ramp_claim_id) &&
-          issue.instance_variable_defined?(:@rating_issue_associated_at) &&
-          issue.instance_variable_defined?(:@type) &&
-          issue.instance_variable_defined?(:@nonrating_issue_bgs_id)
-        end).to be_truthy
-      end
-    end
-  end
-
-  describe "#build_issues" do
-    subject { builder.build_issues }
-
-    context "when there aren't any issues after removing 'CONTESTED' issues" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_contested) }
-      let(:error) { AppealsConsumer::Error::NoIssuesFound }
-      let(:error_msg) do
-        "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} does not contain any valid issues"\
-        " after removing 'CONTESTED' ineligible issues"
-      end
-
-      it "raises AppealsConsumer::Error::NoIssueFoundError with message" do
-        expect { subject }.to raise_error(error, error_msg)
-      end
-    end
-
-    context "when there are still issues after removing 'CONTESTED' issues" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
-      let(:contested) { described_class::CONTESTED }
-      let(:valid_issues) { builder.send(:remove_ineligible_contested_issues) }
-
-      it "a RequestIssuesBuilder instance is only initialized once" do
-        expect(described_class).to receive(:new).once.and_call_original
-        subject
-      end
-
-      it "does not return the issue with 'CONTESTED' eligibility_result in the request issues array" do
-        expect(valid_issues.any? { |issue| issue.eligibility_result == contested }).to eq false
-      end
-    end
-  end
-
-  describe "#handle_no_issues_after_removing_contested" do
-    subject { builder.send(:handle_no_issues_after_removing_contested) }
-    let(:error) { AppealsConsumer::Error::NoIssuesFound }
-    let(:error_msg) do
-      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} does not contain any valid issues after"\
-       " removing 'CONTESTED' ineligible issues"
-    end
-
-    it "raises error AppealsConsumer::Error::NoIssuesFound with message" do
-      expect { subject }.to raise_error(error, error_msg)
-    end
-  end
-
-  describe "#remove_ineligible_contested_issues" do
-    subject { builder.send(:remove_ineligible_contested_issues) }
-    let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
-
-    it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do
-      expect(subject.count).to eq(decision_review_issues.count - 1)
-    end
-  end
-
-  describe "#build_request_issue(issue, index)" do
-    subject { builder.send(:build_request_issue, issue, index) }
-
-    it "returns a RequestIssue instance for the issue passed in" do
-      expect(subject).to be_an_instance_of(RequestIssue)
-    end
-
-    it "initializes an issue variable" do
-      expect(builder.issue).to be_an_instance_of(DecisionReviewIssue)
-    end
-
-    it "initializes an index variable matching the index of the issue passed in" do
-      expect(builder.index).to eq(index)
-    end
-
-    it "assigns values to attributes for the Request Issue instance" do
+    it "defines all instance variables for the Request Issue" do
       expect(subject.instance_variable_defined?(:@contested_issue_description)).to be_truthy
       expect(subject.instance_variable_defined?(:@contention_reference_id)).to be_truthy
       expect(subject.instance_variable_defined?(:@contested_rating_decision_reference_id)).to be_truthy
@@ -208,26 +39,22 @@ describe Builders::RequestIssuesBuilder do
       expect(subject.instance_variable_defined?(:@type)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
     end
-  end
 
-  describe "#initialize(decision_review_created)" do
-    it "initializes a new RequestIssuesBuilder instance for an individual DecisionReviewIssue" do
-      expect(builder).to be_an_instance_of(described_class)
+    it "returns the Request Issue" do
+      expect(subject).to be_an_instance_of(RequestIssue)
     end
   end
 
-  describe "#initialize_issue(issue, index)" do
-    subject { builder.send(:initialize_issue, issue, index) }
+  describe "#initialize(issue, decision_review_created)" do
+    it "initializes a decision_review_created instance variable" do
+      expect(builder.decision_review_created).to be_an_instance_of(DecisionReviewCreated)
+    end
 
-    it "initializes an issue variable" do
+    it "initializes an issue instance variable" do
       expect(builder.issue).to be_an_instance_of(DecisionReviewIssue)
     end
 
-    it "initializes an index variable matching the index of the issue passed in" do
-      expect(builder.index).to eq(index)
-    end
-
-    it "initializes a RequestIssue instance" do
+    it "initializes a new Request Issue instance" do
       expect(builder.request_issue).to be_an_instance_of(RequestIssue)
     end
   end
@@ -237,7 +64,7 @@ describe Builders::RequestIssuesBuilder do
       expect(builder).to receive(:assign_methods)
       expect(builder).to receive(:calculate_methods)
 
-      builder.send(:assign_attributes)
+      builder.assign_attributes
     end
   end
 
@@ -361,8 +188,7 @@ describe Builders::RequestIssuesBuilder do
 
         let(:error) { AppealsConsumer::Error::NullContentionIdError }
         let(:error_msg) do
-          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has a"\
-          " null contention_id"
+          "Issue is eligible but has null for contention_id"
         end
 
         it "raises AppealsConsumer::Error::NullContentionIdError with message" do
@@ -394,8 +220,7 @@ describe Builders::RequestIssuesBuilder do
         let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
         let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
         let(:error_msg) do
-          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} is ineligible"\
-           " but has a not-null contention_id value"
+          "Issue is ineligible but has a not-null contention_id value"
         end
 
         it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
@@ -526,8 +351,7 @@ describe Builders::RequestIssuesBuilder do
 
         let(:error) { AppealsConsumer::Error::NullPriorDecisionNotificationDate }
         let(:error_msg) do
-          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
-            " a null prior_decision_notification_date"
+          "Issue is identified but has null for prior_decision_notification_date"
         end
 
         it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
@@ -537,7 +361,7 @@ describe Builders::RequestIssuesBuilder do
 
       context "when the issue is unidentified" do
         before do
-          decision_review_issues.first.prior_decision_notification_date = nil
+          issue.prior_decision_notification_date = nil
         end
 
         let(:decision_review_created) { build(:decision_review_created, :unidentified) }
@@ -572,8 +396,7 @@ describe Builders::RequestIssuesBuilder do
       context "due to a pending review" do
         let(:error) { AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId }
         let(:error_msg) do
-          "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has a"\
-          " null associated_caseflow_request_issue_id"
+          "Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
         end
 
         context "when issue.eligibility_result is 'PENDING_HLR'" do
@@ -818,8 +641,7 @@ describe Builders::RequestIssuesBuilder do
 
       let(:error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
       let(:error_msg) do
-        "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} does not have a"\
-         " recognizable eligibility result"
+        "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
       end
 
       it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
@@ -1450,8 +1272,7 @@ describe Builders::RequestIssuesBuilder do
 
       let(:error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
       let(:error_msg) do
-        "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} does not have a"\
-        " recognizable eligibility result"
+        "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
       end
 
       it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
@@ -1544,8 +1365,7 @@ describe Builders::RequestIssuesBuilder do
     subject { builder.send(:handle_associated_request_issue_not_present) }
     let(:error) { AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId }
     let(:error_msg) do
-      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has a null"\
-       " associated_caseflow_request_issue_id"
+      "Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
     end
     let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_board) }
 
@@ -2028,11 +1848,14 @@ describe Builders::RequestIssuesBuilder do
   end
 
   describe "#handle_unrecognized_eligibility_result" do
+    before do
+      issue.eligibility_result = "UNKNOWN"
+    end
+
     subject { builder.send(:handle_unrecognized_eligibility_result) }
     let(:error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
     let(:error_msg) do
-      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} does not have"\
-       " a recognizable eligibility result"
+      "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
     end
 
     it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
@@ -2044,8 +1867,7 @@ describe Builders::RequestIssuesBuilder do
     subject { builder.send(:handle_missing_contention_id) }
     let(:error) { AppealsConsumer::Error::NullContentionIdError }
     let(:error_msg) do
-      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
-       " a null contention_id"
+      "Issue is eligible but has null for contention_id"
     end
 
     it "raises AppealsConsumer::Error::NullContentionIdError with message" do
@@ -2057,8 +1879,7 @@ describe Builders::RequestIssuesBuilder do
     subject { builder.send(:handle_missing_notification_date) }
     let(:error) { AppealsConsumer::Error::NullPriorDecisionNotificationDate }
     let(:error_msg) do
-      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} has"\
-       " a null prior_decision_notification_date"
+      "Issue is identified but has null for prior_decision_notification_date"
     end
 
     it "raises AppealsConsumer::Error::NullPriorDecisionNotificationDate with message" do
@@ -2086,8 +1907,7 @@ describe Builders::RequestIssuesBuilder do
     subject { builder.send(:handle_contention_id_present) }
     let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
     let(:error_msg) do
-      "DecisionReviewCreated Claim ID #{decision_review_created.claim_id} - Issue index #{index} is ineligible but has"\
-       " a not-null contention_id value"
+      "Issue is ineligible but has a not-null contention_id value"
     end
 
     it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do

@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
-# This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
-class Builders::RequestIssuesBuilder
+# This class is used to build out an individual Request Issue from decision_review_created.decision_review_issues
+class Builders::RequestIssueBuilder
   include ModelBuilder
-  attr_reader :decision_review_created, :issue, :index, :request_issue
+  attr_reader :decision_review_created, :issue, :request_issue
 
   REQUEST_ISSUE = "RequestIssue"
 
   # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
   AMA_ACTIVATION_DATE = Date.new(2019, 2, 19)
-
-  # issues with this eligibility_result are not included in the caseflow payload
-  # caseflow does not track or have a concept of this when determining ineligible_reason
-  CONTESTED = "CONTESTED"
 
   # eligibility_result values that have a 1-to-1 match to a Request Issue ineligible_reason
   TIME_RESTRICTION = "TIME_RESTRICTION"
@@ -45,46 +41,16 @@ class Builders::RequestIssuesBuilder
     legacy_appeal_not_eligible: "legacy_appeal_not_eligible"
   }.freeze
 
-  def self.build(decision_review_created)
-    builder = new(decision_review_created)
-    builder.build_issues
+  # returns the RequestIssue record with all attributes assigned
+  def self.build(issue, decision_review_created)
+    builder = new(issue, decision_review_created)
+    builder.assign_attributes
+    builder.request_issue
   end
 
-  def initialize(decision_review_created)
+  def initialize(issue, decision_review_created)
     @decision_review_created = decision_review_created
-  end
-
-  def build_issues
-    valid_issues = remove_ineligible_contested_issues
-    handle_no_issues_after_removing_contested if valid_issues.empty?
-
-    valid_issues.map.with_index do |issue, index|
-      build_request_issue(issue, index)
-    end
-  end
-
-  private
-
-  # removes "CONTESTED" issues from final array
-  # caseflow does not track or have a concept of this when determining ineligible_reason
-  def remove_ineligible_contested_issues
-    decision_review_created.decision_review_issues.reject { |issue| issue.eligibility_result == CONTESTED }
-  end
-
-  def handle_no_issues_after_removing_contested
-    fail AppealsConsumer::Error::NoIssuesFound, "DecisionReviewCreated Claim ID #{decision_review_created.claim_id}"\
-     " does not contain any valid issues after removing 'CONTESTED' ineligible issues"
-  end
-
-  def build_request_issue(issue, index)
-    initialize_issue(issue, index)
-    assign_attributes
-    @request_issue
-  end
-
-  def initialize_issue(issue, index)
     @issue = issue
-    @index = index
     @request_issue = RequestIssue.new
   end
 
@@ -92,6 +58,8 @@ class Builders::RequestIssuesBuilder
     assign_methods
     calculate_methods
   end
+
+  private
 
   def assign_methods
     assign_contested_rating_decision_reference_id
@@ -124,15 +92,19 @@ class Builders::RequestIssuesBuilder
     calculate_rating_issue_associated_at
   end
 
+  # EP codes ending in "PMC" are pension, otherwise "compensation"
   def calculate_benefit_type
     @request_issue.benefit_type = determine_benefit_type
   end
 
+  # only rating issues, rating decisions, and issues with an associated decision issue populate this field
   def calculate_contested_issue_description
     @request_issue.contested_issue_description =
       rating_or_decision_issue? ? remove_duplicate_prior_decision_type_text : nil
   end
 
+  # eligible issues should always have a not-nil contention_id
+  # ineligible issues should never have a nil contention_id
   def calculate_contention_reference_id
     @request_issue.contention_reference_id =
       if eligible?
@@ -146,10 +118,12 @@ class Builders::RequestIssuesBuilder
       end
   end
 
+  # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
   def assign_contested_rating_decision_reference_id
     @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_disability_sequence_number&.to_s
   end
 
+  # only populate if issue is a rating issue
   def calculate_contested_rating_issue_profile_date
     @request_issue.contested_rating_issue_profile_date = rating? ? issue.prior_decision_rating_profile_date : nil
   end
@@ -158,17 +132,21 @@ class Builders::RequestIssuesBuilder
     @request_issue.contested_rating_issue_reference_id = issue.prior_rating_decision_id&.to_s
   end
 
+  # both rating and nonrating issues can be associated to a caseflow decision_issue
   def assign_contested_decision_issue_id
     @request_issue.contested_decision_issue_id = issue.associated_caseflow_decision_id
   end
 
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
+  # only unidentified issues can have an optional user-input decision date
   def calculate_decision_date
     handle_missing_notification_date if prior_decision_notification_date_not_present? && identified?
 
     @request_issue.decision_date = issue.prior_decision_notification_date
   end
 
+  # if the issue's eligibility_result is "PENDING_BOARD", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
+  # there must be an associated_caseflow_request_issue_id to correlate the pre-existing request issue to
   def calculate_ineligible_due_to_id
     @request_issue.ineligible_due_to_id =
       if pending_claim_review?
@@ -186,14 +164,17 @@ class Builders::RequestIssuesBuilder
     @request_issue.is_unidentified = unidentified?
   end
 
+  # only populate if issue is unidentified
   def calculate_unidentified_issue_text
     @request_issue.unidentified_issue_text =  unidentified? ? issue.prior_decision_text : nil
   end
 
+  # only populate if issue is nonrating
   def calculate_nonrating_issue_category
     @request_issue.nonrating_issue_category = nonrating? ? issue.prior_decision_type : nil
   end
 
+  # only populate for issues that are nonrating and do not have an associated caseflow decision issue
   def calculate_nonrating_issue_description
     @request_issue.nonrating_issue_description =
       if nonrating? && !decision_issue?
@@ -217,18 +198,22 @@ class Builders::RequestIssuesBuilder
     @request_issue.vacols_sequence_id = issue.legacy_appeal_issue_id
   end
 
+  # default initial state of "RequestIssue"
   def assign_type
     @request_issue.type = REQUEST_ISSUE
   end
 
+  # ineligible issues are closed upon creation
   def calculate_closed_at
     @request_issue.closed_at = ineligible? ? decision_review_created.claim_creation_time : nil
   end
 
+  # default state of ineligible issues - "ineligible"
   def calculate_closed_status
     @request_issue.closed_status = ineligible? ? INELIGIBLE_CLOSED_STATUS : nil
   end
 
+  # only populated for rating and rating decision issues
   def calculate_contested_rating_issue_diagnostic_code
     @request_issue.contested_rating_issue_diagnostic_code =
       if rating_or_rating_decision?
@@ -236,10 +221,13 @@ class Builders::RequestIssuesBuilder
       end
   end
 
+  # only populated for rating issues
+  # represents the claim_id of the RAMP EP connected to the rating issue
   def calculate_ramp_claim_id
     @request_issue.ramp_claim_id = rating? ? issue.prior_decision_ramp_id&.to_s : nil
   end
 
+  # only populated for eligible rating issues
   def calculate_rating_issue_associated_at
     @request_issue.rating_issue_associated_at =
       if rating? && eligible?
@@ -251,6 +239,8 @@ class Builders::RequestIssuesBuilder
     @request_issue.nonrating_issue_bgs_id = issue.prior_non_rating_decision_id&.to_s
   end
 
+  # exception thrown if an unrecognized eligibility_result is passed in
+  # eligible issues always have NIL for ineligible_reason
   def determine_ineligible_reason
     if eligible?
       nil
@@ -303,11 +293,16 @@ class Builders::RequestIssuesBuilder
 
   def handle_associated_request_issue_not_present
     unless associated_caseflow_request_issue_present?
-      fail AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId, "DecisionReviewCreated Claim ID"\
-      " #{decision_review_created.claim_id} - Issue index #{index} has a null associated_caseflow_request_issue_id"
+      fail AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId, "Issue is ineligible due to a pending review"\
+        " but has null for associated_caseflow_request_issue_id"
     end
   end
 
+  # removes duplicate prior_decision_type text from prior_decision_text field
+  # example:
+  # prior_decision_type: "DIC"
+  # prior_decision_text: "DIC: Service connection for tetnus denied"
+  # final result: "Service connection for tetnus denied"
   def remove_duplicate_prior_decision_type_text
     category = issue.prior_decision_type
     return issue.prior_decision_text unless category
@@ -343,6 +338,7 @@ class Builders::RequestIssuesBuilder
   end
 
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
+  # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
   def decision_date_before_ama?
     decision_date = issue.prior_decision_notification_date
 
@@ -356,6 +352,7 @@ class Builders::RequestIssuesBuilder
     !!issue.associated_caseflow_request_issue_id
   end
 
+  # an issue can contest a rating issue, rating decision, or nonrating issue
   def identified?
     rating? || rating_decision? || nonrating?
   end
@@ -426,22 +423,20 @@ class Builders::RequestIssuesBuilder
   end
 
   def handle_contention_id_present
-    fail AppealsConsumer::Error::NotNullContentionIdError, "DecisionReviewCreated Claim ID"\
-    " #{decision_review_created.claim_id} - Issue index #{index} is ineligible but has a not-null contention_id value"
+    fail AppealsConsumer::Error::NotNullContentionIdError, "Issue is ineligible but has a not-null contention_id value"
   end
 
   def handle_unrecognized_eligibility_result
-    fail AppealsConsumer::Error::IssueEligibilityResultNotRecognized, "DecisionReviewCreated Claim ID"\
-    " #{decision_review_created.claim_id} - Issue index #{index} does not have a recognizable eligibility result"
+    fail AppealsConsumer::Error::IssueEligibilityResultNotRecognized, "Issue has an unrecognized eligibility_result:"\
+      " #{issue.eligibility_result}"
   end
 
   def handle_missing_contention_id
-    fail AppealsConsumer::Error::NullContentionIdError, "DecisionReviewCreated Claim ID"\
-    " #{decision_review_created.claim_id} - Issue index #{index} has a null contention_id"
+    fail AppealsConsumer::Error::NullContentionIdError, "Issue is eligible but has null for contention_id"
   end
 
   def handle_missing_notification_date
-    fail AppealsConsumer::Error::NullPriorDecisionNotificationDate, "DecisionReviewCreated Claim ID"\
-    " #{decision_review_created.claim_id} - Issue index #{index} has a null prior_decision_notification_date"
+    fail AppealsConsumer::Error::NullPriorDecisionNotificationDate, "Issue is identified but has null for"\
+      " prior_decision_notification_date"
   end
 end
