@@ -8,9 +8,33 @@ class EventAudit < ApplicationRecord
   validates :event_id, presence: true
   validates :status, presence: true
 
+  IN_PROGRESS = "IN_PROGRESS"
+  COMPLETED = "COMPLETED"
+  FAILED = "FAILED"
+
   enum status: {
-    in_progress: "IN_PROGRESS",
-    completed: "COMPLETED",
-    failed: "FAILED"
+    in_progress: IN_PROGRESS,
+    completed: COMPLETED,
+    failed: FAILED
   }
+
+  def in_progress!
+    update(status: IN_PROGRESS)
+  end
+
+  def completed!
+    update(status: COMPLETED)
+  end
+
+  def failed!
+    update(status: FAILED)
+  end
+
+  def started_at!
+    update(started_at: Time.zone.now)
+  end
+
+  def ended_at!
+    update(ended_at: Time.zone.now)
+  end
 end
