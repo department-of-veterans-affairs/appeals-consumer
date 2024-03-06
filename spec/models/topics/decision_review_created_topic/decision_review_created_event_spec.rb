@@ -2,7 +2,7 @@
 
 describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :model do
   describe "#process!" do
-    let(:event) { FactoryBot.create(:decision_review_created_event) }
+    let(:event) { create(:decision_review_created_event) }
     let(:dto_builder_instance) { instance_double("Builders::DecisionReviewCreatedDtoBuilder") }
     let(:caseflow_response) { instance_double("Response", code: 201, message: "Some message") }
 
@@ -15,9 +15,18 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
     end
 
     context "when processing is successful" do
-      it "updates the event with a completed_at timestamp" do
+      before do
+        allow(Rails.logger).to receive(:info).with(message)
         event.process!
+      end
 
+      let(:message) { "Received #{caseflow_response.code}" }
+
+      it "logs the response code" do
+        expect(Rails.logger).to have_received(:info).with(message)
+      end
+
+      it "updates the event with a completed_at timestamp" do
         expect(event.completed_at).not_to be_nil
       end
     end
@@ -36,11 +45,14 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
       end
     end
 
+    # WIP: having issues testing Rails.logger.error here
     context "when an unexpected error occurs" do
       let(:standard_error) { StandardError.new("Unexpected error") }
       let(:error_message) { "Unexpected error" }
+      subject { event.process! }
 
       before do
+        allow(Rails.logger).to receive(:error).with(standard_error)
         allow(ExternalApi::CaseflowService)
           .to receive(:establish_decision_review_created_records_from_event!)
           .and_raise(standard_error)
@@ -50,8 +62,10 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
           .and_return(caseflow_response)
       end
 
-      it "logs the error" do
-        expect { event.process! }.to raise_error(StandardError)
+      it "logs and raises the error" do
+        subject
+        expect(Rails.logger).to have_received(:error).with(an_instance_of(StandardError))
+        expect { subject }.to raise_error(StandardError)
       end
     end
   end

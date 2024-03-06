@@ -151,4 +151,57 @@ RSpec.describe Event, type: :model do
       expect(event.reload.state).to eq("failed")
     end
   end
+
+  describe "handle_failure(error_message)" do
+    before do
+      event.in_progress!
+    end
+
+    let(:event) { create(:event) }
+    subject { event.handle_failure("error message") }
+
+    it "updates the event error column with the error_message" do
+      subject
+      expect(event.error).to eq("error message")
+    end
+
+    context "when the number of event audits is less than MAX_ERRORS_FOR_FAILURE" do
+      let!(:event_audits) { create_list(:event_audit, 2, event: event, error: "error") }
+
+      it "event's state should be updated to 'error'" do
+        expect(event.state).to eq("in_progress")
+        subject
+        ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
+          expect(event.state).to eq("error")
+        end
+      end
+    end
+
+    context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
+      context "the last three event audits have an error in the error column" do
+        let!(:event_audits) { create_list(:event_audit, 3, event: event, error: "error msg") }
+
+        it "event's state should be updated to 'failed'" do
+          expect(event.state).to eq("in_progress")
+          subject
+          ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
+            expect(event.state).to eq("failed")
+          end
+        end
+      end
+
+      context "and one of the last three event audits do not have an error in the error column" do
+        let!(:errored_event_audit) { create(:event_audit, event: event, error: "error") }
+        let!(:non_errored_event_audits) { create_list(:event_audit, 3, event: event) }
+
+        it "event's state should be updated to 'error'" do
+          expect(event.state).to eq("in_progress")
+          subject
+          ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
+            expect(event.state).to eq("error")
+          end
+        end
+      end
+    end
+  end
 end
