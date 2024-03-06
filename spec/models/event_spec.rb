@@ -204,4 +204,28 @@ RSpec.describe Event, type: :model do
       end
     end
   end
+
+  describe "#handle_response(reponse)" do
+    subject { event.handle_response(caseflow_response) }
+    let(:caseflow_response) { instance_double("Response", code: 401, message: "Some message") }
+    let(:message) { "Received #{caseflow_response.code}" }
+    let(:event) { create(:event) }
+
+    before do
+      allow(Rails.logger).to receive(:info).with(message)
+      subject
+    end
+
+    it "logs the response code" do
+      expect(Rails.logger).to have_received(:info).with(message)
+    end
+
+    context "when the response code is 201" do
+      let(:caseflow_response) { instance_double("Response", code: 201, message: "Some message") }
+
+      it "updates the event's completed_at" do
+        expect(event.completed_at).not_to eq nil
+      end
+    end
+  end
 end
