@@ -49,10 +49,9 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
     context "when an unexpected error occurs" do
       let(:standard_error) { StandardError.new("Unexpected error") }
       let(:error_message) { "Unexpected error" }
-      subject { event.process! }
 
       before do
-        allow(Rails.logger).to receive(:error).with(standard_error)
+        allow(Rails.logger).to receive(:error)
         allow(ExternalApi::CaseflowService)
           .to receive(:establish_decision_review_created_records_from_event!)
           .and_raise(standard_error)
@@ -63,9 +62,8 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
       end
 
       it "logs and raises the error" do
-        subject
-        expect(Rails.logger).to have_received(:error).with(an_instance_of(StandardError))
-        expect { subject }.to raise_error(StandardError)
+        expect { event.process! }.to raise_error(StandardError)
+        expect(Rails.logger).to have_received(:error).with(standard_error)
       end
     end
   end
