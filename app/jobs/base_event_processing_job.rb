@@ -18,7 +18,7 @@ class BaseEventProcessingJob < ApplicationJob
   private
 
   def ended_at
-    @event_audit.update!(ended_at: Time.zone.now)
+    @event_audit.update(ended_at: Time.zone.now)
   end
 
   def init_setup(event)
