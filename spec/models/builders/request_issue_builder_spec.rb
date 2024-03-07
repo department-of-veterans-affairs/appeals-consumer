@@ -1400,8 +1400,14 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has prior_decision_type text within prior_decision_text" do
+      before do
+        issue.prior_decision_text = "DIC: something - DIC: something"
+      end
+
+      let(:expected_prior_decision_text) { "something - DIC: something" }
+
       it "removes the duplicate prior_decision_type text from prior_decision_text" do
-        expect(subject.include?(issue.prior_decision_type)).to eq false
+        expect(subject).to eq(expected_prior_decision_text)
       end
     end
 

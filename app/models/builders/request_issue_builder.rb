@@ -310,7 +310,7 @@ class Builders::RequestIssueBuilder
     category += ": "
     description = issue.prior_decision_text
 
-    description.gsub(/#{Regexp.escape(category)}/i, "")
+    description.gsub(/^#{Regexp.escape(category)}/i, "")
   end
 
   def rating_or_decision_issue?
