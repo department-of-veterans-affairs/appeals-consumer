@@ -18,7 +18,7 @@ class BaseEventProcessingJob < ApplicationJob
   private
 
   def ended_at
-    @event_audit.update(ended_at: Time.zone.now)
+    comitted_event_audit&.update(ended_at: Time.zone.now) unless @event_audit&.new_record?
   end
 
   def init_setup(event)
@@ -29,7 +29,7 @@ class BaseEventProcessingJob < ApplicationJob
   def start_processing!
     ActiveRecord::Base.transaction do
       @event.in_progress!
-      @event_audit = EventAudit.create(event: @event)
+      @event_audit = EventAudit.create!(event: @event)
       @event_audit.started_at!
     end
   end
@@ -44,7 +44,7 @@ class BaseEventProcessingJob < ApplicationJob
   def handle_job_error!(error)
     log_error
     ActiveRecord::Base.transaction do
-      @event_audit.failed!(error.message)
+      comitted_event_audit&.failed!(error.message)
       @event.handle_failure(error.message)
     end
   end
@@ -60,5 +60,9 @@ class BaseEventProcessingJob < ApplicationJob
     msg = "[#{self.class.name}] An error has occured while processing a job for the event with event_id: #{@event.id}."
     msg += " Please check EventAudit with id: #{@event_audit.id} for details." if @event_audit
     Rails.logger.error(msg)
+  end
+
+  def comitted_event_audit
+    @event_audit unless @event_audit&.new_record?
   end
 end
