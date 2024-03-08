@@ -47,7 +47,6 @@ class BaseEventProcessingJob < ApplicationJob
       comitted_event_audit&.failed!(error.message)
       @event.handle_failure(error.message)
     end
-    fail error
   end
 
   def set_current_user_to_system_admin
