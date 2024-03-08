@@ -72,6 +72,6 @@ FactoryBot.define do
       }.to_json
     end
     partition { 1 }
-    offset { 1 }
+    sequence(:offset) { Event.any? ? (Event.last.offset + 1) : 1 }
   end
 end
