@@ -36,6 +36,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   # :reek:TooManyStatements
   def assign_from_decision_review_created
+    @claim_id = @decision_review_created.claim_id
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
     @station = @decision_review_created.created_by_station
@@ -135,6 +136,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   def build_hash_response
     {
       "event_id": @event_id,
+      "claim_id": @claim_id,
       "css_id": @css_id,
       "detail_type": @detail_type,
       "station": @station,

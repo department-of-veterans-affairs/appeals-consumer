@@ -42,13 +42,6 @@ class Event < ApplicationRecord
     fail NoMethodError, "Please define a .process! method for the #{self.class} class"
   end
 
-  private
-
-  # :reek:UtilityFunction
-  def retrieve_max_errors_for_failure
-    ENV["MAX_ERRORS_FOR_FAILURE"].to_i
-  end
-
   def handle_response(response)
     Rails.logger.info("Received #{response.code}")
 
@@ -57,24 +50,31 @@ class Event < ApplicationRecord
     end
   end
 
-  def handle_client_error(error_message)
-    Rails.logger.error(error_message)
+  def handle_failure(error_message)
     update!(error: error_message)
+    failed? ? failed! : error!
   end
 
   def in_progress!
-    update(state: IN_PROGRESS)
+    update!(state: IN_PROGRESS)
   end
 
   def processed!
-    update(state: PROCESSED)
+    update!(state: PROCESSED)
   end
 
+  private
+
   def error!
-    update(state: ERROR)
+    update!(state: ERROR)
   end
 
   def failed!
-    update(state: FAILED)
+    update!(state: FAILED)
+  end
+
+  # :reek:UtilityFunction
+  def retrieve_max_errors_for_failure
+    ENV["MAX_ERRORS_FOR_FAILURE"].to_i
   end
 end

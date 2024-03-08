@@ -8,13 +8,15 @@ class Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent < Event
 
     handle_response(response)
   rescue AppealsConsumer::Error::ClientRequestError => error
-    handle_client_error(error.message)
+    Rails.logger.error(error)
+    raise error
   rescue StandardError => error
+    Rails.logger.error(error)
     ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
       id,
       JSON.parse(message_payload)["claim_id"],
       error.message
     )
-    Rails.logger.error(error.message)
+    raise error
   end
 end
