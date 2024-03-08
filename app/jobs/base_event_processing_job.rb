@@ -44,8 +44,8 @@ class BaseEventProcessingJob < ApplicationJob
   def handle_job_error!(error)
     log_error
     ActiveRecord::Base.transaction do
-      @event.handle_failure(error.message)
       @event_audit.failed!(error.message)
+      @event.handle_failure(error.message)
     end
   end
 

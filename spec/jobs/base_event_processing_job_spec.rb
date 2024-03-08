@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe BaseEventProcessingJob, type: :job do
-  let!(:event) { create(:event) }
+  let(:event) { create(:event) }
   let(:job) { described_class.new }
 
   before do
@@ -32,10 +32,13 @@ RSpec.describe BaseEventProcessingJob, type: :job do
       before do
         allow(Rails.logger).to receive(:error)
         allow_any_instance_of(Event).to receive(:process!).and_raise(StandardError.new)
-        subject
       end
 
       context "outside of a transaction block" do
+        before do
+          subject
+        end
+
         it "handles the error and logs a message" do
           expect { subject.not_to raise_error }
           expect(Rails.logger)
@@ -52,12 +55,11 @@ RSpec.describe BaseEventProcessingJob, type: :job do
         end
 
         context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
-          before do
-            create_list(:event_audit, 3, event: event, error: "error msg")
-          end
-
           it "updates the state of the event to 'error'" do
-            expect(event.state).to eq("failed")
+            create_list(:event_audit, 3, event: event, error: "error msg")
+
+            job.perform(event)
+            expect(event.reload.state).to eq("failed")
           end
         end
       end
@@ -66,7 +68,7 @@ RSpec.describe BaseEventProcessingJob, type: :job do
         it "rollsback the transaction" do
           allow_any_instance_of(EventAudit).to receive(:started_at!).and_raise(StandardError.new)
 
-          expect { subject }.not_to(change { EventAudit.count })
+          expect { job.perform(event) }.not_to(change { EventAudit.count })
           expect(event.reload.state).not_to eq("in_progress")
         end
       end
@@ -74,19 +76,16 @@ RSpec.describe BaseEventProcessingJob, type: :job do
       context "within the completed processing transaction" do
         it "rollsback the transaction" do
           allow_any_instance_of(EventAudit).to receive(:completed!).and_raise(StandardError.new)
-
+          job.perform(event)
           expect(event.event_audits.last.status).not_to eq("completed")
           expect(event.reload.state).not_to eq("processed")
         end
       end
 
       context "within the handle job error transaction" do
-        before do
-          allow_any_instance_of(EventAudit).to receive(:failed!).and_raise(StandardError.new)
-        end
-
         it "rollsback the transaction" do
-          # job.perform(event)
+          allow_any_instance_of(Event).to receive(:handle_failure).and_raise(StandardError.new)
+          job.perform(event)
           expect(event.event_audits.last.status).not_to eq("failed")
           expect(event.reload.state).not_to eq("failed")
         end
