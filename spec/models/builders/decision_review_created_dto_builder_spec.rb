@@ -21,7 +21,7 @@ RSpec.describe Builders::DecisionReviewCreatedDtoBuilder, type: :model do
     "modifier" => "01",
     "originated_from_vacols_issue" => false,
     "informal_conference_requested" => false,
-    "informal_conference_tracked_item_id" => 1,
+    "informal_conference_tracked_item_id" => "1",
     "same_station_review_requested" => false,
     "intake_creation_time" => Time.now.utc.to_i,
     "claim_creation_time" => Time.now.utc.to_i,

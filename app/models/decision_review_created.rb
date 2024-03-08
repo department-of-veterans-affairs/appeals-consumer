@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "./concerns/message_payload_validator"
-
 # DecisionReviewCreated represents the message_payload from an individual DecisionReviewCreatedEvent
 class DecisionReviewCreated
   include MessagePayloadValidator
@@ -24,9 +22,10 @@ class DecisionReviewCreated
     "claim_lifecycle_status" => String,
     "payee_code" => String,
     "modifier" => String,
+    "limited_poa_code" => [String, NilClass],
     "originated_from_vacols_issue" => [TrueClass, FalseClass, NilClass],
     "informal_conference_requested" => [TrueClass, FalseClass],
-    "informal_conference_tracked_item_id" => [Integer, NilClass],
+    "informal_conference_tracked_item_id" => [String, NilClass],
     "same_station_review_requested" => [TrueClass, FalseClass],
     "intake_creation_time" => Integer,
     "claim_creation_time" => Integer,
@@ -79,28 +78,35 @@ end
 class DecisionReviewIssue
   include MessagePayloadValidator
 
+  # TODO: VERIFY ATTRIBUTES NAMES: prior_decision_ramp_id, prior_decision_rating_disability_sequence_number
+  # TODO: ADD FIELD: prior_decision_notification_date - 1 business day (not added to avro yet)
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
   # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_ISSUE_ATTRIBUTES ||= {
     "contention_id" => [Integer, NilClass],
+    "associated_caseflow_decision_id" => [Integer, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
     "unidentified" => [TrueClass, FalseClass],
     "prior_rating_decision_id" => [Integer, NilClass],
     "prior_non_rating_decision_id" => [Integer, NilClass],
+    "prior_decision_award_event_id" => [Integer, NilClass],
+    "prior_decision_ramp_id" => [Integer, NilClass],
     "prior_decision_text" => String,
     "prior_decision_type" => [String, NilClass],
     "prior_decision_notification_date" => Integer,
     "prior_decision_diagnostic_code" => [String, NilClass],
+    "prior_decision_rating_disability_sequence_number" => [Integer, NilClass],
     "prior_decision_rating_percentage" => [String, NilClass],
+    "prior_decision_rating_profile_date" => [String, NilClass],
     "eligible" => [TrueClass, FalseClass],
     "eligibility_result" => String,
     "time_override" => [TrueClass, FalseClass, NilClass],
     "time_override_reason" => [String, NilClass],
     "contested" => [TrueClass, FalseClass, NilClass],
     "soc_opt_in" => [TrueClass, FalseClass, NilClass],
-    "legacy_appeal_id" => [Integer, NilClass],
+    "legacy_appeal_id" => [String, NilClass],
     "legacy_appeal_issue_id" => [Integer, NilClass]
   }
   # rubocop:enable Style/MutableConstant

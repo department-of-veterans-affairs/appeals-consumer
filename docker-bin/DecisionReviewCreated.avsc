@@ -88,17 +88,18 @@
       "doc": "Whether a decision review originated from vacols"
     },
     {
+      "name": "limitedPoaCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The code of the limited POA for the claim created to work this decision review"
+    },
+    {
       "name": "informalConferenceRequested",
       "type": "boolean",
       "doc": "Whether an informal conference was requested by the claimant"
-    },
-    {
-      "name": "informalConferenceTrackedItemId",
-      "type": [
-        "null",
-        "long"
-      ],
-      "doc": "The ID of the tracked item for the informal conference. Will be null if one was not requested."
     },
     {
       "name": "sameStationReviewRequested",
@@ -139,6 +140,15 @@
       "name": "createdByApplication",
       "type": "string",
       "doc": "The application that the user used to create this decision review"
+    },
+    {
+      "name": "informalConferenceTrackedItemId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The ID of the informal conference tracked Item ID."
     },
     {
       "name": "decisionReviewIssues",
@@ -204,13 +214,17 @@
             },
             {
               "name": "priorDecisionNotificationDate",
-              "type": {
-                "type": "int",
-                "connect.version": 1,
-                "connect.name": "org.apache.kafka.connect.data.Date",
-                "logicalType": "date"
-              },
-              "doc": "The date at which the claimant was notified of the prior decision. If its a rating issue, its the promulgation date plus one day. If its a non-rating issue, its the authorization date. If its an unidentified issue, its the user provided date."
+              "type": [
+                "null",
+                {
+                  "type": "int",
+                  "connect.version": 1,
+                  "connect.name": "org.apache.kafka.connect.data.Date",
+                  "logicalType": "date"
+                }
+              ],
+              "default": null,
+              "doc": "The date at which the claimant was notified of the prior decision. If its a rating issue, its the promulgation date plus one business day. If its a non-rating issue, its the authorization date plus one business day. If its an unidentified issue, its the user provided date."
             },
             {
               "name": "priorDecisionDiagnosticCode",
@@ -297,7 +311,7 @@
               "name": "legacyAppealId",
               "type": [
                 "null",
-                "long"
+                "string"
               ],
               "default": null,
               "doc": "The ID of the legacy VACOLS appeal that is being opted-in from. This is associated with VacolsIssue.vacols_id in Caseflow. "
@@ -310,6 +324,24 @@
               ],
               "default": null,
               "doc": "The ID of the legacy VACOLS issue that is being opted-in from. This is associated with VacolsIssue.vacols_sequence_id in Caseflow. This issue should be closed out in VACOLS"
+            },
+            {
+              "name": "priorDecisionAwardEventId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The identifier of the prior non-rating decision's begin award event that this issue is appealing. This value will be null if the issue is unidentified or is a rating issue."
+            },
+            {
+              "name": "priorDecisionRatingProfileDate",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to RequestIssue.contested_rating_issue_profile_date in Caseflow."
             }
           ]
         }

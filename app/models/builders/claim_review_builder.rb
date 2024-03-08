@@ -2,12 +2,10 @@
 
 # This class is used to build out a Claim Review object from an instance of DecisionReviewCreated
 class Builders::ClaimReviewBuilder
+  include ModelBuilder
   attr_reader :claim_review, :decision_review_created
 
-  PENSION_IDENTIFIER = "PMC"
   FILED_BY_VA_GOV = false
-  COMPENSATION_BENEFIT_TYPE = "compensation"
-  PENSION_BENEFIT_TYPE = "pension"
 
   def self.build(decision_review_created)
     builder = new(decision_review_created)
