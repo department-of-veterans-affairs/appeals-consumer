@@ -42,9 +42,9 @@ make registry
     ```
 
 
-3. Run commands with `make run <COMMAND>`
+3. Run commands with `make run-cmd <COMMAND>`
 
 Example:
 ```bash
-make run rails c
+make run-cmd rails c
 ```

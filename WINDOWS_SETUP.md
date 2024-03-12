@@ -12,9 +12,9 @@ Docker Installation
 Note: We do not use Docker Desktop due to licensing.
 
 Open terminal and run:
-    1. `brew install docker docker-compose`
-    2. `mkdir -p ~/.docker/cli-plugins`
-    3. `ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose`
+  1. `brew install docker docker-compose`
+  2. `mkdir -p ~/.docker/cli-plugins`
+  3. `ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose`
 
 Clone the repo
 ---
@@ -27,10 +27,10 @@ Running the Application
 ---
 1. Build the docker containers and run the database creation and migrations (First time only). Additionally, we need to upload the schema to the registry server.
 
-```bash
-make build
-make registry
-```
+  ```bash
+  make build
+  make registry
+  ```
 
 2. Start the containers
    1. start both rails and the karafka consumer together
