@@ -1,5 +1,9 @@
 # Windows with WSL
 ---
+This setup guide assumes that you have already gone through the caseflow setup:
+[Windows 10](https://github.com/department-of-veterans-affairs/caseflow/blob/master/WINDOWS_10.md)
+[Windows 11](https://github.com/department-of-veterans-affairs/caseflow/blob/master/WINDOWS_11.md)
+
 [<< Back](README.md)
 
 ---
