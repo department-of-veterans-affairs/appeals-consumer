@@ -23,7 +23,7 @@ Note: We do not use Docker Desktop due to licensing. We recommend using Colima t
 1. Create a `~/dev/appeals/` directory
 
 2. Clone the following repo using `git clone` into this directory
-    * <https://github.com/Aaron-Willis/Appeals-Consumer.git>
+    * <https://github.com/department-of-veterans-affairs/appeals-consumer.git>
 
 ---
 ### Running the Application
