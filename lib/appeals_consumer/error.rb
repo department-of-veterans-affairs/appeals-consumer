@@ -18,4 +18,13 @@ module AppealsConsumer::Error
 
   class CaseflowError < SerializableError; end
   class ClientRequestError < CaseflowError; end
+  class BisVeteranNotFound < StandardError; end
+  class BisClaimantNotFound < StandardError; end
+  class NullContentionIdError < StandardError; end
+  class NullPriorDecisionNotificationDate < StandardError; end
+  class NullAssociatedCaseflowRequestIssueId < StandardError; end
+  class IssueEligibilityResultNotRecognized < StandardError; end
+  class RequestIssueCollectionBuildError < StandardError; end
+  class RequestIssueBuildError < StandardError; end
+  class NotNullContentionIdError < StandardError; end
 end

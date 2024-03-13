@@ -9,11 +9,13 @@
 # :reek:InstanceVariableAssumption
 class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
-              :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
+              :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email,
+              :hash_response
 
-  def initialize(dcr_event)
+  def initialize(drc_event)
     super()
-    @decision_review_created = build_decision_review_created(JSON.parse(dcr_event.message_payload))
+    @decision_review_created = build_decision_review_created(JSON.parse(drc_event.message_payload))
+    @event_id = drc_event.id
     assign_attributes
   end
 
@@ -34,6 +36,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   # :reek:TooManyStatements
   def assign_from_decision_review_created
+    @claim_id = @decision_review_created.claim_id
     @css_id = @decision_review_created.created_by_username
     @detail_type = @decision_review_created.decision_review_type
     @station = @decision_review_created.created_by_station
@@ -95,7 +98,7 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
   end
 
   def build_request_issues
-    Builders::RequestIssueBuilder.build(@decision_review_created)
+    Builders::RequestIssueCollectionBuilder.build(@decision_review_created)
   end
 
   def assign_vet_ssn
@@ -132,6 +135,8 @@ class Builders::DecisionReviewCreatedDtoBuilder < Builders::DtoBuilder
 
   def build_hash_response
     {
+      "event_id": @event_id,
+      "claim_id": @claim_id,
       "css_id": @css_id,
       "detail_type": @detail_type,
       "station": @station,

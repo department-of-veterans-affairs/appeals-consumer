@@ -2,7 +2,8 @@
 
 # This class is used to build out a Veteran object from an instance of DecisionReviewCreated
 class Builders::VeteranBuilder
-  attr_reader :veteran, :decision_review_created
+  include ModelBuilder
+  attr_reader :veteran, :decision_review_created, :bis_record
 
   def self.build(decision_review_created)
     builder = new(decision_review_created)
@@ -13,43 +14,69 @@ class Builders::VeteranBuilder
   def initialize(decision_review_created)
     @decision_review_created = decision_review_created
     @veteran = Veteran.new
+    @bis_record = fetch_veteran_bis_record
   end
 
   def assign_attributes
     assign_participant_id
-    calculate_bgs_last_synced_at
-    calculate_closest_regional_office
-    calculate_date_of_death
-    calculate_date_of_death_reported_at
-    calculate_name_suffix
-    calculate_ssn
     assign_file_number
     assign_first_name
-    calculate_middle_name
     assign_last_name
+    calculate_bgs_last_synced_at
+    calculate_date_of_death
+    calculate_name_suffix
+    calculate_ssn
+    calculate_middle_name
   end
 
   private
 
-  def assign_participant_id; end
+  def assign_participant_id
+    @veteran.participant_id = decision_review_created.veteran_participant_id
+  end
 
-  def calculate_bgs_last_synced_at; end
+  def assign_file_number
+    @veteran.file_number = decision_review_created.file_number
+  end
 
-  def calculate_closest_regional_office; end
+  def assign_first_name
+    @veteran.first_name = decision_review_created.veteran_first_name
+  end
 
-  def calculate_date_of_death; end
+  def assign_last_name
+    @veteran.last_name = decision_review_created.veteran_last_name
+  end
 
-  def calculate_date_of_death_reported_at; end
+  def calculate_bgs_last_synced_at
+    @veteran.bgs_last_synced_at = convert_bis_synced_at_to_milliseconds
+  end
 
-  def calculate_name_suffix; end
+  def calculate_date_of_death
+    @veteran.date_of_death = convert_date_of_death_to_logical_type_int
+  end
 
-  def calculate_ssn; end
+  def calculate_name_suffix
+    @veteran.name_suffix = bis_record[:name_suffix]
+  end
 
-  def assign_file_number; end
+  def calculate_ssn
+    @veteran.ssn = bis_record[:ssn]
+  end
 
-  def assign_first_name; end
+  def calculate_middle_name
+    @veteran.middle_name = bis_record[:middle_name]
+  end
 
-  def calculate_middle_name; end
+  def convert_bis_synced_at_to_milliseconds
+    @bis_synced_at.to_i * 1000
+  end
 
-  def assign_last_name; end
+  def convert_date_of_death_to_logical_type_int
+    date = bis_record[:date_of_death]
+
+    if date
+      target_date = Date.strptime(date, "%m/%d/%Y")
+      (target_date - EPOCH_DATE).to_i
+    end
+  end
 end
