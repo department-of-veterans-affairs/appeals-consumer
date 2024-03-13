@@ -65,18 +65,13 @@ class ApplicationConsumer < Karafka::BaseConsumer
   # Sends an error notification message to a configured Slack channel, including a Sentry event id if available.
   def notify_slack
     slack_message = "#{ERROR_MSG} #{self.class.name}"
-    slack_message += " See Sentry event #{Sentry.last_event_id}" if Sentry.last_event_id.present?
+    slack_message += " See Sentry event #{Raven.last_event_id}" if Raven.last_event_id.present?
     slack_service.send_notification(slack_message, self.class.name)
   end
 
   # Reports an exception to Sentry, including additional details for debugging.
   def notify_sentry(error, extra_details)
-    Sentry.capture_exception(error) do |scope|
-      scope.set_extras({
-                         **extra_details,
-                         source: self.class.name
-                       })
-    end
+    Raven.capture_exception(error, extra: { **extra_details, source: self.class.name })
   end
 
   # :reek:UtilityFunction
