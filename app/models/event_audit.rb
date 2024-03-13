@@ -8,14 +8,20 @@ class EventAudit < ApplicationRecord
   validates :event_id, presence: true
   validates :status, presence: true
 
+  scope :stuck, lambda {
+    where("status != ? AND started-at <= ? AND ended_at IS NULL", IN_PROGRESS, 26.minutes.ago)
+  }
+
   IN_PROGRESS = "IN_PROGRESS"
   COMPLETED = "COMPLETED"
   FAILED = "FAILED"
+  CANCELLED = "CANCELLED"
 
   enum status: {
     in_progress: IN_PROGRESS,
     completed: COMPLETED,
-    failed: FAILED
+    failed: FAILED,
+    cancelled: CANCELLED
   }
 
   def in_progress!
@@ -28,6 +34,10 @@ class EventAudit < ApplicationRecord
 
   def failed!(error_message)
     update!(status: FAILED, error: error_message)
+  end
+
+  def cancelled!
+    update!(status: FAILED)
   end
 
   def started_at!
