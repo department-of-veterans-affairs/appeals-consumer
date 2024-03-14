@@ -9,7 +9,11 @@ class EventAudit < ApplicationRecord
   validates :status, presence: true
 
   scope :stuck, lambda {
-    where("status != ? AND started-at <= ? AND ended_at IS NULL", IN_PROGRESS, 26.minutes.ago)
+    where(
+      "status NOT IN (?) AND started_at <= ? AND ended_at IS NULL",
+      [CANCELLED, COMPLETED, FAILED],
+      26.minutes.ago
+    )
   }
 
   IN_PROGRESS = "IN_PROGRESS"

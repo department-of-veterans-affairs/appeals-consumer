@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
-class EventProcessingRescueJob < BaseEventProcessingJob
+class EventProcessingRescueJob < ApplicationJob
   def perform
     start_time = Time.zone.now
-    stuck_audits = Audit.stuck
+    stuck_audits = EventAudit.stuck
     stuck_audits.find_each do |audit|
       break if time_exceeded?(start_time)
 
       audit.cancelled!
       audit.ended_at!
-    end
 
-    Event.where.not(status: "PROCESSED").find_each do |event|
-      break if time_exceeded?(start_time)
+      Rails.logger.info("EventAudit with id: #{audit.id} was cancelled")
 
-      DecisionReviewCreatedEventProcessingJob.perform_later(event)
+      unless audit.event.end_state?
+        DecisionReviewCreatedEventProcessingJob.perform_later(event)
+        Rails.logger.info(
+          "Event with id: #{event.id} was found to be not \"PROCESSED\" and was re-enqueued into a new processing job"
+        )
+      end
     end
   end
 

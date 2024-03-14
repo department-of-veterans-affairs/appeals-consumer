@@ -2,6 +2,7 @@
 
 class Api::V1::JobsController < Api::ApplicationController
   SCHEDULED_JOBS = {
+    "event_processing_rescue" => EventProcessingRescueJob,
     "heartbeat" => HeartbeatJob
   }.freeze
 

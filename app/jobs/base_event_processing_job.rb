@@ -7,7 +7,12 @@ class BaseEventProcessingJob < ApplicationJob
   def perform(event)
     init_setup(event)
 
-    return true if processed?
+    if @event.end_state?
+      Rails.logger.info(
+        "#{self.class.name} instance was stopped since the event with id: #{@event.id} was already in an end state"
+      )
+      return true
+    end
 
     start_processing!
     @event.process!
@@ -57,14 +62,6 @@ class BaseEventProcessingJob < ApplicationJob
       css_id: ENV["CSS_ID"],
       station_id: ENV["STATION_ID"]
     }
-  end
-
-  def processed?
-    if @event.processed?
-      Rails.logger.info("processed")
-      return true
-    end
-    false
   end
 
   def log_error

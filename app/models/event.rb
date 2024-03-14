@@ -28,6 +28,10 @@ class Event < ApplicationRecord
     completed_at?
   end
 
+  def end_state?
+    state == PROCESSED || state == FAILED
+  end
+
   # :reek:FeatureEnvy
   def failed?
     audits = event_audits
