@@ -54,3 +54,14 @@ Example:
 ```bash
 make run-cmd rails c
 ```
+
+### Database connection with DBeaver setup
+
+1. Download and install DBeaver if you haven't already.
+2. In your console run `make up`.
+3. Open DBeaver and select Database on the top bar, then click 'New Database Connection'.
+4. Select PostgreSQL and click next.
+5. Change the port to 5555 (the exposed postgres port found in docker-compose.yml).
+6. Enter the password: postgres (this is also found in docker-compose.yml).
+7. Click the PostgreSQL tab and select 'Show all databases'.
+8. Click Finish. The database should be viewable now on the left bar.
