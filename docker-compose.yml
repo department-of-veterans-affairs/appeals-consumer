@@ -82,7 +82,7 @@ services:
     build: ./
     command: /usr/bin/supervisord
     ports:
-      - '3001:3001'
+      - '3001:3000'
     volumes:
       - .:/appeals-consumer
     depends_on:
