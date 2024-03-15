@@ -3,7 +3,7 @@
 # @note For use in conjuction with setting `Rails.application.config.active_support.deprecation = :notify`.
 #   Whenever a “deprecation.rails” notification is published, it will dispatch the event
 #   (ActiveSupport::Notifications::Event) to method #deprecation.
-class DeprecationWarningSubscriber < ActiveSupport::Subscriber
+class DeprecationWarnings < ActiveSupport::Subscriber
   APP_NAME = "appeals-consumer"
   SLACK_ALERT_CHANNEL = "#appeals-deprecation-alerts"
 

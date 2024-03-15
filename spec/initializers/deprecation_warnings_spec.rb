@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "DeprecationWarningSubscriber" do
+describe "DeprecationWarnings" do
   let(:rails_logger) { Rails.logger }
   let(:slack_service) { SlackService.new(url: "dummy-url") }
 
