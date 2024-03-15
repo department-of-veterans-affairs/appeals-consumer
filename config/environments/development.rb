@@ -63,6 +63,11 @@ Rails.application.configure do
 
   # Needed to run rspec request tests
   config.hosts << "www.example.com"
+  
+  RequestStore.store[:current_user] = {
+    css_id: ENV["CSS_ID"],
+    station_id: ENV["STATION_ID"]
+  }
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

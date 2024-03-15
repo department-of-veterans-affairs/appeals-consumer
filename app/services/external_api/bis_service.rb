@@ -17,6 +17,7 @@ module ExternalApi
       # respective requests
       @veteran_info = {}
       @person_info = {}
+      @limited_poa = {}
     end
 
     def fetch_veteran_info(file_number)
@@ -29,7 +30,9 @@ module ExternalApi
 
     def fetch_person_info(participant_id)
       Rails.logger.info("BIS: Fetching person info by participant id: #{participant_id}")
-      bis_info = client.people.find_person_by_ptcpnt_id(participant_id)
+      bis_info = Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
+        client.people.find_person_by_ptcpnt_id(participant_id)
+      end
 
       return {} unless bis_info
 
@@ -47,19 +50,30 @@ module ExternalApi
 
     def fetch_limited_poas_by_claim_ids(claim_ids)
       Rails.logger.info("BIS: Fetching limited poas for claim ids: #{claim_ids}")
-      bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
+      @limited_poa[claim_ids] ||=
+        Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
+          bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
 
-      get_limited_poas_hash_from_bis(bis_limited_poas)
+          get_limited_poas_hash_from_bis(bis_limited_poas)
+        end
     end
 
     def bust_fetch_veteran_info_cache(file_number)
       Rails.cache.delete(fetch_veteran_info_cache_key(file_number))
     end
 
+    def bust_fetch_limited_poa_cache(claim_ids)
+      Rails.cache.delete(claim_ids)
+    end
+
     private
 
     def fetch_veteran_info_cache_key(file_number)
       "bis_veteran_info_#{file_number}"
+    end
+
+    def fetch_person_info_cache_key(participant_id)
+      "bis_person_info_#{participant_id}"
     end
 
     # client_ip to be added but not needed for deployment and demo

@@ -21,7 +21,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
         # Processes the event with additional logic provided in the block for job enqueueing.
         process_event(event, extra_details) do |new_event|
           # Enqueues a job for further processing of the newly created event.
-          DecisionReviewCreatedJob.perform_later(new_event)
+          DecisionReviewCreatedEventProcessingJob.perform_later(new_event)
         end
       rescue ActiveRecord::RecordInvalid => error
         # Handles any ActiveRecord validation errors by logging and notifying the error.

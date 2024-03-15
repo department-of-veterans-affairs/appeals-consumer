@@ -10,12 +10,18 @@ class Event < ApplicationRecord
   validates :message_payload, presence: true
   validates :state, presence: true
 
+  NOT_STARTED = "NOT_STARTED"
+  IN_PROGRESS = "IN_PROGRESS"
+  PROCESSED = "PROCESSED"
+  ERROR = "ERROR"
+  FAILED = "FAILED"
+
   enum state: {
-    not_started: "NOT_STARTED",
-    in_progress: "IN_PROGRESS",
-    processed: "PROCESSED",
-    error: "ERROR",
-    failed: "FAILED"
+    not_started: NOT_STARTED,
+    in_progress: IN_PROGRESS,
+    processed: PROCESSED,
+    error: ERROR,
+    failed: FAILED
   }
 
   def processed?
@@ -32,11 +38,40 @@ class Event < ApplicationRecord
     audits.map(&:error).last(max_errors_for_failure).include?(nil) ? false : true
   end
 
-  def self.process!
-    fail NoMethodError, "Please define a .process! method for the #{self} class"
+  def process!
+    fail NoMethodError, "Please define a .process! method for the #{self.class} class"
+  end
+
+  def handle_response(response)
+    Rails.logger.info("Received #{response.code}")
+
+    if response.code.to_i == 201
+      update!(completed_at: Time.zone.now)
+    end
+  end
+
+  def handle_failure(error_message)
+    update!(error: error_message)
+    failed? ? failed! : error!
+  end
+
+  def in_progress!
+    update!(state: IN_PROGRESS)
+  end
+
+  def processed!
+    update!(state: PROCESSED)
   end
 
   private
+
+  def error!
+    update!(state: ERROR)
+  end
+
+  def failed!
+    update!(state: FAILED)
+  end
 
   # :reek:UtilityFunction
   def retrieve_max_errors_for_failure

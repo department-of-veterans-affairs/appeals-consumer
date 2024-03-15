@@ -99,9 +99,9 @@ RSpec.describe Event, type: :model do
     end
   end
 
-  describe ".process!" do
+  describe "#process!" do
     it "raises a NoMethodError to enforce subclass implementation" do
-      expect { Event.process! }.to raise_error(NoMethodError, /Please define a .process! method/)
+      expect { Event.new.process! }.to raise_error(NoMethodError, /Please define a .process! method/)
     end
   end
 
@@ -117,6 +117,115 @@ RSpec.describe Event, type: :model do
     it "allows the subclass to implement .process!" do
       expect { subclass.process! }.not_to raise_error
       expect(subclass.process!).to eq("Processed")
+    end
+  end
+
+  describe "#in_progress!" do
+    it "updates the state to in_progress" do
+      event = create(:event)
+      event.in_progress!
+      expect(event.reload.state).to eq("in_progress")
+    end
+  end
+
+  describe "#processed!" do
+    it "updates the state to processed" do
+      event = create(:event)
+      event.processed!
+      expect(event.reload.state).to eq("processed")
+    end
+  end
+
+  describe "#error!" do
+    it "updates the state to error" do
+      event = create(:event)
+      event.send(:error!)
+      expect(event.reload.state).to eq("error")
+    end
+  end
+
+  describe "#failed!" do
+    it "updates the state to failed" do
+      event = create(:event)
+      event.send(:failed!)
+      expect(event.reload.state).to eq("failed")
+    end
+  end
+
+  describe "handle_failure(error_message)" do
+    before do
+      event.in_progress!
+    end
+
+    let(:event) { create(:event) }
+    subject { event.handle_failure("error message") }
+
+    it "updates the event error column with the error_message" do
+      subject
+      expect(event.error).to eq("error message")
+    end
+
+    context "when the number of event audits is less than MAX_ERRORS_FOR_FAILURE" do
+      let!(:event_audits) { create_list(:event_audit, 2, event: event, error: "error") }
+
+      it "event's state should be updated to 'error'" do
+        expect(event.state).to eq("in_progress")
+        subject
+        ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
+          expect(event.state).to eq("error")
+        end
+      end
+    end
+
+    context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
+      context "the last three event audits have an error in the error column" do
+        let!(:event_audits) { create_list(:event_audit, 3, event: event, error: "error msg") }
+
+        it "event's state should be updated to 'failed'" do
+          expect(event.state).to eq("in_progress")
+          subject
+          ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
+            expect(event.state).to eq("failed")
+          end
+        end
+      end
+
+      context "and one of the last three event audits do not have an error in the error column" do
+        let!(:errored_event_audit) { create(:event_audit, event: event, error: "error") }
+        let!(:non_errored_event_audits) { create_list(:event_audit, 3, event: event) }
+
+        it "event's state should be updated to 'error'" do
+          expect(event.state).to eq("in_progress")
+          subject
+          ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
+            expect(event.state).to eq("error")
+          end
+        end
+      end
+    end
+  end
+
+  describe "#handle_response(reponse)" do
+    subject { event.handle_response(caseflow_response) }
+    let(:caseflow_response) { instance_double("Response", code: 401, message: "Some message") }
+    let(:message) { "Received #{caseflow_response.code}" }
+    let(:event) { create(:event) }
+
+    before do
+      allow(Rails.logger).to receive(:info).with(message)
+      subject
+    end
+
+    it "logs the response code" do
+      expect(Rails.logger).to have_received(:info).with(message)
+    end
+
+    context "when the response code is 201" do
+      let(:caseflow_response) { instance_double("Response", code: 201, message: "Some message") }
+
+      it "updates the event's completed_at" do
+        expect(event.completed_at).not_to eq nil
+      end
     end
   end
 end
