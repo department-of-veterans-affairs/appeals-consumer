@@ -29,7 +29,7 @@ class Event < ApplicationRecord
   end
 
   def end_state?
-    state == PROCESSED || state == FAILED
+    state == "processed" || state == "failed"
   end
 
   # :reek:FeatureEnvy
@@ -44,6 +44,18 @@ class Event < ApplicationRecord
 
   def process!
     fail NoMethodError, "Please define a .process! method for the #{self.class} class"
+  end
+
+  def determine_job_for
+    job_class_name = "#{event.type}ProcessingJob"
+    job_class = job_class_name.safe_constantize
+
+    if job_class.nil?
+      Rails.logger.error("No processing job found for type: #{type}")
+      nil
+    else
+      job_class
+    end
   end
 
   def handle_response(response)
