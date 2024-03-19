@@ -41,7 +41,7 @@ class EventAudit < ApplicationRecord
   end
 
   def cancelled!
-    update!(status: FAILED)
+    update!(status: CANCELLED)
   end
 
   def started_at!

@@ -46,12 +46,16 @@ class Event < ApplicationRecord
     fail NoMethodError, "Please define a .process! method for the #{self.class} class"
   end
 
-  def determine_job_for
-    job_class_name = "#{event.type}ProcessingJob"
+  def determine_job
+    event_type = type.demodulize
+    job_class_name = "#{event_type}ProcessingJob"
     job_class = job_class_name.safe_constantize
 
     if job_class.nil?
-      Rails.logger.error("No processing job found for type: #{type}")
+      Rails.logger.error(
+        "No processing job found for type: #{event_type}. " \
+        "Please define a .#{event_type}ProcessingJob for the #{self.class} class"
+      )
       nil
     else
       job_class
