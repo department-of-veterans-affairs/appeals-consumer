@@ -70,3 +70,31 @@ make run-cmd rails c
 6. Enter the password: postgres (this is also found in docker-compose.yml).
 7. Click the PostgreSQL tab and select 'Show all databases'.
 8. Click Finish. The database should be viewable now on the left bar.
+
+### Caseflow - Consumer development connection
+
+#### Make sure you revert the appeals-consumer files (docker-compose, supervisord.conf, env.sh) changed through these steps before committing, and save the Caseflow ApiKey for future use
+
+1. Open a terminal and cd to your caseflow directory.
+   - Run `make run` and then open the rails console: `rails c`
+   - Generate and copy a new api key: `ApiKey.create(consumer_name: "APPEALSCONSUMER1").key_string`
+
+2. In the appeals-consumer directory:
+   1. Open the ENV file: appeals-consumer/docker-bin/env.sh and add: 
+      - `export CASEFLOW_KEY=<ApiKey value you created in caseflow console>`
+      - `export CASEFLOW_URL=http://127.0.0.1:3000`
+   2. Open the supervisord.conf file and change `3000` to `3001` under `program:rails`
+   3. Open docker-compose.yml go down to the `rails` section
+      - Above `build`, add `network_mode: "host"`
+      - Comment out `networks` and its nested line
+
+3. In your VSCode terminal open the `ports` page, click `Add Port` and enter `3001`
+
+4. In a terminal in the appeals-consumer directory run `make build` and then `make run`
+   - To test the connection open the consumer rails console with `make run-cmd rails c`
+   - Copy and paste the following: `event = FactoryBot.create(:decision_review_created_event, message_payload: "{}")`
+   - Run `event.process!`
+   - There should be a response from caseflow that looks something like this: `[CaseflowService] #<HTTPI::Response:0x00007f3c7e1a1640>`
+
+Notes:
+  - The `CASEFLOW_URL` value `127.0.0.1` here is the port that caseflow is shown under the ports tab of VSCode terminal
