@@ -342,6 +342,33 @@
               ],
               "default": null,
               "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to RequestIssue.contested_rating_issue_profile_date in Caseflow."
+            },
+            {
+              "name": "associatedCaseflowDecisionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The id of the caseflow decision issue that corresponds to the intaken issue"
+            },
+            {
+              "name": "priorDecisionRampId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The claim id of the ramp ep connected to an intaken rating issue."
+            },
+            {
+              "name": "priorDecisionRatingDisabilitySequenceNumber",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The disSn of the disability evaluation or disability decision that the intaken issue is contesting."
             }
           ]
         }
