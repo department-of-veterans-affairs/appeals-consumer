@@ -73,7 +73,7 @@ make run-cmd rails c
 
 ### Caseflow - Consumer development connection
 
-#### Make sure you revert the appeals-consumer files (docker-compose, supervisord.conf, env.sh) changed through these steps before committing, and save the Caseflow ApiKey for future use
+#### After you have completed the following steps, revert the appeals-consumer files (docker-compose, supervisord.conf, env.sh) that were changed during these steps.  These changes are only necessary to make the connection and should not be commited or pushed to the main branch.
 
 1. Open a terminal and cd to your caseflow directory.
    - Run `make run` and then open the rails console: `rails c`
