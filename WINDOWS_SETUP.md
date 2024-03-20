@@ -91,7 +91,7 @@ make run-cmd rails c
 3. In your VSCode terminal open the `ports` page, click `Add Port` and enter `3001`
 
 4. In a terminal in the appeals-consumer directory run `make build` and then `make run`
-   - To test the connection open the consumer rails console with `make run-cmd rails c`
+   - To test the connection, in a seperate terminal, open the consumer rails console with `make run-cmd rails c`
    - Copy and paste the following: `event = FactoryBot.create(:decision_review_created_event, message_payload: "{}")`
    - Run `event.process!`
    - There should be a response from caseflow that looks something like this: `[CaseflowService] #<HTTPI::Response:0x00007f3c7e1a1640>`
