@@ -28,6 +28,9 @@ class EventProcessingRescueJob < ApplicationJob
     ActiveRecord::Base.transaction do
       audit.cancelled!
       audit.ended_at!
+      audit.update!(
+        notes: "EventAudit was left in an uncompleted state for longer than 26 minutes and was marked as \"CANCELLED\"."
+      )
     end
 
     log_info("EventAudit with id: #{audit.id} was cancelled")
