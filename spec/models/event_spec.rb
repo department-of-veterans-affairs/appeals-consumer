@@ -99,6 +99,31 @@ RSpec.describe Event, type: :model do
     end
   end
 
+  describe "#determine_job" do
+    let(:event) { create(:event, type: "SomeNamespace::Test") }
+
+    context "when the job class exists" do
+      let!(:job_class) { class_double("TestProcessingJob").as_stubbed_const }
+
+      it "returns the job class" do
+        expect(event.determine_job).to eq(job_class)
+      end
+    end
+
+    context "when the job class does not exist" do
+      before do
+        allow(Rails.logger).to receive(:error)
+      end
+
+      it "logs an error and returns nil" do
+        expect(event.determine_job).to be_nil
+        expect(Rails.logger).to have_received(:error).with(
+          "No processing job found for type: Test. Please define a .TestProcessingJob for the Event class."
+        )
+      end
+    end
+  end
+
   describe "#process!" do
     it "raises a NoMethodError to enforce subclass implementation" do
       expect { Event.new.process! }.to raise_error(NoMethodError, /Please define a .process! method/)

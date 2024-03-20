@@ -26,10 +26,21 @@ describe EventProcessingRescueJob, type: :job do
           .and change { stuck_audit.reload.ended_at }.from(nil)
       end
 
-      it "re-enqueues the specific event processing job if the event is not in an end state" do
-        allow(event).to receive(:end_state?).and_return(false)
-        expect { EventProcessingRescueJob.perform_now }
-          .to have_enqueued_job(DecisionReviewCreatedEventProcessingJob).with(event)
+      context "when the event is in an end state" do
+        it "skips re-enqueueing the event" do
+          allow_any_instance_of(Event).to receive(:end_state?).and_return(true)
+          expect { EventProcessingRescueJob.perform_now }
+            .not_to have_enqueued_job(DecisionReviewCreatedEventProcessingJob)
+        end
+      end
+
+      context "when the event is not in an end state" do
+        it "re-enqueues the specific event processing job" do
+          allow_any_instance_of(Event).to receive(:end_state?).and_return(false)
+          expect { EventProcessingRescueJob.perform_now }
+            .to have_enqueued_job(DecisionReviewCreatedEventProcessingJob)
+            .with(event)
+        end
       end
     end
 
