@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :decision_review_created do
-    nonrating_message_payload
+    nonrating_hlr_veteran_claimant
 
     transient do
       decision_review_issues do
@@ -14,11 +14,11 @@ FactoryBot.define do
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
-            "prior_decision_award_event_id" => 17_945,
+            "prior_decision_award_event_id" => 17_946,
             "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 1954,
+            "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_disability_sequence_number" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -39,11 +39,11 @@ FactoryBot.define do
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
-            "prior_decision_award_event_id" => 17_945,
+            "prior_decision_award_event_id" => 17_946,
             "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Basic Eligibility: Service connection for ear infection denied",
             "prior_decision_type" => "Basic Eligibility",
-            "prior_decision_notification_date" => 1954,
+            "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_disability_sequence_number" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -61,6 +61,7 @@ FactoryBot.define do
       end
     end
 
+    # START: Payloads that raise error upon DecisionReviewCreated initialization
     trait :invalid_attribute_name do
       message_payload { { "invalid_attribute" => "invalid" } }
     end
@@ -96,8 +97,10 @@ FactoryBot.define do
     trait :with_invalid_decision_review_issue_data_type do
       decision_review_issues { [{ "contention_id" => "is supposed to be an integer" }] }
     end
+    # END: Payloads that raise error upon DecisionReviewCreated initialization
 
-    trait :rating_message_payload do
+    # START: Valid DecisionReviewCreated Scenarios
+    trait :nonrating_hlr_veteran_claimant do
       message_payload do
         {
           "claim_id" => 1_234_567,
@@ -107,19 +110,18 @@ FactoryBot.define do
           "veteran_participant_id" => "123456789",
           "file_number" => "123456789",
           "claimant_participant_id" => "123456789",
-          "ep_code" => "030HLRR",
-          "ep_code_category" => "rating",
-          "claim_received_date" => 18_475,
+          "ep_code" => "030HLRNR",
+          "ep_code_category" => "non-rating",
+          "claim_received_date" => "2023-08-25",
           "claim_lifecycle_status" => "RW",
           "payee_code" => "00",
           "modifier" => "01",
           "originated_from_vacols_issue" => false,
           "informal_conference_requested" => false,
-          "limited_poa_code" => nil,
           "informal_conference_tracked_item_id" => nil,
           "same_station_review_requested" => false,
-          "intake_creation_time" => 1_702_067_143_435,
-          "claim_creation_time" => 1_702_067_145_000,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
           "created_by_username" => "BVADWISE101",
           "created_by_station" => "101",
           "created_by_application" => "PASYSACCTCREATE",
@@ -128,7 +130,7 @@ FactoryBot.define do
       end
     end
 
-    trait :nonrating_message_payload do
+    trait :nonrating_hlr_non_veteran_claimant do
       message_payload do
         {
           "claim_id" => 1_234_567,
@@ -137,20 +139,19 @@ FactoryBot.define do
           "veteran_last_name" => "Smith",
           "veteran_participant_id" => "123456789",
           "file_number" => "123456789",
-          "claimant_participant_id" => "01010101",
+          "claimant_participant_id" => "987654321",
           "ep_code" => "030HLRNR",
           "ep_code_category" => "non-rating",
-          "claim_received_date" => 1954,
+          "claim_received_date" => "2023-08-25",
           "claim_lifecycle_status" => "RW",
           "payee_code" => "00",
           "modifier" => "01",
-          "limited_poa_code" => nil,
           "originated_from_vacols_issue" => false,
           "informal_conference_requested" => false,
-          "informal_conference_tracked_item_id" => "1",
+          "informal_conference_tracked_item_id" => nil,
           "same_station_review_requested" => false,
-          "intake_creation_time" => Time.now.utc.to_i * 1000,
-          "claim_creation_time" => Time.now.utc.to_i * 1000,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
           "created_by_username" => "BVADWISE101",
           "created_by_station" => "101",
           "created_by_application" => "PASYSACCTCREATE",
@@ -159,7 +160,7 @@ FactoryBot.define do
       end
     end
 
-    trait :supplemental_message_payload do
+    trait :nonrating_sc_compensation do
       message_payload do
         {
           "claim_id" => 1_234_567,
@@ -171,7 +172,7 @@ FactoryBot.define do
           "claimant_participant_id" => "01010101",
           "ep_code" => "040SCNR",
           "ep_code_category" => "non-rating",
-          "claim_received_date" => 18_475,
+          "claim_received_date" => "2023-08-25",
           "claim_lifecycle_status" => "RW",
           "payee_code" => "00",
           "modifier" => "01",
@@ -180,8 +181,8 @@ FactoryBot.define do
           "informal_conference_requested" => false,
           "informal_conference_tracked_item_id" => nil,
           "same_station_review_requested" => false,
-          "intake_creation_time" => 1_702_067_143_435,
-          "claim_creation_time" => 1_702_067_145_000,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
           "created_by_username" => "BVADWISE101",
           "created_by_station" => "101",
           "created_by_application" => "PASYSACCTCREATE",
@@ -190,12 +191,37 @@ FactoryBot.define do
       end
     end
 
-    trait :unidentified_supplemental do
-      supplemental_message_payload
-      unidentified
+    trait :rating_sc_compensation do
+      message_payload do
+        {
+          "claim_id" => 1_234_567,
+          "decision_review_type" => "SUPPLEMENTAL_CLAIM",
+          "veteran_first_name" => "John",
+          "veteran_last_name" => "Smith",
+          "veteran_participant_id" => "123456789",
+          "file_number" => "123456789",
+          "claimant_participant_id" => "123456789",
+          "ep_code" => "040SCR",
+          "ep_code_category" => "rating",
+          "claim_received_date" => "2023-08-25",
+          "claim_lifecycle_status" => "RW",
+          "payee_code" => "00",
+          "modifier" => "01",
+          "originated_from_vacols_issue" => false,
+          "informal_conference_requested" => false,
+          "informal_conference_tracked_item_id" => nil,
+          "same_station_review_requested" => false,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
+          "created_by_username" => "BVADWISE101",
+          "created_by_station" => "101",
+          "created_by_application" => "PASYSACCTCREATE",
+          "decision_review_issues" => decision_review_issues
+        }
+      end
     end
 
-    trait :pension do
+    trait :nonrating_hlr_pension do
       message_payload do
         {
           "claim_id" => 1_234_567,
@@ -207,7 +233,7 @@ FactoryBot.define do
           "claimant_participant_id" => "01010101",
           "ep_code" => "030HLRNRPMC",
           "ep_code_category" => "non-rating",
-          "claim_received_date" => 18_475,
+          "claim_received_date" => "2023-08-25",
           "claim_lifecycle_status" => "RW",
           "payee_code" => "00",
           "modifier" => "01",
@@ -216,8 +242,8 @@ FactoryBot.define do
           "informal_conference_requested" => false,
           "informal_conference_tracked_item_id" => "1",
           "same_station_review_requested" => false,
-          "intake_creation_time" => 1_702_067_143_435,
-          "claim_creation_time" => 1_702_067_145_000,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
           "created_by_username" => "BVADWISE101",
           "created_by_station" => "101",
           "created_by_application" => "PASYSACCTCREATE",
@@ -226,39 +252,7 @@ FactoryBot.define do
       end
     end
 
-    trait :soc_opt_in do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => 123_456_789,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => nil,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 12,
-            "prior_decision_award_event_id" => 17_945,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 18_475,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => true,
-            "eligibility_result" => "ELIGIBLE_LEGACY",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => false,
-            "soc_opt_in" => true,
-            "legacy_appeal_id" => "987654321",
-            "legacy_appeal_issue_id" => 1
-          }
-        ]
-      end
-    end
-
-    trait :veteran_is_claimant do
+    trait :rating_hlr_veteran_claimant do
       message_payload do
         {
           "claim_id" => 1_234_567,
@@ -268,9 +262,9 @@ FactoryBot.define do
           "veteran_participant_id" => "123456789",
           "file_number" => "123456789",
           "claimant_participant_id" => "123456789",
-          "ep_code" => "030HLRNR",
-          "ep_code_category" => "non-rating",
-          "claim_received_date" => 18_475,
+          "ep_code" => "030HLRR",
+          "ep_code_category" => "rating",
+          "claim_received_date" => "2023-08-25",
           "claim_lifecycle_status" => "RW",
           "payee_code" => "00",
           "modifier" => "01",
@@ -278,8 +272,8 @@ FactoryBot.define do
           "informal_conference_requested" => false,
           "informal_conference_tracked_item_id" => nil,
           "same_station_review_requested" => false,
-          "intake_creation_time" => 1_702_067_143_435,
-          "claim_creation_time" => 1_702_067_145_000,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
           "created_by_username" => "BVADWISE101",
           "created_by_station" => "101",
           "created_by_application" => "PASYSACCTCREATE",
@@ -288,78 +282,55 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_contested do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => nil,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 12,
-            "prior_decision_award_event_id" => 17_945,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 18_475,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "CONTESTED",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => true,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
+    trait :rating_hlr_non_veteran_claimant do
+      message_payload do
+        {
+          "claim_id" => 1_234_567,
+          "decision_review_type" => "HIGHER_LEVEL_REVIEW",
+          "veteran_first_name" => "John",
+          "veteran_last_name" => "Smith",
+          "veteran_participant_id" => "123456789",
+          "file_number" => "123456789",
+          "claimant_participant_id" => "987654321",
+          "ep_code" => "030HLRR",
+          "ep_code_category" => "rating",
+          "claim_received_date" => "2023-08-25",
+          "claim_lifecycle_status" => "RW",
+          "payee_code" => "00",
+          "modifier" => "01",
+          "originated_from_vacols_issue" => false,
+          "informal_conference_requested" => false,
+          "informal_conference_tracked_item_id" => nil,
+          "same_station_review_requested" => false,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
+          "created_by_username" => "BVADWISE101",
+          "created_by_station" => "101",
+          "created_by_application" => "PASYSACCTCREATE",
+          "decision_review_issues" => decision_review_issues
+        }
       end
     end
+    # END: DecisionReviewCreated Scenarios
 
-    trait :ineligible_contested_with_additional_issue do
+    # START: DecisionReviewIssue Scenarios
+    ## Nonating HLR
+    ### START: Valid Eligible Nonrating HLR
+    trait :eligible_nonrating_hlr do
       decision_review_issues do
         [
           {
-            "contention_id" => nil,
+            "contention_id" => 123_456_791,
             "associated_caseflow_decision_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
-            "prior_decision_award_event_id" => 17_945,
+            "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 18_475,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "CONTESTED",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => true,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          },
-          {
-            "contention_id" => 123_456_764,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => nil,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 12,
-            "prior_decision_award_event_id" => 17_945,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "Basic Eligibility: Service connection for ear infection denied",
-            "prior_decision_type" => "Basic Eligibility",
-            "prior_decision_notification_date" => 18_475,
+            "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_disability_sequence_number" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -377,8 +348,1360 @@ FactoryBot.define do
       end
     end
 
-    trait :rating_issue do
-      rating_message_payload
+    trait :eligible_nonrating_hlr_veteran_claimant do
+      nonrating_hlr_veteran_claimant
+      eligible_nonrating_hlr
+    end
+
+    trait :eligible_nonrating_hlr_non_veteran_claimant do
+      nonrating_hlr_non_veteran_claimant
+      eligible_nonrating_hlr
+    end
+
+    trait :eligible_nonrating_hlr_with_two_issues do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC:",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          },
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 14,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC:",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_contested_with_additional_issue do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC:",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "CONTESTED",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          },
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 14,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC:",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_nonrating_hlr_time_override do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC:",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_nonrating_hlr_legacy do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE_LEGACY",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+    ### END: Valid Eligible Nonrating HLR
+
+    ### START: Valid Ineligible Nonrating HLR
+    trait :ineligible_nonrating_hlr_pending_board do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => false,
+            "eligibility_result" => "PENDING_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_supplemental do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => false,
+            "eligibility_result" => "PENDING_SUPPLEMENTAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_time_restriction_untimely do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_time_restriction_before_ama do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_no_soc_ssoc do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "NO_SOC_SSOC",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => false,
+            "legacy_appeal_id" => "123456",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_legacy_appeal do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_LEGACY_APPEAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => true,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_legacy_time_restriction do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_hlr do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_hlr do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_board do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Valid Ineligible Nonrating HLR
+
+    ### START: Invalid Nonrating HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_nonrating_hlr_without_prior_decision_notification_date do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_hlr_without_ri_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_with_contention_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_nonrating_hlr_without_contention_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_contested do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "CONTESTED",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Invalid Nonrating HLR
+    ## END: Nonrating HLR
+
+    ## START: Nonrating Unidentified HLR
+    ### START: Valid Eligible Nonrating Unidentfiied HLR
+    # unidentified issues will never be ineligible upon being intaken,
+    # eligibility is determined once the issue is identified
+    trait :eligible_nonrating_hlr_unidentified do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 12_345_980,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_veteran_claimant do
+      eligible_nonrating_hlr_unidentified
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_non_veteran_claimant do
+      nonrating_hlr_non_veteran_claimant
+      eligible_nonrating_hlr_unidentified
+    end
+    ### END: Valid Eligible Nonrating Unidentified HLR
+
+    ### START: Invalid Nonrating Unidentified HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_nonrating_hlr_unidentified_without_prior_decision_notification_date do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 12_345_980,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_without_contention_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Invalid Nonrating Unidentified HLR
+    ## END: Nonrating Unidentified HLR
+
+    ## START: Nonrating Prior Caseflow Decision Issue HLR
+    ### START: Valid Eligible Nonrating Prior Caseflow Decision Issue HLR
+    trait :eligible_decision_issue_prior_nonrating_hlr do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_792,
+            "associated_caseflow_decision_id" => 11,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
+      nonrating_hlr_non_veteran_claimant
+      eligible_decision_issue_prior_nonrating_hlr
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_veteran_claimant do
+      eligible_decision_issue_prior_nonrating_hlr
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 20,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE_LEGACY",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+    ### END: Valid Eligible Nonrating Prior Caseflow Decision Issue HLR
+
+    ### START: Invalid Nonrating Prior Caseflow Decision Issue HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_notification_date do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_792,
+            "associated_caseflow_decision_id" => 11,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr_without_ri_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_with_contention_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Invalid Nonrating Prior Caseflow Decision Issue HLR
+
+    ### START: Valid Ineligible Nonrating Prior Caseflow Decision Issue HLR
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 20,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "NO_SOC_SSOC",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => false,
+            "legacy_appeal_id" => "123456",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_legacy_appeal do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_LEGACY_APPEAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => true,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_legacy_time_restriction do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_supplemental do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "PENDING_SUPPLEMENTAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_completed_hlr do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_completed_board do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Valid Ineligible Nonrating Prior Caseflow Decision Issue HLR
+    ## END: Nonrating Prior Caseflow Decision Issue HLR
+
+    ## Rating HLR
+    ### START: Valid Eligible Rating HLR
+    trait :eligible_rating_hlr_with_ramp_id do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
@@ -389,10 +1712,10 @@ FactoryBot.define do
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
+            "prior_decision_ramp_id" => 123_567,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 18_475,
+            "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_disability_sequence_number" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -410,8 +1733,1465 @@ FactoryBot.define do
       end
     end
 
-    trait :rating_decision do
-      rating_message_payload
+    trait :eligible_rating_hlr do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_hlr_non_veteran_claimant do
+      rating_hlr_non_veteran_claimant
+      eligible_rating_hlr
+    end
+
+    trait :eligible_rating_hlr_veteran_claimant do
+      rating_hlr_veteran_claimant
+      eligible_rating_hlr
+    end
+
+    trait :eligible_rating_hlr_time_override do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_hlr_with_two_issues do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          },
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 14,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_contested_with_additional_issue do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "CONTESTED",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          },
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 14,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_hlr_legacy do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE_LEGACY",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+    ### END: Valid Eligible Rating HLR
+
+    ### START: Valid Ineligible Rating HLR
+    trait :ineligible_rating_hlr_pending_board do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 12,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => false,
+            "eligibility_result" => "PENDING_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_supplemental do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 13,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 12,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => false,
+            "eligibility_result" => "PENDING_SUPPLEMENTAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_time_restriction_untimely do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_time_restriction_before_ama do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_no_soc_ssoc do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "NO_SOC_SSOC",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => false,
+            "legacy_appeal_id" => "123456",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_legacy_appeal do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_LEGACY_APPEAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => true,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_legacy_time_restriction do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_completed_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_completed_board do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Valid Ineligible Rating HLR
+
+    ### START: Invalid Rating HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_rating_hlr_without_prior_decision_notification_date do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_hlr_without_ri_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_contested do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "CONTESTED",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_hlr_with_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_hlr_without_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Invalid Rating HLR
+    ## END: Rating HLR
+
+    ## START: Rating Unidentified HLR
+    ### START: Valid Eligible Rating Unidentfiied HLR
+    # unidentified issues will never be ineligible upon being intaken,
+    # eligibility is determined once the issue is identified
+    trait :eligible_rating_hlr_unidentified do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 12_345_980,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_veteran_claimant do
+      rating_hlr_veteran_claimant
+      eligible_rating_hlr_unidentified
+    end
+
+    trait :eligible_rating_hlr_unidentified_non_veteran_claimant do
+      rating_hlr_non_veteran_claimant
+      eligible_rating_hlr_unidentified
+    end
+    ### END: Valid Eligible Rating Unidentified HLR
+
+    ### START: Invalid Rating Unidentified HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_rating_hlr_unidentified_without_prior_decision_notification_date do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 12_345_980,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_without_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Invalid Rating Unidentified HLR
+    ## END: Rating Unidentified HLR
+
+    ## START: Rating Prior Caseflow Decision Issue HLR
+    ### START: Valid Eligible Rating Prior Caseflow Decision Issue HLR
+    trait :eligible_decision_issue_prior_rating_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_792,
+            "associated_caseflow_decision_id" => 11,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_non_veteran_claimant do
+      rating_hlr_non_veteran_claimant
+      eligible_decision_issue_prior_rating_hlr
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_veteran_claimant do
+      rating_hlr_veteran_claimant
+      eligible_decision_issue_prior_rating_hlr
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_time_override do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 20,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_legacy do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE_LEGACY",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_with_ramp_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => 123_567,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Valid Eligible Rating Prior Caseflow Decision Issue HLR
+
+    ### START: Invalid Rating Prior Caseflow Decision Issue HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_notification_date do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_792,
+            "associated_caseflow_decision_id" => 11,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr_without_ri_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_without_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    ### END: Invalid Rating Prior Caseflow Decision Issue HLR
+    
+    ### START: Valid Ineligible Rating Prior Caseflow Decision Issue HLR
+    trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_before_ama do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 20,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 13,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_no_soc_ssoc do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "NO_SOC_SSOC",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => false,
+            "legacy_appeal_id" => "123456",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_legacy_appeal do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_LEGACY_APPEAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => true,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_board do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_supplemental do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_SUPPLEMENTAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_completed_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_completed_board do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => 13,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => 20,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Valid Ineligible Rating Prior Caseflow Decision Issue HLR
+    ## END: Rating Prior Caseflow Decision Issue HLR
+
+    ## START: Rating Decision HLR
+    ### START: Valid Eligible Rating Decision HLR
+    trait :eligible_rating_decision_hlr do
       decision_review_issues do
         [
           {
@@ -425,7 +3205,7 @@ FactoryBot.define do
             "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Tetnus is denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 18_475,
+            "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_disability_sequence_number" => 1_623_547,
             "prior_decision_rating_percentage" => nil,
@@ -443,24 +3223,103 @@ FactoryBot.define do
       end
     end
 
-    trait :decision_issue_prior_rating_issue do
-      rating_message_payload
+    trait :eligible_rating_decision_hlr_non_veteran_claimant do
+      rating_hlr_non_veteran_claimant
+      eligible_rating_decision_hlr
+    end
+
+    trait :eligible_rating_decision_hlr_veteran_claimant do
+      rating_hlr_veteran_claimant
+      eligible_rating_decision_hlr
+    end
+
+    trait :eligible_rating_decision_hlr_time_override do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
-            "contention_id" => 123_456_792,
-            "associated_caseflow_decision_id" => 11,
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
-            "prior_rating_decision_id" => 13,
+            "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 18_475,
+            "prior_decision_notification_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_legacy do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE_LEGACY",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+    ### END: Valid Eligible Rating Decision HLR
+
+    ### START: Invalid Rating Decision HLR
+    # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
+    trait :eligible_rating_decision_hlr_without_prior_decision_notification_date do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => nil,
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -476,25 +3335,92 @@ FactoryBot.define do
       end
     end
 
-    trait :decision_issue_prior_non_rating_issue do
+    trait :ineligible_rating_decision_hlr_pending_hlr_without_ri_id do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
-            "contention_id" => 123_456_792,
-            "associated_caseflow_decision_id" => 11,
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_945,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 18_475,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_with_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_without_contention_id do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
             "eligibility_result" => "ELIGIBLE",
             "time_override" => nil,
@@ -507,8 +3433,11 @@ FactoryBot.define do
         ]
       end
     end
+    ### END: Invalid Rating Decision HLR
 
-    trait :ineligible_time_restriction_before_ama do
+    ### START: Valid Ineligible Rating Decision HLR
+    trait :ineligible_rating_decision_hlr_time_restriction_untimely do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
@@ -517,17 +3446,17 @@ FactoryBot.define do
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_945,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_945,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
             "eligibility_result" => "TIME_RESTRICTION",
             "time_override" => nil,
             "time_override_reason" => nil,
@@ -540,59 +3469,28 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_time_restriction_untimely do
+    trait :ineligible_rating_decision_hlr_time_restriction_before_ama do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 11,
+            "associated_caseflow_decision_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
             "eligibility_result" => "TIME_RESTRICTION",
-            "time_override" => false,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_nonrating_pending_hlr do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "PENDING_HLR",
             "time_override" => nil,
             "time_override_reason" => nil,
             "contested" => nil,
@@ -604,170 +3502,8 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_rating_pending_hlr do
-      rating_message_payload
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => 12,
-            "prior_non_rating_decision_id" => nil,
-            "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "Service connection for tetnus denied",
-            "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
-            "eligible" => false,
-            "eligibility_result" => "PENDING_HLR",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_nonrating_pending_board do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "PENDING_BOARD",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_rating_pending_board do
-      rating_message_payload
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => 12,
-            "prior_non_rating_decision_id" => nil,
-            "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "Service connection for tetnus denied",
-            "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
-            "eligible" => false,
-            "eligibility_result" => "PENDING_BOARD",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_nonrating_pending_supplemental do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "PENDING_SUPPLEMENTAL",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_rating_pending_supplemental do
-      rating_message_payload
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => 12,
-            "prior_non_rating_decision_id" => nil,
-            "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "Service connection for tetnus denied",
-            "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
-            "eligible" => false,
-            "eligibility_result" => "PENDING_SUPPLEMENTAL",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_completed_hlr do
+    trait :ineligible_rating_decision_hlr_no_soc_ssoc do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
@@ -776,145 +3512,17 @@ FactoryBot.define do
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "COMPLETED_HLR",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_completed_board do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "COMPLETED_BOARD",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_pending_legacy_appeal do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "PENDING_LEGACY_APPEAL",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => true,
-            "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_legacy_time_restriction do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_940,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_940,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
-            "eligibility_result" => "LEGACY_TIME_RESTRICTION",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => true,
-            "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
-          }
-        ]
-      end
-    end
-
-    trait :ineligible_no_soc_ssoc do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => 13,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => false,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
             "eligibility_result" => "NO_SOC_SSOC",
             "time_override" => nil,
             "time_override_reason" => nil,
@@ -927,91 +3535,28 @@ FactoryBot.define do
       end
     end
 
-    trait :unidentified do
+    trait :ineligible_rating_decision_hlr_pending_legacy_appeal do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
-            "contention_id" => 12_345_980,
+            "contention_id" => nil,
             "associated_caseflow_decision_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
-            "unidentified" => true,
+            "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
             "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
-            "eligibility_result" => "ELIGIBLE",
-            "time_override" => nil,
-            "time_override_reason" => nil,
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :eligible_time_override do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => 12_369_792,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => nil,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => true,
-            "eligibility_result" => "ELIGIBLE",
-            "time_override" => true,
-            "time_override_reason" => "form was not sent on time",
-            "contested" => nil,
-            "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
-          }
-        ]
-      end
-    end
-
-    trait :legacy_issue do
-      decision_review_issues do
-        [
-          {
-            "contention_id" => 12_369_792,
-            "associated_caseflow_decision_id" => nil,
-            "associated_caseflow_request_issue_id" => nil,
-            "unidentified" => false,
-            "prior_rating_decision_id" => nil,
-            "prior_non_rating_decision_id" => 10,
-            "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
-            "prior_decision_text" => "DIC: Service connection for tetnus denied",
-            "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => 17_946,
-            "prior_decision_diagnostic_code" => nil,
-            "prior_decision_rating_disability_sequence_number" => nil,
-            "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => nil,
-            "eligible" => true,
-            "eligibility_result" => "ELIGIBLE_LEGACY",
+            "eligibility_result" => "PENDING_LEGACY_APPEAL",
             "time_override" => nil,
             "time_override_reason" => nil,
             "contested" => nil,
@@ -1023,28 +3568,61 @@ FactoryBot.define do
       end
     end
 
-    trait :rating_with_ramp_id do
-      rating_message_payload
+    trait :ineligible_rating_decision_hlr_legacy_time_restriction do
+      rating_hlr_veteran_claimant
       decision_review_issues do
         [
           {
-            "contention_id" => 123_456_791,
+            "contention_id" => nil,
             "associated_caseflow_decision_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
-            "prior_rating_decision_id" => 13,
+            "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => 123_567,
+            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => 18_475,
+            "prior_decision_notification_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_disability_sequence_number" => nil,
+            "prior_decision_rating_disability_sequence_number" => 20,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
-            "eligibility_result" => "ELIGIBLE",
+            "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => "12345",
+            "legacy_appeal_issue_id" => 1
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_HLR",
             "time_override" => nil,
             "time_override_reason" => nil,
             "contested" => nil,
@@ -1055,6 +3633,141 @@ FactoryBot.define do
         ]
       end
     end
+
+    trait :ineligible_rating_decision_hlr_pending_board do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_supplemental do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => 12,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "PENDING_SUPPLEMENTAL",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_completed_hlr do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_completed_board do
+      rating_hlr_veteran_claimant
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "associated_caseflow_decision_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_ramp_id" => nil,
+            "prior_decision_text" => "Service connection for tetnus denied",
+            "prior_decision_type" => "Disability Evaluation",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => "5008",
+            "prior_decision_rating_disability_sequence_number" => 20,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "eligible" => true,
+            "eligibility_result" => "COMPLETED_BOARD",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
+          }
+        ]
+      end
+    end
+    ### END: Valid Ineligible Rating Decision HLR
+    ## END: Rating Decision HLR
+    # END: DecisionReviewIssue Scenarios
 
     initialize_with { new(message_payload) }
   end
