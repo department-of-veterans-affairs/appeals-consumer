@@ -19,10 +19,4 @@ class Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent < Event
     )
     raise error
   end
-
-  def message_payload_hash
-    JSON.parse(message_payload)
-  rescue TypeError
-    message_payload
-  end
 end

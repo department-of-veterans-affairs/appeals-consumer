@@ -152,6 +152,27 @@ RSpec.describe Event, type: :model do
     end
   end
 
+  describe "#message_payload_hash" do
+    let(:event) { create(:event) }
+    subject { event.message_payload_hash }
+
+    context "when message_payload is stored as a json string" do
+      it "returns message_payload as a hash" do
+        expect(subject.class).to eq(Hash)
+      end
+    end
+
+    context "when message_payload is stored as a hash" do
+      before do
+        event.message_payload = JSON.parse(event.message_payload)
+      end
+
+      it "returns message_payload as a hash" do
+        expect(subject.class).to eq(Hash)
+      end
+    end
+  end
+
   describe "handle_failure(error_message)" do
     before do
       event.in_progress!
