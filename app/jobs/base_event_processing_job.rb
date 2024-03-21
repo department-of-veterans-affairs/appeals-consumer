@@ -9,7 +9,7 @@ class BaseEventProcessingJob < ApplicationJob
 
     if @event.end_state?
       Rails.logger.info(
-        "#{self.class.name} instance was stopped since the event with id: #{@event.id} was already in an end state"
+        "#{self.class.name} instance was stopped since the event with id: #{@event.id} was already a state of #{@event.state}"
       )
       return true
     end

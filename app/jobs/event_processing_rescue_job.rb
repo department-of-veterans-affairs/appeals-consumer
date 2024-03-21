@@ -53,7 +53,12 @@ class EventProcessingRescueJob < ApplicationJob
       log_error("Failed to re-enqueue job for Event ID: #{event.id}")
     end
   rescue StandardError => error
-    log_error("Error during the re-enqueue for event #{event.id}: #{error.message}")
+    extra_data = {
+      id: event.id,
+      type: event.type,
+      error: error.message
+    }
+    log_error("Error during the re-enqueue for event: #{extra_data}")
   end
 
   def log_info(message)
