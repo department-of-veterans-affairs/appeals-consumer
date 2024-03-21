@@ -758,7 +758,7 @@ module KafkaMessageGenerators
 
     # encode message before publishing
     def encode_message(message)
-      AvroService.new.encode(message, DecisionReviewCreated)
+      AvroService.new.encode(message, "DecisionReviewCreated")
     end
 
     # publish message to the DecisionReviewCreated topic

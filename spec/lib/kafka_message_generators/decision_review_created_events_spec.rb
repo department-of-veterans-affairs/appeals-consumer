@@ -1645,8 +1645,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # rubocop:disable Layout/LineLength
   describe "#encode_message(message)" do
     subject { decision_review_created_events.send(:encode_message, message) }
-    let(:avro_service) { double(AvroService) }
-    let(:schema_name) { "decision_review_created" }
+    let(:avro_service) { double(AvroService.new) }
+    let(:schema_name) { "DecisionReviewCreated" }
     let(:message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
     let(:sample_encoded_message) { "Obj\u0001\u0004\u0014avro.codec\bnull\u0016avro.schema\x9E\u0005{\"type\":\"record\",\"name\":\"person\",\"doc\":\"just a person\",\"fields\":[{\"name\":\"full_name\",\"type\":\"string\",\"doc\":\"full name of person\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"age of person\"},{\"name\":\"computer\",\"type\":{\"type\":\"record\",\"name\":\"computer\",\"doc\":\"my work computer\",\"fields\":[{\"name\":\"brand\",\"type\":\"string\",\"doc\":\"name of brand\"}]}}]}\u0000\xE7z\\\x9C\xE4CJݦ\u0003\xAB[+״\xB0\u0002\u0014\bJohnd\u0006mac\xE7z\\\x9C\xE4CJݦ\u0003\xAB[+״\xB0" }
 
@@ -1659,7 +1659,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     it "encodes the message and returns the encoded message" do
       expect(avro_service).to receive(:encode)
-        .with(message, subject: schema_name, version: ENV["SCHEMA_VERSION"], validate: true)
+        .with(message, schema_name)
       subject
     end
   end
