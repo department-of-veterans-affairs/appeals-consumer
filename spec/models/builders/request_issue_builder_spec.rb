@@ -442,7 +442,9 @@ describe Builders::RequestIssueBuilder do
         end
 
         context "when issue.eligibility_result is 'PENDING_SUPPLEMENTAL'" do
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_supplemental) }
+          let(:decision_review_created) do
+            build(:decision_review_created, :ineligible_nonrating_hlr_pending_supplemental)
+          end
 
           context "when issue.associated_caseflow_request_issue_id is present" do
             it "sets the Request Issue's ineligible_due_to_id to issue.associated_caseflow_request_issue_id" do
@@ -544,7 +546,9 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_SUPPLEMENTAL' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_supplemental) }
+            let(:decision_review_created) do
+              build(:decision_review_created, :ineligible_rating_hlr_pending_supplemental)
+            end
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
@@ -828,7 +832,9 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has false for time_override" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely)
+      end
       it "sets the Request Issue's untimely_exemption to false" do
         expect(subject).to eq false
       end
@@ -1187,7 +1193,9 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_SUPPLEMENTAL' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_supplemental) }
+            let(:decision_review_created) do
+              build(:decision_review_created, :ineligible_rating_hlr_pending_supplemental)
+            end
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
