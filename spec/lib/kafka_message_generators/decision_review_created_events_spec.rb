@@ -68,7 +68,6 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       subject
       expect(Karafka.producer).to have_received(:produce_sync).exactly(6983).times do |args|
         expect(args[:topic]).to eq("decision_review_created")
-        # Add more assertions for payload if needed
       end
     end
   end
@@ -1645,19 +1644,20 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # WIP
   describe "#encode_message(message)" do
     subject { decision_review_created_events.send(:encode_message, message) }
-    let(:avro_service) { AvroService.new }
+    let(:avro_service) { double(AvroService) }
     let(:schema_name) { DecisionReviewCreated }
     let(:message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
     let(:sample_encoded_message) { "Obj\u0001\u0004\u0014avro.codec\bnull\u0016avro.schema\x9E\u0005{\"type\":\"record\",\"name\":\"person\",\"doc\":\"just a person\",\"fields\":[{\"name\":\"full_name\",\"type\":\"string\",\"doc\":\"full name of person\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"age of person\"},{\"name\":\"computer\",\"type\":{\"type\":\"record\",\"name\":\"computer\",\"doc\":\"my work computer\",\"fields\":[{\"name\":\"brand\",\"type\":\"string\",\"doc\":\"name of brand\"}]}}]}\u0000\xE7z\\\x9C\xE4CJݦ\u0003\xAB[+״\xB0\u0002\u0014\bJohnd\u0006mac\xE7z\\\x9C\xE4CJݦ\u0003\xAB[+״\xB0" }
 
     before do
-      allow(avro_service.instance_variable_get(:@avro)).to receive(:encode)
+      allow(AvroService).to receive(:new).and_return(avro_service)
+      allow(avro_service).to receive(:encode)
         .with(message, subject: schema_name)
         .and_return(sample_encoded_message)
     end
 
     it "encodes the message and returns the encoded message" do
-      expect(avro_service.instance_variable_get(:@avro)).to receive(:encode)
+      expect(avro_service).to receive(:encode)
         .with(message, subject: schema_name)
       subject
     end
@@ -1665,5 +1665,19 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
   # WIP
   describe "#publish_message(message)" do
+    subject { decision_review_created_events.send(:publish_message, message) }
+    let(:prepared_message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
+    let(:message) { decision_review_created_events.send(:encode_message, prepared_message) }
+
+    before do
+      allow(Karafka.producer).to receive(:produce_sync)
+    end
+
+    it "publishes 1 message to the DecisionReviewCreated topic" do
+      subject
+      expect(Karafka.producer).to have_received(:produce_sync).once do |args|
+        expect(args[:topic]).to eq("decision_review_created")
+      end
+    end
   end
 end
