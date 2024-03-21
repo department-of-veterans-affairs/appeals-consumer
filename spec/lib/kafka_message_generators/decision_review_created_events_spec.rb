@@ -1030,7 +1030,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   describe "#sc_compensation_nonrating_ep_codes" do
     subject { decision_review_created_events.send(:sc_compensation_nonrating_ep_codes) }
     it "returns all supplemental claim compensation rating ep codes" do
-      expect(subject).to eq(ep_codes[:supplemental_claim][:compensation][:rating])
+      expect(subject).to eq(ep_codes[:supplemental_claim][:compensation][:nonrating])
     end
   end
 
