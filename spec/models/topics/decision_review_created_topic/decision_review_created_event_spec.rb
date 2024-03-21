@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :model do
+  let(:event) { create(:decision_review_created_event) }
+
   describe "#process!" do
-    let(:event) { create(:decision_review_created_event) }
     let(:dto_builder_instance) { instance_double("Builders::DecisionReviewCreatedDtoBuilder") }
     let(:caseflow_response) { instance_double("Response", code: 201, message: "Some message") }
     subject { event.process! }
@@ -70,6 +71,26 @@ describe Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent, type: :
           .to have_received(:establish_decision_review_created_event_error!)
           .with(event.id, JSON.parse(event.message_payload)["claim_id"], error_message)
         expect(Rails.logger).to have_received(:error).with(standard_error)
+      end
+    end
+  end
+
+  describe "#message_payload_hash" do
+    subject { event.message_payload_hash }
+
+    context "when message_payload is stored as a json string" do
+      it "returns message_payload as a hash" do
+        expect(subject.class).to eq(Hash)
+      end
+    end
+
+    context "when message_payload is stored as a hash" do
+      before do
+        event.message_payload = JSON.parse(event.message_payload)
+      end
+
+      it "returns message_payload as a hash" do
+        expect(subject.class).to eq(Hash)
       end
     end
   end
