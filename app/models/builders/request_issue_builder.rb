@@ -421,11 +421,10 @@ class Builders::RequestIssueBuilder
   def contention_id_present?
     !!issue.contention_id
   end
-  
+
   def prior_decision_notification_date_converted_to_logical_type
     convert_to_date_logical_type(issue.prior_decision_notification_date)
   end
-
 
   def handle_contention_id_present
     fail AppealsConsumer::Error::NotNullContentionIdError, "Issue is ineligible but has a not-null contention_id value"
