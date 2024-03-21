@@ -53,7 +53,7 @@ module ModelBuilder
   end
 
   def claim_creation_time_converted_to_timestamp_ms
-    return unless @decision_review_createdmake a
+    return unless @decision_review_created
 
     convert_to_timestamp_ms(@decision_review_created.claim_creation_time)
   end
