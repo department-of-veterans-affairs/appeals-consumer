@@ -2755,6 +2755,7 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil
           }
         ]
       end
@@ -2860,7 +2861,7 @@ FactoryBot.define do
     end
 
     ### END: Invalid Rating Prior Caseflow Decision Issue HLR
-    
+
     ### START: Valid Ineligible Rating Prior Caseflow Decision Issue HLR
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
       rating_hlr_veteran_claimant

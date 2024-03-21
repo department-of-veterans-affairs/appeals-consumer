@@ -12,12 +12,18 @@ describe ModelBuilder do
   let(:claim_id) { "987654321" }
   let(:bis_record) { { ptcpnt_id: "12345" } }
   let(:limited_poa) { { claim_id => "POA info" } }
+  let(:claim_received_date) { "2023-08-25" }
+  let(:claim_creation_time) { Time.now.utc.to_s }
+  let(:intake_creation_time) { Time.now.utc.to_s }
 
   before do
     @decision_review_created_double = instance_double(
-      "DecisionReviewCreate",
+      "DecisionReviewCreated",
       file_number: file_number,
-      claim_id: claim_id
+      claim_id: claim_id,
+      claim_received_date: claim_received_date,
+      claim_creation_time: claim_creation_time,
+      intake_creation_time: intake_creation_time
     )
     dummy.decision_review_created = @decision_review_created_double
   end
@@ -64,6 +70,94 @@ describe ModelBuilder do
       it "returns nil" do
         dummy.decision_review_created = nil
         expect(dummy.fetch_limited_poa).to be_nil
+      end
+    end
+  end
+
+  describe "#convert_to_date_logical_type(value)" do
+    context "when the value is nil" do
+      before do
+        @decision_review_created_double = instance_double(
+          "DecisionReviewCreated",
+          file_number: file_number,
+          claim_id: claim_id,
+          claim_received_date: nil,
+          claim_creation_time: claim_creation_time,
+          intake_creation_time: intake_creation_time
+        )
+        dummy.decision_review_created = @decision_review_created_double
+      end
+
+      it "returns nil" do
+        expect(dummy.convert_to_date_logical_type(dummy.decision_review_created.claim_received_date)).to be_nil
+      end
+    end
+
+    context "when the value is not nil" do
+      it "returns the value converted to date logical type" do
+        claim_received_date = dummy.decision_review_created.claim_received_date
+        expect(dummy.convert_to_date_logical_type(claim_received_date).class).to eq(Integer)
+      end
+    end
+  end
+
+  describe "#convert_to_timestamp_ms(value)" do
+    context "when the value is nil" do
+      before do
+        @decision_review_created_double = instance_double(
+          "DecisionReviewCreated",
+          file_number: file_number,
+          claim_id: claim_id,
+          claim_received_date: claim_received_date,
+          claim_creation_time: claim_creation_time,
+          intake_creation_time: nil
+        )
+        dummy.decision_review_created = @decision_review_created_double
+      end
+
+      it "returns nil" do
+        expect(dummy.convert_to_timestamp_ms(dummy.decision_review_created.intake_creation_time)).to be_nil
+      end
+    end
+
+    context "when the value is not nil" do
+      it "returns the value converted to timestamp milliseconds" do
+        expect(dummy.convert_to_timestamp_ms(dummy.decision_review_created.intake_creation_time).class).to eq(Integer)
+      end
+    end
+  end
+
+  describe "#claim_creation_time_converted_to_timestamp_ms" do
+    context "when the decision_review_created is nil" do
+      it "returns nil" do
+        dummy.decision_review_created = nil
+        expect(dummy.claim_creation_time_converted_to_timestamp_ms).to be_nil
+      end
+    end
+
+    context "when decision_review_created_is_not_nil" do
+      context "when claim_creation_time is nil" do
+        before do
+          @decision_review_created_double = instance_double(
+            "DecisionReviewCreated",
+            file_number: file_number,
+            claim_id: claim_id,
+            claim_received_date: claim_received_date,
+            claim_creation_time: nil,
+            intake_creation_time: intake_creation_time
+          )
+          dummy.decision_review_created = @decision_review_created_double
+        end
+
+        it "returns nil" do
+          expect(dummy.claim_creation_time_converted_to_timestamp_ms).to be_nil
+        end
+      end
+
+      context "when claim_creation_time is not nil" do
+        it "returns claim_creation_time converted to timestamp ms" do
+          expect(dummy.claim_creation_time_converted_to_timestamp_ms).not_to be_nil
+        end
       end
     end
   end
