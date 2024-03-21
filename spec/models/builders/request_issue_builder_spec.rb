@@ -4,6 +4,9 @@ describe Builders::RequestIssueBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:issue) { decision_review_created.decision_review_issues.first }
   let(:builder) { described_class.new(issue, decision_review_created) }
+  let(:prior_decision_notification_date_converted_to_logical_type) do
+    builder.send(:prior_decision_notification_date_converted_to_logical_type)
+  end
 
   describe "#self.build(issue, decision_review_created)" do
     subject { described_class.build(issue, decision_review_created) }
@@ -376,16 +379,16 @@ describe Builders::RequestIssueBuilder do
 
     context "when issue has a prior_decision_notification_date" do
       context "when the issue is identified" do
-        it "sets the Request Issue's decision_date to issue.prior_decision_notification_date" do
-          expect(subject).to eq(issue.prior_decision_notification_date)
+        it "sets the Request Issue's decision_date to issue.prior_decision_notification_date converted to logical" do
+          expect(subject).to eq(prior_decision_notification_date_converted_to_logical_type)
         end
       end
 
       context "when the issue is unidentified" do
         let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
-        it "sets the Request Issue's decision_date to issue.prior_decision_notification_date" do
-          expect(subject).to eq(issue.prior_decision_notification_date)
+        it "sets the Request Issue's decision_date to issue.prior_decision_notification_date converted to logical" do
+          expect(subject).to eq(prior_decision_notification_date_converted_to_logical_type)
         end
       end
     end
@@ -1989,6 +1992,26 @@ describe Builders::RequestIssueBuilder do
      " prior_decision_rating_disability_sequence_number" do
       it "returns false" do
         expect(subject).to eq false
+      end
+    end
+  end
+
+  describe "#prior_decision_notification_date_converted_to_logical_type" do
+    subject { prior_decision_notification_date_converted_to_logical_type }
+
+    context "when the value is nil" do
+      before do
+        issue.prior_decision_notification_date = nil
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when the value is not nil" do
+      it "returns the value converted to an integer" do
+        expect(subject.class).to eq(Integer)
       end
     end
   end
