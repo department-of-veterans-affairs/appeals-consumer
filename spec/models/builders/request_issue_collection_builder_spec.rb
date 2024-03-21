@@ -28,7 +28,9 @@ describe Builders::RequestIssueCollectionBuilder do
 
   describe "#build_issues" do
     subject { builder.build_issues }
-    let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
+    let(:decision_review_created) do
+      build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
+    end
 
     it "maps valid decision_review_issues into an array of RequestIssue(s)" do
       expect(subject).to all(be_an_instance_of(RequestIssue))
@@ -40,7 +42,7 @@ describe Builders::RequestIssueCollectionBuilder do
     subject { builder.send(:valid_issues) }
 
     context "when there aren't any issues after removing 'CONTESTED' issues" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_contested) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_contested) }
       let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
       let(:error_msg) do
         "Failed building from Builders::RequestIssueCollectionBuilder for DecisionReviewCreated Claim ID:"\
@@ -54,7 +56,9 @@ describe Builders::RequestIssueCollectionBuilder do
     end
 
     context "when there are still issues after removing 'CONTESTED' issues" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
+      end
 
       it "returns an array of valid DecisionReviewIssue(s)" do
         expect(subject).to all(be_an_instance_of(DecisionReviewIssue))
@@ -78,7 +82,9 @@ describe Builders::RequestIssueCollectionBuilder do
 
   describe "#remove_ineligible_contested_issues" do
     subject { builder.send(:remove_ineligible_contested_issues) }
-    let(:decision_review_created) { build(:decision_review_created, :ineligible_contested_with_additional_issue) }
+    let(:decision_review_created) do
+      build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
+    end
     let(:contested) { described_class::CONTESTED }
 
     it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do
