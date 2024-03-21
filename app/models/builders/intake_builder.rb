@@ -2,6 +2,7 @@
 
 # This class is used to build out an Intake object from an instance of DecisionReviewCreated
 class Builders::IntakeBuilder
+  include ModelBuilder
   attr_reader :intake, :decision_review_created
 
   COMPLETION_SUCCESS_STATUS = "success"
@@ -19,9 +20,9 @@ class Builders::IntakeBuilder
 
   # :reek:TooManyStatements
   def assign_attributes
-    assign_started_at
-    assign_completion_started_at
-    assign_completed_at
+    calculate_started_at
+    calculate_completion_started_at
+    calculate_completed_at
     assign_completion_status
     calculate_type
     calculate_detail_type
@@ -29,16 +30,16 @@ class Builders::IntakeBuilder
 
   private
 
-  def assign_started_at
-    @intake.started_at = @decision_review_created.intake_creation_time
+  def calculate_started_at
+    @intake.started_at = convert_to_timestamp_ms(@decision_review_created.intake_creation_time)
   end
 
-  def assign_completion_started_at
-    @intake.completion_started_at = @decision_review_created.claim_creation_time
+  def calculate_completion_started_at
+    @intake.completion_started_at = claim_creation_time_converted_to_timestamp_ms
   end
 
-  def assign_completed_at
-    @intake.completed_at = @decision_review_created.claim_creation_time
+  def calculate_completed_at
+    @intake.completed_at = claim_creation_time_converted_to_timestamp_ms
   end
 
   def assign_completion_status

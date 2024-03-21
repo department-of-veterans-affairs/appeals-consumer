@@ -21,13 +21,13 @@ class Builders::ClaimReviewBuilder
   def assign_attributes
     calculate_benefit_type
     assign_filed_by_va_gov
-    assign_receipt_date
+    calculate_receipt_date
     calculate_legacy_opt_in_approved
     calculate_veteran_is_not_claimant
-    assign_establishment_attempted_at
-    assign_establishment_last_submitted_at
-    assign_establishment_processed_at
-    assign_establishment_submitted_at
+    calculate_establishment_attempted_at
+    calculate_establishment_last_submitted_at
+    calculate_establishment_processed_at
+    calculate_establishment_submitted_at
     assign_informal_conference
     assign_same_office
   end
@@ -42,8 +42,8 @@ class Builders::ClaimReviewBuilder
     @claim_review.filed_by_va_gov = FILED_BY_VA_GOV
   end
 
-  def assign_receipt_date
-    @claim_review.receipt_date = decision_review_created.claim_received_date
+  def calculate_receipt_date
+    @claim_review.receipt_date = convert_to_date_logical_type(decision_review_created.claim_received_date)
   end
 
   def calculate_legacy_opt_in_approved
@@ -54,20 +54,20 @@ class Builders::ClaimReviewBuilder
     @claim_review.veteran_is_not_claimant = veteran_and_claimant_participant_ids_different?
   end
 
-  def assign_establishment_attempted_at
-    @claim_review.establishment_attempted_at = decision_review_created.claim_creation_time
+  def calculate_establishment_attempted_at
+    @claim_review.establishment_attempted_at = claim_creation_time_converted_to_timestamp_ms
   end
 
-  def assign_establishment_last_submitted_at
-    @claim_review.establishment_last_submitted_at = decision_review_created.claim_creation_time
+  def calculate_establishment_last_submitted_at
+    @claim_review.establishment_last_submitted_at = claim_creation_time_converted_to_timestamp_ms
   end
 
-  def assign_establishment_processed_at
-    @claim_review.establishment_processed_at = decision_review_created.claim_creation_time
+  def calculate_establishment_processed_at
+    @claim_review.establishment_processed_at = claim_creation_time_converted_to_timestamp_ms
   end
 
-  def assign_establishment_submitted_at
-    @claim_review.establishment_submitted_at = decision_review_created.claim_creation_time
+  def calculate_establishment_submitted_at
+    @claim_review.establishment_submitted_at = claim_creation_time_converted_to_timestamp_ms
   end
 
   def assign_informal_conference

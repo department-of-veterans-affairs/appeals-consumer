@@ -27,6 +27,7 @@ describe Builders::EndProductEstablishmentBuilder do
       service: [{ branch_of_service: "army", pay_grade: "E4" }]
     }
   end
+  let(:claim_creation_time_converted_to_timestamp) { builder.claim_creation_time_converted_to_timestamp_ms }
 
   before do
     Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
@@ -66,14 +67,14 @@ describe Builders::EndProductEstablishmentBuilder do
   describe "#assign_attributes" do
     it "calls private methods" do
       expect(builder).to receive(:calculate_benefit_type_code)
-      expect(builder).to receive(:assign_claim_date)
+      expect(builder).to receive(:calculate_claim_date)
       expect(builder).to receive(:assign_code)
       expect(builder).to receive(:assign_modifier)
       expect(builder).to receive(:calculate_limited_poa_access)
       expect(builder).to receive(:calculate_limited_poa_code)
-      expect(builder).to receive(:assign_committed_at)
-      expect(builder).to receive(:assign_established_at)
-      expect(builder).to receive(:assign_last_synced_at)
+      expect(builder).to receive(:calculate_committed_at)
+      expect(builder).to receive(:calculate_established_at)
+      expect(builder).to receive(:calculate_last_synced_at)
       expect(builder).to receive(:assign_synced_status)
       expect(builder).to receive(:assign_development_item_reference_id)
       expect(builder).to receive(:assign_reference_id)
@@ -92,9 +93,12 @@ describe Builders::EndProductEstablishmentBuilder do
       end
     end
 
-    describe "#_assign_claim_date" do
+    describe "#_calculate_claim_date" do
+      let(:converted_claim_date) do
+        builder.convert_to_date_logical_type(decision_review_created.claim_received_date)
+      end
       it "should assign a claim date to the epe instance" do
-        expect(builder.end_product_establishment.claim_date).to eq decision_review_created.claim_received_date
+        expect(builder.end_product_establishment.claim_date).to eq converted_claim_date
       end
     end
 
@@ -117,6 +121,7 @@ describe Builders::EndProductEstablishmentBuilder do
     end
 
     describe "#_calculate_limited_poa_access" do
+      let(:decision_review_created) { build(:decision_review_created, claim_id: 1) }
       subject { builder.end_product_establishment.limited_poa_access }
 
       context "the limited_poa_access result returns 'Y'" do
@@ -134,7 +139,7 @@ describe Builders::EndProductEstablishmentBuilder do
       end
 
       context "the limited_poa_access result returns nil" do
-        let(:decision_review_created) { build(:decision_review_created, claim_id: 6) }
+        let(:decision_review_created) { build(:decision_review_created, claim_id: 0) }
 
         it "should calculate the limited poa access and assign to the epe instance" do
           expect(subject).to eq nil
@@ -149,21 +154,21 @@ describe Builders::EndProductEstablishmentBuilder do
       end
     end
 
-    describe "#_assign_committed_at" do
+    describe "#_calculate_committed_at" do
       it "should assign a committed at to the epe instance" do
-        expect(builder.end_product_establishment.committed_at).to eq decision_review_created.claim_creation_time
+        expect(builder.end_product_establishment.committed_at).to eq claim_creation_time_converted_to_timestamp
       end
     end
 
-    describe "#_assign_established_at" do
+    describe "#_calculate_established_at" do
       it "should assign an established at to the epe instance" do
-        expect(builder.end_product_establishment.established_at).to eq decision_review_created.claim_creation_time
+        expect(builder.end_product_establishment.established_at).to eq claim_creation_time_converted_to_timestamp
       end
     end
 
-    describe "#_assign_last_synced_at" do
+    describe "#_calculate_last_synced_at" do
       it "should assign a last synced at to the epe instance" do
-        expect(builder.end_product_establishment.last_synced_at).to eq decision_review_created.claim_creation_time
+        expect(builder.end_product_establishment.last_synced_at).to eq claim_creation_time_converted_to_timestamp
       end
     end
 

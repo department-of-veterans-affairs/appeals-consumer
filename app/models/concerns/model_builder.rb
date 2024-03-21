@@ -47,4 +47,14 @@ module ModelBuilder
   def convert_to_date_logical_type(value)
     Date.parse(value).to_time.to_i / (60 * 60 * 24) if !!value
   end
+
+  def convert_to_timestamp_ms(value)
+    DateTime.parse(value).to_i * 1000 if !!value
+  end
+
+  def claim_creation_time_converted_to_timestamp_ms
+    return unless @decision_review_createdmake a
+
+    convert_to_timestamp_ms(@decision_review_created.claim_creation_time)
+  end
 end
