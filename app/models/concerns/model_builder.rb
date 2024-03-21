@@ -43,4 +43,8 @@ module ModelBuilder
 
     bis_record
   end
+
+  def convert_to_date_logical_type(value)
+    Date.parse(value).to_time.to_i / (60 * 60 * 24) if !!value
+  end
 end

@@ -340,7 +340,7 @@ class Builders::RequestIssueBuilder
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
   # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
   def decision_date_before_ama?
-    decision_date = issue.prior_decision_notification_date
+    decision_date = convert_to_date_logical_type(issue.prior_decision_notification_date)
 
     if decision_date
       ama_activation_date_logical_type = (AMA_ACTIVATION_DATE - EPOCH_DATE).to_i

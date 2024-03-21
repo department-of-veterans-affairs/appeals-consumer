@@ -111,7 +111,7 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:calculate_benefit_type) }
 
     context "when decision_review_created.ep_code includes 'PMC'" do
-      let(:decision_review_created) { build(:decision_review_created, :pension) }
+      let(:decision_review_created) { build(:decision_review_created, :nonrating_hlr_pension) }
       it "assigns the claim_review's benefit_type to 'pension'" do
         expect(subject).to eq(described_class::PENSION_BENEFIT_TYPE)
       end
@@ -129,28 +129,28 @@ describe Builders::RequestIssueBuilder do
 
     context "when the issue is a rating or decision issue" do
       context "rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "sets the Request Issue's contested_issue_description to issue.prior_decision_text" do
           expect(subject).to eq(issue.prior_decision_text)
         end
       end
 
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "sets the Request Issue's contested_issue_description to issue.prior_decision_text" do
           expect(subject).to eq(issue.prior_decision_text)
         end
       end
 
       context "decision issue that has an associated rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
         it "sets the Request Issue's contested_issue_description to issue.prior_decision_text" do
           expect(subject).to eq(issue.prior_decision_text)
         end
       end
 
       context "decision issue that has an associated nonrating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
         let(:duplicate_text_removed_from_prior_decision_text) do
           "Service connection for tetnus denied"
         end
@@ -169,7 +169,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
         it "sets the Request Issue's contested_issue_description to nil" do
           expect(subject).to eq(nil)
         end
@@ -197,7 +197,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "ineligible issue" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
 
         it "assigns the Request Issue's contention_id to nil" do
           expect(subject).to eq(nil)
@@ -217,7 +217,7 @@ describe Builders::RequestIssueBuilder do
           issue.contention_id = 123_456_789
         end
 
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
         let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
         let(:error_msg) do
           "Issue is ineligible but has a not-null contention_id value"
@@ -234,7 +234,7 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:assign_contested_rating_decision_reference_id) }
 
     context "when the issue has a prior_decision_rating_disability_sequence_number value" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
 
       it "assigns the Request Issue's contested_rating_decision_reference_id to"\
          " issue.prior_decision_rating_disability_sequence_number converted to a string" do
@@ -254,14 +254,14 @@ describe Builders::RequestIssueBuilder do
 
     context "when the issue is a rating issue" do
       context "rating" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date" do
           expect(subject).to eq(issue.prior_decision_rating_profile_date)
         end
       end
 
       context "decision issue with an associated rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
 
         it "assigns the Request Issue's contested_rating_profile_date to issue.prior_decision_rating_profile_date" do
           expect(subject).to eq(issue.prior_decision_rating_profile_date)
@@ -271,7 +271,7 @@ describe Builders::RequestIssueBuilder do
 
     context "when the issue does not correspond to a rating issue" do
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
 
         it "assigns the Request Issue's contested_rating_profile_date to nil" do
           expect(subject).to eq(nil)
@@ -285,7 +285,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
         it "assigns the Request Issue's contested_rating_profile_date to nil" do
           expect(subject).to eq(nil)
@@ -293,7 +293,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "decision issue corresponding to a nonrating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
 
         it "assigns the Request Issue's contested_rating_profile_date to nil" do
           expect(subject).to eq(nil)
@@ -306,7 +306,7 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:assign_contested_rating_issue_reference_id) }
 
     context "when the issue has a prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
 
       it "assigns the Request Issue's contested_rating_issue_reference_id to issue.prior_rating_decision_id converted"\
        " to a string" do
@@ -325,7 +325,9 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:assign_contested_decision_issue_id) }
 
     context "when the issue has an associated_caseflow_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr)
+      end
 
       it "assigns the Request Issue's contested_decision_issue_id to issue.associated_caseflow_decision_id" do
         expect(subject).to eq(issue.associated_caseflow_decision_id)
@@ -364,7 +366,7 @@ describe Builders::RequestIssueBuilder do
           issue.prior_decision_notification_date = nil
         end
 
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
         it "sets the Request Issue's decision_date to nil" do
           expect(subject).to eq(nil)
@@ -380,7 +382,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "when the issue is unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
         it "sets the Request Issue's decision_date to issue.prior_decision_notification_date" do
           expect(subject).to eq(issue.prior_decision_notification_date)
@@ -400,7 +402,7 @@ describe Builders::RequestIssueBuilder do
         end
 
         context "when issue.eligibility_result is 'PENDING_HLR'" do
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
 
           context "when issue.associated_caseflow_request_issue_id is present" do
             it "sets the Request Issue's ineligible_due_to_id to issue.associated_caseflow_request_issue_id" do
@@ -420,7 +422,7 @@ describe Builders::RequestIssueBuilder do
         end
 
         context "when issue.eligibility_result is 'PENDING_BOARD'" do
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_board) }
+          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
 
           context "when issue.associated_caseflow_request_issue_id is present" do
             it "sets the Request Issue's ineligible_due_to_id to issue.associated_caseflow_request_issue_id" do
@@ -440,7 +442,7 @@ describe Builders::RequestIssueBuilder do
         end
 
         context "when issue.eligibility_result is 'PENDING_SUPPLEMENTAL'" do
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_supplemental) }
+          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_supplemental) }
 
           context "when issue.associated_caseflow_request_issue_id is present" do
             it "sets the Request Issue's ineligible_due_to_id to issue.associated_caseflow_request_issue_id" do
@@ -461,9 +463,11 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "due to any other reason" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_before_ama) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_before_ama)
+        end
 
-        it "sets thr Request Issue's ineligible_due_to_id to nil" do
+        it "sets the Request Issue's ineligible_due_to_id to nil" do
           expect(subject).to eq(nil)
         end
       end
@@ -487,7 +491,9 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "when the issue has 'ELIGIBLE_LEGACY' for eligibility_result" do
-        let(:decision_review_created) { build(:decision_review_created, :legacy_issue) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr_legacy)
+        end
         it "sets the Request Issue's ineligible_reason to nil" do
           expect(subject).to eq nil
         end
@@ -506,14 +512,14 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_HLR' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_hlr) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_hlr) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
@@ -522,14 +528,14 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_BOARD' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_board) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
@@ -538,7 +544,7 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_SUPPLEMENTAL' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_supplemental) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_supplemental) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
@@ -546,7 +552,7 @@ describe Builders::RequestIssueBuilder do
 
           context "nonrating" do
             let(:decision_review_created) do
-              build(:decision_review_created, :ineligible_nonrating_pending_supplemental)
+              build(:decision_review_created, :ineligible_nonrating_hlr_pending_supplemental)
             end
 
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
@@ -561,7 +567,9 @@ describe Builders::RequestIssueBuilder do
 
         context "when the prior_decision_notification_date is before the ama activation date" do
           let(:before_ama) { described_class::INELIGIBLE_REASONS[:before_ama] }
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_before_ama) }
+          let(:decision_review_created) do
+            build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_before_ama)
+          end
 
           it "sets the Request Issue's ineligible_reason to 'before_ama'" do
             expect(subject).to eq(before_ama)
@@ -570,7 +578,9 @@ describe Builders::RequestIssueBuilder do
 
         context "when the prior_decision_notification_date is on or after the ama activation date" do
           let(:untimely) { described_class::INELIGIBLE_REASONS[:untimely] }
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_untimely) }
+          let(:decision_review_created) do
+            build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely)
+          end
 
           it "sets the Request Issue's ineligible_reason to 'untimely'" do
             expect(subject).to eq(untimely)
@@ -582,7 +592,9 @@ describe Builders::RequestIssueBuilder do
         let(:legacy_issue_not_withdrawn) do
           described_class::INELIGIBLE_REASONS[:legacy_issue_not_withdrawn]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_pending_legacy_appeal) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :ineligible_nonrating_hlr_pending_legacy_appeal)
+        end
 
         it "sets the Request Issue's ineligible_reason to 'legacy_issue_not_withdrawn'" do
           expect(subject).to eq(legacy_issue_not_withdrawn)
@@ -593,7 +605,9 @@ describe Builders::RequestIssueBuilder do
         let(:legacy_appeal_not_eligible) do
           described_class::INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_legacy_time_restriction) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :ineligible_nonrating_hlr_legacy_time_restriction)
+        end
 
         it "sets the Request Issue's ineligible_reason to 'legacy_appeal_not_eligible'" do
           expect(subject).to eq(legacy_appeal_not_eligible)
@@ -604,7 +618,7 @@ describe Builders::RequestIssueBuilder do
         let(:legacy_appeal_not_eligible) do
           described_class::INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_no_soc_ssoc) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_no_soc_ssoc) }
 
         it "sets the Request Issue's ineligible_reason to 'legacy_appeal_not_eligible'" do
           expect(subject).to eq(legacy_appeal_not_eligible)
@@ -615,7 +629,7 @@ describe Builders::RequestIssueBuilder do
         let(:appeal_to_hlr) do
           described_class::INELIGIBLE_REASONS[:appeal_to_higher_level_review]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_board) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
 
         it "sets the Request Issue's ineligible_reason to 'appeal_to_higher_level_review'" do
           expect(subject).to eq(appeal_to_hlr)
@@ -626,7 +640,7 @@ describe Builders::RequestIssueBuilder do
         let(:hlr_to_hlr) do
           described_class::INELIGIBLE_REASONS[:higher_level_review_to_higher_level_review]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_hlr) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_hlr) }
 
         it "sets the Request Issue's ineligible_reason to 'higher_level_review_to_higher_level_review'" do
           expect(subject).to eq(hlr_to_hlr)
@@ -653,7 +667,7 @@ describe Builders::RequestIssueBuilder do
   describe "#assign_is_unidentified" do
     subject { builder.send(:assign_is_unidentified) }
     context "when the issue has unidentified as true" do
-      let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
       it "sets the Request Issue's is_unidentified to true" do
         expect(subject).to eq true
@@ -670,7 +684,7 @@ describe Builders::RequestIssueBuilder do
   describe "#calculate_unidentified_issue_text" do
     subject { builder.send(:calculate_unidentified_issue_text) }
     context "when the issue is unidentified" do
-      let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
       it "sets the Request Issue's unidentified_issue_text to issue.prior_decision_text" do
         expect(subject).to eq(issue.prior_decision_text)
@@ -694,7 +708,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue does not have a prior_non_rating_decision_id present" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
       it "sets the Request Issue's nonrating_issue_bgs_id to nil" do
         expect(subject).to eq nil
       end
@@ -711,7 +725,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "decision issue associated with a nonrating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
         it "sets the Request Issue's nonrating_issue_category to issue.prior_decision_type" do
           expect(subject).to eq(issue.prior_decision_type)
         end
@@ -720,28 +734,28 @@ describe Builders::RequestIssueBuilder do
 
     context "when the issue is NOT nonrating" do
       context "rating" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "sets the Request Issue's nonrating_issue_category to nil" do
           expect(subject).to eq nil
         end
       end
 
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "sets the Request Issue's nonrating_issue_category to nil" do
           expect(subject).to eq nil
         end
       end
 
       context "decision issue associated with a rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
         it "sets the Request Issue's nonrating_issue_category to nil" do
           expect(subject).to eq nil
         end
       end
 
       context "unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
         it "sets the Request Issue's nonrating_issue_category to nil" do
           expect(subject).to eq nil
         end
@@ -763,7 +777,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue is nonrating and DOES have a value for associated_caseflow_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
 
       it "sets the Request Issue's nonrating_issue_description to nil" do
         expect(subject).to eq nil
@@ -772,7 +786,7 @@ describe Builders::RequestIssueBuilder do
 
     context "when the issue is NOT nonrating" do
       context "rating" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
 
         it "sets the Request Issue's nonrating_issue_description to nil" do
           expect(subject).to eq nil
@@ -780,7 +794,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
 
         it "sets the Request Issue's nonrating_issue_description to nil" do
           expect(subject).to eq nil
@@ -788,7 +802,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "decision issue associated with rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
 
         it "sets the Request Issue's nonrating_issue_description to nil" do
           expect(subject).to eq nil
@@ -796,7 +810,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
         it "sets the Request Issue's nonrating_issue_description to nil" do
           expect(subject).to eq nil
@@ -814,14 +828,14 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has false for time_override" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_untimely) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely) }
       it "sets the Request Issue's untimely_exemption to false" do
         expect(subject).to eq false
       end
     end
 
     context "when the issue has true for time_override" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_time_override) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_nonrating_hlr_time_override) }
       it "sets the Request Issue's untimely_exemption to true" do
         expect(subject).to eq true
       end
@@ -837,7 +851,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has a value for time_override_reason" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_time_override) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_nonrating_hlr_time_override) }
       it "sets the Request Issue's untimely_exemption_notes to issue.time_override_reason" do
         expect(subject).to eq(issue.time_override_reason)
       end
@@ -847,7 +861,9 @@ describe Builders::RequestIssueBuilder do
   describe "#assign_vacols_id" do
     subject { builder.send(:assign_vacols_id) }
     context "when the issue has a value for legacy_appeal_id" do
-      let(:decision_review_created) { build(:decision_review_created, :soc_opt_in) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_rating_decision_hlr_pending_legacy_appeal)
+      end
       it "sets the Request Issue's vacols_id to issue.legacy_appeal_id" do
         expect(subject).to eq(issue.legacy_appeal_id)
       end
@@ -863,7 +879,9 @@ describe Builders::RequestIssueBuilder do
   describe "#assign_vacols_sequence_id" do
     subject { builder.send(:assign_vacols_sequence_id) }
     context "when the issue has a value for legacy_appeal_issue_id" do
-      let(:decision_review_created) { build(:decision_review_created, :soc_opt_in) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_rating_decision_hlr_pending_legacy_appeal)
+      end
       it "sets the Request Issue's vacols_sequence_id to issue.legacy_appeal_id" do
         expect(subject).to eq(issue.legacy_appeal_issue_id)
       end
@@ -879,7 +897,7 @@ describe Builders::RequestIssueBuilder do
   describe "#calculate_closed_at" do
     subject { builder.send(:calculate_closed_at) }
     context "when issue is ineligible" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
       it "sets the Request Issue's closed_at to decision_review_created.claim_creation_time" do
         expect(subject).to eq(decision_review_created.claim_creation_time)
       end
@@ -895,7 +913,7 @@ describe Builders::RequestIssueBuilder do
   describe "#calculate_closed_status" do
     subject { builder.send(:calculate_closed_status) }
     context "when issue is ineligible" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
       let(:ineligible_closed_status) { described_class::INELIGIBLE_CLOSED_STATUS }
       it "sets the Request Issue's closed_status to 'ineligible'" do
         expect(subject).to eq(ineligible_closed_status)
@@ -913,21 +931,21 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:calculate_contested_rating_issue_diagnostic_code) }
     context "when the issue has a value for prior_decision_diagnostic_code" do
       context "rating" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
           expect(subject).to eq(issue.prior_decision_diagnostic_code)
         end
       end
 
       context "decision issue associated with a rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
         it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
           expect(subject).to eq(issue.prior_decision_diagnostic_code)
         end
       end
 
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
           expect(subject).to eq(issue.prior_decision_diagnostic_code)
         end
@@ -940,14 +958,14 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "decision issue associated with nonrating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
         it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
           expect(subject).to eq nil
         end
       end
 
       context "when the issue is an unidentified issue" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
         it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
           expect(subject).to eq nil
         end
@@ -960,14 +978,14 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "rating" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
           expect(subject).to eq nil
         end
       end
 
       context "decision issue associated with a rating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
         it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
           expect(subject).to eq nil
         end
@@ -980,14 +998,14 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "decision issue associated with nonrating issue" do
-        let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
         it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
           expect(subject).to eq nil
         end
       end
 
       context "when the issue is an unidentified issue" do
-        let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
         it "sets the Request Issue's contested_rating_issue_diagnostic_code to nil" do
           expect(subject).to eq nil
         end
@@ -998,7 +1016,7 @@ describe Builders::RequestIssueBuilder do
           issue.prior_decision_diagnostic_code = "5008"
         end
 
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
           expect(subject).to eq(issue.prior_decision_diagnostic_code)
         end
@@ -1010,14 +1028,14 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:calculate_ramp_claim_id) }
     context "when the issue has a value for prior_rating_decision_id" do
       context "and the issue has a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_with_ramp_id) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_ramp_id) }
         it "sets the Request Issue's ramp_claim_id to issue.prior_decision_ramp_id converted to a string" do
           expect(subject).to eq(issue.prior_decision_ramp_id.to_s)
         end
       end
 
       context "and the issue does NOT have a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "sets the Request Issue's ramp_claim_id to nil" do
           expect(subject).to eq nil
         end
@@ -1054,7 +1072,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "sets the Request Issue's rating_issue_associated_at to nil" do
           expect(subject).to eq nil
         end
@@ -1064,14 +1082,14 @@ describe Builders::RequestIssueBuilder do
     context "when the issue has a value for prior_rating_decision_id" do
       context "and the issue is eligible" do
         context "rating" do
-          let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+          let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
           it "sets the Request Issue's rating_issue_associated_at to decision_review_created.claim_creation_time" do
             expect(subject).to eq(decision_review_created.claim_creation_time)
           end
         end
 
         context "decision issue associated with a rating issue" do
-          let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+          let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
           it "sets the Request Issue's rating_issue_associated_at to decision_review_created.claim_creation_time" do
             expect(subject).to eq(decision_review_created.claim_creation_time)
           end
@@ -1084,14 +1102,14 @@ describe Builders::RequestIssueBuilder do
         end
 
         context "rating" do
-          let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+          let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
           it "sets the Request Issue's rating_issue_associated_at to nil" do
             expect(subject).to eq(nil)
           end
         end
 
         context "decision issue associated with a rating issue" do
-          let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_rating_issue) }
+          let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
           it "sets the Request Issue's rating_issue_associated_at to nil" do
             expect(subject).to eq(nil)
           end
@@ -1118,7 +1136,7 @@ describe Builders::RequestIssueBuilder do
       end
 
       context "when the issue has 'ELIGIBLE_LEGACY' for eligibility_result" do
-        let(:decision_review_created) { build(:decision_review_created, :legacy_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_legacy) }
         it "sets the Request Issue's ineligible_reason to nil" do
           expect(subject).to eq nil
         end
@@ -1137,14 +1155,14 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_HLR' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_hlr) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_hlr) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
@@ -1153,14 +1171,14 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_BOARD' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_board) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
@@ -1169,7 +1187,7 @@ describe Builders::RequestIssueBuilder do
 
         context "when the issue has 'PENDING_SUPPLEMENTAL' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_supplemental) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_supplemental) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
@@ -1177,7 +1195,7 @@ describe Builders::RequestIssueBuilder do
 
           context "nonrating" do
             let(:decision_review_created) do
-              build(:decision_review_created, :ineligible_nonrating_pending_supplemental)
+              build(:decision_review_created, :ineligible_nonrating_hlr_pending_supplemental)
             end
 
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
@@ -1192,7 +1210,9 @@ describe Builders::RequestIssueBuilder do
 
         context "when the prior_decision_notification_date is before the ama activation date" do
           let(:before_ama) { described_class::INELIGIBLE_REASONS[:before_ama] }
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_before_ama) }
+          let(:decision_review_created) do
+            build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_before_ama)
+          end
 
           it "sets the Request Issue's ineligible_reason to 'before_ama'" do
             expect(subject).to eq(before_ama)
@@ -1201,7 +1221,9 @@ describe Builders::RequestIssueBuilder do
 
         context "when the prior_decision_notification_date is on or after the ama activation date" do
           let(:untimely) { described_class::INELIGIBLE_REASONS[:untimely] }
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_untimely) }
+          let(:decision_review_created) do
+            build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely)
+          end
 
           it "sets the Request Issue's ineligible_reason to 'untimely'" do
             expect(subject).to eq(untimely)
@@ -1213,8 +1235,9 @@ describe Builders::RequestIssueBuilder do
         let(:legacy_issue_not_withdrawn) do
           described_class::INELIGIBLE_REASONS[:legacy_issue_not_withdrawn]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_pending_legacy_appeal) }
-
+        let(:decision_review_created) do
+          build(:decision_review_created, :ineligible_nonrating_hlr_pending_legacy_appeal)
+        end
         it "sets the Request Issue's ineligible_reason to 'legacy_issue_not_withdrawn'" do
           expect(subject).to eq(legacy_issue_not_withdrawn)
         end
@@ -1224,7 +1247,9 @@ describe Builders::RequestIssueBuilder do
         let(:legacy_appeal_not_eligible) do
           described_class::INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_legacy_time_restriction) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :ineligible_nonrating_hlr_legacy_time_restriction)
+        end
 
         it "sets the Request Issue's ineligible_reason to 'legacy_appeal_not_eligible'" do
           expect(subject).to eq(legacy_appeal_not_eligible)
@@ -1235,7 +1260,7 @@ describe Builders::RequestIssueBuilder do
         let(:legacy_appeal_not_eligible) do
           described_class::INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_no_soc_ssoc) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_no_soc_ssoc) }
 
         it "sets the Request Issue's ineligible_reason to 'legacy_appeal_not_eligible'" do
           expect(subject).to eq(legacy_appeal_not_eligible)
@@ -1246,7 +1271,7 @@ describe Builders::RequestIssueBuilder do
         let(:appeal_to_hlr) do
           described_class::INELIGIBLE_REASONS[:appeal_to_higher_level_review]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_board) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
 
         it "sets the Request Issue's ineligible_reason to 'appeal_to_higher_level_review'" do
           expect(subject).to eq(appeal_to_hlr)
@@ -1257,7 +1282,7 @@ describe Builders::RequestIssueBuilder do
         let(:hlr_to_hlr) do
           described_class::INELIGIBLE_REASONS[:higher_level_review_to_higher_level_review]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_hlr) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_hlr) }
 
         it "sets the Request Issue's ineligible_reason to 'higher_level_review_to_higher_level_review'" do
           expect(subject).to eq(hlr_to_hlr)
@@ -1367,7 +1392,7 @@ describe Builders::RequestIssueBuilder do
     let(:error_msg) do
       "Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
     end
-    let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_board) }
+    let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
 
     context "when there isn't an associated_caseflow_request_issue_id present" do
       it "does not raise an error" do
@@ -1412,7 +1437,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue DOES NOT have prior_decision_type text within prior_decision_text" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
 
       it "returns issue.prior_decision_text" do
         expect(subject).to eq(issue.prior_decision_text)
@@ -1424,21 +1449,21 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:rating_or_decision_issue?) }
 
     context "when the issue has a prior_rating_decision_id value" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
     end
 
     context "when the issue has a prior_decision_rating_disability_sequence_number value" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
     end
 
     context "when the issue has an associated_caseflow_decision_id value" do
-      let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1455,21 +1480,23 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:pending_claim_review?) }
     context "when the issue's eligibility_result contains 'PENDING'" do
       context "PENDING_HLR" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
         it "returns true" do
           expect(subject).to eq true
         end
       end
 
       context "PENDING_BOARD" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_board) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
         it "returns true" do
           expect(subject).to eq true
         end
       end
 
       context "PENDING_SUPPLEMENTAL" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_supplemental) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :ineligible_nonrating_hlr_pending_supplemental)
+        end
         it "returns true" do
           expect(subject).to eq true
         end
@@ -1486,7 +1513,9 @@ describe Builders::RequestIssueBuilder do
   describe "#time_restriction?" do
     subject { builder.send(:time_restriction?) }
     context "when the issue's eligibility_result is 'TIME_RESTRICTION'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_before_ama) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_before_ama)
+      end
       it "retuns true" do
         expect(subject).to eq true
       end
@@ -1502,7 +1531,7 @@ describe Builders::RequestIssueBuilder do
   describe "#pending_legacy_appeal?" do
     subject { builder.send(:pending_legacy_appeal?) }
     context "when the issue's eligibility_result is 'PENDING_LEGACY_APPEAL'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_pending_legacy_appeal) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_legacy_appeal) }
       it "retuns true" do
         expect(subject).to eq true
       end
@@ -1518,14 +1547,16 @@ describe Builders::RequestIssueBuilder do
   describe "#legacy_time_restriction_or_no_soc_ssoc?" do
     subject { builder.send(:legacy_time_restriction_or_no_soc_ssoc?) }
     context "when the issue's eligibility_result is 'LEGACY_TIME_RESTRICTION'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_legacy_time_restriction) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_legacy_time_restriction)
+      end
       it "retuns true" do
         expect(subject).to eq true
       end
     end
 
     context "when the issue's eligibility_result is 'NO_SOC_SSOC'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_no_soc_ssoc) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_no_soc_ssoc) }
       it "retuns true" do
         expect(subject).to eq true
       end
@@ -1541,7 +1572,7 @@ describe Builders::RequestIssueBuilder do
   describe "#completed_board?" do
     subject { builder.send(:completed_board?) }
     context "when the issue's eligibility_result is 'COMPLETED_BOARD'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_board) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
       it "retuns true" do
         expect(subject).to eq true
       end
@@ -1558,14 +1589,18 @@ describe Builders::RequestIssueBuilder do
   describe "#decision_date_before_ama?" do
     subject { builder.send(:decision_date_before_ama?) }
     context "when the issue's prior_decision_notification_date is BEFORE February 19, 2019" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_before_ama) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_before_ama)
+      end
       it "retuns true" do
         expect(subject).to eq true
       end
     end
 
     context "when the issue's prior_decision_notification_date is ON or AFTER February 19, 2019" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_untimely) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely)
+      end
       it "retuns false" do
         expect(subject).to eq false
       end
@@ -1575,7 +1610,7 @@ describe Builders::RequestIssueBuilder do
   describe "#associated_caseflow_request_issue_present?" do
     subject { builder.send(:associated_caseflow_request_issue_present?) }
     context "when the issue has a not-null value for associated_caseflow_request_issue_id" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_hlr) }
       it "retuns true" do
         expect(subject).to eq true
       end
@@ -1593,14 +1628,14 @@ describe Builders::RequestIssueBuilder do
 
     context "when the issue has an identifier" do
       context "prior_rating_decision_id" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
         it "retuns true" do
           expect(subject).to eq true
         end
       end
 
       context "prior_decision_rating_disability_sequence_number" do
-        let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "retuns true" do
           expect(subject).to eq true
         end
@@ -1614,7 +1649,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue is unidentified" do
-      let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
       it "retuns false" do
         expect(subject).to eq false
       end
@@ -1649,7 +1684,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has a null value for contention_id" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1659,7 +1694,7 @@ describe Builders::RequestIssueBuilder do
   describe "#ineligible?" do
     subject { builder.send(:ineligible?) }
     context "when the issue's eligibility_result is included in INELIGIBLE constant" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1682,7 +1717,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue's eligibility_result is NOT included in ELIGIBLE constant" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
       it "returns false" do
         expect(subject).to eq false
       end
@@ -1692,7 +1727,7 @@ describe Builders::RequestIssueBuilder do
   describe "#unidentified?" do
     subject { builder.send(:unidentified?) }
     context "when the issue has unidentified as true" do
-      let(:decision_review_created) { build(:decision_review_created, :unidentified) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1714,7 +1749,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has a null value for prior_non_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
       it "returns false" do
         expect(subject).to eq false
       end
@@ -1724,7 +1759,7 @@ describe Builders::RequestIssueBuilder do
   describe "#rating?" do
     subject { builder.send(:rating?) }
     context "when the issue has a not-null value for prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1740,7 +1775,7 @@ describe Builders::RequestIssueBuilder do
   describe "#rating_decision?" do
     subject { builder.send(:rating_decision?) }
     context "when the issue has a not-null value for prior_decision_rating_disability_sequence_number" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1756,7 +1791,7 @@ describe Builders::RequestIssueBuilder do
   describe "#decision_issue?" do
     subject { builder.send(:decision_issue?) }
     context "when the issue has a not-null value for associated_caseflow_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :decision_issue_prior_non_rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1772,7 +1807,7 @@ describe Builders::RequestIssueBuilder do
   describe "#determine_benefit_type" do
     subject { builder.send(:determine_benefit_type) }
     context "when DecisionReviewCreated has an ep_code that includes 'PMC'" do
-      let(:decision_review_created) { build(:decision_review_created, :pension) }
+      let(:decision_review_created) { build(:decision_review_created, :nonrating_hlr_pension) }
       it "returns 'pension'" do
         expect(subject).to eq(described_class::PENSION_BENEFIT_TYPE)
       end
@@ -1789,14 +1824,14 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:determine_pending_claim_review_type) }
 
     context "when the issue has a not-null value for prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_hlr) }
       it "returns 'duplicate_of_rating_issue_in_active_review" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:duplicate_of_rating_issue_in_active_review])
       end
     end
 
     context "when the issue has a null value for prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_pending_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
       it "returns 'duplicate_of_nonrating_issue_in_active_review" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:duplicate_of_nonrating_issue_in_active_review])
       end
@@ -1806,14 +1841,18 @@ describe Builders::RequestIssueBuilder do
   describe "#determine_time_restriction_type" do
     subject { builder.send(:determine_time_restriction_type) }
     context "when the issue's prior_decision_notification_date is BEFORE February 19, 2019" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_before_ama) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_before_ama)
+      end
       it "returns 'before_ama'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:before_ama])
       end
     end
 
     context "when the issue's prior_decision_notification_date is ON or AFTER February 19, 2019" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_time_restriction_untimely) }
+      let(:decision_review_created) do
+        build(:decision_review_created, :ineligible_nonrating_hlr_time_restriction_untimely)
+      end
       it "returns 'untimely'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:untimely])
       end
@@ -1823,7 +1862,7 @@ describe Builders::RequestIssueBuilder do
   describe "#completed_claim_review?" do
     subject { builder.send(:completed_claim_review?) }
     context "when the issue has an eligibility_result that is listed in the COMPLETED_REVIEW constant" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_board) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1839,14 +1878,14 @@ describe Builders::RequestIssueBuilder do
   describe "#determine_completed_claim_review_type" do
     subject { builder.send(:determine_completed_claim_review_type) }
     context "when the issue's eligibility_result is 'COMPLETED_BOARD'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_board) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
       it "returns 'appeal_to_higher_level_review'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:appeal_to_higher_level_review])
       end
     end
 
     context "when the issue's eligibility_result is 'COMPLETED_HLR'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_hlr) }
       it "returns 'higher_level_review_to_higher_level_review'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:higher_level_review_to_higher_level_review])
       end
@@ -1902,7 +1941,7 @@ describe Builders::RequestIssueBuilder do
     end
 
     context "when the issue has a null value for contention_id" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_completed_hlr) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_hlr) }
       it "returns false" do
         expect(subject).to eq false
       end
@@ -1925,14 +1964,14 @@ describe Builders::RequestIssueBuilder do
     subject { builder.send(:rating_or_rating_decision?) }
 
     context "when the issue has a value for prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_issue) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
     end
 
     context "when the issue has a value for prior_decision_rating_disability_sequence_number" do
-      let(:decision_review_created) { build(:decision_review_created, :rating_decision) }
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
