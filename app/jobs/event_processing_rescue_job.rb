@@ -4,7 +4,7 @@ class EventProcessingRescueJob < ApplicationJob
   queue_as :high_priority
 
   rescue_from(StandardError) do |error|
-    log_error("encountered an exception: #{extra_details(nil, nil, error)}")
+    log_error("encountered an exception: #{extra_details(error: error)}")
   end
 
   def perform
@@ -17,6 +17,7 @@ class EventProcessingRescueJob < ApplicationJob
       end
 
       process_audit(audit)
+      @processed_audits_count += 1
     end
     complete_processing!
   end
@@ -25,11 +26,16 @@ class EventProcessingRescueJob < ApplicationJob
 
   def start_processing!
     @start_time = Time.zone.now
-    log_info("Process started...")
+    @processed_audits_count = 0
+    log_info("Process started at #{@start_time}")
   end
 
   def complete_processing!
-    log_info("Process completed.")
+    processing_time = Time.zone.now - @start_time
+    log_info(
+      "Process completed. Total audits processed: #{@processed_audits_count}. " \
+      "Processing time: #{processing_time.round(2)} seconds."
+    )
   end
 
   def time_exceeded?
@@ -46,11 +52,11 @@ class EventProcessingRescueJob < ApplicationJob
       )
     end
 
-    log_info("EventAudit was cancelled: #{extra_details(audit)}")
+    log_info("EventAudit was cancelled: #{extra_details(audit: audit, event: audit.event)}")
 
     handle_reenqueue(audit.event)
   rescue StandardError => error
-    log_error("Failed to process audit: #{extra_details(audit, nil, error)}")
+    log_error("Failed to process audit: #{extra_details(audit: audit, event: audit.event, error: error)}")
   end
 
   def handle_reenqueue(event)
@@ -63,30 +69,22 @@ class EventProcessingRescueJob < ApplicationJob
         "Event with id: #{event.id} was found to be not \"PROCESSED\" and was re-enqueued into a new processing job"
       )
     else
-      log_error("Failed to re-enqueue job for Event: #{extra_details(nil, event)}")
+      log_error("Failed to re-enqueue job for Event: #{extra_details(event: event)}")
     end
   rescue StandardError => error
-    log_error("Error during the re-enqueue for event: #{extra_details(nil, event, error)}")
+    log_error("Error during the re-enqueue for event: #{extra_details(event: event, error: error)}")
   end
 
-  def extra_details(audit = nil, event = nil, error = nil)
+  def extra_details(audit: nil, event: nil, error: nil)
     data = {}
-    unless audit.nil?
-      data.merge({
-                   audit_id: audit.id
-                 })
+    if audit
+      data[:event_audit_id] = audit.id
     end
-    unless event.nil?
-      data.merge({
-                   event_id: event.id,
-                   type: event.type
-                 })
+    if event
+      data[:event_id] = event.id
+      data[:type] = event.type
     end
-    unless error.nil?
-      data.merge({
-                   error: error.message
-                 })
-    end
+    data[:error_message] = error.message if error
     data
   end
 

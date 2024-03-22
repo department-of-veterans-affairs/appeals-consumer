@@ -53,7 +53,7 @@ describe EventProcessingRescueJob, type: :job do
         allow_any_instance_of(EventProcessingRescueJob).to receive(:time_exceeded?).and_return(true)
         allow(Rails.logger)
           .to receive(:info)
-        EventProcessingRescueJob.new.perform
+        subject.perform
         expect(stuck_audit.reload.status).not_to eq("cancelled")
         expect(Rails.logger)
           .to have_received(:info)
@@ -85,7 +85,7 @@ describe EventProcessingRescueJob, type: :job do
           expect(Rails.logger)
             .to receive(:error)
             .with(/\[EventProcessingRescueJob\] Failed to process audit/)
-          expect { EventProcessingRescueJob.new.send(:process_audit, stuck_audit) }.not_to raise_error
+          expect { subject.send(:process_audit, stuck_audit) }.not_to raise_error
         end
       end
     end
@@ -97,7 +97,7 @@ describe EventProcessingRescueJob, type: :job do
           expect(Rails.logger)
             .to receive(:error)
             .with(/\[EventProcessingRescueJob\] Error during the re-enqueue for event/)
-          expect { EventProcessingRescueJob.new.send(:handle_reenqueue, event) }.not_to raise_error
+          expect { subject.send(:handle_reenqueue, event) }.not_to raise_error
         end
       end
 
@@ -107,8 +107,43 @@ describe EventProcessingRescueJob, type: :job do
           expect(Rails.logger)
             .to receive(:error)
             .with(/\[EventProcessingRescueJob\] Failed to re-enqueue job for Event:/)
-          EventProcessingRescueJob.new.send(:handle_reenqueue, event)
+          subject.send(:handle_reenqueue, event)
         end
+      end
+    end
+
+    describe "#_extra_details" do
+      let(:event) { create(:event) }
+      let(:audit) { create(:event_audit, event: event) }
+      let(:error) { StandardError.new("Test error message") }
+
+      it "return an empty hash when no parameters are provided" do
+        expect(subject.send(:extra_details)).to eq({})
+      end
+
+      it "returns a hash with audit_id when only the audit is provided" do
+        result = subject.send(:extra_details, audit: audit)
+        expect(result).to eq({ event_audit_id: audit.id })
+      end
+
+      it "returns a hash with event_id and type when only the event is provided" do
+        result = subject.send(:extra_details, event: event)
+        expect(result).to eq({ event_id: event.id, type: event.type })
+      end
+
+      it "returns a hash with error message when only the error is provided" do
+        result = subject.send(:extra_details, error: error)
+        expect(result).to eq({ error_message: error.message })
+      end
+
+      it "returns a hash with all details when all parameters are provided" do
+        result = subject.send(:extra_details, audit: audit, event: event, error: error)
+        expect(result).to eq({
+                               event_audit_id: audit.id,
+                               event_id: event.id,
+                               type: event.type,
+                               error_message: error.message
+                             })
       end
     end
   end
