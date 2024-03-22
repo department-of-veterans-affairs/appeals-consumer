@@ -19,6 +19,15 @@ RSpec.describe BaseEventProcessingJob, type: :job do
       allow_any_instance_of(Event).to receive(:process!).and_return(true)
     end
 
+    context "when the event is in an end state prior to the job starting" do
+      it "will log the event id and skip processing the event" do
+        allow(event).to receive(:end_state?).and_return(true)
+        expect(event).not_to receive(:process!)
+        expect(Rails.logger).to receive(:info).with(/instance was stopped since the event with id/)
+        subject
+      end
+    end
+
     context "when the job completes successfully" do
       it "processes the event and updates the event audit" do
         subject

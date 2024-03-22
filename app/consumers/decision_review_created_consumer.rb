@@ -16,12 +16,14 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       log_consumption_start(extra_details)
 
       begin
-        event = handle_event_creation(message)
+        ActiveRecord::Base.transaction do
+          event = handle_event_creation(message)
 
-        # Processes the event with additional logic provided in the block for job enqueueing.
-        process_event(event, extra_details) do |new_event|
-          # Enqueues a job for further processing of the newly created event.
-          DecisionReviewCreatedEventProcessingJob.perform_later(new_event)
+          # Processes the event with additional logic provided in the block for job enqueueing.
+          process_event(event, extra_details) do |new_event|
+            # Enqueues a job for further processing of the newly created event.
+            DecisionReviewCreatedEventProcessingJob.perform_later(new_event)
+          end
         end
       rescue ActiveRecord::RecordInvalid => error
         # Handles any ActiveRecord validation errors by logging and notifying the error.
