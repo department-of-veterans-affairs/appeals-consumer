@@ -6,6 +6,15 @@ class BaseEventProcessingJob < ApplicationJob
 
   def perform(event)
     init_setup(event)
+
+    if @event.end_state?
+      Rails.logger.info(
+        "#{self.class.name} instance was stopped since the event " \
+        "with id: #{@event.id} was already a state of #{@event.state}"
+      )
+      return true
+    end
+
     start_processing!
     @event.process!
     complete_processing!
@@ -57,8 +66,9 @@ class BaseEventProcessingJob < ApplicationJob
   end
 
   def log_error
+    # TODO: notify Sentry/Slack
     msg = "[#{self.class.name}] An error has occured while processing a job for the event with event_id: #{@event.id}."
-    msg += " Please check EventAudit with id: #{@event_audit.id} for details." if @event_audit
+    msg += " Please check EventAudit with id: #{@event_audit.id} for details." if comitted_event_audit
     Rails.logger.error(msg)
   end
 
