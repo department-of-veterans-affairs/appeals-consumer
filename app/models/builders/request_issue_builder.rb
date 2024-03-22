@@ -142,7 +142,7 @@ class Builders::RequestIssueBuilder
   def calculate_decision_date
     handle_missing_notification_date if prior_decision_notification_date_not_present? && identified?
 
-    @request_issue.decision_date = issue.prior_decision_notification_date
+    @request_issue.decision_date = prior_decision_notification_date_converted_to_logical_type
   end
 
   # if the issue's eligibility_result is "PENDING_BOARD", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
@@ -340,7 +340,7 @@ class Builders::RequestIssueBuilder
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
   # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
   def decision_date_before_ama?
-    decision_date = issue.prior_decision_notification_date
+    decision_date = prior_decision_notification_date_converted_to_logical_type
 
     if decision_date
       ama_activation_date_logical_type = (AMA_ACTIVATION_DATE - EPOCH_DATE).to_i
@@ -420,6 +420,10 @@ class Builders::RequestIssueBuilder
 
   def contention_id_present?
     !!issue.contention_id
+  end
+
+  def prior_decision_notification_date_converted_to_logical_type
+    convert_to_date_logical_type(issue.prior_decision_notification_date)
   end
 
   def handle_contention_id_present

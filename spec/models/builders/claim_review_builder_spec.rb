@@ -3,6 +3,7 @@
 describe Builders::ClaimReviewBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:builder) { described_class.new(decision_review_created) }
+  let(:converted_claim_creation_time) { builder.send(:claim_creation_time_converted_to_timestamp_ms) }
 
   describe "#build" do
     subject { described_class.build(decision_review_created) }
@@ -31,13 +32,13 @@ describe Builders::ClaimReviewBuilder do
     it "calls private methods" do
       expect(builder).to receive(:calculate_benefit_type)
       expect(builder).to receive(:assign_filed_by_va_gov)
-      expect(builder).to receive(:assign_receipt_date)
+      expect(builder).to receive(:calculate_receipt_date)
       expect(builder).to receive(:calculate_legacy_opt_in_approved)
       expect(builder).to receive(:calculate_veteran_is_not_claimant)
-      expect(builder).to receive(:assign_establishment_attempted_at)
-      expect(builder).to receive(:assign_establishment_last_submitted_at)
-      expect(builder).to receive(:assign_establishment_processed_at)
-      expect(builder).to receive(:assign_establishment_submitted_at)
+      expect(builder).to receive(:calculate_establishment_attempted_at)
+      expect(builder).to receive(:calculate_establishment_last_submitted_at)
+      expect(builder).to receive(:calculate_establishment_processed_at)
+      expect(builder).to receive(:calculate_establishment_submitted_at)
       expect(builder).to receive(:assign_informal_conference)
       expect(builder).to receive(:assign_same_office)
 
@@ -49,7 +50,7 @@ describe Builders::ClaimReviewBuilder do
     subject { builder.send(:calculate_benefit_type) }
 
     context "when decision_review_created.ep_code includes 'PMC'" do
-      let(:decision_review_created) { build(:decision_review_created, :pension) }
+      let(:decision_review_created) { build(:decision_review_created, :nonrating_hlr_pension) }
       it "assigns the claim_review's benefit_type to 'pension'" do
         expect(subject).to eq(Builders::ClaimReviewBuilder::PENSION_BENEFIT_TYPE)
       end
@@ -69,10 +70,14 @@ describe Builders::ClaimReviewBuilder do
     end
   end
 
-  describe "#assign_receipt_date" do
-    subject { builder.send(:assign_receipt_date) }
-    it "assigns claim_review's receipt_date to decision_review_created.claim_received_date" do
-      expect(subject).to eq(decision_review_created.claim_received_date)
+  describe "#calculate_receipt_date" do
+    subject { builder.send(:calculate_receipt_date) }
+    let(:converted_claim_date) do
+      builder.convert_to_date_logical_type(decision_review_created.claim_received_date)
+    end
+    it "assigns claim_review's receipt_date to decision_review_created.claim_received_date converted to date"\
+     " logical type" do
+      expect(subject).to eq(converted_claim_date)
     end
   end
 
@@ -80,7 +85,7 @@ describe Builders::ClaimReviewBuilder do
     subject { builder.send(:calculate_legacy_opt_in_approved) }
 
     context "when decision_review_created contains a decision_review_issue with soc_opt_in: true" do
-      let(:decision_review_created) { build(:decision_review_created, :soc_opt_in) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_legacy_appeal) }
 
       it "assigns claim_review's legacy_opt_in_approved to true" do
         expect(subject).to eq(true)
@@ -99,6 +104,7 @@ describe Builders::ClaimReviewBuilder do
 
     context "when decision_review_created.veteran_participant_id is NOT the same as"\
       " decision_review_created.claimant_participant_id" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_nonrating_hlr_non_veteran_claimant) }
       it "assigns claim_review's veteran_is_not_claimant to true" do
         expect(subject).to eq true
       end
@@ -106,42 +112,41 @@ describe Builders::ClaimReviewBuilder do
 
     context "when decision_review_created.veteran_participant_id is the same as"\
       " decision_review_created.claimant_participant_id" do
-      let(:decision_review_created) { build(:decision_review_created, :veteran_is_claimant) }
       it "assigns claim_review's veteran_is_not_claimant to true" do
         expect(subject).to eq false
       end
     end
   end
 
-  describe "#assign_establishment_attempted_at" do
-    subject { builder.send(:assign_establishment_attempted_at) }
+  describe "#calculate_establishment_attempted_at" do
+    subject { builder.send(:calculate_establishment_attempted_at) }
 
     it "assigns claim_review's establishment_attempted_at to decision_review_created.claim_creation_time" do
-      expect(subject).to eq(decision_review_created.claim_creation_time)
+      expect(subject).to eq(converted_claim_creation_time)
     end
   end
 
-  describe "#assign_establishment_last_submitted_at" do
-    subject { builder.send(:assign_establishment_last_submitted_at) }
+  describe "#calculate_establishment_last_submitted_at" do
+    subject { builder.send(:calculate_establishment_last_submitted_at) }
 
     it "assigns claim_review's establishment_last_submitted_at to decision_review_created.claim_creation_time" do
-      expect(subject).to eq(decision_review_created.claim_creation_time)
+      expect(subject).to eq(converted_claim_creation_time)
     end
   end
 
-  describe "#assign_establishment_processed_at" do
-    subject { builder.send(:assign_establishment_processed_at) }
+  describe "#calculate_establishment_processed_at" do
+    subject { builder.send(:calculate_establishment_processed_at) }
 
     it "assigns claim_review's establishment_processed_at to decision_review_created.claim_creation_time" do
-      expect(subject).to eq(decision_review_created.claim_creation_time)
+      expect(subject).to eq(converted_claim_creation_time)
     end
   end
 
-  describe "#assign_establishment_submitted_at" do
-    subject { builder.send(:assign_establishment_submitted_at) }
+  describe "#calculate_establishment_submitted_at" do
+    subject { builder.send(:calculate_establishment_submitted_at) }
 
     it "assigns claim_review's establishment_submitted_at to decision_review_created.claim_creation_time" do
-      expect(subject).to eq(decision_review_created.claim_creation_time)
+      expect(subject).to eq(converted_claim_creation_time)
     end
   end
 

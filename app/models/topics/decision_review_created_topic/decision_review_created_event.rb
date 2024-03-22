@@ -14,7 +14,7 @@ class Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent < Event
     Rails.logger.error(error)
     ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
       id,
-      JSON.parse(message_payload)["claim_id"],
+      message_payload_hash["claim_id"],
       error.message
     )
     raise error

@@ -89,13 +89,14 @@ module Fakes
     def fetch_limited_poas_by_claim_ids(claim_ids)
       result = {}
       Array.wrap(claim_ids).each do |claim_id|
-        result[claim_id] = if claim_id == 1_234_567
+        result[claim_id] = if claim_id == 0
+                             {}
+                           elsif claim_id.odd?
                              { limited_poa_code: "OU3", limited_poa_access: "Y" }
-                           elsif claim_id == 2
+                           elsif claim_id.even?
                              { limited_poa_code: "007", limited_poa_access: "N" }
                            end
       end
-
       result.empty? ? nil : result
     end
   end
