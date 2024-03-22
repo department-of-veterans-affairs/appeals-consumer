@@ -51,11 +51,13 @@ describe EventProcessingRescueJob, type: :job do
 
       it "stops processing without handling all audits" do
         allow_any_instance_of(EventProcessingRescueJob).to receive(:time_exceeded?).and_return(true)
-        expect(Rails.logger)
+        allow(Rails.logger)
           .to receive(:info)
-          .with("[EventProcessingRescueJob] Time limit exceeded, stopping job execution.")
         EventProcessingRescueJob.new.perform
         expect(stuck_audit.reload.status).not_to eq("cancelled")
+        expect(Rails.logger)
+          .to have_received(:info)
+          .with("[EventProcessingRescueJob] Time limit exceeded, stopping job execution.")
       end
     end
   end
@@ -104,7 +106,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(event).to receive(:determine_job).and_return(nil)
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Failed to re-enqueue job for Event ID:/)
+            .with(/\[EventProcessingRescueJob\] Failed to re-enqueue job for Event:/)
           EventProcessingRescueJob.new.send(:handle_reenqueue, event)
         end
       end
