@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class EventProcessingRescueJob < ApplicationJob
+  queue_as :high_priority
+
   rescue_from(StandardError) do |error|
     log_error("encountered an exception: #{error.message}")
   end
