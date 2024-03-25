@@ -21,7 +21,7 @@ describe DecisionReviewCreatedConsumer do
 
     before do
       allow(consumer).to receive(:messages).and_return([message])
-      allow(Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent)
+      allow(Events::DecisionReviewCreatedEvent)
         .to receive(:find_or_initialize_by)
         .with(partition: metadata.partition, offset: metadata.offset)
         .and_return(event)

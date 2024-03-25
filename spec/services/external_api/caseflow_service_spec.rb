@@ -44,12 +44,12 @@ describe ExternalApi::CaseflowService do
         "X-VA-Vet-First-Name" => "John",
         "X-VA-Vet-Last-Name" => "Doe",
         "X-VA-Vet-Middle-Name" => "Michael",
-        "X-VA-Claimant-SSN" => "1234-56-789",
-        "X-VA-Claimant-DOB" => "01-01-01",
-        "X-VA-Claimant-First-Name" => "John",
-        "X-VA-Claimant-Last-Name" => "Doe",
-        "X-VA-Claimant-Middle-Name" => "Michael",
-        "X-VA-Claimant-Email" => "johndoe@email.com"
+        "X-VA-DecisionReviewCreated::Claimant-SSN" => "1234-56-789",
+        "X-VA-DecisionReviewCreated::Claimant-DOB" => "01-01-01",
+        "X-VA-DecisionReviewCreated::Claimant-First-Name" => "John",
+        "X-VA-DecisionReviewCreated::Claimant-Last-Name" => "Doe",
+        "X-VA-DecisionReviewCreated::Claimant-Middle-Name" => "Michael",
+        "X-VA-DecisionReviewCreated::Claimant-Email" => "johndoe@email.com"
       }
     end
 

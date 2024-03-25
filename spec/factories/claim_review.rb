@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :claim_review do
+  factory :claim_review,
+          class: "DecisionReviewCreated::ClaimReview" do
     benefit_type { "compensation" }
     filed_by_va_gov { true }
     receipt_date { Time.now.utc }

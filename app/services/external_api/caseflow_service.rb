@@ -74,12 +74,12 @@ class ExternalApi::CaseflowService
         "X-VA-Vet-First-Name" => drc_dto_builder.vet_first_name,
         "X-VA-Vet-Last-Name" => drc_dto_builder.vet_last_name,
         "X-VA-Vet-Middle-Name" => drc_dto_builder.vet_middle_name,
-        "X-VA-Claimant-SSN" => drc_dto_builder.claimant_ssn,
-        "X-VA-Claimant-DOB" => drc_dto_builder.claimant_dob,
-        "X-VA-Claimant-First-Name" => drc_dto_builder.claimant_first_name,
-        "X-VA-Claimant-Last-Name" => drc_dto_builder.claimant_last_name,
-        "X-VA-Claimant-Middle-Name" => drc_dto_builder.claimant_middle_name,
-        "X-VA-Claimant-Email" => drc_dto_builder.claimant_email
+        "X-VA-DecisionReviewCreated::Claimant-SSN" => drc_dto_builder.claimant_ssn,
+        "X-VA-DecisionReviewCreated::Claimant-DOB" => drc_dto_builder.claimant_dob,
+        "X-VA-DecisionReviewCreated::Claimant-First-Name" => drc_dto_builder.claimant_first_name,
+        "X-VA-DecisionReviewCreated::Claimant-Last-Name" => drc_dto_builder.claimant_last_name,
+        "X-VA-DecisionReviewCreated::Claimant-Middle-Name" => drc_dto_builder.claimant_middle_name,
+        "X-VA-DecisionReviewCreated::Claimant-Email" => drc_dto_builder.claimant_email
       }
     end
 
