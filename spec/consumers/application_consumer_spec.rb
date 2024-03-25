@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 describe ApplicationConsumer do
+  subject { ApplicationConsumer.new }
   let(:consumer) { described_class.new }
 
   describe "log_info" do
@@ -48,7 +49,6 @@ describe ApplicationConsumer do
 
   describe "#notify_sentry" do
     let(:error) { StandardError.new }
-    let(:sentry_scope) { Sentry.get_current_hub.current_scope }
     let(:extra_details) do
       {
         claim_id: 123,
@@ -59,15 +59,13 @@ describe ApplicationConsumer do
     end
 
     before do
-      allow(Sentry).to receive(:capture_exception)
+      allow(Raven).to receive(:capture_exception)
     end
 
     it "sends an error report to Sentry with correct extras" do
       consumer.send(:notify_sentry, error, extra_details)
-      expect(Sentry).to have_received(:capture_exception).with(error) do |&block|
-        block.call(sentry_scope)
-      end
-      expect(sentry_scope.instance_variable_get(:@extra)).to include(extra_details)
+      expect(Raven).to have_received(:capture_exception).with(error,
+                                                              extra: { **extra_details, source: "ApplicationConsumer" })
     end
   end
 
