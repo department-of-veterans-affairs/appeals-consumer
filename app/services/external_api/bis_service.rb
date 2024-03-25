@@ -58,12 +58,25 @@ module ExternalApi
         end
     end
 
+    def fetch_rating_profile(participant_id:, profile_date:)
+      Rails.logger.info(
+        "BIS: Fetching rating profile for participant id: #{participant_id}, profile date: #{profile_date}"
+      )
+      Rails.cache.fetch("#{participant_id} #{profile_date}", expires_in: 10.minutes) do
+        client.rating_profile.find(participant_id: participant_id, profile_date: profile_date)
+      end
+    end
+
     def bust_fetch_veteran_info_cache(file_number)
       Rails.cache.delete(fetch_veteran_info_cache_key(file_number))
     end
 
     def bust_fetch_limited_poa_cache(claim_ids)
       Rails.cache.delete(claim_ids)
+    end
+
+    def bust_rating_profile_cache(participant_id, profile_date)
+      Rails.cache.delete("#{participant_id} #{profile_date}")
     end
 
     private
