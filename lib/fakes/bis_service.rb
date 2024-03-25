@@ -13,6 +13,10 @@ module Fakes
         @veteran_store ||= Fakes::VeteranStore.new
       end
 
+      def rating_store
+        @rating_store ||= Fakes::RatingStore.new
+      end
+
       delegate :store_veteran_record, to: :veteran_store
 
       def get_veteran_record(file_number)
@@ -26,6 +30,10 @@ module Fakes
 
     def fetch_veteran_info(file_number)
       get_veteran_record(file_number)
+    end
+
+    def fetch_rating_profile(participant_id:, profile_date:)
+      stored_rating_profile(participant_id: participant_id, profile_date: profile_date)
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -98,6 +106,15 @@ module Fakes
                            end
       end
       result.empty? ? nil : result
+    end
+
+    def stored_rating_profile(participant_id:, profile_date:)
+      normed_date_key = Fakes::RatingStore.normed_profile_date_key(profile_date).to_sym
+      (get_rating_record(participant_id)[:profiles] || {})[normed_date_key]
+    end
+
+    def get_rating_record(participant_id)
+      self.class.rating_store.fetch_and_inflate(participant_id) || {}
     end
   end
 end
