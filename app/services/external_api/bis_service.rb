@@ -75,7 +75,7 @@ module ExternalApi
       Rails.cache.delete(claim_ids)
     end
 
-    def bust_rating_profile_cache(participant_id, profile_date)
+    def bust_fetch_rating_profile_cache(participant_id, profile_date)
       Rails.cache.delete("#{participant_id} #{profile_date}")
     end
 

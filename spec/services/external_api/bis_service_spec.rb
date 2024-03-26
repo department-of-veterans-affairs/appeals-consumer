@@ -128,7 +128,7 @@ describe ExternalApi::BISService do
     end
 
     after do
-      bis.bust_rating_profile_cache(participant_id, profile_date)
+      bis.bust_fetch_rating_profile_cache(participant_id, profile_date)
     end
 
     it "fetch_rating_profile is called" do
