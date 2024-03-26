@@ -50,7 +50,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#initialize(issue, decision_review_created)" do
     it "initializes a decision_review_created instance variable" do
-      expect(builder.decision_review_created).to be_an_instance_of(Mappers::DecisionReviewCreated)
+      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
     it "initializes an issue instance variable" do

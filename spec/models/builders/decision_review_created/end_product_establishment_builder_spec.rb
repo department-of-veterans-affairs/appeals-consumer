@@ -52,7 +52,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     end
 
     it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(Mappers::DecisionReviewCreated)
+      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
     context "no bis_record or participant_id in fetch_veteran_info call" do

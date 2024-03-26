@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :decision_review_created,
-          class: "Mappers::DecisionReviewCreated" do
+          class: "Transformers::DecisionReviewCreated" do
     nonrating_hlr_veteran_claimant
 
     transient do

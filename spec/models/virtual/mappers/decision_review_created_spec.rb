@@ -3,7 +3,7 @@
 require "timecop"
 # require "./app/models/decision_review_created"
 
-describe Mappers::DecisionReviewCreated do
+describe Transformers::DecisionReviewCreated do
   before do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
@@ -11,9 +11,9 @@ describe Mappers::DecisionReviewCreated do
   subject { build(:decision_review_created) }
 
   describe "#initialize" do
-    context "when Mappers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid attributes and
+    context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid attributes and
             data types" do
-      it "initializes a Mappers::DecisionReviewCreated object" do
+      it "initializes a Transformers::DecisionReviewCreated object" do
         expect(subject.claim_id).to eq(1_234_567)
         expect(subject.decision_review_type).to eq("HIGHER_LEVEL_REVIEW")
         expect(subject.veteran_first_name).to eq("John")
@@ -104,12 +104,12 @@ describe Mappers::DecisionReviewCreated do
       end
     end
 
-    context "when Mappers::DecisionReviewCreated portion of message_payload is invalid" do
+    context "when Transformers::DecisionReviewCreated portion of message_payload is invalid" do
       context "because payload is nil" do
         let(:nil_message_payload) { build(:decision_review_created, :nil) }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-          error_message = "Mappers::DecisionReviewCreated: Message payload cannot be empty or nil"
+          error_message = "Transformers::DecisionReviewCreated: Message payload cannot be empty or nil"
           expect { nil_message_payload }.to raise_error(ArgumentError, error_message)
         end
       end
@@ -118,7 +118,7 @@ describe Mappers::DecisionReviewCreated do
         let(:empty_message_payload) { build(:decision_review_created, :empty) }
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-          error_message = "Mappers::DecisionReviewCreated: Message payload cannot be empty or nil"
+          error_message = "Transformers::DecisionReviewCreated: Message payload cannot be empty or nil"
           expect { empty_message_payload }.to raise_error(ArgumentError, error_message)
         end
       end
@@ -127,7 +127,7 @@ describe Mappers::DecisionReviewCreated do
         let(:message_payload_with_invalid_attribute_name) { build(:decision_review_created, :invalid_attribute_name) }
 
         it "raises ArgumentError with message: Unknown attributes: unknown_attributes" do
-          error_message = "Mappers::DecisionReviewCreated: Unknown attributes - invalid_attribute"
+          error_message = "Transformers::DecisionReviewCreated: Unknown attributes - invalid_attribute"
           expect { message_payload_with_invalid_attribute_name }.to raise_error(ArgumentError, error_message)
         end
       end
@@ -136,7 +136,7 @@ describe Mappers::DecisionReviewCreated do
         let(:message_payload_with_invalid_data_type) { build(:decision_review_created, :invalid_data_type) }
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types, got class." do
-          error_message = "Mappers::DecisionReviewCreated: claim_id must be one of the allowed types "\
+          error_message = "Transformers::DecisionReviewCreated: claim_id must be one of the allowed types "\
           "- [Integer], got String"
           expect { message_payload_with_invalid_data_type }.to raise_error(ArgumentError, error_message)
         end
@@ -147,9 +147,9 @@ describe Mappers::DecisionReviewCreated do
           build(:decision_review_created, :without_decision_review_issues)
         end
 
-        it "raises ArgumentError with message: Mappers::DecisionReviewCreated: Message payload must include at "\
+        it "raises ArgumentError with message: Transformers::DecisionReviewCreated: Message payload must include at "\
         "least one decision review issue" do
-          error_message = "Mappers::DecisionReviewCreated: Message payload must include at least one decision "\
+          error_message = "Transformers::DecisionReviewCreated: Message payload must include at least one decision "\
           "review issue"
           expect { message_payload_without_decision_review_issues }.to raise_error(ArgumentError, error_message)
         end

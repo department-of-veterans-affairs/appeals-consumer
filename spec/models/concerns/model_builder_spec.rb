@@ -18,7 +18,7 @@ describe ModelBuilder do
 
   before do
     @decision_review_created_double = instance_double(
-      "Mappers::DecisionReviewCreated",
+      "Transformers::DecisionReviewCreated",
       file_number: file_number,
       claim_id: claim_id,
       claim_received_date: claim_received_date,
@@ -78,7 +78,7 @@ describe ModelBuilder do
     context "when the value is nil" do
       before do
         @decision_review_created_double = instance_double(
-          "Mappers::DecisionReviewCreated",
+          "Transformers::DecisionReviewCreated",
           file_number: file_number,
           claim_id: claim_id,
           claim_received_date: nil,
@@ -105,7 +105,7 @@ describe ModelBuilder do
     context "when the value is nil" do
       before do
         @decision_review_created_double = instance_double(
-          "Mappers::DecisionReviewCreated",
+          "Transformers::DecisionReviewCreated",
           file_number: file_number,
           claim_id: claim_id,
           claim_received_date: claim_received_date,
@@ -139,7 +139,7 @@ describe ModelBuilder do
       context "when claim_creation_time is nil" do
         before do
           @decision_review_created_double = instance_double(
-            "Mappers::DecisionReviewCreated",
+            "Transformers::DecisionReviewCreated",
             file_number: file_number,
             claim_id: claim_id,
             claim_received_date: claim_received_date,

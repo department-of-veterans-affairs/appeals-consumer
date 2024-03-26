@@ -163,7 +163,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
 
       it "should return a new DecisionReviewCreated object" do
         expect(new_builder.send(:build_decision_review_created, message_payload))
-          .to be_instance_of(Mappers::DecisionReviewCreated)
+          .to be_instance_of(Transformers::DecisionReviewCreated)
       end
     end
 

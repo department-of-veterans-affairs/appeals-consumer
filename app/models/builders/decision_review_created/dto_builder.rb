@@ -23,7 +23,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   # :reek:UtilityFunction
   def build_decision_review_created(message_payload)
-    Mappers::DecisionReviewCreated.new(message_payload)
+    Transformers::DecisionReviewCreated.new(message_payload)
   end
 
   # :reek:TooManyStatements

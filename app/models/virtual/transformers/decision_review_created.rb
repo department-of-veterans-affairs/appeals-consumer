@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # DecisionReviewCreated represents the message_payload from an individual DecisionReviewCreatedEvent
-class Mappers::DecisionReviewCreated
+class Transformers::DecisionReviewCreated
   include MessagePayloadValidator
 
   # Lists the attributes and corresponding data types

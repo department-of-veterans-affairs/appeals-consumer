@@ -53,7 +53,7 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
     end
 
     it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(Mappers::DecisionReviewCreated)
+      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
     it "assigns bis_record to the veteran record fetched from BIS" do
