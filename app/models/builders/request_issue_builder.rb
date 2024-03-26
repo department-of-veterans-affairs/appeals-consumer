@@ -41,6 +41,13 @@ class Builders::RequestIssueBuilder
     legacy_appeal_not_eligible: "legacy_appeal_not_eligible"
   }.freeze
 
+  # used to determine ramp_claim_id
+  RAMP_EP_CODES = {
+    "682HLRRRAMP" => "Higher-Level Review Rating",
+    "683SCRRRAMP" => "Supplemental Claim Review Rating",
+    "683HAERRAMP" => "Higher-Level Review Additional Evidence Rating"
+  }.freeze
+
   # returns the RequestIssue record with all attributes assigned
   def self.build(issue, decision_review_created)
     builder = new(issue, decision_review_created)
@@ -224,7 +231,7 @@ class Builders::RequestIssueBuilder
   # only populated for rating issues
   # represents the claim_id of the RAMP EP connected to the rating issue
   def calculate_ramp_claim_id
-    @request_issue.ramp_claim_id = rating? ? issue.prior_decision_ramp_id&.to_s : nil
+    @request_issue.ramp_claim_id = rating? ? determine_ramp_claim_id : nil
   end
 
   # only populated for eligible rating issues
@@ -424,6 +431,23 @@ class Builders::RequestIssueBuilder
 
   def prior_decision_notification_date_converted_to_logical_type
     convert_to_date_logical_type(issue.prior_decision_notification_date)
+  end
+
+  def determine_ramp_claim_id
+    bis_record = fetch_rating_profile
+    associated_claims_data = bis_record&.dig(:associated_claims)
+    return nil unless associated_claims_data
+
+    associated_ramp_ep = find_associated_ramp_ep(associated_claims_data)
+    associated_ramp_ep&.dig(:clm_id)
+  end
+
+  def find_associated_ramp_ep(associated_claims_data)
+    associated_claims_data.find do |claim|
+      ep_code = claim[:bnft_clm_tc]
+
+      RAMP_EP_CODES.key?(ep_code)
+    end
   end
 
   def handle_contention_id_present

@@ -7,6 +7,7 @@ module Fakes
     class << self
       def clean!
         veteran_store.clear!
+        rating_store.clear!
       end
 
       def veteran_store

@@ -44,6 +44,24 @@ module ModelBuilder
     bis_record
   end
 
+  def fetch_rating_profile
+    return unless @decision_review_created && @issue
+
+    rating_profile = BISService.new.fetch_rating_profile(
+      participant_id: @decision_review_created.veteran_participant_id,
+      profile_date: @issue.prior_decision_rating_profile_date
+    )
+
+    if rating_profile.blank?
+      fail AppealsConsumer::Error::BisRatingProfileNotFound, "DecisionReviewCreated veteran_participant_id:"\
+      " #{@decision_review_created.veteran_participant_id}, DecisionReviewIssue"\
+      " prior_decision_rating_profile_date: #{@issue.prior_decision_rating_profile_date} does not have a"\
+      " BIS rating profile"
+    end
+
+    rating_profile
+  end
+
   def convert_to_date_logical_type(value)
     Date.parse(value).to_time.to_i / (60 * 60 * 24) if !!value
   end
