@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "timecop"
-# require "./app/models/decision_review_created"
 
 describe Transformers::DecisionReviewCreated do
   before do
@@ -11,8 +10,8 @@ describe Transformers::DecisionReviewCreated do
   subject { build(:decision_review_created) }
 
   describe "#initialize" do
-    context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid attributes and
-            data types" do
+    context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid "\
+    "attributes and data types" do
       it "initializes a Transformers::DecisionReviewCreated object" do
         expect(subject.claim_id).to eq(1_234_567)
         expect(subject.decision_review_type).to eq("HIGHER_LEVEL_REVIEW")
