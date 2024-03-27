@@ -32,6 +32,7 @@ module AppealsConsumer
     ENV['DEPLOY_ENV'] ||= Rails.env
 
     config.eager_load_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('app/models/virtual')
 
     # set Shoryuken as the job queue adapter
     config.active_job.queue_adapter = :shoryuken

@@ -1632,7 +1632,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     let(:message) { decision_review_created }
 
     before do
-      expect(message).to be_an_instance_of(DecisionReviewCreated)
+      expect(message).to be_an_instance_of(Transformers::DecisionReviewCreated)
       expect(message).not_to be_a(Hash)
     end
 

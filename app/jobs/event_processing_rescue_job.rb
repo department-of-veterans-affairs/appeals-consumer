@@ -33,7 +33,7 @@ class EventProcessingRescueJob < ApplicationJob
   def complete_processing!
     processing_time = Time.zone.now - @start_time
     log_info(
-      "Process completed. Total audits processed: #{@processed_audits_count}. " \
+      "Process completed. Total audits processed: #{@processed_audits_count}. "\
       "Processing time: #{processing_time.round(2)} seconds."
     )
   end
@@ -47,7 +47,7 @@ class EventProcessingRescueJob < ApplicationJob
       audit.cancelled!
       audit.ended_at!
       audit.update!(
-        notes: "EventAudit was left in an uncompleted state for longer " \
+        notes: "EventAudit was left in an uncompleted state for longer "\
         "than 26 minutes and was marked as \"CANCELLED\" at #{Time.zone.now}."
       )
     end
