@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_18_154102) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_26_190254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "event_audits", comment: "This table stores a record of each time event processing is attempted.", force: :cascade do |t|
-    t.bigint "event_id", null: false, comment: "Id of the Event that created or updated this record."
-    t.string "status", default: "IN_PROGRESS", null: false, comment: "A status to indicate what state the record is in such as IN_PROGRESS, COMPLETED, FAILED, CANCELLED."
-    t.text "error", comment: "Error message captured when an event fails to create or update records within Caseflow."
-    t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
-    t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
+    t.bigint "event_id", null: false, comment: "Id of the Event being processed."
+    t.string "status", default: "IN_PROGRESS", null: false, comment: "Indicates current status of event_audit while processing the event such as IN_PROGRESS, COMPLETED, FAILED, CANCELLED."
+    t.text "error", comment: "Error message captured when an error occurs during event_audits attempt to process an event."
+    t.datetime "created_at", null: false, comment: "Automatic timestamp when record is created."
+    t.datetime "updated_at", null: false, comment: "Automatic timestamp when record is created or updated."
     t.datetime "started_at", precision: nil, comment: "The time that the event_audit starts processing an event"
     t.datetime "ended_at", precision: nil, comment: "The time that the event_audit finishes processing an event"
     t.string "notes", comment: "Notes containing relevant information about event processing."
@@ -30,12 +30,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_154102) do
     t.string "type", null: false, comment: "Type of Event being consumed"
     t.jsonb "message_payload", null: false, comment: "JSON payload received from Kafka Topic"
     t.datetime "completed_at", comment: "Timestamp of when event was successfully completed."
-    t.text "error", comment: "Error message captured when there is a problem parsing through message_payload attributes."
-    t.datetime "created_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
-    t.datetime "updated_at", null: false, comment: "Automatic timestamp when row was created and when record changes."
-    t.string "state", default: "NOT_STARTED", null: false, comment: "A status to indicate what state the record is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
-    t.integer "partition", null: false
-    t.integer "offset", null: false
+    t.text "error", comment: "Most recent Error message captured when event is being consumed or event_audit is being processed."
+    t.datetime "created_at", null: false, comment: "Automatic timestamp when record is created."
+    t.datetime "updated_at", null: false, comment: "Automatic timestamp when record is created or updated."
+    t.string "state", default: "NOT_STARTED", null: false, comment: "Indicates what state the Event is in such as NOT_STARTED, IN_PROGRESS, PROCESSED, ERROR, FAILED."
+    t.integer "partition", null: false, comment: "Kafka Partition that Message is hosted on."
+    t.integer "offset", null: false, comment: "Kafka Offset associated with Message."
     t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type", unique: true
     t.index ["type"], name: "index_events_on_type"
   end
