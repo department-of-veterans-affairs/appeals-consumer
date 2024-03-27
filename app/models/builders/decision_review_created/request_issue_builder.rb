@@ -58,7 +58,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   def initialize(issue, decision_review_created)
     @decision_review_created = decision_review_created
     @issue = issue
-    @request_issue = RequestIssue.new
+    @request_issue = DecisionReviewCreated::RequestIssue.new
   end
 
   def assign_attributes
