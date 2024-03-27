@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :request_issue do
+  factory :request_issue,
+          class: "DecisionReviewCreated::RequestIssue" do
     benefit_type { "compensation" }
     contested_issue_description { "service connection for migraine is denied" }
     contention_reference_id { "123456789" }

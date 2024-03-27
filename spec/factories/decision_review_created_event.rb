@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :decision_review_created_event,
-          class: "Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent" do
+          class: "Events::DecisionReviewCreatedEvent" do
     message_payload do
       {
         "claim_id" => 1_234_567,

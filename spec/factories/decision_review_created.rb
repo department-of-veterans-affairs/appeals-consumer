@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :decision_review_created do
+  factory :decision_review_created,
+          class: "Transformers::DecisionReviewCreated" do
     nonrating_hlr_veteran_claimant
 
     transient do

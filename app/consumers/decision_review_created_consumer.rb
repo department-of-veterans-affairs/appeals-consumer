@@ -4,7 +4,7 @@
 # It processes messages by creating or finding events in the database and enqueues jobs for further processing.
 class DecisionReviewCreatedConsumer < ApplicationConsumer
   # Defines the event type string for decision review created events to standardize the event handling process.
-  EVENT_TYPE = "Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent"
+  EVENT_TYPE = "Events::DecisionReviewCreatedEvent"
 
   # Consumes messages from the Kafka topic, processing each message to handle event creation,
   # job enqueueing and error management. It iterates over each message, logging the start and end of
@@ -40,7 +40,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # This method ensures that each event is uniquely identified by its poartition and offset,
   # preventing duplicate processing of the same event.
   def handle_event_creation(message)
-    Topics::DecisionReviewCreatedTopic::DecisionReviewCreatedEvent.find_or_initialize_by(
+    Events::DecisionReviewCreatedEvent.find_or_initialize_by(
       partition: message.metadata.partition,
       offset: message.metadata.offset
     ) do |event|

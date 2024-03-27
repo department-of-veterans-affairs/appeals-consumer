@@ -21,22 +21,22 @@
     {
       "name": "veteranFirstName",
       "type": "string",
-      "doc": "The first name of the Veteran"
+      "doc": "The first name of the DecisionReviewCreated::Veteran"
     },
     {
       "name": "veteranLastName",
       "type": "string",
-      "doc": "The last name of the Veteran"
+      "doc": "The last name of the DecisionReviewCreated::Veteran"
     },
     {
       "name": "veteranParticipantId",
       "type": "string",
-      "doc": "The Participant ID of the Veteran"
+      "doc": "The Participant ID of the DecisionReviewCreated::Veteran"
     },
     {
       "name": "fileNumber",
       "type": "string",
-      "doc": "The File Number of the Veteran"
+      "doc": "The File Number of the DecisionReviewCreated::Veteran"
     },
     {
       "name": "claimantParticipantId",
@@ -71,7 +71,7 @@
     {
       "name": "payeeCode",
       "type": "string",
-      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
+      "doc": "Number that indicates the person receiving a benefit, such as DecisionReviewCreated::Veteran or spouse"
     },
     {
       "name": "modifier",
@@ -173,7 +173,7 @@
                 "long"
               ],
               "default": null,
-              "doc": "The ID of the associated request issue from Caseflow. This corresponds to RequestIssue.id in Caseflow."
+              "doc": "The ID of the associated request issue from Caseflow. This corresponds to DecisionReviewCreated::RequestIssue.id in Caseflow."
             },
             {
               "name": "unidentified",
@@ -187,7 +187,7 @@
                 "long"
               ],
               "default": null,
-              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with RequestIssue.contested_rating_issue_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue."
+              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with DecisionReviewCreated::RequestIssue.contested_rating_issue_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue."
             },
             {
               "name": "priorNonRatingDecisionId",
@@ -196,7 +196,7 @@
                 "long"
               ],
               "default": null,
-              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue."
+              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with DecisionReviewCreated::RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue."
             },
             {
               "name": "priorDecisionText",
@@ -341,7 +341,7 @@
                 "string"
               ],
               "default": null,
-              "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to RequestIssue.contested_rating_issue_profile_date in Caseflow."
+              "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to DecisionReviewCreated::RequestIssue.contested_rating_issue_profile_date in Caseflow."
             },
             {
               "name": "associatedCaseflowDecisionId",

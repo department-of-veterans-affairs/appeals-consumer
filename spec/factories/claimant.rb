@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :claimant do
+  factory :claimant,
+          class: "DecisionReviewCreated::Claimant" do
     payee_code { "00" }
     type { "VeteranClaimant" }
     participant_id { "123456789" }

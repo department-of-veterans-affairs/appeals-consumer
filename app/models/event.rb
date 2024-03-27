@@ -53,7 +53,7 @@ class Event < ApplicationRecord
 
     if job_class.nil?
       Rails.logger.error(
-        "No processing job found for type: #{event_type}. " \
+        "No processing job found for type: #{event_type}. "\
         "Please define a .#{event_type}ProcessingJob for the #{self.class} class."
       )
       nil
