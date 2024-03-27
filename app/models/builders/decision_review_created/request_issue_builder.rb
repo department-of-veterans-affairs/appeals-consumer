@@ -48,7 +48,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     "683HAERRAMP" => "Higher-Level Review Additional Evidence Rating"
   }.freeze
 
-  # returns the RequestIssue record with all attributes assigned
+  # returns the DecisionReviewCreated::RequestIssue record with all attributes assigned
   def self.build(issue, decision_review_created)
     builder = new(issue, decision_review_created)
     builder.assign_attributes
@@ -433,6 +433,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     convert_to_date_logical_type(issue.prior_decision_notification_date)
   end
 
+  # fetch rating profile from BIS and find the clm_id of the RAMP ep, if one exists
   def determine_ramp_claim_id
     bis_record = fetch_rating_profile
     associated_claims_data = find_associated_claims_data(bis_record)
@@ -442,12 +443,15 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     associated_ramp_ep&.dig(:clm_id)
   end
 
+  # if there is only one associated_claim or rba_claim record, it is returned as a hash
+  # if there are multiple associated_claims or rba_claims, it is returned as an array of hashes
   def find_associated_claims_data(bis_record)
     associated_claims = bis_record[:associated_claims] || bis_record.dig(:rba_claim_list, :rba_claim)
 
     Array.wrap(associated_claims)
   end
 
+  # return the first associated_claim that has a RAMP ep code, if there aren't any that match return nil
   def find_associated_ramp_ep(associated_claims_data)
     associated_claims_data.find do |claim|
       ep_code = claim[:bnft_clm_tc]
