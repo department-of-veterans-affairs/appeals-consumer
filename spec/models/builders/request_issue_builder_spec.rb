@@ -1035,23 +1035,36 @@ describe Builders::RequestIssueBuilder do
 
   describe "#calculate_ramp_claim_id" do
     subject { builder.send(:calculate_ramp_claim_id) }
-    context "when the issue has a value for prior_rating_decision_id" do
-      context "and the issue has a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_ramp_id) }
-        it "sets the Request Issue's ramp_claim_id to issue.prior_decision_ramp_id converted to a string" do
-          expect(subject).to eq(issue.prior_decision_ramp_id.to_s)
-        end
+    context "when the issue has a not-null prior_rating_decision_id" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+      let(:record) do
+        {
+          associated_claims: [
+            { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+            { clm_id: "dcf345", bnft_clm_tc: "154IVMC9PMC" }
+          ]
+        }
       end
 
-      context "and the issue does NOT have a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
-        it "sets the Request Issue's ramp_claim_id to nil" do
-          expect(subject).to eq nil
-        end
+      before do
+        Fakes::RatingStore.new
+          .store_rating_profile_record(
+            decision_review_created.veteran_participant_id,
+            issue.prior_decision_rating_profile_date,
+            record
+          )
+      end
+
+      after do
+        BISService.clean!
+      end
+
+      it "returns the claim id of the RAMP ep if there is one" do
+        expect(subject).to eq("abc123")
       end
     end
 
-    context "when the issue DOES NOT have a value for prior_rating_decision_id" do
+    context "when the issue has a null prior_rating_decision_id" do
       it "sets the Request Issue's ramp_claim_id to nil" do
         expect(subject).to eq nil
       end
@@ -2012,6 +2025,288 @@ describe Builders::RequestIssueBuilder do
     context "when the value is not nil" do
       it "returns the value converted to an integer" do
         expect(subject.class).to eq(Integer)
+      end
+    end
+  end
+
+  describe "#determine_ramp_claim_id" do
+    subject { builder.send(:determine_ramp_claim_id) }
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+
+    before do
+      Fakes::RatingStore.new
+        .store_rating_profile_record(
+          decision_review_created.veteran_participant_id,
+          issue.prior_decision_rating_profile_date,
+          record
+        )
+    end
+
+    after do
+      BISService.clean!
+    end
+
+    context "when the bis_record doesn't have a key called associated_claims" do
+      let(:record) do
+        {
+          call_id: "17",
+          jrn_dt: "",
+          jrn_lctn_id: "",
+          jrn_obj_id: "",
+          jrn_stt_tc: "U",
+          jrn_user_id: "",
+          name: "RBAProfile",
+          row_cnt: "1",
+          row_id: "8"
+        }
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when associated_claims doesn't contain an RAMP EP" do
+      let(:record) do
+        {
+          call_id: "17",
+          jrn_dt: "",
+          jrn_lctn_id: "",
+          jrn_obj_id: "",
+          jrn_stt_tc: "U",
+          jrn_user_id: "",
+          name: "RBAProfile",
+          row_cnt: "1",
+          row_id: "8",
+          associated_claims: [
+            { clm_id: "abc123", bnft_clm_tc: "040SCR" },
+            { clm_id: "dcf345", bnft_clm_tc: "154IVMC9PMC" }
+          ]
+        }
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when associated_claims contains a RAMP EP but the clm_id is nil" do
+      let(:record) do
+        {
+          call_id: "17",
+          jrn_dt: "",
+          jrn_lctn_id: "",
+          jrn_obj_id: "",
+          jrn_stt_tc: "U",
+          jrn_user_id: "",
+          name: "RBAProfile",
+          row_cnt: "1",
+          row_id: "8",
+          associated_claims: [
+            { clm_id: nil, bnft_clm_tc: "682HLRRRAMP" },
+            { clm_id: "dcf345", bnft_clm_tc: "154IVMC9PMC" }
+          ]
+        }
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when associated_claims contains a RAMP EP with not-nil clm_id" do
+      let(:record) do
+        {
+          call_id: "17",
+          jrn_dt: "",
+          jrn_lctn_id: "",
+          jrn_obj_id: "",
+          jrn_stt_tc: "U",
+          jrn_user_id: "",
+          name: "RBAProfile",
+          row_cnt: "1",
+          row_id: "8",
+          associated_claims: [
+            { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+            { clm_id: "dcf345", bnft_clm_tc: "154IVMC9PMC" }
+          ]
+        }
+      end
+
+      it "returns the clm_id from the associated ramp ep" do
+        expect(subject).to eq(record[:associated_claims][0][:clm_id])
+      end
+    end
+
+    context "when associated_claims contains multiple RAMP EPs with not-nil clm_id" do
+      let(:record) do
+        {
+          call_id: "17",
+          jrn_dt: "",
+          jrn_lctn_id: "",
+          jrn_obj_id: "",
+          jrn_stt_tc: "U",
+          jrn_user_id: "",
+          name: "RBAProfile",
+          row_cnt: "1",
+          row_id: "8",
+          associated_claims: [
+            { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+            { clm_id: "dcf345", bnft_clm_tc: "682HLRRRAMP" }
+          ]
+        }
+      end
+
+      it "returns the first obj's clm_id" do
+        expect(subject).to eq(record[:associated_claims][0][:clm_id])
+      end
+    end
+  end
+
+  describe "#find_associated_claims_data(bis_record)" do
+    subject { builder.send(:find_associated_claims_data, bis_record) }
+
+    context "when bis_record has a key called associated_claims" do
+      context "when the value of associated_claims is an array" do
+        let(:bis_record) do
+          {
+            call_id: "17",
+            jrn_dt: "",
+            jrn_lctn_id: "",
+            jrn_obj_id: "",
+            jrn_stt_tc: "U",
+            jrn_user_id: "",
+            name: "RBAProfile",
+            row_cnt: "1",
+            row_id: "8",
+            associated_claims: [
+              { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+              { clm_id: "dcf345", bnft_clm_tc: "682HLRRRAMP" }
+            ]
+          }
+        end
+
+        it "returns the value of associated_claims" do
+          expect(subject).to eq(bis_record[:associated_claims])
+        end
+      end
+
+      context "when the value of associated_claims is an object" do
+        let(:bis_record) do
+          {
+            call_id: "17",
+            jrn_dt: "",
+            jrn_lctn_id: "",
+            jrn_obj_id: "",
+            jrn_stt_tc: "U",
+            jrn_user_id: "",
+            name: "RBAProfile",
+            row_cnt: "1",
+            row_id: "8",
+            associated_claims: {
+              clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP"
+            }
+          }
+        end
+
+        it "returns the value of associated_claims wrapped in an array" do
+          expect(subject).to eq([bis_record[:associated_claims]])
+        end
+      end
+    end
+
+    context "when the bis_record does not have a key called associated_claims" do
+      context "when the value of rba_claim is an array" do
+        let(:bis_record) do
+          {
+            call_id: "17",
+            jrn_dt: "",
+            jrn_lctn_id: "",
+            jrn_obj_id: "",
+            jrn_stt_tc: "U",
+            jrn_user_id: "",
+            name: "RBAProfile",
+            row_cnt: "1",
+            row_id: "8",
+            rba_claim_list: {
+              rba_claim: [
+                { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+                { clm_id: "dcf345", bnft_clm_tc: "682HLRRRAMP" }
+              ]
+            }
+          }
+        end
+
+        it "returns the value of rba_claim" do
+          expect(subject).to eq(bis_record[:rba_claim_list][:rba_claim])
+        end
+      end
+
+      context "when the value of rba_claim is an object" do
+        let(:bis_record) do
+          {
+            call_id: "17",
+            jrn_dt: "",
+            jrn_lctn_id: "",
+            jrn_obj_id: "",
+            jrn_stt_tc: "U",
+            jrn_user_id: "",
+            name: "RBAProfile",
+            row_cnt: "1",
+            row_id: "8",
+            rba_claim_list: {
+              rba_claim: {
+                clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP"
+              }
+            }
+          }
+        end
+
+        it "returns the value of rba_claim wrapped in an array" do
+          expect(subject).to eq([bis_record[:rba_claim_list][:rba_claim]])
+        end
+      end
+    end
+  end
+
+  describe "find_associated_ramp_ep(associated_claims_data)" do
+    subject { builder.send(:find_associated_ramp_ep, associated_claims_data) }
+    context "when none of the associated claims contain a RAMP ep code" do
+      let(:associated_claims_data) do
+        [
+          { clm_id: "abc123", bnft_clm_tc: "030HLRR" },
+          { clm_id: "dcf345", bnft_clm_tc: "030HLRR" }
+        ]
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when one of the associated claims contain a RAMP ep code" do
+      let(:associated_claims_data) do
+        [
+          { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+          { clm_id: "dcf345", bnft_clm_tc: "030HLRR" }
+        ]
+      end
+
+      it "returns the obj with the RAMP ep" do
+        expect(subject).to eq(associated_claims_data[0])
+      end
+    end
+
+    context "when multiple associated claims contain a RAMP ep code" do
+      let(:associated_claims_data) do
+        [
+          { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
+          { clm_id: "dcf345", bnft_clm_tc: "682HLRRRAMP" }
+        ]
+      end
+
+      it "returns the first obj with the RAMP ep" do
+        expect(subject).to eq(associated_claims_data[0])
       end
     end
   end

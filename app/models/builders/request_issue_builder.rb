@@ -435,11 +435,17 @@ class Builders::RequestIssueBuilder
 
   def determine_ramp_claim_id
     bis_record = fetch_rating_profile
-    associated_claims_data = bis_record&.dig(:associated_claims)
+    associated_claims_data = find_associated_claims_data(bis_record)
     return nil unless associated_claims_data
 
     associated_ramp_ep = find_associated_ramp_ep(associated_claims_data)
     associated_ramp_ep&.dig(:clm_id)
+  end
+
+  def find_associated_claims_data(bis_record)
+    associated_claims = bis_record[:associated_claims] || bis_record.dig(:rba_claim_list, :rba_claim)
+
+    Array.wrap(associated_claims)
   end
 
   def find_associated_ramp_ep(associated_claims_data)
