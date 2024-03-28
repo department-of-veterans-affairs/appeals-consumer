@@ -58,12 +58,20 @@ module ExternalApi
         end
     end
 
-    def fetch_rating_profile(participant_id:, profile_date:)
+    def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)
+      start_date, end_date = formatted_start_and_end_dates(start_date, end_date)
       Rails.logger.info(
-        "BIS: Fetching rating profile for participant id: #{participant_id}, profile date: #{profile_date}"
+        "BIS: Fetching rating profiles for participant_id #{participant_id}"\
+          " within the date range #{start_date} - #{end_date}"
       )
-      Rails.cache.fetch("#{participant_id} #{profile_date}", expires_in: 10.minutes) do
-        client.rating_profile.find(participant_id: participant_id, profile_date: profile_date)
+
+      Rails.cache.fetch(fetch_rating_profiles_in_range_cache_key(participant_id, start_date, end_date),
+                        expires_in: 10.minutes) do
+        client.rating_profile.find_in_date_range(
+          participant_id: participant_id,
+          start_date: start_date,
+          end_date: end_date
+        )
       end
     end
 
@@ -75,8 +83,8 @@ module ExternalApi
       Rails.cache.delete(claim_ids)
     end
 
-    def bust_fetch_rating_profile_cache(participant_id, profile_date)
-      Rails.cache.delete("#{participant_id} #{profile_date}")
+    def bust_fetch_rating_profiles_in_range_cache(participant_id, start_date, end_date)
+      Rails.cache.delete(fetch_rating_profiles_in_range_cache_key(participant_id, start_date, end_date))
     end
 
     private
@@ -87,6 +95,17 @@ module ExternalApi
 
     def fetch_person_info_cache_key(participant_id)
       "bis_person_info_#{participant_id}"
+    end
+
+    def fetch_rating_profiles_in_range_cache_key(participant_id, start_date, end_date)
+      "bis_rating_profiles_#{participant_id}_#{start_date}_#{end_date}"
+    end
+
+    def formatted_start_and_end_dates(start_date, end_date)
+      # start_date and end_date should be Dates with different values
+      return_start_date = start_date.to_date
+      return_end_date = end_date.to_date + 1
+      [return_start_date, return_end_date]
     end
 
     # client_ip to be added but not needed for deployment and demo
