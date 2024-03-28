@@ -212,7 +212,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
               fail StandardError
             end
           end
-          expect { builder.send(:assign_from_builders) }.to raise_error(Builders::BaseDtoBuilder::DtoBuildError)
+          expect { builder.send(:assign_from_builders) }.to raise_error(AppealsConsumer::Error::DtoBuildError)
         end
       end
     end

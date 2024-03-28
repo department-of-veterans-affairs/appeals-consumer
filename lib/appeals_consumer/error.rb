@@ -27,4 +27,8 @@ module AppealsConsumer::Error
   class RequestIssueCollectionBuildError < StandardError; end
   class RequestIssueBuildError < StandardError; end
   class NotNullContentionIdError < StandardError; end
+  # Custom error specifically for PII existance in payload hashes
+  class PIIFoundViolationError < StandardError; end
+  # Custom error specifically for build errors
+  class DtoBuildError < StandardError; end
 end

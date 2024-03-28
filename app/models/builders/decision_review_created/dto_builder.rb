@@ -56,7 +56,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
       @request_issues = build_request_issues
     rescue StandardError => error
       # TODO: make sure this is notified in sentry/slack
-      raise DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
+      raise AppealsConsumer::Error::DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
         #{error.message}"
     end
   end
