@@ -3,7 +3,8 @@
 # Dummy class to include the module
 class DummyClass
   include ModelBuilder
-  attr_accessor :decision_review_created, :issue, :bis_synced_at
+  attr_accessor :decision_review_created, :bis_synced_at, :earliest_issue_profile_date,
+                :latest_issue_profile_date_plus_one_day
 end
 
 describe ModelBuilder do
@@ -75,57 +76,63 @@ describe ModelBuilder do
     end
   end
 
-  describe "#fetch_rating_profile" do
-    context "when decision_review_created and issue are both present" do
-      let(:rating_profile_date) { "2017-02-07T07:21:24+00:00" }
-      let(:bis_record) do
+  describe "#fetch_bis_rating_profiles" do
+    subject { dummy.fetch_bis_rating_profiles }
+
+    context "when decision_review_created, earliest_issue_profile_date, and"\
+      " latest_issue_profile_date_plus_one_day are all present" do
+      let(:earliest_date) { "2017-02-07T07:21:24+00:00" }
+      let(:latest_date) { "2017-02-10T07:21:24+00:00" }
+      let(:bis_rating_profiles) do
         {
-          associated_claims: [
-            { clm_id: "abc123", bnft_clm_tc: "040SCR" },
-            { clm_id: "dcf345", bnft_clm_tc: "154IVMC9PMC" }
-          ]
+          rba_issue_list: {
+            rba_issue: {
+              rba_issue_id: "123456",
+              prfil_date: Date.new(2017, 2, 7)
+            }
+          },
+          rba_claim_list: {
+            rba_claim: {
+              bnft_clm_tc: "030HLRR",
+              clm_id: "1002003",
+              prfl_date: Date.new(2017, 2, 10)
+            }
+          }
         }
       end
 
       before do
-        @issue_double = instance_double(
-          "DecisionReviewIssue",
-          prior_decision_rating_profile_date: rating_profile_date
-        )
-        dummy.issue = @issue_double
+        dummy.earliest_issue_profile_date = earliest_date.to_date
+        dummy.latest_issue_profile_date_plus_one_day = latest_date.to_date + 1
       end
 
       it "fetches the BIS rating profile record successfully" do
-        allow(BISService).to receive(:new).and_return(double("BISService", fetch_rating_profile: bis_record))
-
-        expect(dummy.fetch_rating_profile).to eq(bis_record)
-      end
-
-      it "raises an error if the BIS record is nil" do
-        allow(BISService).to receive(:new).and_return(double("BISService", fetch_rating_profile: nil))
-
-        expect { dummy.fetch_rating_profile }.to raise_error(AppealsConsumer::Error::BisRatingProfileNotFound)
-      end
-
-      it "raises an error if the BIS record is empty" do
-        allow(BISService).to receive(:new).and_return(double("BISService", fetch_rating_profile: {}))
-
-        expect { dummy.fetch_rating_profile }.to raise_error(AppealsConsumer::Error::BisRatingProfileNotFound)
+        allow(BISService).to receive(:new)
+          .and_return(double("BISService", fetch_rating_profiles_in_range: bis_rating_profiles))
+        expect(subject).to eq(bis_rating_profiles)
       end
     end
 
-    context "when decision_review_created or issue is not present" do
+    context "when decision_review_created, earliest_issue_profile_date, or latest_issue_profile_date_plus_one_day"\
+      " is not present" do
       context "when decision_review_created is not present" do
         it "returns nil" do
           dummy.decision_review_created = nil
-          expect(dummy.fetch_rating_profile).to be_nil
+          expect(subject).to be_nil
         end
       end
 
-      context "when issue is not present" do
+      context "when earliest_issue_profile_date is not present" do
         it "returns nil" do
-          dummy.issue = nil
-          expect(dummy.fetch_rating_profile).to be_nil
+          dummy.earliest_issue_profile_date = nil
+          expect(subject).to be_nil
+        end
+      end
+
+      context "when latest_issue_profile_date_plus_one_day is not present" do
+        it "returns nil" do
+          dummy.latest_issue_profile_date_plus_one_day = nil
+          expect(subject).to be_nil
         end
       end
     end

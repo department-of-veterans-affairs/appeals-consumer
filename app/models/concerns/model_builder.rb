@@ -44,22 +44,14 @@ module ModelBuilder
     bis_record
   end
 
-  def fetch_rating_profile
-    return unless @decision_review_created && @issue
+  def fetch_bis_rating_profiles
+    return unless @decision_review_created && @earliest_issue_profile_date && @latest_issue_profile_date_plus_one_day
 
-    rating_profile = BISService.new.fetch_rating_profile(
+    BISService.new.fetch_rating_profiles_in_range(
       participant_id: @decision_review_created.veteran_participant_id,
-      profile_date: @issue.prior_decision_rating_profile_date
+      start_date: @earliest_issue_profile_date,
+      end_date: @latest_issue_profile_date_plus_one_day
     )
-
-    if rating_profile.blank?
-      fail AppealsConsumer::Error::BisRatingProfileNotFound, "DecisionReviewCreated veteran_participant_id:"\
-      " #{@decision_review_created.veteran_participant_id}, DecisionReviewIssue"\
-      " prior_decision_rating_profile_date: #{@issue.prior_decision_rating_profile_date} does not have a"\
-      " BIS rating profile"
-    end
-
-    rating_profile
   end
 
   def convert_to_date_logical_type(value)
