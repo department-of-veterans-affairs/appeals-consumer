@@ -33,8 +33,17 @@ module Fakes
       get_veteran_record(file_number)
     end
 
-    def fetch_rating_profile(participant_id:, profile_date:)
-      stored_rating_profile(participant_id: participant_id, profile_date: profile_date)
+    def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)
+      profiles = get_rating_record(participant_id)
+
+      # simulate the response if participant doesn't exist or doesn't have any ratings
+      return { response: { response_text: "No Data Found" } } if profiles.blank?
+
+      profiles
+    end
+
+    def get_rating_record(participant_id)
+      self.class.rating_store.fetch_and_inflate(participant_id)
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -107,15 +116,6 @@ module Fakes
                            end
       end
       result.empty? ? nil : result
-    end
-
-    def stored_rating_profile(participant_id:, profile_date:)
-      normed_date_key = Fakes::RatingStore.normed_profile_date_key(profile_date).to_sym
-      (get_rating_record(participant_id)[:profiles] || {})[normed_date_key]
-    end
-
-    def get_rating_record(participant_id)
-      self.class.rating_store.fetch_and_inflate(participant_id) || {}
     end
   end
 end

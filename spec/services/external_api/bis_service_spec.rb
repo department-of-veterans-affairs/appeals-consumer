@@ -37,13 +37,15 @@ describe ExternalApi::BISService do
     {
       rba_issue_list: {
         rba_issue: {
-          rba_issue_id: "123456"
+          rba_issue_id: "123456",
+          prfil_date: Date.new(1980, 1, 1)
         }
       },
       rba_claim_list: {
         rba_claim: {
           bnft_clm_tc: "030HLRR",
-          clm_id: "1002003"
+          clm_id: "1002003",
+          prfl_date: Date.new(1980, 1, 1)
         }
       }
     }
