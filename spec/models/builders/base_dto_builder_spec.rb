@@ -126,7 +126,7 @@ RSpec.describe Builders::BaseDtoBuilder, type: :model do
         }.as_json
       end
       it "should throw a PIIFoundViolationError" do
-        expect { subject.validate_no_pii(sample_hash) }.to raise_error(Builders::BaseDtoBuilder::PIIFoundViolationError)
+        expect { subject.validate_no_pii(sample_hash) }.to raise_error(AppealsConsumer::Error::PIIFoundViolationError)
       end
     end
   end

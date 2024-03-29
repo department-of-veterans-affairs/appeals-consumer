@@ -118,7 +118,7 @@ RSpec.describe Event, type: :model do
       it "logs an error and returns nil" do
         expect(event.determine_job).to be_nil
         expect(Rails.logger).to have_received(:error).with(
-          "No processing job found for type: Test. Please define a .TestProcessingJob for the Event class."
+          /No processing job found for type: Test. Please define a .TestProcessingJob for the Event class./
         )
       end
     end
@@ -258,12 +258,12 @@ RSpec.describe Event, type: :model do
     let(:event) { create(:event) }
 
     before do
-      allow(Rails.logger).to receive(:info).with(message)
+      allow(Rails.logger).to receive(:info).with(/#{message}/)
       subject
     end
 
     it "logs the response code" do
-      expect(Rails.logger).to have_received(:info).with(message)
+      expect(Rails.logger).to have_received(:info).with(/#{message}/)
     end
 
     context "when the response code is 201" do

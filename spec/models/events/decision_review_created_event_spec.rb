@@ -18,14 +18,14 @@ describe Events::DecisionReviewCreatedEvent, type: :model do
 
     context "when processing is successful" do
       before do
-        allow(Rails.logger).to receive(:info).with(message)
+        allow(Rails.logger).to receive(:info).with(/#{message}/)
         subject
       end
 
       let(:message) { "Received #{caseflow_response.code}" }
 
       it "logs the response code" do
-        expect(Rails.logger).to have_received(:info).with(message)
+        expect(Rails.logger).to have_received(:info).with(/#{message}/)
       end
 
       it "updates the event with a completed_at timestamp" do
@@ -46,7 +46,7 @@ describe Events::DecisionReviewCreatedEvent, type: :model do
 
       it "logs and raises the error" do
         expect { subject }.to raise_error(AppealsConsumer::Error::ClientRequestError)
-        expect(Rails.logger).to have_received(:error).with(error)
+        expect(Rails.logger).to have_received(:error).with(/#{error}/)
       end
     end
 
@@ -70,7 +70,7 @@ describe Events::DecisionReviewCreatedEvent, type: :model do
         expect(ExternalApi::CaseflowService)
           .to have_received(:establish_decision_review_created_event_error!)
           .with(event.id, JSON.parse(event.message_payload)["claim_id"], error_message)
-        expect(Rails.logger).to have_received(:error).with(standard_error)
+        expect(Rails.logger).to have_received(:error).with(/#{standard_error}/)
       end
     end
   end

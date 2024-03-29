@@ -41,7 +41,7 @@ class Event < ApplicationRecord
 
     return false if audits.size < max_errors_for_failure
 
-    audits.map(&:error).last(max_errors_for_failure).include?(nil) ? false : true
+    audits.where.not(error: nil).size >= max_errors_for_failure
   end
 
   def process!

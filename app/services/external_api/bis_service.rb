@@ -2,6 +2,7 @@
 
 require "bgs"
 require_relative "../../mappers/power_of_attorney_mapper"
+require_dependency "logger_mixin"
 
 module ExternalApi
   # BIS is formorlly known as BGS
