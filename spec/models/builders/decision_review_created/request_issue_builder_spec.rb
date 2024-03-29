@@ -1042,30 +1042,33 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     subject { builder.send(:calculate_ramp_claim_id) }
     context "when the issue has a not-null prior_rating_decision_id" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
-      let(:record) do
+      let(:bis_rating_profiles) do
         {
-          associated_claims: [
-            { clm_id: "abc123", bnft_clm_tc: "682HLRRRAMP" },
-            { clm_id: "dcf345", bnft_clm_tc: "154IVMC9PMC" }
-          ]
+          rba_issue_list: {
+            rba_issue: {
+              rba_issue_id: "1234",
+              prfil_date: Date.new(1970, 1, 1)
+            }
+          },
+          rba_claim_list: {
+            rba_claim: [
+              {
+                bnft_clm_tc: "682HLRRRAMP",
+                clm_id: "1002003",
+                prfl_date: issue.prior_decision_rating_profile_date
+              },
+              {
+                bnft_clm_tc: "030HLRR",
+                clm_id: "1002005",
+                prfl_date: Date.new(1970, 1, 1)
+              }
+            ]
+          }
         }
       end
 
-      before do
-        Fakes::RatingStore.new
-          .store_rating_profile_record(
-            decision_review_created.veteran_participant_id,
-            issue.prior_decision_rating_profile_date,
-            record
-          )
-      end
-
-      after do
-        BISService.clean!
-      end
-
       it "returns the claim id of the RAMP ep if there is one" do
-        expect(subject).to eq("abc123")
+        expect(subject).to eq("1002003")
       end
     end
 
