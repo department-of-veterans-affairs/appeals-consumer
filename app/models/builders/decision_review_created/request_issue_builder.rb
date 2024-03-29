@@ -14,19 +14,19 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   # eligibility_result values that have a 1-to-1 match to a Request Issue ineligible_reason
   TIME_RESTRICTION = "TIME_RESTRICTION"
   COMPLETED_HLR = "COMPLETED_HLR"
-  COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
+  COMPLETED_BOARD = "COMPLETED_BOARD"
   PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
 
   # eligibility_result values grouped by Request Issue ineligible_reason
-  COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
-  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD_APPEAL PENDING_SUPPLEMENTAL].freeze
+  COMPLETED_REVIEW = %w[COMPLETED_BOARD COMPLETED_HLR].freeze
+  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD PENDING_SUPPLEMENTAL].freeze
   LEGACY_APPEAL_NOT_ELIGIBLE = %w[LEGACY_TIME_RESTRICTION NO_SOC_SSOC].freeze
 
   # eligibility_result values grouped by ineligible and eligible
   ELIGIBLE = %w[ELIGIBLE ELIGIBLE_LEGACY].freeze
   INELIGIBLE = %w[
     TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC
-    PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
+    PENDING_HLR COMPLETED_HLR PENDING_BOARD COMPLETED_BOARD PENDING_SUPPLEMENTAL
   ].freeze
 
   INELIGIBLE_CLOSED_STATUS = "ineligible"
@@ -153,7 +153,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.decision_date = prior_decision_notification_date_converted_to_logical_type
   end
 
-  # if the issue's eligibility_result is "PENDING_BOARD_APPEAL", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
+  # if the issue's eligibility_result is "PENDING_BOARD", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
   # there must be an associated_caseflow_request_issue_id to correlate the pre-existing request issue to
   def calculate_ineligible_due_to_id
     @request_issue.ineligible_due_to_id =
@@ -342,7 +342,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def completed_board?
-    issue.eligibility_result == COMPLETED_BOARD_APPEAL
+    issue.eligibility_result == COMPLETED_BOARD
   end
 
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
