@@ -14,19 +14,19 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   # eligibility_result values that have a 1-to-1 match to a Request Issue ineligible_reason
   TIME_RESTRICTION = "TIME_RESTRICTION"
   COMPLETED_HLR = "COMPLETED_HLR"
-  COMPLETED_BOARD = "COMPLETED_BOARD"
+  COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
   PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
 
   # eligibility_result values grouped by Request Issue ineligible_reason
-  COMPLETED_REVIEW = %w[COMPLETED_BOARD COMPLETED_HLR].freeze
-  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD PENDING_SUPPLEMENTAL].freeze
+  COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
+  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD_APPEAL PENDING_SUPPLEMENTAL].freeze
   LEGACY_APPEAL_NOT_ELIGIBLE = %w[LEGACY_TIME_RESTRICTION NO_SOC_SSOC].freeze
 
   # eligibility_result values grouped by ineligible and eligible
   ELIGIBLE = %w[ELIGIBLE ELIGIBLE_LEGACY].freeze
   INELIGIBLE = %w[
     TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC
-    PENDING_HLR COMPLETED_HLR PENDING_BOARD COMPLETED_BOARD PENDING_SUPPLEMENTAL
+    PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
   ].freeze
 
   INELIGIBLE_CLOSED_STATUS = "ineligible"
@@ -49,15 +49,16 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   }.freeze
 
   # returns the DecisionReviewCreated::RequestIssue record with all attributes assigned
-  def self.build(issue, decision_review_created)
-    builder = new(issue, decision_review_created)
+  def self.build(issue, decision_review_created, bis_rating_profiles)
+    builder = new(issue, decision_review_created, bis_rating_profiles)
     builder.assign_attributes
     builder.request_issue
   end
 
-  def initialize(issue, decision_review_created)
+  def initialize(issue, decision_review_created, bis_rating_profiles)
     @decision_review_created = decision_review_created
     @issue = issue
+    @bis_rating_profiles = bis_rating_profiles
     @request_issue = DecisionReviewCreated::RequestIssue.new
   end
 
@@ -152,7 +153,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.decision_date = prior_decision_notification_date_converted_to_logical_type
   end
 
-  # if the issue's eligibility_result is "PENDING_BOARD", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
+  # if the issue's eligibility_result is "PENDING_BOARD_APPEAL", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
   # there must be an associated_caseflow_request_issue_id to correlate the pre-existing request issue to
   def calculate_ineligible_due_to_id
     @request_issue.ineligible_due_to_id =
@@ -341,7 +342,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def completed_board?
-    issue.eligibility_result == COMPLETED_BOARD
+    issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
 
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
@@ -435,20 +436,37 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # fetch rating profile from BIS and find the clm_id of the RAMP ep, if one exists
   def determine_ramp_claim_id
-    bis_record = fetch_rating_profile
-    associated_claims_data = find_associated_claims_data(bis_record)
-    return nil unless associated_claims_data
+    return nil unless @bis_rating_profiles && associated_claims_data
 
     associated_ramp_ep = find_associated_ramp_ep(associated_claims_data)
     associated_ramp_ep&.dig(:clm_id)
   end
 
-  # if there is only one associated_claim or rba_claim record, it is returned as a hash
-  # if there are multiple associated_claims or rba_claims, it is returned as an array of hashes
-  def find_associated_claims_data(bis_record)
-    associated_claims = bis_record[:associated_claims] || bis_record.dig(:rba_claim_list, :rba_claim)
+  def associated_claims_data
+    all_claims = find_all_claims
+    return nil if all_claims.nil?
 
-    Array.wrap(associated_claims)
+    find_associated_claims(all_claims)
+  end
+
+  def find_all_claims
+    claims = @bis_rating_profiles&.dig(:rba_claim_list, :rba_claim)
+
+    Array.wrap(claims) if !!claims
+  end
+
+  def find_associated_claims(all_claims)
+    matching_claims = all_claims.select do |claim|
+      claim_profile_date_matches_issue_profile_date?(claim)
+    end
+
+    matching_claims.presence
+  end
+
+  def claim_profile_date_matches_issue_profile_date?(claim)
+    return unless claim[:prfl_date] && issue.prior_decision_rating_profile_date
+
+    claim[:prfl_date].to_date == issue.prior_decision_rating_profile_date.to_date
   end
 
   # return the first associated_claim that has a RAMP ep code, if there aren't any that match return nil
