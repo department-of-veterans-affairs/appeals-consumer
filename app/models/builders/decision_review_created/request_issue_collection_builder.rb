@@ -2,23 +2,47 @@
 
 # This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
 class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
+  include ModelBuilder
   # issues with this eligibility_result are not included in the caseflow payload
   # caseflow does not track or have a concept of this when determining ineligible_reason
   CONTESTED = "CONTESTED"
+  RATING = "rating"
 
   def self.build(decision_review_created)
     builder = new(decision_review_created)
     builder.build_issues
   end
 
+  # only fetch BIS rating profiles if there are rating issues
   def initialize(decision_review_created)
     @decision_review_created = decision_review_created
+    @bis_rating_profiles = nil
+
+    if @decision_review_created.ep_code_category == RATING
+      initialize_issue_profile_dates
+      fetch_and_set_bis_rating_profiles
+    end
   end
 
   # valid_issues are the decision_review_issues that don't have "CONTESTED" eligibility_result
   def build_issues
     valid_issues.map.with_index do |issue, index|
       build_request_issue(issue, index)
+    end
+  end
+
+  # used to call BIS fetch_rating_profiles_in_range with specified date range
+  # one day is added to the latest date incase a rating profile was added today
+  def initialize_issue_profile_dates
+    @earliest_issue_profile_date = earliest_issue_profile_date
+    @latest_issue_profile_date_plus_one_day = latest_issue_profile_date_plus_one_day
+  end
+
+  # if issue profile date variables aren't nil,
+  # fetch rating profiles from BIS and overwrite @bis_rating_profiles with response
+  def fetch_and_set_bis_rating_profiles
+    if @earliest_issue_profile_date && @latest_issue_profile_date_plus_one_day
+      @bis_rating_profiles = fetch_bis_rating_profiles
     end
   end
 
@@ -47,7 +71,7 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
   def build_request_issue(issue, index)
     begin
       # RequestIssueBuilder needs access to a few attributes within @decision_review_created
-      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_created)
+      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_created, @bis_rating_profiles)
     rescue StandardError => error
       message = "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
       "DecisionReviewCreated Claim ID: #{@decision_review_created.claim_id} "\
@@ -61,5 +85,26 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
   # in cases where the decision review issue has null for contention_id, use the index of the issue as the identifier
   def issue_identifier_message(issue, index)
     (!!issue.contention_id) ? "Issue Contention ID: #{issue.contention_id}" : "Issue Index: #{index}"
+  end
+
+  def earliest_issue_profile_date
+    valid_issue_profile_dates&.min
+  end
+
+  def latest_issue_profile_date
+    valid_issue_profile_dates&.max
+  end
+
+  def latest_issue_profile_date_plus_one_day
+    latest_issue_profile_date + 1 if !!latest_issue_profile_date
+  end
+
+  def valid_issue_profile_dates
+    # no need to include invalid issue profile dates since they won't be included in the caseflow payload
+    profile_dates = valid_issues.map(&:prior_decision_rating_profile_date)
+    return nil if profile_dates.all?(&:nil?)
+
+    # unidentified issues will have nil for this field, so remove nil values before mapping
+    profile_dates.compact.map(&:to_date)
   end
 end

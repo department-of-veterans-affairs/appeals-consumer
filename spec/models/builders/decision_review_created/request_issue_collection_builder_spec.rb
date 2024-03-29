@@ -25,6 +25,80 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     it "initializes a new instance of Builders::DecisionReviewCreated::RequestIssueCollectionBuilder" do
       expect(builder).to be_an_instance_of(described_class)
     end
+
+    it "initializes a new instance variable @decision_review_created" do
+      expect(builder.instance_variable_get(:@decision_review_created))
+        .to be_an_instance_of(Transformers::DecisionReviewCreated)
+    end
+
+    it "initializes a new instance variable @bis_rating_profiles" do
+      expect(builder.instance_variable_get(:@bis_rating_profiles))
+        .to eq(nil)
+    end
+
+    context "when @decision_review_created.ep_code_category equals 'rating'" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+
+      it "initializes a new instance variable @earliest_issue_profile_date" do
+        expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(true)
+      end
+
+      it "initializes a new instance variable @latest_issue_profile_date_plus_one_day" do
+        expect(builder.instance_variable_defined?(:@latest_issue_profile_date_plus_one_day)).to eq(true)
+      end
+
+      context "when @earliest_issue_profile_date or @latest_issue_profile_date_plus_one_day return nil" do
+        before do
+          decision_review_issues.each do |issue|
+            issue.prior_decision_rating_profile_date = nil
+          end
+        end
+
+        it "does not overwrite instance variable @bis_rating_profiles with fetch_bis_rating_profiles response" do
+          expect(builder.instance_variable_get(:@bis_rating_profiles)).to eq(nil)
+        end
+      end
+
+      context "when @earliest_issue_profile_date and @latest_issue_profile_date_plus_one_day are not-nil" do
+        it "overwrites instance variable @bis_rating_profiles with BIS response" do
+          expect(builder.instance_variable_get(:@bis_rating_profiles)).not_to eq(nil)
+        end
+      end
+    end
+  end
+
+  describe "#initialize_issue_profile_dates" do
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+
+    it "initializes a new instance variable @earliest_issue_profile_date" do
+      expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(true)
+    end
+
+    it "initializes a new instance variable @latest_issue_profile_date_plus_one_day" do
+      expect(builder.instance_variable_defined?(:@latest_issue_profile_date_plus_one_day)).to eq(true)
+    end
+  end
+
+  describe "#fetch_and_set_bis_rating_profiles" do
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    subject { builder.fetch_and_set_bis_rating_profiles }
+    context "when @earliest_issue_profile_date or @latest_issue_profile_date_plus_one_day return nil" do
+      before do
+        decision_review_issues.each do |issue|
+          issue.prior_decision_rating_profile_date = nil
+        end
+      end
+
+      it "does not overwite instance variable @bis_rating_profiles with BIS response" do
+        expect(builder.instance_variable_get(:@bis_rating_profiles)).to eq(nil)
+      end
+    end
+
+    context "when @earliest_issue_profile_date and @latest_issue_profile_date_plus_one_day are not-nil" do
+      it "overwrites instance variable @bis_rating_profiles with BIS response" do
+        expect(builder.instance_variable_get(:@bis_rating_profiles)).not_to eq(nil)
+      end
+    end
   end
 
   describe "#build_issues" do
@@ -163,6 +237,137 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
       it "returns 'Issue Index: decision_review_issues.index(issue)" do
         expect(subject).to eq("Issue Index: #{index}")
+      end
+    end
+  end
+
+  describe "#earliest_issue_profile_date" do
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    subject { builder.send(:earliest_issue_profile_date) }
+
+    context "when valid_issue_profile_dates returns nil" do
+      before do
+        decision_review_issues.each do |issue|
+          issue.prior_decision_rating_profile_date = nil
+        end
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when valid_issue_profile_dates is not-nil" do
+      it "returns the earliest decision_review_issue.prior_decision_rating_profile_date converted to Date" do
+        expect(subject).to eq(decision_review_issues.first.prior_decision_rating_profile_date.to_date)
+      end
+    end
+  end
+
+  describe "#latest_issue_profile_date" do
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    subject { builder.send(:latest_issue_profile_date) }
+
+    context "when valid_issue_profile_dates returns nil" do
+      before do
+        decision_review_issues.each do |issue|
+          issue.prior_decision_rating_profile_date = nil
+        end
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when valid_issue_profile_dates is not-nil" do
+      it "returns the latest decision_review_issue.prior_decision_rating_profile_date converted to Date" do
+        expect(subject).to eq(decision_review_issues.last.prior_decision_rating_profile_date.to_date)
+      end
+    end
+  end
+
+  describe "#latest_issue_profile_date_plus_one_day" do
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    subject { builder.send(:latest_issue_profile_date_plus_one_day) }
+
+    context "when latest_issue_profile_date returns nil" do
+      before do
+        decision_review_issues.each do |issue|
+          issue.prior_decision_rating_profile_date = nil
+        end
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when latest_issue_profile_date does not return nil" do
+      it "returns latest_issue_profile_date plus one day" do
+        expect(subject).to eq(decision_review_issues.last.prior_decision_rating_profile_date.to_date + 1)
+      end
+    end
+  end
+
+  describe "valid_issue_profile_dates" do
+    subject { builder.send(:valid_issue_profile_dates) }
+    context "when valid_issues is nil" do
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_contested) }
+      let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
+      let(:error_msg) do
+        "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
+        "DecisionReviewCreated Claim ID: #{claim_id} does not contain any valid issues after "\
+        "removing 'CONTESTED' ineligible issues"
+      end
+
+      it "raises AppealsConsumer::Error::RequestIssueCollectionBuildError with message" do
+        expect { subject }.to raise_error(error, error_msg)
+      end
+    end
+
+    context "when valid_issues is not nil" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+      context "when all valid_issues have nil for prior_decision_rating_profile_date" do
+        before do
+          decision_review_issues.each do |issue|
+            issue.prior_decision_rating_profile_date = nil
+          end
+        end
+
+        it "returns nil" do
+          expect(subject).to eq nil
+        end
+      end
+
+      context "when valid_issues has at least one not-nil value for prior_decision_rating_profile_date" do
+        context "when there are nil values within profile_dates" do
+          before do
+            decision_review_issues.first.prior_decision_rating_profile_date = nil
+          end
+
+          it "removes the nil values" do
+            expect(subject.any?(&:nil?)).to eq(false)
+          end
+
+          it "returns not-nil values in array" do
+            expect(subject.class).to eq(Array)
+          end
+
+          it "returns array elements as Dates" do
+            expect(subject.all? { |e| e.is_a?(Date) }).to eq(true)
+          end
+        end
+
+        context "when there aren't any nil values within profile_dates" do
+          it "returns not-nil values in array" do
+            expect(subject.class).to eq(Array)
+          end
+
+          it "returns array elements as Dates" do
+            expect(subject.all? { |e| e.is_a?(Date) }).to eq(true)
+          end
+        end
       end
     end
   end
