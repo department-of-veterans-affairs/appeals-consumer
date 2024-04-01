@@ -47,11 +47,29 @@ module ModelBuilder
   def fetch_bis_rating_profiles
     return unless @decision_review_created && @earliest_issue_profile_date && @latest_issue_profile_date_plus_one_day
 
-    BISService.new.fetch_rating_profiles_in_range(
+    @bis_rating_profiles_record = BISService.new.fetch_rating_profiles_in_range(
       participant_id: @decision_review_created.veteran_participant_id,
       start_date: @earliest_issue_profile_date,
       end_date: @latest_issue_profile_date_plus_one_day
     )
+
+    # log bis_record response if the response_text is anything other than "success"
+    if bis_rating_profiles_response != "success"
+      msg = "Unsuccessful attempt to fetch BIS rating profiles for DecisionReviewCreated veteran_participant_id"\
+        " #{@decision_review_created.veteran_participant_id} within the date range #{earliest_issue_profile_date}"\
+        " - #{latest_issue_profile_date_plus_one_day}."
+      msg += " Received response #{bis_rating_profiles_response}" if !!bis_rating_profiles_response
+
+      log_error_response(msg)
+    end
+  end
+
+  def bis_rating_profiles_response
+    @bis_rating_profiles_record&.dig(:response, :response_text)&.downcase
+  end
+
+  def log_error_response(msg)
+    Rails.logger.error(msg)
   end
 
   def convert_to_date_logical_type(value)

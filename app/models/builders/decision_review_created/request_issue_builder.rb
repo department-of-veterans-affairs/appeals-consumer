@@ -450,7 +450,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def find_all_claims
-    claims = @bis_rating_profiles&.dig(:rba_claim_list, :rba_claim)
+    claims = @bis_rating_profiles.dig(:rba_claim_list, :rba_claim)
 
     Array.wrap(claims) if !!claims
   end

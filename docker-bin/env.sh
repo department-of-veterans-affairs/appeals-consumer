@@ -10,4 +10,4 @@ export REDIS_URL_CACHE=redis://redis:7936/0
 export SCHEMA_REGISTRY_URL=http://schema-registry:9021/
 export CSS_ID=APPEALSCONSUMER1
 export STATION_ID=283
-export CASEFLOW_KEY=5ecb5d7b440e429bb5fac331419c7e1a
+export CASEFLOW_KEY=133287e0cb4c48c49421ce9c4534f669
