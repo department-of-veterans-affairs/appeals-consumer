@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# LoggerService class provides a unified formating for logging and additional functionality for Slack and Sentry alerts.
 class LoggerService < SimpleDelegator
   attr_reader :caller_class
 
@@ -8,21 +9,26 @@ class LoggerService < SimpleDelegator
     @caller_class = caller_class || self.class.name
   end
 
+  # Logs an info message with optional extra information, sanitizing sensitive data.
   def info(message, extra = {})
     super(format_message(message, PiiSanitizer.sanitize(extra)))
   end
 
+  # Logs an error message with optional extra information, sanitizing sensitive data.
+  # Optionally, will notify Sentry and Slack based on the `notify_alerts` parameter.
   def error(error, extra = {}, notify_alerts: false)
     super(format_message(handle_error_message(error), PiiSanitizer.sanitize(extra)))
     notify_error(error, extra) if notify_alerts
   end
 
+  # Logs a warning message with optional extra information, sanitizing sensitive data.
   def warn(message, extra = {})
     super(format_message(message, PiiSanitizer.sanitize(extra)))
   end
 
   private
 
+  # Formats the log message with a caller class tag. Also, add extra data when available.
   def format_message(message, extra = {})
     formatted_message = "[#{@caller_class}] #{message}"
     formatted_message += " | #{extra.to_json}" unless extra.empty?
@@ -57,6 +63,7 @@ class LoggerService < SimpleDelegator
                               message: format_message(handle_error_message(error)) })
   end
 
+  # handles an error message to ensure that it's in a string format of the error's message.
   def handle_error_message(error)
     error.is_a?(Exception) ? error.message : error
   end
