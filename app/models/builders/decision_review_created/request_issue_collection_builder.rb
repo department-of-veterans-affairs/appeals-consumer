@@ -53,7 +53,6 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
       "DecisionReviewCreated Claim ID: #{@decision_review_created.claim_id} "\
       "#{issue_identifier_message(issue, index)} - #{error.message}"
 
-      # TODO: make sure this is notified in sentry/slack
       raise AppealsConsumer::Error::RequestIssueBuildError, message
     end
   end

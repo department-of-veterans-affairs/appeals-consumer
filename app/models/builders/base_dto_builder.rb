@@ -26,7 +26,6 @@ class Builders::BaseDtoBuilder
     hash_response.extend Hashie::Extensions::DeepFind
     Builders::BaseDtoBuilder::PII_FIELDS.each do |field|
       unless hash_response.deep_find_all(field).blank?
-        # TODO: make sure this is notified in sentry/slack
         fail AppealsConsumer::Error::PIIFoundViolationError, "PII field detected: #{field}"
       end
     end
