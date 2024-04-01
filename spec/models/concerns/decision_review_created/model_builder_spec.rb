@@ -2,12 +2,12 @@
 
 # Dummy class to include the module
 class DummyClass
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_accessor :decision_review_created, :bis_synced_at, :earliest_issue_profile_date,
                 :latest_issue_profile_date_plus_one_day
 end
 
-describe ModelBuilder do
+describe DecisionReviewCreated::ModelBuilder do
   let(:dummy) { DummyClass.new }
   let(:file_number) { "123456789" }
   let(:claim_id) { "987654321" }
@@ -81,35 +81,40 @@ describe ModelBuilder do
 
     context "when decision_review_created, earliest_issue_profile_date, and"\
       " latest_issue_profile_date_plus_one_day are all present" do
-      let(:earliest_date) { "2017-02-07T07:21:24+00:00" }
-      let(:latest_date) { "2017-02-10T07:21:24+00:00" }
-      let(:bis_rating_profiles) do
-        {
-          rba_issue_list: {
-            rba_issue: {
-              rba_issue_id: "123456",
-              prfil_date: Date.new(2017, 2, 7)
-            }
-          },
-          rba_claim_list: {
-            rba_claim: {
-              bnft_clm_tc: "030HLRR",
-              clm_id: "1002003",
-              prfl_date: Date.new(2017, 2, 10)
+      context "response is successfully returned" do
+        let(:earliest_date) { "2017-02-07T07:21:24+00:00" }
+        let(:latest_date) { "2017-02-10T07:21:24+00:00" }
+        let(:bis_rating_profiles) do
+          {
+            rba_issue_list: {
+              rba_issue: {
+                rba_issue_id: "123456",
+                prfil_date: Date.new(2017, 2, 7)
+              }
+            },
+            rba_claim_list: {
+              rba_claim: {
+                bnft_clm_tc: "030HLRR",
+                clm_id: "1002003",
+                prfl_date: Date.new(2017, 2, 10)
+              }
+            },
+            response: {
+              response_text: "Success"
             }
           }
-        }
-      end
+        end
 
-      before do
-        dummy.earliest_issue_profile_date = earliest_date.to_date
-        dummy.latest_issue_profile_date_plus_one_day = latest_date.to_date + 1
-      end
+        before do
+          dummy.earliest_issue_profile_date = earliest_date.to_date
+          dummy.latest_issue_profile_date_plus_one_day = latest_date.to_date + 1
+        end
 
-      it "fetches the BIS rating profile record successfully" do
-        allow(BISService).to receive(:new)
-          .and_return(double("BISService", fetch_rating_profiles_in_range: bis_rating_profiles))
-        expect(subject).to eq(bis_rating_profiles)
+        it "fetches the BIS rating profile record successfully" do
+          allow(BISService).to receive(:new)
+            .and_return(double("BISService", fetch_rating_profiles_in_range: bis_rating_profiles))
+          expect(subject).to eq(bis_rating_profiles)
+        end
       end
     end
 

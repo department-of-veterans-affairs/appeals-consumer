@@ -55,11 +55,41 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
-    context "no bis_record or participant_id in fetch_veteran_info call" do
-      let(:error) { AppealsConsumer::Error::BisVeteranNotFound }
-      it "should throw error" do
-        allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return(nil)
-        expect { described_class.new(decision_review_created) }.to raise_error(error)
+    context "when the BIS record is not found" do
+      let(:msg) do
+        "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
+       " #{decision_review_created.file_number}"
+      end
+      let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+      let!(:event_id) { event.id }
+      let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
+      subject { described_class.build(decision_review_created) }
+
+      before do
+        decision_review_created.instance_variable_set(:@event_id, event_id)
+        allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return({ ptcpnt_id: nil })
+        allow(Rails.logger).to receive(:info).with(msg)
+      end
+
+      it "logs message" do
+        expect(Rails.logger).to receive(:info).with(msg)
+        subject
+      end
+
+      context "when there is already a message in the event_audit's notes column" do
+        let!(:event_audit_with_note) { create(:event_audit, event: event, status: :in_progress, notes: "Test note.") }
+
+        it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
+          subject
+          expect(event_audit_with_note.reload.notes).to eq("Test note. #{msg}")
+        end
+      end
+
+      context "when there isn't a message in the event_audit's notes column" do
+        it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
+          subject
+          expect(event_audit_without_note.reload.notes).to eq(msg)
+        end
       end
     end
   end

@@ -375,7 +375,6 @@ module KafkaMessageGenerators
     end
 
     # if a claimant_participant_id is "", the fake BIS call with return an empty obj
-    # and raise AppealsConsumer::Error::BisClaimantNotFound
     def create_drc_message_without_bis_person(issue_trait, code)
       drc = create_drc_message(issue_trait, code)
       drc.claimant_participant_id = ""
@@ -753,7 +752,9 @@ module KafkaMessageGenerators
 
     def convert_message_to_hash(message)
       json = message.to_json
-      JSON.parse(json)
+      hash = JSON.parse(json)
+      hash.delete("event_id")
+      hash
     end
 
     # encode message before publishing

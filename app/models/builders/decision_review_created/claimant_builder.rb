@@ -2,7 +2,7 @@
 
 # This class is used to build out a DecisionReviewCreated::Claimant object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::ClaimantBuilder
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_reader :claimant, :decision_review_created, :bis_record
 
   VETERAN_TYPE = "VeteranClaimant"

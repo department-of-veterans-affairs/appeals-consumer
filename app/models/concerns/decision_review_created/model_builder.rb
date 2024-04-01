@@ -2,7 +2,7 @@
 
 # This module is to encapsulate common functionanlity amungst the individiual
 # model builder classes such as Builders::DecisionReviewCreated::EndProductEstablishment
-module ModelBuilder
+module DecisionReviewCreated::ModelBuilder
   # used to convert date type to date logical type
   EPOCH_DATE = Date.new(1970, 1, 1)
   PENSION_IDENTIFIER = "PMC"
@@ -17,8 +17,9 @@ module ModelBuilder
     # If the result is nil, the veteran wasn't found
     # If the participant id is nil, that's another way of saying the veteran wasn't found
     unless bis_record && bis_record[:ptcpnt_id]
-      fail AppealsConsumer::Error::BisVeteranNotFound, "DecisionReviewCreated file number"\
-     " #{decision_review_created.file_number} does not have a valid BIS record"
+      msg = "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
+       " #{@decision_review_created.file_number}"
+      handle_response(msg)
     end
 
     @bis_synced_at = Time.zone.now
@@ -37,8 +38,9 @@ module ModelBuilder
 
     # If the result is empty, the claimant wasn't found
     if bis_record.empty?
-      fail AppealsConsumer::Error::BisClaimantNotFound, "DecisionReviewCreated claimant_participant_id"\
-     " #{decision_review_created.claimant_participant_id} does not have a valid BIS record"
+      msg = "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
+       " #{@decision_review_created.claimant_participant_id}"
+      handle_response(msg)
     end
 
     bis_record
@@ -55,21 +57,42 @@ module ModelBuilder
 
     # log bis_record response if the response_text is anything other than "success"
     if bis_rating_profiles_response != "success"
-      msg = "Unsuccessful attempt to fetch BIS rating profiles for DecisionReviewCreated veteran_participant_id"\
+      msg = "BIS Rating Profiles: Rating Profile info not found for DecisionReviewCreated veteran_participant_id"\
         " #{@decision_review_created.veteran_participant_id} within the date range #{earliest_issue_profile_date}"\
         " - #{latest_issue_profile_date_plus_one_day}."
-      msg += " Received response #{bis_rating_profiles_response}" if !!bis_rating_profiles_response
 
-      log_error_response(msg)
+      handle_response(msg)
     end
+
+    @bis_rating_profiles_record
   end
 
   def bis_rating_profiles_response
     @bis_rating_profiles_record&.dig(:response, :response_text)&.downcase
   end
 
-  def log_error_response(msg)
-    Rails.logger.error(msg)
+  def handle_response(msg)
+    log_info(msg)
+    update_event_audit_notes!(msg)
+  end
+
+  def log_info(msg)
+    Rails.logger.info(msg)
+  end
+
+  def update_event_audit_notes!(msg)
+    event = Event.find(@decision_review_created.event_id)
+    last_event_audit = event.event_audits.where(status: :in_progress).last
+
+    ActiveRecord::Base.transaction do
+      last_event_audit.update!(notes: concatenated_notes(last_event_audit, msg))
+    end
+  end
+
+  def concatenated_notes(last_event_audit, msg)
+    return msg if last_event_audit.notes.nil?
+
+    "#{last_event_audit.notes} #{msg}"
   end
 
   def convert_to_date_logical_type(value)

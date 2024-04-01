@@ -2,7 +2,7 @@
 
 # This class is used to build out a DecisionReviewCreated::Veteran object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::VeteranBuilder
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_reader :veteran, :decision_review_created, :bis_record
 
   def self.build(decision_review_created)

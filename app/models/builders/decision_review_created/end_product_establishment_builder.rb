@@ -2,7 +2,7 @@
 
 # This class is used to build out an End Product Establishment object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_reader :end_product_establishment, :decision_review_created
 
   def self.build(decision_review_created)

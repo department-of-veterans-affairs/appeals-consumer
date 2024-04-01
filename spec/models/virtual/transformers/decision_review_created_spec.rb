@@ -7,7 +7,7 @@ describe Transformers::DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
-  subject { build(:decision_review_created) }
+  subject { build(:decision_review_created, event_id: 13) }
 
   describe "#initialize" do
     context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid "\
