@@ -6,7 +6,9 @@ class AvroDeserializerService
   def initialize
     @avro = AvroTurf::Messaging.new(
       registry_url: ENV.fetch("SCHEMA_REGISTRY_URL"),
-      logger: AvroLoggerService.new($stdout)
+      logger: AvroLoggerService.new($stdout),
+      user: ENV["KAFKA_USERNAME"],
+      password: ENV["KAFKA_PASSWORD"]
     )
   end
 
