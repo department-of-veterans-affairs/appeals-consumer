@@ -104,7 +104,7 @@ module ExternalApi
     def formatted_start_and_end_dates(start_date, end_date)
       # start_date and end_date should be Dates with different values
       return_start_date = start_date.to_date
-      return_end_date = end_date.to_date + 1
+      return_end_date = end_date.to_date
       [return_start_date, return_end_date]
     end
 

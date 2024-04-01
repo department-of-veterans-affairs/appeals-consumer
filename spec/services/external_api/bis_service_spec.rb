@@ -131,7 +131,7 @@ describe ExternalApi::BISService do
     let!(:start_date) { "2017-02-07T07:21:24+00:00" }
     let!(:end_date) { "2017-02-07T07:21:24+00:00" }
     let!(:formatted_start_date) { start_date.to_date }
-    let!(:formatted_end_date) { end_date.to_date + 1 }
+    let!(:formatted_end_date) { end_date.to_date }
     let!(:cache_key) { "bis_rating_profiles_#{participant_id}_#{formatted_start_date}_#{formatted_end_date}" }
     subject do
       bis.fetch_rating_profiles_in_range(participant_id: participant_id, start_date: start_date, end_date: end_date)
