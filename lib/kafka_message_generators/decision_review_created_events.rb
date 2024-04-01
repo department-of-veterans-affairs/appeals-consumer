@@ -38,7 +38,7 @@ module KafkaMessageGenerators
       [
         "Accrued",
         "Allotment",
-        "Apportionment",
+        "Allotment - Apportionment",
         "Attorney Fee",
         "Basic Eligibility",
         "Burial - Plot Allowance",
