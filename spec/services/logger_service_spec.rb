@@ -60,16 +60,14 @@ describe LoggerService do
     end
 
     describe "#_notify_sentry" do
-      let(:error) { StandardError.new }
       let(:message) { "Test message" }
+      let(:error) { StandardError.new(message) }
       let(:formatted_message) { "[#{caller_class}] #{message}" }
       let(:extra_details) do
         {
           claim_id: 123,
-          source: caller_class,
           offset: 10,
-          partition: 1,
-          error: error
+          partition: 1
         }
       end
 
@@ -78,9 +76,13 @@ describe LoggerService do
       end
 
       it "sends an error report to Sentry with correct extras" do
-        service.send(:notify_sentry, message, extra_details)
+        service.send(:notify_sentry, error, extra_details)
         expect(Raven).to have_received(:capture_exception).with(error,
-                                                                extra: { **extra_details, message: formatted_message })
+                                                                extra: {
+                                                                  **extra_details,
+                                                                  message: formatted_message,
+                                                                  source: caller_class
+                                                                })
       end
     end
 

@@ -46,7 +46,7 @@ describe Events::DecisionReviewCreatedEvent, type: :model do
 
       it "logs and raises the error" do
         expect { subject }.to raise_error(AppealsConsumer::Error::ClientRequestError)
-        expect(Rails.logger).to have_received(:error).with(/#{error}/)
+        expect(Rails.logger).to have_received(:error).with(/#{error_message}/)
       end
     end
 

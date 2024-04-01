@@ -12,9 +12,9 @@ class LoggerService < SimpleDelegator
     super(format_message(message, PiiSanitizer.sanitize(extra)))
   end
 
-  def error(message, extra = {}, notify_alerts: false)
-    super(format_message(message, PiiSanitizer.sanitize(extra)))
-    notify_error(message, extra) if notify_alerts
+  def error(error, extra = {}, notify_alerts: false)
+    super(format_message(handle_error_message(error), PiiSanitizer.sanitize(extra)))
+    notify_error(error, extra) if notify_alerts
   end
 
   def warn(message, extra = {})
@@ -29,8 +29,8 @@ class LoggerService < SimpleDelegator
     formatted_message
   end
 
-  def notify_error(message, extra = {})
-    notify_sentry(message, extra)
+  def notify_error(error, extra = {})
+    notify_sentry(error, extra)
     notify_slack
   end
 
@@ -50,7 +50,14 @@ class LoggerService < SimpleDelegator
   end
 
   # Reports an exception to Sentry, including additional details for debugging.
-  def notify_sentry(message, extra = {})
-    Raven.capture_exception(extra[:error], extra: { **extra, source: @caller_class, message: format_message(message) })
+  def notify_sentry(error, extra = {})
+    Raven.capture_exception(error,
+                            extra: { **extra,
+                              source: @caller_class,
+                              message: format_message(handle_error_message(error)) })
+  end
+
+  def handle_error_message(error)
+    error.is_a?(Exception) ? error.message : error
   end
 end
