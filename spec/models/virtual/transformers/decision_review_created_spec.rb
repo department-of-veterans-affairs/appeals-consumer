@@ -37,6 +37,7 @@ describe Transformers::DecisionReviewCreated do
         expect(subject.created_by_station).to eq("101")
         expect(subject.created_by_application).to eq("PASYSACCTCREATE")
         expect(subject.decision_review_issues.size).to eq(2)
+        expect(subject.event_id).to eq(13)
       end
 
       it "initializes DecisionReviewIssue objects for every obj in issues_array" do
