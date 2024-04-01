@@ -10,7 +10,8 @@ class KarafkaApp < Karafka::App
         'sasl.username': ENV["KAFKA_USERNAME"],
         'sasl.password': ENV["KAFKA_PASSWORD"],
         'sasl.mechanisms': "PLAIN",
-        'group.id': "APPEALS_APL_SERVICES_UAT"
+        'group.id': "APPEALS_APL_SERVICES_UAT",
+        'debug': "all"
       }
     end
     config.kafka = karafka_config
