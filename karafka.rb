@@ -9,7 +9,8 @@ class KarafkaApp < Karafka::App
         'security.protocol': "SASL_SSL",
         'sasl.username': ENV["KAFKA_USERNAME"],
         'sasl.password': ENV["KAFKA_PASSWORD"],
-        'sasl.mechanisms': "SCRAM-SHA-512"
+        'sasl.mechanisms': "PLAIN",
+        'group.id': "APPEALS_APL_SERVICES_UAT"
       }
     end
     config.kafka = karafka_config
@@ -43,7 +44,7 @@ class KarafkaApp < Karafka::App
       # Uncomment this if you use Karafka with ActiveJob
       # You need to define the topic per each queue name you use
       # active_job_topic :default
-      topic :decision_review_created do
+      topic :VBMS_CEST_UAT_DECISION_REVIEW_INTAKE do
         # Uncomment this if you want Karafka to manage your topics configuration
         # Managing topics configuration via routing will allow you to ensure config consistency
         # across multiple environments
