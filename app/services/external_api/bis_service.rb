@@ -81,7 +81,7 @@ module ExternalApi
       BGS::Services.new(
         env: Rails.application.config.bgs_environment,
         application: "APPEALSCONSUMER",
-        client_ip: ENV.fetch("USER_IP_ADDRESS", Rails.application.secrets.user_ip_address),
+        client_ip: ENV["USER_IP_ADDRESS"],
         client_station_id: Rails.application.config.station_id,
         client_username: Rails.application.config.css_id,
         ssl_cert_key_file: ENV["BGS_KEY_LOCATION"],
