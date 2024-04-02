@@ -442,6 +442,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     associated_ramp_ep&.dig(:clm_id)
   end
 
+  # parses response to find all claim data, then finds claims that associate with this issue
   def associated_claims_data
     all_claims = find_all_claims
     return nil if all_claims.nil?
@@ -463,13 +464,14 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     matching_claims.presence
   end
 
+  # finds matching claims by comparing profile date of the claim with the issue's profile date
   def claim_profile_date_matches_issue_profile_date?(claim)
     return unless claim[:prfl_date] && issue.prior_decision_rating_profile_date
 
     claim[:prfl_date].to_date == issue.prior_decision_rating_profile_date.to_date
   end
 
-  # return the first associated_claim that has a RAMP ep code, if there aren't any that match return nil
+  # return the first associated_claim that has a RAMP ep code. if there aren't any that match return nil
   def find_associated_ramp_ep(associated_claims_data)
     associated_claims_data.find do |claim|
       ep_code = claim[:bnft_clm_tc]
