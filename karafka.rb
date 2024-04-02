@@ -20,6 +20,8 @@ class KarafkaApp < Karafka::App
     # development mode. Otherwise Karafka process would not be aware of code changes
     config.consumer_persistence = !Rails.env.development?
   end
+  Karafka::App.logger.level = Logger::DEBUG
+
 
   # Comment out this part if you are not using instrumentation and/or you are not
   # interested in logging events for certain environments. Since instrumentation
