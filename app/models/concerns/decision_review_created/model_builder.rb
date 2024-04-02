@@ -16,7 +16,7 @@ module DecisionReviewCreated::ModelBuilder
 
     # If the result is nil, the veteran wasn't found
     # If the participant id is nil, that's another way of saying the veteran wasn't found
-    unless bis_record && bis_record[:ptcpnt_id]
+    unless bis_record&.dig(:ptcpnt_id)
       msg = "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
        " #{@decision_review_created.file_number}"
       handle_response(msg)
@@ -82,17 +82,16 @@ module DecisionReviewCreated::ModelBuilder
 
   def update_event_audit_notes!(msg)
     event = Event.find(@decision_review_created.event_id)
-    last_event_audit = event.event_audits.where(status: :in_progress).last
+    last_event_audit = event.event_audits.where(status: :in_progress)&.last
 
-    ActiveRecord::Base.transaction do
-      last_event_audit.update!(notes: concatenated_notes(last_event_audit, msg))
-    end
+    last_event_audit&.update!(notes: event_audit_concatenated_notes(last_event_audit, msg))
   end
 
-  def concatenated_notes(last_event_audit, msg)
-    return msg if last_event_audit.notes.nil?
+  def event_audit_concatenated_notes(last_event_audit, msg)
+    custom_note = "Note #{Time.zone.now}: #{msg}"
+    return custom_note if last_event_audit.notes.nil?
 
-    "#{last_event_audit.notes} #{msg}"
+    "#{last_event_audit.notes} - #{custom_note}"
   end
 
   def convert_to_date_logical_type(value)

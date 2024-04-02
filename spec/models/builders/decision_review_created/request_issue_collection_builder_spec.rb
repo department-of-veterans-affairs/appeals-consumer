@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
+  let(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let(:event_id) { event.id }
+  let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
   let(:decision_review_created) { build(:decision_review_created) }
   let(:decision_review_issues) { decision_review_created.decision_review_issues }
   let(:request_issues) { described_class.build(decision_review_created) }
@@ -8,6 +11,10 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   let(:index) { decision_review_issues.index(issue) }
   let(:issue) { decision_review_issues.first }
   let(:claim_id) { decision_review_created.claim_id }
+
+  before do
+    decision_review_created.instance_variable_set(:@event_id, event_id)
+  end
 
   describe "#self.build(decision_review_created)" do
     it "initializes an instance of Builders::DecisionReviewCreated::RequestIssueCollectionBuilder" do

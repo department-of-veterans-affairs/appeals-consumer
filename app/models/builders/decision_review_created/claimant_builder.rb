@@ -56,7 +56,7 @@ class Builders::DecisionReviewCreated::ClaimantBuilder
   end
 
   def calculate_date_of_birth
-    claimant.date_of_birth = @bis_record[:birth_date].to_i * 1000
+    claimant.date_of_birth = @bis_record[:birth_date].to_i * 1000 if @bis_record[:birth_date]
   end
 
   def calculate_first_name

@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::RequestIssueBuilder do
+  let(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let(:event_id) { event.id }
+  let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
   let(:decision_review_created) { build(:decision_review_created) }
   let(:issue) { decision_review_created.decision_review_issues.first }
   let(:builder) { described_class.new(issue, decision_review_created, bis_rating_profiles) }
   let(:bis_rating_profiles) { nil }
   let(:prior_decision_notification_date_converted_to_logical_type) do
     builder.send(:prior_decision_notification_date_converted_to_logical_type)
+  end
+
+  before do
+    decision_review_created.instance_variable_set(:@event_id, event_id)
   end
 
   describe "#self.build(issue, decision_review_created)" do
@@ -2264,14 +2271,25 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     subject { builder.send(:find_all_claims) }
     let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
 
-    context "when @bis_rating_profiles is nil" do
+    context "when key does not exist at rba_claim_list, rba_key" do
+      let(:bis_rating_profiles) do
+        {
+          rba_issue_list: {
+            rba_issue: {
+              rba_issue_id: "123456",
+              prfil_date: Date.new(1980, 1, 1)
+            }
+          }
+        }
+      end
+
       it "returns nil" do
         expect(subject).to eq nil
       end
     end
 
-    context "when @bis_rating_profiles is not nil" do
-      context "when key does not exist at rba_claim_list, rba_key" do
+    context "when key exists at rba_claim_list, rba_key" do
+      context "when rba_claim has nil value" do
         let(:bis_rating_profiles) do
           {
             rba_issue_list: {
@@ -2279,6 +2297,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
                 rba_issue_id: "123456",
                 prfil_date: Date.new(1980, 1, 1)
               }
+            },
+            rba_claim_list: {
+              rba_claim: nil
             }
           }
         end
@@ -2288,81 +2309,59 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         end
       end
 
-      context "when key exists at rba_claim_list, rba_key" do
-        context "when rba_claim has nil value" do
+      context "when rba_claim has not nil value" do
+        context "when the value is an object" do
           let(:bis_rating_profiles) do
             {
               rba_issue_list: {
                 rba_issue: {
-                  rba_issue_id: "123456",
-                  prfil_date: Date.new(1980, 1, 1)
+                  rba_issue_id: "12345",
+                  prfil_date: Date.new(1970, 1, 1)
                 }
               },
               rba_claim_list: {
-                rba_claim: nil
+                rba_claim: {
+                  bnft_clm_tc: "030HLRR",
+                  clm_id: "1002003",
+                  prfl_date: Date.new(1970, 1, 1)
+                }
               }
             }
           end
 
-          it "returns nil" do
-            expect(subject).to eq nil
+          it "returns the claim wrapped in an array" do
+            expect(subject).to eq([bis_rating_profiles[:rba_claim_list][:rba_claim]])
           end
         end
 
-        context "when rba_claim has not nil value" do
-          context "when the value is an object" do
-            let(:bis_rating_profiles) do
-              {
-                rba_issue_list: {
-                  rba_issue: {
-                    rba_issue_id: "12345",
-                    prfil_date: Date.new(1970, 1, 1)
-                  }
-                },
-                rba_claim_list: {
-                  rba_claim: {
+        context "when the value is an array of objects" do
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: "1234",
+                  prfil_date: Date.new(1970, 1, 1)
+                }
+              },
+              rba_claim_list: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: Date.new(1980, 1, 1)
+                  },
+                  {
                     bnft_clm_tc: "030HLRR",
                     clm_id: "1002003",
                     prfl_date: Date.new(1970, 1, 1)
                   }
-                }
+                ]
               }
-            end
-
-            it "returns the claim wrapped in an array" do
-              expect(subject).to eq([bis_rating_profiles[:rba_claim_list][:rba_claim]])
-            end
+            }
           end
 
-          context "when the value is an array of objects" do
-            let(:bis_rating_profiles) do
-              {
-                rba_issue_list: {
-                  rba_issue: {
-                    rba_issue_id: "1234",
-                    prfil_date: Date.new(1970, 1, 1)
-                  }
-                },
-                rba_claim_list: {
-                  rba_claim: [
-                    {
-                      bnft_clm_tc: "030HLRR",
-                      clm_id: "1002003",
-                      prfl_date: Date.new(1980, 1, 1)
-                    },
-                    {
-                      bnft_clm_tc: "030HLRR",
-                      clm_id: "1002003",
-                      prfl_date: Date.new(1970, 1, 1)
-                    }
-                  ]
-                }
-              }
-            end
-
-            it "returns the value of rba_claim" do
-              expect(subject).to eq(bis_rating_profiles[:rba_claim_list][:rba_claim])
-            end
+          it "returns the value of rba_claim" do
+            expect(subject).to eq(bis_rating_profiles[:rba_claim_list][:rba_claim])
           end
         end
       end

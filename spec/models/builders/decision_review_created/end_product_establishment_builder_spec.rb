@@ -77,18 +77,21 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       end
 
       context "when there is already a message in the event_audit's notes column" do
-        let!(:event_audit_with_note) { create(:event_audit, event: event, status: :in_progress, notes: "Test note.") }
+        let!(:event_audit_with_note) do
+          create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note.")
+        end
 
         it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
           subject
-          expect(event_audit_with_note.reload.notes).to eq("Test note. #{msg}")
+          expect(event_audit_with_note.reload.notes)
+            .to eq("Note #{Time.zone.now}: Test note. - Note #{Time.zone.now}: #{msg}")
         end
       end
 
       context "when there isn't a message in the event_audit's notes column" do
         it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
           subject
-          expect(event_audit_without_note.reload.notes).to eq(msg)
+          expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: #{msg}")
         end
       end
     end
