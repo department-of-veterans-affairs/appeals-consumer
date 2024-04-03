@@ -238,7 +238,7 @@ module KafkaMessageGenerators
       assoc_decision_issue_messages + rating_issue_messages
     end
 
-    # scenarios that exist for every issue type regardless of
+    # scenarios that exist for every issue type regardless of ep_code
     def create_unidentified_messages(issue_type, code)
       veteran_claimant = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
       non_veteran_claimant = create_drc_message("eligible_#{issue_type}_non_veteran_claimant", code)
@@ -362,7 +362,7 @@ module KafkaMessageGenerators
         .store_rating_profile_record(message.veteran_participant_id, bis_record)
     end
 
-    # unidentified issues have different invalid scenarios tha identified messages
+    # unidentified issues have different invalid scenarios from identified messages
     def create_invalid_messages(issue_type, code)
       invalid_unidentified_messages = create_invalid_unidentified_messages(issue_type, code)
       return invalid_unidentified_messages if unidentified?(issue_type)
