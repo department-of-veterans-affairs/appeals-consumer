@@ -3,6 +3,8 @@
 describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   let(:decision_review_created) { build(:decision_review_created) }
   let(:builder) { described_class.new(decision_review_created) }
+  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let!(:event_id) { event.id }
   let(:veteran_bis_record) do
     {
       file_number: decision_review_created.file_number,
@@ -30,6 +32,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   let(:claim_creation_time_converted_to_timestamp) { builder.claim_creation_time_converted_to_timestamp_ms }
 
   before do
+    decision_review_created.instance_variable_set(:@event_id, event_id)
     Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
   end
 
@@ -60,8 +63,6 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
         "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
        " #{decision_review_created.file_number}"
       end
-      let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
-      let!(:event_id) { event.id }
       let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
       subject { described_class.build(decision_review_created) }
 
@@ -121,8 +122,78 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     let!(:builder) { described_class.new(decision_review_created).assign_attributes }
 
     describe "#_calculate_benefit_type_code" do
-      it "should calculate benefit type code" do
-        expect(builder.end_product_establishment.benefit_type_code).to eq "2"
+      before do
+        BISService.clean!
+      end
+
+      context "@veteran_bis_record is nil" do
+        let(:veteran_bis_record) { nil }
+
+        before do
+          Fakes::VeteranStore.new
+            .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+        end
+
+        it "sets benefit_type_code to nil" do
+          expect(builder.end_product_establishment.benefit_type_code).to eq nil
+        end
+      end
+
+      context "@veteran_bis_record is not nil" do
+        context "date_of_death is valid key" do
+          context "date_of_death has not-nil value" do
+            let(:veteran_bis_record) do
+              {
+                file_number: decision_review_created.file_number,
+                date_of_death: "12/31/2019"
+              }
+            end
+
+            before do
+              Fakes::VeteranStore.new
+                .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+            end
+
+            it "should set benefit_type_code to '2'" do
+              expect(builder.end_product_establishment.benefit_type_code).to eq("2")
+            end
+          end
+
+          context "date_of_death has nil value" do
+            let(:veteran_bis_record) do
+              {
+                file_number: decision_review_created.file_number,
+                date_of_death: nil
+              }
+            end
+
+            before do
+              Fakes::VeteranStore.new
+                .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+            end
+
+            it "should set benefit_type_code to '1'" do
+              expect(builder.end_product_establishment.benefit_type_code).to eq("1")
+            end
+          end
+        end
+
+        context "date_of_death is not valid key" do
+          let(:veteran_bis_record) do
+            {
+              file_number: decision_review_created.file_number
+            }
+          end
+
+          before do
+            Fakes::VeteranStore.new
+              .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+          end
+
+          it "sets benefit_type_code to nil" do
+            expect(builder.end_product_establishment.benefit_type_code).to eq(nil)
+          end
+        end
       end
     end
 
@@ -221,6 +292,74 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     describe "#_assign_reference_id" do
       it "should assign a reference id to the epe instance" do
         expect(builder.end_product_establishment.reference_id).to eq decision_review_created.claim_id.to_s
+      end
+    end
+  end
+
+  describe "#_determine_date_of_death" do
+    subject { builder.send(:determine_date_of_death) }
+    before do
+      BISService.clean!
+    end
+
+    context "@veteran_bis_record is nil" do
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "@veteran_bis_record doesn't have date_of_death key" do
+      let(:veteran_bis_record) do
+        {
+          pcpnt_id: nil
+        }
+      end
+
+      before do
+        Fakes::VeteranStore.new
+          .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "date_of_death is valid key" do
+      context "date_of_death has not-nil value" do
+        let(:veteran_bis_record) do
+          {
+            file_number: decision_review_created.file_number,
+            date_of_death: "12/31/2019"
+          }
+        end
+
+        before do
+          Fakes::VeteranStore.new
+            .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+        end
+
+        it "returns '2'" do
+          expect(subject).to eq("2")
+        end
+      end
+
+      context "date_of_death has nil value" do
+        let(:veteran_bis_record) do
+          {
+            file_number: decision_review_created.file_number,
+            date_of_death: nil
+          }
+        end
+
+        before do
+          Fakes::VeteranStore.new
+            .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+        end
+
+        it "returns '1'" do
+          expect(subject).to eq("1")
+        end
       end
     end
   end

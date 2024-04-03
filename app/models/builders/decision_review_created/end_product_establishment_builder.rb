@@ -39,7 +39,7 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
   private
 
   def calculate_benefit_type_code
-    @end_product_establishment.benefit_type_code = @veteran_bis_record&.dig(:date_of_death).nil? ? "1" : "2"
+    @end_product_establishment.benefit_type_code = determine_date_of_death
   end
 
   def calculate_claim_date
@@ -98,5 +98,11 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
 
   def limited_poa_access
     @limited_poa_hash&.dig(:limited_poa_access)
+  end
+
+  def determine_date_of_death
+    return nil unless @veteran_bis_record&.key?(:date_of_death)
+
+    @veteran_bis_record[:date_of_death].nil? ? "1" : "2"
   end
 end
