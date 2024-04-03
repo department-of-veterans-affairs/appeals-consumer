@@ -71,7 +71,7 @@ class BaseEventProcessingJob < ApplicationJob
     msg = "An error has occured while processing a job for the event with event_id: #{@event.id}."
     msg += " Please check EventAudit with id: #{@event_audit.id} for details." if comitted_event_audit
     if @event.failed?
-      logger.error(msg, { event_id: @event_id }, notify_alerts: true)
+      logger.error(msg, { event_id: @event.id }, notify_alerts: true)
     else
       logger.error(msg)
     end

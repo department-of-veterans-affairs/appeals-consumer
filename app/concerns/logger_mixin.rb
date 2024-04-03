@@ -12,7 +12,7 @@ module LoggerMixin
     end
   end
 
-  # Retrieces or initialized the logger for the class instance
+  # Retrieves or initialized the logger for the class instance
   def logger
     @logger ||= LoggerService.new(self.class.name) # Initializes the logger with the caller class name
   end
@@ -26,7 +26,7 @@ module LoggerMixin
 
     private
 
-    # Defines logic to occur around the initializing of the LoggerServer
+    # Defines logic to occur around the initializing of the LoggerService
     def around_initialize_logger
       old_initialize = instance_method(:initialize)
 
