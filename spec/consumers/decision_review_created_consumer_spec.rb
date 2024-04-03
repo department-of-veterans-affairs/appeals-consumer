@@ -73,7 +73,7 @@ describe DecisionReviewCreatedConsumer do
         end
 
         it "handles the error" do
-          expect { consumer.consume }.not_to raise_error(AppealsConsumer::Error::EventConsumptionError)
+          expect { consumer.consume }.not_to raise_error
         end
       end
     end

@@ -18,8 +18,6 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
       log_consumption_start(extra_details)
 
       begin
-        fail StandardError if message.metadata.offset == 1
-
         ActiveRecord::Base.transaction do
           event = handle_event_creation(message)
 
@@ -34,7 +32,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
           logger.error(error, sentry_details(message), notify_alerts: true)
           next
         else
-          # logger.error(error, extra_details)
+          logger.error(error, extra_details)
           raise AppealsConsumer::Error::EventConsumptionError, error.message
         end
       end
