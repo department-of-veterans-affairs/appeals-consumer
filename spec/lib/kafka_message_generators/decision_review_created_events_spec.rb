@@ -58,6 +58,20 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
+  describe "#publish_messages" do
+    subject { decision_review_created_events.publish_messages! }
+    before do
+      allow(Karafka.producer).to receive(:produce_sync)
+    end
+
+    it "publishes 5897 messages to the DecisionReviewCreated topic" do
+      subject
+      expect(Karafka.producer).to have_received(:produce_sync).exactly(5897).times do |args|
+        expect(args[:topic]).to eq("decision_review_created")
+      end
+    end
+  end
+
   describe "#clear_cache" do
     subject { decision_review_created_events.send(:clear_cache) }
 
