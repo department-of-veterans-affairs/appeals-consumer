@@ -18,7 +18,8 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
     @decision_review_created = decision_review_created
     @bis_rating_profiles = nil
 
-    if @decision_review_created.ep_code_category == RATING
+    # only fetch and set BIS rating profiles if the message is rating and contains an identified BIS rating issue
+    if message_has_rating_issues?
       initialize_issue_profile_dates
       fetch_and_set_bis_rating_profiles
     end
@@ -54,6 +55,18 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
     handle_no_issues_after_removing_contested if valid_issues.empty?
 
     valid_issues
+  end
+
+  def message_has_rating_issues?
+    rating_ep_code_category? && at_least_one_valid_bis_issue?
+  end
+
+  def rating_ep_code_category?
+    @decision_review_created.ep_code_category == RATING
+  end
+
+  def at_least_one_valid_bis_issue?
+    valid_issues.any?(&:prior_rating_decision_id)
   end
 
   def remove_ineligible_contested_issues
@@ -104,7 +117,7 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
     profile_dates = valid_issues.map(&:prior_decision_rating_profile_date)
     return nil if profile_dates.all?(&:nil?)
 
-    # unidentified issues will have nil for this field, so remove nil values before mapping
+    # unidentified issues can have nil for this field, so remove nil values before mapping
     profile_dates.compact.map(&:to_date)
   end
 end

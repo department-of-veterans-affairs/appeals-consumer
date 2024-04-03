@@ -14,8 +14,8 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   def initialize(drc_event)
     super()
-    @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
     @event_id = drc_event.id
+    @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
     assign_attributes
   end
 

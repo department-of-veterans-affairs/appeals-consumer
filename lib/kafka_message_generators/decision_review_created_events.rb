@@ -38,7 +38,7 @@ module KafkaMessageGenerators
       [
         "Accrued",
         "Allotment",
-        "Allotment - Apportionment",
+        "Apportionment",
         "Attorney Fee",
         "Basic Eligibility",
         "Burial - Plot Allowance",
@@ -74,7 +74,7 @@ module KafkaMessageGenerators
 
     # clears the cache incase any records are currently stored
     # initializes variable that will hold file numbers to be removed from the cache
-    # to test AppealsConsumer::Error::BisVeteranNotFound error
+    # these file numbers will get a different bis response than the rest to test event audit notes and logging
     def initialize
       clear_cache
       @file_numbers_to_remove_from_cache = []
@@ -127,9 +127,38 @@ module KafkaMessageGenerators
 
     # creates all scenarios for HLR rating ep codes, including when the issue is unidentified
     def create_rating_ep_code_messages(ep_codes)
-      ep_codes.map do |code|
+      rating_messages = ep_codes.map do |code|
         create_rating_issue_type_messages(code)
       end
+
+      ensure_messages_contain_bis_rating_profile(rating_messages)
+      rating_messages
+    end
+
+    def ensure_messages_contain_bis_rating_profile(rating_messages)
+      rating_messages.flatten.each do |message|
+        unless should_skip_creating_bis_rating_profile?(message)
+          randomize_veteran_participant_id(message)
+          store_issue_bis_rating_profile_without_ramp_id(message)
+        end
+      end
+    end
+
+    def should_skip_creating_bis_rating_profile?(message)
+      rating_profile_already_in_bis?(message.veteran_participant_id) ||
+        issues_dont_have_rating_identifier?(message.decision_review_issues)
+    end
+
+    def rating_profile_already_in_bis?(participant_id)
+      Fakes::BISService.new.get_rating_record(participant_id)
+    end
+
+    def issues_dont_have_rating_identifier?(issues)
+      issues.none? { |issue| !!issue.prior_rating_decision_id }
+    end
+
+    def randomize_veteran_participant_id(message)
+      message.veteran_participant_id = randomize_value("veteran_participant_id", message).to_s
     end
 
     # create messages for all types of rating issues
@@ -198,16 +227,18 @@ module KafkaMessageGenerators
         create_identified_messages(issue_type, code, rating_unidentified_messages)
       return rating_decision_messages if rating_decision?(issue_type)
 
-      assoc_decision_issue_messages = create_rating_issue_messages(issue_type, code, rating_decision_messages)
+      assoc_decision_issue_messages = create_assoc_decision_issue_messages(issue_type, code, rating_decision_messages)
       return assoc_decision_issue_messages if associated_decision_issue?(issue_type)
 
       eligible_with_two_issues = create_eligible_with_two_issues(issue_type, code)
       contested_with_additional_issue = create_contested_with_additional_issue(issue_type, code)
 
-      assoc_decision_issue_messages + eligible_with_two_issues + contested_with_additional_issue
+      rating_issue_messages = [eligible_with_two_issues, contested_with_additional_issue]
+
+      assoc_decision_issue_messages + rating_issue_messages
     end
 
-    # scenarios that exist for every issue type regardless of ep code
+    # scenarios that exist for every issue type regardless of
     def create_unidentified_messages(issue_type, code)
       veteran_claimant = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
       non_veteran_claimant = create_drc_message("eligible_#{issue_type}_non_veteran_claimant", code)
@@ -269,14 +300,69 @@ module KafkaMessageGenerators
       [eligible_legacy, time_override] + valid_unidentified_messages
     end
 
-    # scenarios that are applicable to rating issues with or without an associated caseflow decision id
-    def create_rating_issue_messages(issue_type, code, rating_decision_messages)
-      with_ramp_id = create_drc_message("eligible_#{issue_type}_with_ramp_id", code)
-
-      rating_decision_messages << with_ramp_id
+    def bis_rating_profile_with_ramp(issue, message)
+      {
+        rba_issue_list: {
+          rba_issue: {
+            rba_issue_id: issue.prior_rating_decision_id,
+            prfil_date: issue.prior_decision_rating_profile_date&.to_date
+          }
+        },
+        rba_claim_list: {
+          rba_claim: {
+            bnft_clm_tc: "682HLRRRAMP",
+            clm_id: message.claim_id,
+            prfl_date: issue.prior_decision_rating_profile_date&.to_date
+          }
+        },
+        response: {
+          response_text: "Success"
+        }
+      }
     end
 
-    # unidentified issues have different invalid scenarios than identified messages
+    def bis_rating_profile_no_data
+      {
+        response: {
+          response_text: "No Data Found"
+        }
+      }
+    end
+
+    def create_with_ramp_claim_id(issue_type, code)
+      drc = create_drc_message("eligible_#{issue_type}", code)
+      drc.veteran_participant_id = randomize_value("veteran_participant_id", drc).to_s
+      store_bis_rating_profiles_with_ramp_id(drc)
+      drc
+    end
+
+    def store_bis_rating_profiles_with_ramp_id(message)
+      message.decision_review_issues.each do |issue|
+        store_bis_rating_profiles(message, bis_rating_profile_with_ramp(issue, message))
+      end
+    end
+
+    def create_with_no_data_found(issue_type, code)
+      drc = create_drc_message("eligible_#{issue_type}", code)
+      drc.veteran_participant_id = randomize_value("veteran_participant_id", drc).to_s
+      store_bis_rating_profiles(drc, bis_rating_profile_no_data)
+      drc
+    end
+
+    # scenarios that are applicable to rating issues with or without an associated caseflow decision id
+    def create_assoc_decision_issue_messages(issue_type, code, rating_decision_messages)
+      bis_with_ramp_id = create_with_ramp_claim_id(issue_type, code)
+      bis_no_data_found = create_with_no_data_found(issue_type, code)
+
+      rating_decision_messages + [bis_with_ramp_id, bis_no_data_found]
+    end
+
+    def store_bis_rating_profiles(message, bis_record)
+      Fakes::RatingStore.new
+        .store_rating_profile_record(message.veteran_participant_id, bis_record)
+    end
+
+    # unidentified issues have different invalid scenarios tha identified messages
     def create_invalid_messages(issue_type, code)
       invalid_unidentified_messages = create_invalid_unidentified_messages(issue_type, code)
       return invalid_unidentified_messages if unidentified?(issue_type)
@@ -359,7 +445,7 @@ module KafkaMessageGenerators
     end
 
     # create the message, randomize the file number, and add it to array that will test
-    # AppealsConsumer::Error::BisVeteranNotFound error
+    # logging and event audit notes column
     def create_drc_message_and_track_file_number(issue_trait, code)
       drc = create_drc_message(issue_trait, code)
 
@@ -367,7 +453,7 @@ module KafkaMessageGenerators
     end
 
     # randomize the file number value and add it to array that will remove it from the redis cache
-    # this will test AppealsConsumer::Error::BisVeteranNotFound error
+    # tests logging and event audit notes column
     def randomize_and_track_file_number(drc)
       drc.file_number = randomize_value("file_number", drc).to_s
       @file_numbers_to_remove_from_cache << drc.file_number
@@ -375,6 +461,7 @@ module KafkaMessageGenerators
     end
 
     # if a claimant_participant_id is "", the fake BIS call with return an empty obj
+    # tests logging and event audit notes column
     def create_drc_message_without_bis_person(issue_trait, code)
       drc = create_drc_message(issue_trait, code)
       drc.claimant_participant_id = ""
@@ -452,9 +539,9 @@ module KafkaMessageGenerators
       return nonrating_unidentified_messages if unidentified?(issue_type)
 
       identified_messages = create_identified_messages(issue_type, code, nonrating_unidentified_messages)
-      decision_type_messages = create_decision_type_messages(issue_type, code)
-      return identified_messages + decision_type_messages if associated_decision_issue?(issue_type)
+      return identified_messages if associated_decision_issue?(issue_type)
 
+      decision_type_messages = create_decision_type_messages(issue_type, code)
       eligible_with_two_issues = create_eligible_with_two_issues(issue_type, code)
       contested_with_additional_issue = create_contested_with_additional_issue(issue_type, code)
 
@@ -471,6 +558,33 @@ module KafkaMessageGenerators
       drc = create_drc_message("ineligible_#{issue_type}_contested_with_additional_issue", code)
 
       [drc]
+    end
+
+    def store_issue_bis_rating_profile_without_ramp_id(message)
+      message.decision_review_issues.each do |issue|
+        store_bis_rating_profiles(message, bis_rating_profile_without_ramp(issue, message))
+      end
+    end
+
+    def bis_rating_profile_without_ramp(issue, message)
+      {
+        rba_issue_list: {
+          rba_issue: {
+            rba_issue_id: issue.prior_rating_decision_id,
+            prfil_date: issue.prior_decision_rating_profile_date&.to_date
+          }
+        },
+        rba_claim_list: {
+          rba_claim: {
+            bnft_clm_tc: message.ep_code,
+            clm_id: message.claim_id,
+            prfl_date: issue.prior_decision_rating_profile_date&.to_date
+          }
+        },
+        response: {
+          response_text: "Success"
+        }
+      }
     end
 
     def create_decision_type_messages(issue_type, code)
@@ -496,7 +610,6 @@ module KafkaMessageGenerators
     end
 
     # store veteran record in Fakes::VeteranStore for all messages
-    # aside from the messages that specifically test AppealsConsumer::Error::BisVeteranNotFound error
     # rubocop:disable Metrics/MethodLength
     def store_veteran_in_cache(drc)
       veteran_bis_record =
@@ -687,9 +800,14 @@ module KafkaMessageGenerators
       DateTime.parse(object.send(key)).to_i * 1000
     end
 
-    # remove file numbers from cache to generate AppealsConsumer::Error::BisVeteranNotFound error
-    def remove_file_numbers_from_cache
+    # change bis response for veteran profile to test event audit notes and logging
+    def change_veteran_bis_response
       @file_numbers_to_remove_from_cache.each { |file_num| Fakes::PersistentStore.cache_store.redis.del(file_num) }
+      veteran_bis_record = { ptcpnt_id: nil }
+
+      @file_numbers_to_remove_from_cache.each do |file_num|
+        Fakes::VeteranStore.new.store_veteran_record(file_num, veteran_bis_record)
+      end
     end
 
     # assign a random integer to any field that would expect to have a unique identifier
@@ -702,9 +820,7 @@ module KafkaMessageGenerators
     # assign a random integer to the keys listed in the array
     def randomize_decision_review_issue_identifiers(issue)
       unique_identifier_keys =
-        %w[contention_id prior_rating_decision_id prior_decision_rating_disability_sequence_number
-           prior_non_rating_decision_id associated_caseflow_decision_id associated_caseflow_request_issue_id
-           legacy_appeal_issue_id]
+        %w[contention_id]
 
       unique_identifier_keys.each { |key| randomize_value(key, issue) }
     end

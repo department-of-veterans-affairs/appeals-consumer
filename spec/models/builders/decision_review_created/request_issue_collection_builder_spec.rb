@@ -43,7 +43,39 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         .to eq(nil)
     end
 
-    context "when @decision_review_created.ep_code_category equals 'rating'" do
+    context "when @decision_review_created.ep_code_category isn't 'rating' or doesn't contain rating issues" do
+      context "@decision_review_created.ep_code_category is 'nonrating'" do
+        it "does not initialize a new instance variable @earliest_issue_profile_date" do
+          expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(false)
+        end
+
+        it "does not initialize a new instance variable @latest_issue_profile_date_plus_one_day" do
+          expect(builder.instance_variable_defined?(:@latest_issue_profile_date_plus_one_day)).to eq(false)
+        end
+
+        it "leaves @bis_rating_profiles nil" do
+          expect(builder.instance_variable_get(:@bis_rating_profiles)).to eq(nil)
+        end
+      end
+
+      context "@decision_review_created doesn't contain rating issues" do
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
+
+        it "does not initialize a new instance variable @earliest_issue_profile_date" do
+          expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(false)
+        end
+
+        it "does not initialize a new instance variable @latest_issue_profile_date_plus_one_day" do
+          expect(builder.instance_variable_defined?(:@latest_issue_profile_date_plus_one_day)).to eq(false)
+        end
+
+        it "leaves @bis_rating_profiles nil" do
+          expect(builder.instance_variable_get(:@bis_rating_profiles)).to eq(nil)
+        end
+      end
+    end
+
+    context "when @decision_review_created.ep_code_category equals 'rating' and contains rating issue(s)" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
 
       it "initializes a new instance variable @earliest_issue_profile_date" do
@@ -145,6 +177,67 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       it "returns an array of valid DecisionReviewIssue(s)" do
         expect(subject).to all(be_an_instance_of(DecisionReviewIssue))
         expect(subject.count).to eq(decision_review_issues.count - 1)
+      end
+    end
+  end
+
+  describe "#message_has_rating_issues?" do
+    subject { builder.send(:message_has_rating_issues?) }
+    context "when @decision_review_created.ep_code_category isn't 'rating' or doesn't contain rating issues" do
+      context "@decision_review_created.ep_code_category is 'nonrating'" do
+        it "returns false" do
+          expect(subject).to eq(false)
+        end
+      end
+
+      context "@decision_review_created doesn't contain rating issues" do
+        it "returns false" do
+          expect(subject).to eq(false)
+        end
+      end
+
+      context "when @decision_review_created.ep_code_category equals 'rating' and contains rating issue(s)" do
+        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+
+        it "returns true" do
+          expect(subject).to eq(true)
+        end
+      end
+    end
+  end
+
+  describe "#rating_ep_code_category?" do
+    subject { builder.send(:rating_ep_code_category?) }
+    context "when @decision_review_created.ep_code_category isn't 'rating'" do
+      it "returns false" do
+        expect(subject).to eq(false)
+      end
+    end
+
+    context "when @decision_review_created.ep_code_category equals 'rating'" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+
+      it "returns true" do
+        expect(subject).to eq(true)
+      end
+    end
+  end
+
+  describe "#at_least_one_valid_bis_issue?" do
+    subject { builder.send(:at_least_one_valid_bis_issue?) }
+    context "@decision_review_created has at least one issue containing prior_rating_decision_id" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+
+      it "returns true" do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context "@decision_review_created has 0 issues containing prior_rating_decision_id" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
+
+      it "returns false" do
+        expect(subject).to eq(false)
       end
     end
   end

@@ -39,7 +39,7 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
   private
 
   def calculate_benefit_type_code
-    @end_product_establishment.benefit_type_code = @veteran_bis_record[:date_of_death].nil? ? "1" : "2"
+    @end_product_establishment.benefit_type_code = @veteran_bis_record&.dig(:date_of_death).nil? ? "1" : "2"
   end
 
   def calculate_claim_date
