@@ -243,9 +243,9 @@ module KafkaMessageGenerators
       veteran_claimant = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
       non_veteran_claimant = create_drc_message("eligible_#{issue_type}_non_veteran_claimant", code)
       no_decision_date = create_drc_message("eligible_#{issue_type}_without_prior_decision_notification_date", code)
-      with_poa_access = create_drc_message_with_poa_access("eligible_#{issue_type}", code)
-      without_poa_access = create_drc_message_without_poa_access("eligible_#{issue_type}", code)
-      nil_poa_access = create_drc_message_with_nil_poa_access("eligible_#{issue_type}", code)
+      with_poa_access = create_drc_message_with_poa_access("eligible_#{issue_type}_veteran_claimant", code)
+      without_poa_access = create_drc_message_without_poa_access("eligible_#{issue_type}_veteran_claimant", code)
+      nil_poa_access = create_drc_message_with_nil_poa_access("eligible_#{issue_type}_veteran_claimant", code)
 
       [
         veteran_claimant,
@@ -330,7 +330,7 @@ module KafkaMessageGenerators
     end
 
     def create_with_ramp_claim_id(issue_type, code)
-      drc = create_drc_message("eligible_#{issue_type}", code)
+      drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
       drc.veteran_participant_id = randomize_value("veteran_participant_id", drc).to_s
       store_bis_rating_profiles_with_ramp_id(drc)
       drc
@@ -343,7 +343,7 @@ module KafkaMessageGenerators
     end
 
     def create_with_no_data_found(issue_type, code)
-      drc = create_drc_message("eligible_#{issue_type}", code)
+      drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
       drc.veteran_participant_id = randomize_value("veteran_participant_id", drc).to_s
       store_bis_rating_profiles(drc, bis_rating_profile_no_data)
       drc
@@ -386,7 +386,7 @@ module KafkaMessageGenerators
       eligible_without_contention_id = create_drc_message("eligible_#{issue_type}_without_contention_id", code)
       bis_veteran_not_found = create_drc_message_and_track_file_number("eligible_#{issue_type}", code)
       bis_person_not_found =
-        create_drc_message_without_bis_person("eligible_#{issue_type}", code)
+        create_drc_message_without_bis_person("eligible_#{issue_type}_veteran_claimant", code)
 
       [
         eligible_without_contention_id,
@@ -589,7 +589,7 @@ module KafkaMessageGenerators
 
     def create_decision_type_messages(issue_type, code)
       NONRATING_DECISION_TYPES.map do |decision_type|
-        drc = create_drc_message("eligible_#{issue_type}", code)
+        drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
         change_issue_decision_type_and_decision_text(drc, decision_type)
         drc
       end
