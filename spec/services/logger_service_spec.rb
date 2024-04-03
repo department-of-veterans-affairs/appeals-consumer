@@ -95,7 +95,7 @@ describe LoggerService do
       end
 
       it "sends a notification to Slack" do
-        service.send(:notify_slack)
+        service.send(:notify_slack, { event_id: 1 })
         expect(slack_service)
           .to have_received(:send_notification)
           .with(/\[#{caller_class}\] Error has occured./)

@@ -64,7 +64,7 @@ RSpec.describe BaseEventProcessingJob, type: :job do
 
         context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
           it "updates the state of the event to 'error'" do
-            create_list(:event_audit, 3, event: event, error: "error msg")
+            create_list(:event_audit, 3, event: event, status: "failed")
             job.perform(event)
 
             expect(event.reload.state).to eq("failed")

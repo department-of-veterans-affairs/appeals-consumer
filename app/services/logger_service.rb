@@ -41,7 +41,7 @@ class LoggerService < SimpleDelegator
   end
 
   # Sends an error notification message to a configured Slack channel, including a Sentry event id if available.
-  def notify_slack(extra)
+  def notify_slack(extra = {})
     slack_message = "Error has occured"
     slack_message += extra[:event_id].nil? ? "." : " for event ID: #{extra[:event_id]}."
     slack_message += " See Sentry event #{Raven.last_event_id}" if Raven.last_event_id.present?
