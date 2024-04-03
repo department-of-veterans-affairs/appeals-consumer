@@ -31,4 +31,5 @@ module AppealsConsumer::Error
   class PIIFoundViolationError < StandardError; end
   # Custom error specifically for build errors
   class DtoBuildError < StandardError; end
+  class EventConsumptionError < StandardError; end
 end

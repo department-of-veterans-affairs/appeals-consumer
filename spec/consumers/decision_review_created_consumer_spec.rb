@@ -55,9 +55,26 @@ describe DecisionReviewCreatedConsumer do
         allow(event).to receive(:save).and_raise(ActiveRecord::RecordInvalid)
       end
 
-      it "handles the error" do
-        expect(consumer).to receive(:handle_error).with(instance_of(ActiveRecord::RecordInvalid), extra_details)
-        consumer.consume
+      context "while the message has been attempted 3 times or less" do
+        it "raises an error" do
+          allow(consumer).to receive(:attempt).and_return(1)
+          expect { consumer.consume }.to raise_error(AppealsConsumer::Error::EventConsumptionError)
+        end
+      end
+
+      context "while the message has been attempted more than 3 times" do
+        before do
+          allow(consumer).to receive(:attempt).and_return(4)
+        end
+        it "logs sentry and slack" do
+          expect_any_instance_of(LoggerService).to receive(:notify_sentry)
+          expect_any_instance_of(LoggerService).to receive(:notify_slack)
+          consumer.consume
+        end
+
+        it "handles the error" do
+          expect { consumer.consume }.not_to raise_error(AppealsConsumer::Error::EventConsumptionError)
+        end
       end
     end
   end
