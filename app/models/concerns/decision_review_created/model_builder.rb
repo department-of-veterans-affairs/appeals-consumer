@@ -55,20 +55,43 @@ module DecisionReviewCreated::ModelBuilder
       end_date: @latest_issue_profile_date_plus_one_day
     )
 
-    # log bis_record response if the response_text is anything other than "success"
-    if bis_rating_profiles_response != "success"
-      msg = "BIS Rating Profiles: Rating Profile info not found for DecisionReviewCreated veteran_participant_id"\
-        " #{@decision_review_created.veteran_participant_id} within the date range #{earliest_issue_profile_date}"\
-        " - #{latest_issue_profile_date_plus_one_day}."
-
-      handle_response(msg)
+    # raise failure unless response contains response hash with response_text key
+    if should_throw_bis_rating_profile_error?
+      handle_missing_response_text
+    # log bis_record response and store msg in EventAudit notes if the response_text is "no data found"
+    elsif downcase_bis_rating_profiles_response_text == "no data found"
+      handle_unsuccessful_response_text
     end
 
     @bis_rating_profiles_record
   end
 
-  def bis_rating_profiles_response
-    @bis_rating_profiles_record&.dig(:response, :response_text)&.downcase
+  def should_throw_bis_rating_profile_error?
+    bis_rating_profiles_response_text.nil? || !bis_rating_profiles_contains_valid_response_text?
+  end
+
+  def bis_rating_profiles_contains_valid_response_text?
+    ["no data found", "success"].include?(downcase_bis_rating_profiles_response_text)
+  end
+
+  def downcase_bis_rating_profiles_response_text
+    bis_rating_profiles_response_text.downcase
+  end
+
+  def bis_rating_profiles_response_text
+    @bis_rating_profiles_record&.dig(:response, :response_text)
+  end
+
+  def handle_missing_response_text
+    msg = "BIS Rating Profile did not return response hash with text, instead got #{@bis_rating_profiles_record}"
+    fail BisRatingProfileError, msg
+  end
+
+  def handle_unsuccessful_response_text
+    msg = "BIS Rating Profiles: Rating Profile returned response text: #{bis_rating_profiles_response_text} for"\
+      " DecisionReviewCreated veteran_participant_id #{@decision_review_created.veteran_participant_id} within"\
+      " the date range #{earliest_issue_profile_date} - #{latest_issue_profile_date_plus_one_day}."
+    handle_response(msg)
   end
 
   def handle_response(msg)
