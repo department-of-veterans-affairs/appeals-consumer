@@ -47,8 +47,7 @@ class EventProcessingRescueJob < ApplicationJob
       audit.cancelled!
       audit.ended_at!
       audit.update!(
-        notes: "EventAudit was left in an uncompleted state for longer "\
-        "than 26 minutes and was marked as \"CANCELLED\" at #{Time.zone.now}."
+        notes: audit_concatenated_notes(audit)
       )
     end
 
@@ -95,5 +94,13 @@ class EventProcessingRescueJob < ApplicationJob
   def log_error(message)
     Rails.logger.error("[EventProcessingRescueJob] #{message}")
     # TODO: notify sentry and slack
+  end
+
+  def audit_concatenated_notes(audit)
+    msg = "EventAudit was left in an uncompleted state for longer "\
+        "than 26 minutes and was marked as \"CANCELLED\" at #{Time.zone.now}."
+    return msg if audit.notes.nil?
+
+    "#{audit.notes} - #{msg}"
   end
 end
