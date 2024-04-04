@@ -47,7 +47,7 @@ module AppealsConsumer
 
     config.bgs_environment = ENV["BGS_ENVIRONMENT"] || "beplinktest"
 
-    config.station_id = "317"
+    config.station_id = "283"
     config.css_id = "APPEALSCONSUMER1"
     config.redis_url = ENV["REDIS_URL_CACHE"]
 

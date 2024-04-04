@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: investigate and nail down error handling/notification
-
 # This class is ultimately responsible for constructing a DecisionReviewCreated payload
 # that will be sent to Caseflow.
 # :reek:TooManyInstanceVariables
@@ -55,8 +53,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
       @end_product_establishment = build_end_product_establishment
       @request_issues = build_request_issues
     rescue StandardError => error
-      # TODO: make sure this is notified in sentry/slack
-      raise DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
+      raise AppealsConsumer::Error::DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
         #{error.message}"
     end
   end

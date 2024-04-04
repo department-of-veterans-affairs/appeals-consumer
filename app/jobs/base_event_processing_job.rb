@@ -2,15 +2,17 @@
 
 # This is the base processing job class
 class BaseEventProcessingJob < ApplicationJob
+  include LoggerMixin
+
   queue_as :high_priority
 
   def perform(event)
     init_setup(event)
 
     if @event.end_state?
-      Rails.logger.info(
-        "#{self.class.name} instance was stopped since the event "\
-        "with id: #{@event.id} was already a state of #{@event.state}"
+      logger.info(
+        "instance was stopped since the event with "\
+        "id: #{@event.id} was already a state of #{@event.state}"
       )
       return true
     end
@@ -66,10 +68,13 @@ class BaseEventProcessingJob < ApplicationJob
   end
 
   def log_error
-    # TODO: notify Sentry/Slack
-    msg = "[#{self.class.name}] An error has occured while processing a job for the event with event_id: #{@event.id}."
+    msg = "An error has occured while processing a job for the event with event_id: #{@event.id}."
     msg += " Please check EventAudit with id: #{@event_audit.id} for details." if comitted_event_audit
-    Rails.logger.error(msg)
+    if @event.failed?
+      logger.error(msg, { event_id: @event.id }, notify_alerts: true)
+    else
+      logger.error(msg)
+    end
   end
 
   def comitted_event_audit

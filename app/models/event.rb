@@ -4,6 +4,8 @@
 # Represents a single "event", and is tied to "event audits" that contain info regarding
 # information on operations regarding this event (e.g. POSTing DecisionReviewCreated event info to Caseflow)
 class Event < ApplicationRecord
+  include LoggerMixin
+
   has_many :event_audits
 
   validates :type, presence: true
@@ -39,7 +41,7 @@ class Event < ApplicationRecord
 
     return false if audits.size < max_errors_for_failure
 
-    audits.map(&:error).last(max_errors_for_failure).include?(nil) ? false : true
+    audits.where(status: "failed").size >= max_errors_for_failure
   end
 
   def process!
@@ -52,7 +54,7 @@ class Event < ApplicationRecord
     job_class = job_class_name.safe_constantize
 
     if job_class.nil?
-      Rails.logger.error(
+      logger.error(
         "No processing job found for type: #{event_type}. "\
         "Please define a .#{event_type}ProcessingJob for the #{self.class} class."
       )
@@ -63,7 +65,7 @@ class Event < ApplicationRecord
   end
 
   def handle_response(response)
-    Rails.logger.info("Received #{response.code}")
+    logger.info("Received #{response.code}")
 
     if response.code.to_i == 201
       update!(completed_at: Time.zone.now)

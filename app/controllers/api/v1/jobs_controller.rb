@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::JobsController < Api::ApplicationController
+  include LoggerMixin
+
   SCHEDULED_JOBS = {
     "event_processing_rescue" => EventProcessingRescueJob,
     "heartbeat" => HeartbeatJob
@@ -11,7 +13,7 @@ class Api::V1::JobsController < Api::ApplicationController
     return unrecognized_job unless job
 
     job = job.perform_later
-    Rails.logger.info("Pushing: #{job} job_id: #{job.job_id} to queue: #{job.queue_name}")
+    logger.info("Pushing: #{job} job_id: #{job.job_id} to queue: #{job.queue_name}")
     render json: { success: true, job_id: job.job_id }, status: :ok
   end
 

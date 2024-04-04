@@ -89,7 +89,7 @@ describe EventProcessingRescueJob, type: :job do
         expect(stuck_audit.reload.status).not_to eq("cancelled")
         expect(Rails.logger)
           .to have_received(:info)
-          .with("[EventProcessingRescueJob] Time limit exceeded, stopping job execution.")
+          .with(/Time limit exceeded, stopping job execution./)
       end
     end
   end
@@ -99,7 +99,7 @@ describe EventProcessingRescueJob, type: :job do
       allow(EventAudit).to receive(:stuck).and_raise(StandardError)
       expect(Rails.logger)
         .to receive(:error)
-        .with(/\[EventProcessingRescueJob\] encountered an exception:/)
+        .with(/Encountered an exception./)
       expect { EventProcessingRescueJob.perform_now }.not_to raise_error
     end
   end
@@ -116,7 +116,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(stuck_audit).to receive(:cancelled!).and_raise(StandardError.new("Test Error"))
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Failed to process audit/)
+            .with(/Failed to process EventAudit./)
           expect { subject.send(:process_audit, stuck_audit) }.not_to raise_error
         end
       end
@@ -128,7 +128,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(event).to receive(:determine_job).and_raise(StandardError.new("Test Error"))
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Error during the re-enqueue for event/)
+            .with(/Error during the re-enqueue for Event./)
           expect { subject.send(:handle_reenqueue, event) }.not_to raise_error
         end
       end
@@ -138,7 +138,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(event).to receive(:determine_job).and_return(nil)
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Failed to re-enqueue job for Event:/)
+            .with(/Failed to re-enqueue job for Event./)
           subject.send(:handle_reenqueue, event)
         end
       end

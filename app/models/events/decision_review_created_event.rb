@@ -8,10 +8,10 @@ class Events::DecisionReviewCreatedEvent < Event
 
     handle_response(response)
   rescue AppealsConsumer::Error::ClientRequestError => error
-    Rails.logger.error(error)
+    logger.error(error, { error: error })
     raise error
   rescue StandardError => error
-    Rails.logger.error(error)
+    logger.error(error, { error: error })
     ExternalApi::CaseflowService.establish_decision_review_created_event_error!(
       id,
       message_payload_hash["claim_id"],

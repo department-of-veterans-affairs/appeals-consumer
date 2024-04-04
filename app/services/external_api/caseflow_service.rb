@@ -2,6 +2,7 @@
 
 #  Service class for interacting with the Caseflow API, handling decision review events and errors.
 class ExternalApi::CaseflowService
+  include LoggerMixin
   # Base endpoint for the Caseflow API events.
   BASE_ENDPOINT = "api/events/v1/"
 
@@ -32,7 +33,7 @@ class ExternalApi::CaseflowService
       url = URI.join(caseflow_base_url, endpoint).to_s
       request = build_request(url, payload, headers)
       response = HTTPI.post(request)
-      Rails.logger.info("[CaseflowService] #{response}")
+      logger.info(response.to_s)
       response
     end
 

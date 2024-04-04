@@ -2,7 +2,6 @@
 
 # TODO: finish "_retrieve..." method specs on implementation
 # TODO: instance_variable_get after implementation to verify correctness for retrievals
-# TODO: add sentry/slack notifications if necessary
 
 RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
   message_payload = {
@@ -212,7 +211,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
               fail StandardError
             end
           end
-          expect { builder.send(:assign_from_builders) }.to raise_error(Builders::BaseDtoBuilder::DtoBuildError)
+          expect { builder.send(:assign_from_builders) }.to raise_error(AppealsConsumer::Error::DtoBuildError)
         end
       end
     end

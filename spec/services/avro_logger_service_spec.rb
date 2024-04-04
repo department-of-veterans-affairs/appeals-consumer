@@ -18,55 +18,15 @@ RSpec.describe AvroLoggerService, type: :service do
 
     describe "#error" do
       it "should report an error with no block given" do
-        expect(subject).to receive(:report_error).with(error)
+        expect_any_instance_of(LoggerService).to receive(:error).with(error, notify_alerts: true)
 
         subject.error(error)
       end
 
       it "should report an error with a block given" do
-        expect(subject).to receive(:report_error) { "yielding a block" }
+        expect_any_instance_of(LoggerService).to receive(:error) { "yielding a block" }
 
         subject.error(error)
-      end
-    end
-
-    describe "#report_error" do
-      it "should call notify_sentry and notify_slack" do
-        expect(subject).to receive(:notify_sentry).with(error)
-        expect(subject).to receive(:notify_slack)
-        subject.error(error)
-      end
-    end
-
-    describe "#_notify_slack" do
-      it "should send a slack notification" do
-        expect(subject.send(:slack_service)).to receive(:send_notification)
-        subject.send(:notify_slack)
-      end
-    end
-
-    describe "#_notify_sentry" do
-      before do
-        allow(Raven).to receive(:capture_exception)
-      end
-
-      it "should notify sentry" do
-        expect(subject.send(:notify_sentry, error))
-        expect(Raven).to have_received(:capture_exception).with(error, extra: { source: subject.class::SERVICE_NAME })
-      end
-    end
-
-    describe "#_slack_url" do
-      it "should return the SLACK_DISPATCH_ALERT_URL" do
-        ClimateControl.modify SLACK_DISPATCH_ALERT_URL: "http://localhost" do
-          expect(subject.send(:slack_url)).to eq "http://localhost"
-        end
-      end
-    end
-
-    describe "#_slack_service" do
-      it "should return a new slack_service" do
-        expect(subject.send(:slack_service)).to be_instance_of(SlackService)
       end
     end
   end
