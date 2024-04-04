@@ -5,9 +5,6 @@
 # logging, and error handling. This setup promotes reuse and consistency in handling incoming
 # messages from Kafka topics.
 class ApplicationConsumer < Karafka::BaseConsumer
-  # Constant defined for generic error message prefix used in notifications.
-  ERROR_MSG = "Error running"
-
   private
 
   # processes a given event, saving it to the database if it's new and logging the operation.
@@ -54,32 +51,5 @@ class ApplicationConsumer < Karafka::BaseConsumer
     full_message = "[#{self.class.name}] #{message}"
     full_message += " | #{extra.to_json}" unless extra.empty?
     Karafka.logger.info(full_message)
-  end
-
-  # Handles errors and notifies via Slack and Sentry
-  def handle_error(error, extra_details = {})
-    notify_sentry(error, extra_details)
-    notify_slack
-  end
-
-  # Sends an error notification message to a configured Slack channel, including a Sentry event id if available.
-  def notify_slack
-    slack_message = "#{ERROR_MSG} #{self.class.name}"
-    slack_message += " See Sentry event #{Raven.last_event_id}" if Raven.last_event_id.present?
-    slack_service.send_notification(slack_message, self.class.name)
-  end
-
-  # Reports an exception to Sentry, including additional details for debugging.
-  def notify_sentry(error, extra_details)
-    Raven.capture_exception(error, extra: { **extra_details, source: self.class.name })
-  end
-
-  # :reek:UtilityFunction
-  def slack_url
-    ENV["SLACK_DISPATCH_ALERT_URL"]
-  end
-
-  def slack_service
-    @slack_service ||= SlackService.new(url: slack_url)
   end
 end

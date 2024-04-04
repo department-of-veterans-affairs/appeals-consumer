@@ -77,18 +77,17 @@ RSpec.describe Event, type: :model do
 
     context "when the number of event audits are more than MAX_ERRORS_FOR_FAILURE" do
       context "when there are NOT MAX_ERRORS_FOR_FAILURE, non-null error fields on event audits" do
-        let(:my_event_audits) { create_list(:event_audit, 3, event: my_event, error: "some failure message") }
+        let(:my_event_audits) { create_list(:event_audit, 3, event: my_event) }
 
         it "event should NOT be 'failed'" do
           ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
-            my_event_audits.last.update(error: nil)
             expect(my_event.failed?).to eq false
           end
         end
       end
 
       context "when there are MAX_ERRORS_FOR_FAILURE, non-null error fields on event audits" do
-        let(:my_event_audits) { create_list(:event_audit, 3, event: my_event, error: "some failure message") }
+        let(:my_event_audits) { create_list(:event_audit, 3, event: my_event, status: "failed") }
 
         it "event should be 'failed'" do
           ClimateControl.modify MAX_ERRORS_FOR_FAILURE: "3" do
@@ -118,7 +117,7 @@ RSpec.describe Event, type: :model do
       it "logs an error and returns nil" do
         expect(event.determine_job).to be_nil
         expect(Rails.logger).to have_received(:error).with(
-          "No processing job found for type: Test. Please define a .TestProcessingJob for the Event class."
+          /No processing job found for type: Test. Please define a .TestProcessingJob for the Event class./
         )
       end
     end
@@ -212,7 +211,7 @@ RSpec.describe Event, type: :model do
     end
 
     context "when the number of event audits is less than MAX_ERRORS_FOR_FAILURE" do
-      let!(:event_audits) { create_list(:event_audit, 2, event: event, error: "error") }
+      let!(:event_audits) { create_list(:event_audit, 2, event: event, status: "failed") }
 
       it "event's state should be updated to 'error'" do
         expect(event.state).to eq("in_progress")
@@ -225,7 +224,7 @@ RSpec.describe Event, type: :model do
 
     context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
       context "the last three event audits have an error in the error column" do
-        let!(:event_audits) { create_list(:event_audit, 3, event: event, error: "error msg") }
+        let!(:event_audits) { create_list(:event_audit, 3, event: event, status: "failed") }
 
         it "event's state should be updated to 'failed'" do
           expect(event.state).to eq("in_progress")
@@ -237,7 +236,7 @@ RSpec.describe Event, type: :model do
       end
 
       context "and one of the last three event audits do not have an error in the error column" do
-        let!(:errored_event_audit) { create(:event_audit, event: event, error: "error") }
+        let!(:errored_event_audit) { create(:event_audit, event: event, status: "failed") }
         let!(:non_errored_event_audits) { create_list(:event_audit, 3, event: event) }
 
         it "event's state should be updated to 'error'" do
@@ -258,12 +257,12 @@ RSpec.describe Event, type: :model do
     let(:event) { create(:event) }
 
     before do
-      allow(Rails.logger).to receive(:info).with(message)
+      allow(Rails.logger).to receive(:info).with(/#{message}/)
       subject
     end
 
     it "logs the response code" do
-      expect(Rails.logger).to have_received(:info).with(message)
+      expect(Rails.logger).to have_received(:info).with(/#{message}/)
     end
 
     context "when the response code is 201" do

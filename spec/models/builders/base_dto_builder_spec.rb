@@ -3,18 +3,6 @@
 RSpec.describe Builders::BaseDtoBuilder, type: :model do
   subject { Builders::BaseDtoBuilder.new }
 
-  describe "PIIFoundViolationError" do
-    it "should be appropriately namespaced and inherits StandardError" do
-      expect(subject.class::PIIFoundViolationError.new).to be_kind_of(StandardError)
-    end
-  end
-
-  describe "DtoBuildError" do
-    it "should be appropriately namespaced and inherits StandardError" do
-      expect(subject.class::DtoBuildError.new).to be_kind_of(StandardError)
-    end
-  end
-
   describe "PII_FIELDS" do
     it "should include all the listed pii fields" do
       expect(subject.class::PII_FIELDS).to eq %w[
@@ -138,7 +126,7 @@ RSpec.describe Builders::BaseDtoBuilder, type: :model do
         }.as_json
       end
       it "should throw a PIIFoundViolationError" do
-        expect { subject.validate_no_pii(sample_hash) }.to raise_error(Builders::BaseDtoBuilder::PIIFoundViolationError)
+        expect { subject.validate_no_pii(sample_hash) }.to raise_error(AppealsConsumer::Error::PIIFoundViolationError)
       end
     end
   end

@@ -2,10 +2,12 @@
 
 require "bgs"
 require_relative "../../mappers/power_of_attorney_mapper"
+require_dependency "logger_mixin"
 
 module ExternalApi
   # BIS is formorlly known as BGS
   class BISService
+    include LoggerMixin
     include PowerOfAttorneyMapper
 
     attr_reader :client
@@ -21,7 +23,7 @@ module ExternalApi
     end
 
     def fetch_veteran_info(file_number)
-      Rails.logger.info("BIS: Fetching veteran info for file number: #{file_number}")
+      logger.info("Fetching veteran info for file number: #{file_number}")
       @veteran_info[file_number] ||=
         Rails.cache.fetch(fetch_veteran_info_cache_key(file_number), expires_in: 10.minutes) do
           client.veteran.find_by_file_number(file_number)
@@ -29,7 +31,7 @@ module ExternalApi
     end
 
     def fetch_person_info(participant_id)
-      Rails.logger.info("BIS: Fetching person info by participant id: #{participant_id}")
+      logger.info("Fetching person info by participant id: #{participant_id}")
       bis_info = Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
         client.people.find_person_by_ptcpnt_id(participant_id)
       end
@@ -49,7 +51,7 @@ module ExternalApi
     end
 
     def fetch_limited_poas_by_claim_ids(claim_ids)
-      Rails.logger.info("BIS: Fetching limited poas for claim ids: #{claim_ids}")
+      logger.info("Fetching limited poas for claim ids: #{claim_ids}")
       @limited_poa[claim_ids] ||=
         Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
           bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)

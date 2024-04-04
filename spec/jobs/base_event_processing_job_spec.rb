@@ -17,6 +17,7 @@ RSpec.describe BaseEventProcessingJob, type: :job do
 
     before do
       allow_any_instance_of(Event).to receive(:process!).and_return(true)
+      allow_any_instance_of(LoggerService).to receive(:notify_error)
     end
 
     context "when the event is in an end state prior to the job starting" do
@@ -42,10 +43,10 @@ RSpec.describe BaseEventProcessingJob, type: :job do
         before do
           allow(Rails.logger).to receive(:error)
           allow_any_instance_of(Event).to receive(:process!).and_raise(StandardError.new)
-          subject
         end
 
         it "handles the error and logs a message" do
+          subject
           expect { subject.not_to raise_error }
           expect(Rails.logger)
             .to have_received(:error)
@@ -56,13 +57,14 @@ RSpec.describe BaseEventProcessingJob, type: :job do
 
         context "when the number of event audits is less than MAX_ERRORS_FOR_FAILURE" do
           it "updates the state of the event to 'error'" do
+            subject
             expect(event.state).to eq("error")
           end
         end
 
         context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
           it "updates the state of the event to 'error'" do
-            create_list(:event_audit, 3, event: event, error: "error msg")
+            create_list(:event_audit, 3, event: event, status: "failed")
             job.perform(event)
 
             expect(event.reload.state).to eq("failed")
