@@ -86,4 +86,12 @@ class EventProcessingRescueJob < ApplicationJob
     data[:error_message] = error.message if error
     data
   end
+
+  def audit_concatenated_notes(audit)
+    msg = "EventAudit was left in an uncompleted state for longer "\
+        "than 26 minutes and was marked as \"CANCELLED\" at #{Time.zone.now}."
+    return msg if audit.notes.nil?
+
+    "#{audit.notes} - #{msg}"
+  end
 end
