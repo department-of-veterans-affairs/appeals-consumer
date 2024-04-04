@@ -167,11 +167,11 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
         allow_any_instance_of(BISService)
           .to receive(:fetch_veteran_info)
           .and_return({ ptcpnt_id: nil, response: { response_text: "No records found" } })
-        allow(Rails.logger).to receive(:info).with(msg)
+        allow(Rails.logger).to receive(:info)
       end
 
       it "logs message" do
-        expect(Rails.logger).to receive(:info).with(msg)
+        expect(Rails.logger).to receive(:info).with(/#{msg}/)
         subject
       end
 

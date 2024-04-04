@@ -133,14 +133,17 @@ describe ExternalApi::BISService do
     let!(:formatted_start_date) { start_date.to_date }
     let!(:formatted_end_date) { end_date.to_date }
     let!(:cache_key) { "bis_rating_profiles_#{participant_id}_#{formatted_start_date}_#{formatted_end_date}" }
+    let(:msg) do
+      "Fetching rating profiles for participant_id #{participant_id}"\
+        " within the date range #{formatted_start_date} - #{formatted_end_date}"
+    end
+
     subject do
       bis.fetch_rating_profiles_in_range(participant_id: participant_id, start_date: start_date, end_date: end_date)
     end
 
     before do
       allow(Rails.logger).to receive(:info)
-        .with("BIS: Fetching rating profiles for participant_id #{participant_id}"\
-          " within the date range #{formatted_start_date} - #{formatted_end_date}")
     end
 
     after do
@@ -151,8 +154,7 @@ describe ExternalApi::BISService do
       subject
       expect(bis_rating_profile_service).to have_received(:find_in_date_range).once
       expect(Rails.logger).to have_received(:info)
-        .with("BIS: Fetching rating profiles for participant_id #{participant_id}"\
-          " within the date range #{formatted_start_date} - #{formatted_end_date}")
+        .with(/#{msg}/)
     end
 
     it "should set cache key,value if not exists" do

@@ -56,11 +56,11 @@ describe DecisionReviewCreated::ModelBuilder do
 
         before do
           allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return({ ptcpnt_id: nil })
-          allow(Rails.logger).to receive(:info).with(msg)
+          allow(Rails.logger).to receive(:info)
         end
 
         it "logs message" do
-          expect(Rails.logger).to receive(:info).with(msg)
+          expect(Rails.logger).to receive(:info).with(/#{msg}/)
           subject
         end
 
@@ -106,11 +106,11 @@ describe DecisionReviewCreated::ModelBuilder do
 
         before do
           allow_any_instance_of(BISService).to receive(:fetch_person_info).and_return({})
-          allow(Rails.logger).to receive(:info).with(msg)
+          allow(Rails.logger).to receive(:info)
         end
 
         it "logs message" do
-          expect(Rails.logger).to receive(:info).with(msg)
+          expect(Rails.logger).to receive(:info).with(/#{msg}/)
           subject
         end
 
@@ -223,11 +223,11 @@ describe DecisionReviewCreated::ModelBuilder do
                 fetch_rating_profiles_in_range: { response: { response_text: "No Data Found" } }
               )
             )
-          allow(Rails.logger).to receive(:info).with(msg)
+          allow(Rails.logger).to receive(:info)
         end
 
         it "logs message" do
-          expect(Rails.logger).to receive(:info).with(msg)
+          expect(Rails.logger).to receive(:info).with(/#{msg}/)
           subject
         end
 
@@ -408,9 +408,9 @@ describe DecisionReviewCreated::ModelBuilder do
     let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
     it "logs the message" do
-      allow(Rails.logger).to receive(:info).with(msg)
+      allow(Rails.logger).to receive(:info)
       dummy.handle_response(msg)
-      expect(Rails.logger).to have_received(:info).with(msg)
+      expect(Rails.logger).to have_received(:info).with(/#{msg}/)
     end
 
     it "updates the last event's 'in_progress' event_audit note column with the message" do
@@ -423,11 +423,11 @@ describe DecisionReviewCreated::ModelBuilder do
     let(:msg) { "Test note 2" }
 
     before do
-      allow(Rails.logger).to receive(:info).with(msg)
+      allow(Rails.logger).to receive(:info)
     end
 
     it "logs the message" do
-      expect(Rails.logger).to receive(:info).with(msg)
+      expect(Rails.logger).to receive(:info).with(/#{msg}/)
       dummy.log_info(msg)
     end
   end

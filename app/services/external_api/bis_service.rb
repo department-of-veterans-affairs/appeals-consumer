@@ -62,8 +62,8 @@ module ExternalApi
 
     def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)
       start_date, end_date = formatted_start_and_end_dates(start_date, end_date)
-      Rails.logger.info(
-        "BIS: Fetching rating profiles for participant_id #{participant_id}"\
+      logger.info(
+        "Fetching rating profiles for participant_id #{participant_id}"\
           " within the date range #{start_date} - #{end_date}"
       )
 

@@ -66,17 +66,17 @@ describe Builders::DecisionReviewCreated::ClaimantBuilder do
     context "when the BIS record is not found" do
       let(:msg) do
         "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
-       " #{decision_review_created.claimant_participant_id}"
+        " #{decision_review_created.claimant_participant_id}"
       end
       let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
       before do
         allow_any_instance_of(BISService).to receive(:fetch_person_info).and_return({})
-        allow(Rails.logger).to receive(:info).with(msg)
+        allow(Rails.logger).to receive(:info)
       end
 
       it "logs message" do
-        expect(Rails.logger).to receive(:info).with(msg)
+        expect(Rails.logger).to receive(:info).with(/#{msg}/)
         claimant
       end
 

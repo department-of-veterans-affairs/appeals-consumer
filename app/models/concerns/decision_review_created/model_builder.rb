@@ -77,7 +77,8 @@ module DecisionReviewCreated::ModelBuilder
   end
 
   def log_info(msg)
-    Rails.logger.info(msg)
+    logger = LoggerService.new(self.class.name)
+    logger.info(msg)
   end
 
   def update_event_audit_notes!(msg)

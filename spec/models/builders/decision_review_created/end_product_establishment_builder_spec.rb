@@ -69,11 +69,11 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       before do
         decision_review_created.instance_variable_set(:@event_id, event_id)
         allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return({ ptcpnt_id: nil })
-        allow(Rails.logger).to receive(:info).with(msg)
+        allow(Rails.logger).to receive(:info)
       end
 
       it "logs message" do
-        expect(Rails.logger).to receive(:info).with(msg)
+        expect(Rails.logger).to receive(:info).with(/#{msg}/)
         subject
       end
 
