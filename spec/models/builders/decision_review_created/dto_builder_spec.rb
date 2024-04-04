@@ -24,9 +24,9 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     "same_station_review_requested" => false,
     "intake_creation_time" => Time.now.utc.to_s,
     "claim_creation_time" => Time.now.utc.to_s,
-    "created_by_username" => "BVADWISE101",
-    "created_by_station" => "101",
-    "created_by_application" => "PASYSACCTCREATE",
+    "actor_username" => "BVADWISE101",
+    "actor_station" => "101",
+    "actor_application" => "PASYSACCTCREATE",
     "decision_review_issues" =>
       [
         {
@@ -164,8 +164,8 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         drc_dto_builder.send(:assign_from_decision_review_created)
 
         expect(drc_dto_builder.instance_variable_get(:@decision_review_created)).to eq drc
-        expect(drc_dto_builder.instance_variable_get(:@css_id)).to eq drc.created_by_username
-        expect(drc_dto_builder.instance_variable_get(:@station)).to eq drc.created_by_station
+        expect(drc_dto_builder.instance_variable_get(:@css_id)).to eq drc.actor_username
+        expect(drc_dto_builder.instance_variable_get(:@station)).to eq drc.actor_station
         expect(drc_dto_builder.instance_variable_get(:@detail_type)).to eq drc.decision_review_type
         expect(drc_dto_builder.instance_variable_get(:@vet_file_number)).to eq drc.file_number
         expect(drc_dto_builder.instance_variable_get(:@vet_first_name)).to eq drc.veteran_first_name

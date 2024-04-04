@@ -14,19 +14,19 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   # eligibility_result values that have a 1-to-1 match to a Request Issue ineligible_reason
   TIME_RESTRICTION = "TIME_RESTRICTION"
   COMPLETED_HLR = "COMPLETED_HLR"
-  COMPLETED_BOARD = "COMPLETED_BOARD"
+  COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
   PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
 
   # eligibility_result values grouped by Request Issue ineligible_reason
-  COMPLETED_REVIEW = %w[COMPLETED_BOARD COMPLETED_HLR].freeze
-  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD PENDING_SUPPLEMENTAL].freeze
+  COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
+  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD_APPEAL PENDING_SUPPLEMENTAL].freeze
   LEGACY_APPEAL_NOT_ELIGIBLE = %w[LEGACY_TIME_RESTRICTION NO_SOC_SSOC].freeze
 
   # eligibility_result values grouped by ineligible and eligible
   ELIGIBLE = %w[ELIGIBLE ELIGIBLE_LEGACY].freeze
   INELIGIBLE = %w[
     TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC
-    PENDING_HLR COMPLETED_HLR PENDING_BOARD COMPLETED_BOARD PENDING_SUPPLEMENTAL
+    PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
   ].freeze
 
   INELIGIBLE_CLOSED_STATUS = "ineligible"
@@ -120,7 +120,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
   def assign_contested_rating_decision_reference_id
-    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_disability_sequence_number&.to_s
+    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_sn&.to_s
   end
 
   # only populate if issue is a rating issue
@@ -145,7 +145,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.decision_date = prior_decision_notification_date_converted_to_logical_type
   end
 
-  # if the issue's eligibility_result is "PENDING_BOARD", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
+  # if the issue's eligibility_result is "PENDING_BOARD_APPEAL", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
   # there must be an associated_caseflow_request_issue_id to correlate the pre-existing request issue to
   def calculate_ineligible_due_to_id
     @request_issue.ineligible_due_to_id =
@@ -333,8 +333,8 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     LEGACY_APPEAL_NOT_ELIGIBLE.include?(issue.eligibility_result)
   end
 
-  def completed_board?
-    issue.eligibility_result == COMPLETED_BOARD
+  def completed_board_appeal?
+    issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
 
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
@@ -391,7 +391,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def rating_decision?
-    !!issue.prior_decision_rating_disability_sequence_number
+    !!issue.prior_decision_rating_sn
   end
 
   def decision_issue?
@@ -415,7 +415,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def determine_completed_claim_review_type
-    completed_board? ? appeal_to_higher_level_review : higher_level_review_to_higher_level_review
+    completed_board_appeal? ? appeal_to_higher_level_review : higher_level_review_to_higher_level_review
   end
 
   def contention_id_present?

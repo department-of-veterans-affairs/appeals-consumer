@@ -35,9 +35,9 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   # :reek:TooManyStatements
   def assign_from_decision_review_created
     @claim_id = @decision_review_created.claim_id
-    @css_id = @decision_review_created.created_by_username
+    @css_id = @decision_review_created.actor_username
     @detail_type = @decision_review_created.decision_review_type
-    @station = @decision_review_created.created_by_station
+    @station = @decision_review_created.actor_station
     @vet_file_number = @decision_review_created.file_number
     @vet_first_name = @decision_review_created.veteran_first_name
     @vet_last_name = @decision_review_created.veteran_last_name

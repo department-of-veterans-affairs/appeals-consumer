@@ -236,16 +236,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   describe "#assign_contested_rating_decision_reference_id" do
     subject { builder.send(:assign_contested_rating_decision_reference_id) }
 
-    context "when the issue has a prior_decision_rating_disability_sequence_number value" do
+    context "when the issue has a prior_decision_rating_sn value" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
 
       it "assigns the Request Issue's contested_rating_decision_reference_id to"\
-         " issue.prior_decision_rating_disability_sequence_number converted to a string" do
-        expect(subject).to eq(issue.prior_decision_rating_disability_sequence_number.to_s)
+         " issue.prior_decision_rating_sn converted to a string" do
+        expect(subject).to eq(issue.prior_decision_rating_sn.to_s)
       end
     end
 
-    context "when the issue does not have a prior_decision_rating_disability_sequence_number value" do
+    context "when the issue does not have a prior_decision_rating_sn value" do
       it "assigns the Request Issue's contested_rating_decision_reference_id to nil" do
         expect(subject).to eq(nil)
       end
@@ -424,8 +424,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           end
         end
 
-        context "when issue.eligibility_result is 'PENDING_BOARD'" do
-          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
+        context "when issue.eligibility_result is 'PENDING_BOARD_APPEAL'" do
+          let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeals) }
 
           context "when issue.associated_caseflow_request_issue_id is present" do
             it "sets the Request Issue's ineligible_due_to_id to issue.associated_caseflow_request_issue_id" do
@@ -531,16 +531,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           end
         end
 
-        context "when the issue has 'PENDING_BOARD' for eligibility_result" do
+        context "when the issue has 'PENDING_BOARD_APPEAL' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_board_appeals) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeals) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
@@ -636,7 +636,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         let(:appeal_to_hlr) do
           described_class::INELIGIBLE_REASONS[:appeal_to_higher_level_review]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board_appeal) }
 
         it "sets the Request Issue's ineligible_reason to 'appeal_to_higher_level_review'" do
           expect(subject).to eq(appeal_to_hlr)
@@ -1178,16 +1178,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           end
         end
 
-        context "when the issue has 'PENDING_BOARD' for eligibility_result" do
+        context "when the issue has 'PENDING_BOARD_APPEAL' for eligibility_result" do
           context "rating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_pending_board_appeals) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_rating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_rating_issue)
             end
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
+            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeals) }
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
@@ -1282,7 +1282,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         let(:appeal_to_hlr) do
           described_class::INELIGIBLE_REASONS[:appeal_to_higher_level_review]
         end
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board_appeal) }
 
         it "sets the Request Issue's ineligible_reason to 'appeal_to_higher_level_review'" do
           expect(subject).to eq(appeal_to_hlr)
@@ -1403,7 +1403,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     let(:error_msg) do
       "Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
     end
-    let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
+    let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeals) }
 
     context "when there isn't an associated_caseflow_request_issue_id present" do
       it "does not raise an error" do
@@ -1466,7 +1466,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
     end
 
-    context "when the issue has a prior_decision_rating_disability_sequence_number value" do
+    context "when the issue has a prior_decision_rating_sn value" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
       it "returns true" do
         expect(subject).to eq true
@@ -1497,8 +1497,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         end
       end
 
-      context "PENDING_BOARD" do
-        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board) }
+      context "PENDING_BOARD_APPEAL" do
+        let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeals) }
         it "returns true" do
           expect(subject).to eq true
         end
@@ -1580,16 +1580,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
   end
 
-  describe "#completed_board?" do
-    subject { builder.send(:completed_board?) }
-    context "when the issue's eligibility_result is 'COMPLETED_BOARD'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
+  describe "#completed_board_appeal?" do
+    subject { builder.send(:completed_board_appeal?) }
+    context "when the issue's eligibility_result is 'COMPLETED_BOARD_APPEAL'" do
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board_appeal) }
       it "retuns true" do
         expect(subject).to eq true
       end
     end
 
-    context "when the issue's eligibility_result is NOT 'COMPLETED_BOARD'" do
+    context "when the issue's eligibility_result is NOT 'COMPLETED_BOARD_APPEAL'" do
       it "retuns false" do
         expect(subject).to eq false
       end
@@ -1645,7 +1645,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         end
       end
 
-      context "prior_decision_rating_disability_sequence_number" do
+      context "prior_decision_rating_sn" do
         let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
         it "retuns true" do
           expect(subject).to eq true
@@ -1785,14 +1785,14 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#rating_decision?" do
     subject { builder.send(:rating_decision?) }
-    context "when the issue has a not-null value for prior_decision_rating_disability_sequence_number" do
+    context "when the issue has a not-null value for prior_decision_rating_sn" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
       it "returns true" do
         expect(subject).to eq true
       end
     end
 
-    context "when the issue has a null value for prior_decision_rating_disability_sequence_number" do
+    context "when the issue has a null value for prior_decision_rating_sn" do
       it "returns false" do
         expect(subject).to eq false
       end
@@ -1808,7 +1808,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
     end
 
-    context "when the issue has a null value for prior_decision_rating_disability_sequence_number" do
+    context "when the issue has a null value for prior_decision_rating_sn" do
       it "returns false" do
         expect(subject).to eq false
       end
@@ -1873,7 +1873,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   describe "#completed_claim_review?" do
     subject { builder.send(:completed_claim_review?) }
     context "when the issue has an eligibility_result that is listed in the COMPLETED_REVIEW constant" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board_appeal) }
       it "returns true" do
         expect(subject).to eq true
       end
@@ -1888,8 +1888,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#determine_completed_claim_review_type" do
     subject { builder.send(:determine_completed_claim_review_type) }
-    context "when the issue's eligibility_result is 'COMPLETED_BOARD'" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board) }
+    context "when the issue's eligibility_result is 'COMPLETED_BOARD_APPEAL'" do
+      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_completed_board_appeal) }
       it "returns 'appeal_to_higher_level_review'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:appeal_to_higher_level_review])
       end
@@ -1981,7 +1981,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
     end
 
-    context "when the issue has a value for prior_decision_rating_disability_sequence_number" do
+    context "when the issue has a value for prior_decision_rating_sn" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr) }
       it "returns true" do
         expect(subject).to eq true
@@ -1989,7 +1989,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
 
     context "when the issue does not have a value for prior_rating_decision_id or"\
-     " prior_decision_rating_disability_sequence_number" do
+     " prior_decision_rating_sn" do
       it "returns false" do
         expect(subject).to eq false
       end

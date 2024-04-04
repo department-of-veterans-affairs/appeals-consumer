@@ -149,7 +149,7 @@ module KafkaMessageGenerators
       rating_messages("rating_hlr", code)
     end
 
-    # creates scenarios for messages that have a prior_decision_rating_disability_sequence_number
+    # creates scenarios for messages that have a prior_decision_rating_sn
     def create_hlr_rating_decision_messages(code)
       rating_messages("rating_decision_hlr", code)
     end
@@ -319,7 +319,7 @@ module KafkaMessageGenerators
     end
 
     # ineligible scenarios only pertain to identified messages
-    # "COMPLETED_BOARD" and "COMPLETED_HLR" do not pertain to supplementals
+    # "COMPLETED_BOARD_APPEAL" and "COMPLETED_HLR" do not pertain to supplementals
     def create_ineligible_messages(issue_type, code)
       ineligible_supp_messages = create_ineligible_supp_messages(issue_type, code)
       return ineligible_supp_messages if sc_issue?(code)
@@ -336,7 +336,7 @@ module KafkaMessageGenerators
       legacy_time_restriction =
         create_drc_message("ineligible_#{issue_type}_legacy_time_restriction", code)
       pending_hlr = create_drc_message("ineligible_#{issue_type}_pending_hlr", code)
-      pending_board = create_drc_message("ineligible_#{issue_type}_pending_board", code)
+      pending_board_appeals = create_drc_message("ineligible_#{issue_type}_pending_board_appeals", code)
       pending_supplemental = create_drc_message("ineligible_#{issue_type}_pending_supplemental", code)
 
       [
@@ -347,15 +347,15 @@ module KafkaMessageGenerators
         legacy_time_restriction,
         pending_hlr,
         pending_supplemental,
-        pending_board
+        pending_board_appeals
       ]
     end
 
     def create_ineligible_hlr_messages(issue_type, code, ineligible_supp_messages)
       completed_hlr = create_drc_message("ineligible_#{issue_type}_completed_hlr", code)
-      completed_board = create_drc_message("ineligible_#{issue_type}_completed_board", code)
+      completed_board_appeal = create_drc_message("ineligible_#{issue_type}_completed_board_appeal", code)
 
-      [completed_hlr, completed_board] + ineligible_supp_messages
+      [completed_hlr, completed_board_appeal] + ineligible_supp_messages
     end
 
     # create the message, randomize the file number, and add it to array that will test
@@ -703,7 +703,7 @@ module KafkaMessageGenerators
     # assign a random integer to the keys listed in the array
     def randomize_decision_review_issue_identifiers(issue)
       unique_identifier_keys =
-        %w[contention_id prior_rating_decision_id prior_decision_rating_disability_sequence_number
+        %w[contention_id prior_rating_decision_id prior_decision_rating_sn
            prior_non_rating_decision_id associated_caseflow_decision_id associated_caseflow_request_issue_id
            legacy_appeal_issue_id]
 

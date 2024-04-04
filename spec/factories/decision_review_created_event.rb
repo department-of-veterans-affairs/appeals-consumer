@@ -24,9 +24,9 @@ FactoryBot.define do
         "same_station_review_requested" => false,
         "intake_creation_time" => Time.now.utc.to_time.to_s,
         "claim_creation_time" => Time.now.utc.to_time.to_s,
-        "created_by_username" => "BVADWISE101",
-        "created_by_station" => "101",
-        "created_by_application" => "PASYSACCTCREATE",
+        "actor_username" => "BVADWISE101",
+        "actor_station" => "101",
+        "actor_application" => "PASYSACCTCREATE",
         "decision_review_issues" => [
           {
             "contention_id" => 123_456_789,

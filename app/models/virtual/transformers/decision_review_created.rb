@@ -29,9 +29,9 @@ class Transformers::DecisionReviewCreated
     "same_station_review_requested" => [TrueClass, FalseClass],
     "intake_creation_time" => String,
     "claim_creation_time" => String,
-    "created_by_username" => String,
-    "created_by_station" => String,
-    "created_by_application" => String,
+    "actor_username" => String,
+    "actor_station" => String,
+    "actor_application" => String,
     "decision_review_issues" => Array
   }
   # rubocop:enable Style/MutableConstant
@@ -78,7 +78,6 @@ end
 class DecisionReviewIssue
   include MessagePayloadValidator
 
-  # TODO: VERIFY ATTRIBUTES NAMES: prior_decision_ramp_id, prior_decision_rating_disability_sequence_number
   # TODO: ADD FIELD: prior_decision_notification_date - 1 business day (not added to avro yet)
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
@@ -97,7 +96,7 @@ class DecisionReviewIssue
     "prior_decision_type" => [String, NilClass],
     "prior_decision_notification_date" => [String, NilClass],
     "prior_decision_diagnostic_code" => [String, NilClass],
-    "prior_decision_rating_disability_sequence_number" => [Integer, NilClass],
+    "prior_decision_rating_sn" => [Integer, NilClass],
     "prior_decision_rating_percentage" => [String, NilClass],
     "prior_decision_rating_profile_date" => [String, NilClass],
     "eligible" => [TrueClass, FalseClass],
