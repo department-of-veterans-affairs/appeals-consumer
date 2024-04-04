@@ -207,15 +207,11 @@ describe DecisionReviewCreated::ModelBuilder do
         end
       end
 
-      context "when response_text contains anything other than 'success'" do
+      context "when no records are found" do
         let(:msg) do
-          "BIS Rating Profiles: Rating Profile returned response text:"\
-          " #{bis_response[:response][:response_text]} for DecisionReviewCreated veteran_participant_id"\
-          " #{dummy.decision_review_created.veteran_participant_id} within the date range"\
-          " #{dummy.earliest_issue_profile_date} - #{dummy.latest_issue_profile_date_plus_one_day}."
-        end
-        let(:bis_response) do
-          { response: { response_text: "No Data Found" } }
+          "BIS Rating Profiles: Rating Profile info not found for DecisionReviewCreated veteran_participant_id"\
+            " #{dummy.decision_review_created.veteran_participant_id} within the date range"\
+            " #{dummy.earliest_issue_profile_date} - #{dummy.latest_issue_profile_date_plus_one_day}."
         end
         let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
@@ -224,7 +220,7 @@ describe DecisionReviewCreated::ModelBuilder do
             .and_return(
               double(
                 "BISService",
-                fetch_rating_profiles_in_range: bis_response
+                fetch_rating_profiles_in_range: { response: { response_text: "No Data Found" } }
               )
             )
           allow(Rails.logger).to receive(:info)
@@ -252,32 +248,6 @@ describe DecisionReviewCreated::ModelBuilder do
             subject
             expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: #{msg}")
           end
-        end
-      end
-
-      context "when response is nil" do
-        let(:msg) do
-          "BIS Rating Profile did not return response hash with text, instead got #{bis_response}"
-        end
-        let(:bis_response) { nil }
-
-        before do
-          allow(BISService).to receive(:new)
-            .and_return(double("BISService", fetch_rating_profiles_in_range: bis_response))
-          expect { subject }.to raise_error(BisRatingProfileError, msg)
-        end
-      end
-
-      context "when response does not contain response_text" do
-        let(:msg) do
-          "BIS Rating Profile did not return response hash with text, instead got #{bis_response}"
-        end
-        let(:bis_response) { { response: nil } }
-
-        before do
-          allow(BISService).to receive(:new)
-            .and_return(double("BISService", fetch_rating_profiles_in_range: bis_response))
-          expect { subject }.to raise_error(BisRatingProfileError, msg)
         end
       end
     end
@@ -395,58 +365,39 @@ describe DecisionReviewCreated::ModelBuilder do
     end
   end
 
-  describe "#downcase_bis_rating_profiles_response_text" do
-    let(:hash_with_response_text) do
-      { response: { response_text: "No Data Found" } }
-    end
-
-    before do
-      dummy.instance_variable_set(:@bis_rating_profiles_record, hash_with_response_text)
-    end
-
-    it "returns the value of :response_text" do
-      expect(dummy.downcase_bis_rating_profiles_response_text)
-        .to eq(hash_with_response_text[:response][:response_text].downcase)
-    end
-  end
-
-  describe "#bis_rating_profiles_response_text" do
-    subject { dummy.send(:bis_rating_profiles_respones_text) }
-    context "@bis_rating_profile_record is nil" do
-      before do
-        allow(BISService).to receive(:new)
-          .and_return(double("BISService", fetch_rating_profiles_in_range: nil))
-        expect(subject).to eq(nil)
+  describe "#bis_rating_profiles_response" do
+    context "when @bis_rating_profiles_record is nil" do
+      it "returns nil" do
+        expect(dummy.bis_rating_profiles_response).to eq(nil)
       end
     end
 
-    context "@bis_rating_profile_record is not-nil" do
-      context "contains response_text key" do
-        context "key is not-nil" do
-          let(:bis_response) { { response: { response_text: "not nil" } } }
-          before do
-            allow(BISService).to receive(:new)
-              .and_return(double("BISService", fetch_rating_profiles_in_range: bis_response))
-            expect(subject).to eq(bis_response[:response][:response_text])
-          end
+    context "when @bis_rating_profiles is not nil" do
+      context ":response_text key exists" do
+        let(:hash_with_response_text) do
+          { response: { response_text: "No Data Found" } }
         end
 
-        context "key is nil" do
-          let(:bis_response) { { response: { response_text: nil } } }
-          before do
-            allow(BISService).to receive(:new)
-              .and_return(double("BISService", fetch_rating_profiles_in_range: bis_response))
-            expect(subject).to eq(nil)
-          end
-        end
-      end
-
-      context "does not contain response_text key" do
-        let(:bis_response) { { response: "hello" } }
         before do
-          allow(BISService).to receive(:new)
-            .and_return(double("BISService", fetch_rating_profiles_in_range: bis_response))
-          expect(subject).to eq(nil)
+          dummy.instance_variable_set(:@bis_rating_profiles_record, hash_with_response_text)
+        end
+
+        it "returns the value of :response_text and converts to downcase" do
+          expect(dummy.bis_rating_profiles_response).to eq("no data found")
+        end
+      end
+
+      context ":response_text key does not exist" do
+        let(:hash_without_response_text) do
+          { rba_claim_list: { rba_claim: {} } }
+        end
+
+        before do
+          dummy.instance_variable_set(:@bis_rating_profiles_record, hash_without_response_text)
+        end
+
+        it "returns nil" do
+          expect(dummy.bis_rating_profiles_response).to eq(nil)
         end
       end
     end
