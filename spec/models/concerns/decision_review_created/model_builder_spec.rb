@@ -83,6 +83,25 @@ describe DecisionReviewCreated::ModelBuilder do
           end
         end
       end
+
+      context "an error is thrown" do
+        let(:error) { AppealsConsumer::Error::BisVeteranError }
+        let(:msg) do
+          "Failed fetching Veteran info from"\
+            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
+        end
+        let(:timeout_msg) { "timeout" }
+
+        before do
+          bis_service_instance = instance_double(BISService)
+          allow(BISService).to receive(:new).and_return(bis_service_instance)
+          allow(bis_service_instance).to receive(:fetch_veteran_info).and_raise(StandardError, timeout_msg)
+        end
+
+        it "rescues the error and rethrows custom exception" do
+          expect { subject }.to raise_error(error, msg)
+        end
+      end
     end
   end
 
@@ -133,6 +152,25 @@ describe DecisionReviewCreated::ModelBuilder do
           end
         end
       end
+
+      context "an error is thrown" do
+        let(:error) { AppealsConsumer::Error::BisPersonError }
+        let(:msg) do
+          "Failed fetching Person info from"\
+            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
+        end
+        let(:timeout_msg) { "timeout" }
+
+        before do
+          bis_service_instance = instance_double(BISService)
+          allow(BISService).to receive(:new).and_return(bis_service_instance)
+          allow(bis_service_instance).to receive(:fetch_person_info).and_raise(StandardError, timeout_msg)
+        end
+
+        it "rescues the error and rethrows custom exception" do
+          expect { subject }.to raise_error(error, msg)
+        end
+      end
     end
   end
 
@@ -154,6 +192,25 @@ describe DecisionReviewCreated::ModelBuilder do
                                                       ))
 
         expect(dummy.fetch_limited_poa).to be_nil
+      end
+
+      context "an error is thrown" do
+        let(:error) { AppealsConsumer::Error::BisLimitedPoaError }
+        let(:msg) do
+          "Failed fetching Limited POA info from"\
+            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
+        end
+        let(:timeout_msg) { "timeout" }
+
+        before do
+          bis_service_instance = instance_double(BISService)
+          allow(BISService).to receive(:new).and_return(bis_service_instance)
+          allow(bis_service_instance).to receive(:fetch_limited_poas_by_claim_ids).and_raise(StandardError, timeout_msg)
+        end
+
+        it "rescues the error and rethrows custom exception" do
+          expect { dummy.fetch_limited_poa }.to raise_error(error, msg)
+        end
       end
     end
 
@@ -248,6 +305,25 @@ describe DecisionReviewCreated::ModelBuilder do
             subject
             expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: #{msg}")
           end
+        end
+      end
+
+      context "an error is thrown" do
+        let(:error) { AppealsConsumer::Error::BisRatingProfilesError }
+        let(:msg) do
+          "Failed fetching Rating Profiles info from"\
+            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
+        end
+        let(:timeout_msg) { "timeout" }
+
+        before do
+          bis_service_instance = instance_double(BISService)
+          allow(BISService).to receive(:new).and_return(bis_service_instance)
+          allow(bis_service_instance).to receive(:fetch_rating_profiles_in_range).and_raise(StandardError, timeout_msg)
+        end
+
+        it "rescues the error and rethrows custom exception" do
+          expect { subject }.to raise_error(error, msg)
         end
       end
     end
@@ -365,10 +441,10 @@ describe DecisionReviewCreated::ModelBuilder do
     end
   end
 
-  describe "#bis_rating_profiles_response" do
+  describe "#downcase_bis_rating_profiles_response_text" do
     context "when @bis_rating_profiles_record is nil" do
       it "returns nil" do
-        expect(dummy.bis_rating_profiles_response).to eq(nil)
+        expect(dummy.send(:downcase_bis_rating_profiles_response_text)).to eq(nil)
       end
     end
 
@@ -383,7 +459,7 @@ describe DecisionReviewCreated::ModelBuilder do
         end
 
         it "returns the value of :response_text and converts to downcase" do
-          expect(dummy.bis_rating_profiles_response).to eq("no data found")
+          expect(dummy.send(:downcase_bis_rating_profiles_response_text)).to eq("no data found")
         end
       end
 
@@ -397,7 +473,7 @@ describe DecisionReviewCreated::ModelBuilder do
         end
 
         it "returns nil" do
-          expect(dummy.bis_rating_profiles_response).to eq(nil)
+          expect(dummy.send(:downcase_bis_rating_profiles_response_text)).to eq(nil)
         end
       end
     end
@@ -409,12 +485,12 @@ describe DecisionReviewCreated::ModelBuilder do
 
     it "logs the message" do
       allow(Rails.logger).to receive(:info)
-      dummy.handle_response(msg)
+      dummy.send(:handle_response, msg)
       expect(Rails.logger).to have_received(:info).with(/#{msg}/)
     end
 
     it "updates the last event's 'in_progress' event_audit note column with the message" do
-      dummy.handle_response(msg)
+      dummy.send(:handle_response, msg)
       expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: Test note")
     end
   end
@@ -428,7 +504,7 @@ describe DecisionReviewCreated::ModelBuilder do
 
     it "logs the message" do
       expect(Rails.logger).to receive(:info).with(/#{msg}/)
-      dummy.log_info(msg)
+      dummy.send(:log_info, msg)
     end
   end
 
@@ -437,7 +513,7 @@ describe DecisionReviewCreated::ModelBuilder do
 
     context "when the event doesn't have any event_audits with 'in_progress' status" do
       it "returns nil" do
-        expect(dummy.update_event_audit_notes!(msg)).to eq nil
+        expect(dummy.send(:update_event_audit_notes!, msg)).to eq nil
       end
 
       it "does not update an event_audit record's notes column with the message" do
@@ -449,7 +525,7 @@ describe DecisionReviewCreated::ModelBuilder do
       let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
       it "finds the event_audit and updates the notes column with the custom note" do
-        dummy.update_event_audit_notes!(msg)
+        dummy.send(:update_event_audit_notes!, msg)
         expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: #{msg}")
       end
     end
@@ -457,7 +533,7 @@ describe DecisionReviewCreated::ModelBuilder do
     context "when the event has multiple event_audit with 'in_progress' status" do
       let!(:event_audits_without_note) { create_list(:event_audit, 2, event: event, status: :in_progress) }
       it "updates the last event_audit's notes column with the custom note" do
-        dummy.update_event_audit_notes!(msg)
+        dummy.send(:update_event_audit_notes!, msg)
         expect(event_audits_without_note.last.reload.notes).to eq("Note #{Time.zone.now}: #{msg}")
       end
 
@@ -469,10 +545,10 @@ describe DecisionReviewCreated::ModelBuilder do
           end
 
           it "concatenates the previous note and adds default message between notes" do
-            dummy.update_event_audit_notes!(msg)
+            dummy.send(:update_event_audit_notes!, msg)
             expect(event_audit_with_note.reload.notes)
               .to eq("Note #{Time.zone.now}: #{msg}")
-            dummy.update_event_audit_notes!(msg_2)
+            dummy.send(:update_event_audit_notes!, msg_2)
             expect(event_audit_with_note.reload.notes)
               .to eq("Note #{Time.zone.now}: #{msg} - Note #{Time.zone.now}: #{msg_2}")
           end
@@ -485,13 +561,13 @@ describe DecisionReviewCreated::ModelBuilder do
           end
 
           it "concatenates the previous notes and adds default message between notes" do
-            dummy.update_event_audit_notes!(msg)
+            dummy.send(:update_event_audit_notes!, msg)
             expect(event_audit_with_note.reload.notes)
               .to eq("Note #{Time.zone.now}: #{msg}")
-            dummy.update_event_audit_notes!(msg_2)
+            dummy.send(:update_event_audit_notes!, msg_2)
             expect(event_audit_with_note.reload.notes)
               .to eq("Note #{Time.zone.now}: #{msg} - Note #{Time.zone.now}: #{msg_2}")
-            dummy.update_event_audit_notes!(msg_3)
+            dummy.send(:update_event_audit_notes!, msg_3)
             expect(event_audit_with_note.reload.notes)
               .to eq("Note #{Time.zone.now}: #{msg} - Note #{Time.zone.now}: #{msg_2} -"\
                      " Note #{Time.zone.now}: #{msg_3}")
@@ -507,7 +583,7 @@ describe DecisionReviewCreated::ModelBuilder do
     context "when the last event_audit's notes is nil" do
       let!(:last_event_audit) { create(:event_audit, event: event, status: :in_progress) }
       it "returns the custom message" do
-        expect(dummy.event_audit_concatenated_notes(last_event_audit, msg))
+        expect(dummy.send(:event_audit_concatenated_notes, last_event_audit, msg))
           .to eq("Note #{Time.zone.now}: #{msg}")
       end
     end
@@ -519,7 +595,7 @@ describe DecisionReviewCreated::ModelBuilder do
       let(:msg_2) { "Test note 2" }
 
       it "concatenates the previous notes value with the custom note" do
-        expect(dummy.event_audit_concatenated_notes(last_event_audit, msg_2))
+        expect(dummy.send(:event_audit_concatenated_notes, last_event_audit, msg_2))
           .to eq("#{last_event_audit.notes} - Note #{Time.zone.now}: #{msg_2}")
       end
     end

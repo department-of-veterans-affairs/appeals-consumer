@@ -12,9 +12,13 @@ module DecisionReviewCreated::ModelBuilder
   def fetch_veteran_bis_record
     return unless @decision_review_created
 
-    bis_record = BISService.new.fetch_veteran_info(@decision_review_created.file_number)
+    begin
+      bis_record = BISService.new.fetch_veteran_info(@decision_review_created.file_number)
+    rescue StandardError => error
+      raise AppealsConsumer::Error::BisVeteranError, "Failed fetching Veteran info from"\
+        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+    end
 
-    # If the result is nil, the veteran wasn't found
     # If the participant id is nil, that's another way of saying the veteran wasn't found
     unless bis_record&.dig(:ptcpnt_id)
       msg = "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
@@ -29,12 +33,23 @@ module DecisionReviewCreated::ModelBuilder
   def fetch_limited_poa
     return unless @decision_review_created
 
-    limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(@decision_review_created.claim_id)
+    begin
+      limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(@decision_review_created.claim_id)
+    rescue StandardError => error
+      raise AppealsConsumer::Error::BisLimitedPoaError, "Failed fetching Limited POA info from"\
+        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+    end
+
     limited_poa ? limited_poa[@decision_review_created.claim_id] : nil
   end
 
   def fetch_person_bis_record
-    bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
+    begin
+      bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
+    rescue StandardError => error
+      raise AppealsConsumer::Error::BisPersonError, "Failed fetching Person info from"\
+        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+    end
 
     # If the result is empty, the claimant wasn't found
     if bis_record.empty?
@@ -49,14 +64,19 @@ module DecisionReviewCreated::ModelBuilder
   def fetch_bis_rating_profiles
     return unless @decision_review_created && @earliest_issue_profile_date && @latest_issue_profile_date_plus_one_day
 
-    @bis_rating_profiles_record = BISService.new.fetch_rating_profiles_in_range(
-      participant_id: @decision_review_created.veteran_participant_id,
-      start_date: @earliest_issue_profile_date,
-      end_date: @latest_issue_profile_date_plus_one_day
-    )
+    begin
+      @bis_rating_profiles_record = BISService.new.fetch_rating_profiles_in_range(
+        participant_id: @decision_review_created.veteran_participant_id,
+        start_date: @earliest_issue_profile_date,
+        end_date: @latest_issue_profile_date_plus_one_day
+      )
+    rescue StandardError => error
+      raise AppealsConsumer::Error::BisRatingProfilesError, "Failed fetching Rating Profiles info from"\
+        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+    end
 
     # log bis_record response if the response_text is anything other than "success"
-    if bis_rating_profiles_response != "success"
+    if downcase_bis_rating_profiles_response_text != "success"
       msg = "BIS Rating Profiles: Rating Profile info not found for DecisionReviewCreated veteran_participant_id"\
         " #{@decision_review_created.veteran_participant_id} within the date range #{earliest_issue_profile_date}"\
         " - #{latest_issue_profile_date_plus_one_day}."
@@ -67,7 +87,23 @@ module DecisionReviewCreated::ModelBuilder
     @bis_rating_profiles_record
   end
 
-  def bis_rating_profiles_response
+  def convert_to_date_logical_type(value)
+    Date.parse(value).to_time.to_i / (60 * 60 * 24) if !!value
+  end
+
+  def convert_to_timestamp_ms(value)
+    DateTime.parse(value).to_i * 1000 if !!value
+  end
+
+  def claim_creation_time_converted_to_timestamp_ms
+    return unless @decision_review_created
+
+    convert_to_timestamp_ms(@decision_review_created.claim_creation_time)
+  end
+
+  private
+
+  def downcase_bis_rating_profiles_response_text
     @bis_rating_profiles_record&.dig(:response, :response_text)&.downcase
   end
 
@@ -93,19 +129,5 @@ module DecisionReviewCreated::ModelBuilder
     return custom_note if last_event_audit.notes.nil?
 
     "#{last_event_audit.notes} - #{custom_note}"
-  end
-
-  def convert_to_date_logical_type(value)
-    Date.parse(value).to_time.to_i / (60 * 60 * 24) if !!value
-  end
-
-  def convert_to_timestamp_ms(value)
-    DateTime.parse(value).to_i * 1000 if !!value
-  end
-
-  def claim_creation_time_converted_to_timestamp_ms
-    return unless @decision_review_created
-
-    convert_to_timestamp_ms(@decision_review_created.claim_creation_time)
   end
 end
