@@ -110,13 +110,18 @@ module ExternalApi
       [return_start_date, return_end_date]
     end
 
+    def current_user
+      RequestStore[:current_user]
+    end
+
     # client_ip to be added but not needed for deployment and demo
     def init_client
       BGS::Services.new(
         env: Rails.application.config.bgs_environment,
-        application: "APPEALSCONSUMER",
-        client_station_id: Rails.application.config.station_id,
-        client_username: Rails.application.config.css_id,
+        application: "CASEFLOW",
+        client_ip: ENV["USER_IP_ADDRESS"],
+        client_station_id: current_user[:station_id],
+        client_username: current_user[:css_id],
         ssl_cert_key_file: ENV["BGS_KEY_LOCATION"],
         ssl_cert_file: ENV["BGS_CERT_LOCATION"],
         ssl_ca_cert: ENV["BGS_CA_CERT_LOCATION"],
