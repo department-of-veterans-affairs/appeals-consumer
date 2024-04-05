@@ -68,6 +68,10 @@ module ExternalApi
 
     private
 
+    def current_user
+      RequestStore[:current_user]
+    end
+
     def fetch_veteran_info_cache_key(file_number)
       "bis_veteran_info_#{file_number}"
     end
