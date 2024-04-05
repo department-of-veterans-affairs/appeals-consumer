@@ -556,7 +556,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           end
 
           context "nonrating" do
-            let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeal) }
+            let(:decision_review_created) do
+              build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeal)
+            end
             it "sets the Request Issue's ineligible_reason to 'duplicate_of_nonrating_issue_in_active_review'" do
               expect(subject).to eq(duplicate_nonrating_issue)
             end
