@@ -7,10 +7,15 @@ module Fakes
     class << self
       def clean!
         veteran_store.clear!
+        rating_store.clear!
       end
 
       def veteran_store
         @veteran_store ||= Fakes::VeteranStore.new
+      end
+
+      def rating_store
+        @rating_store ||= Fakes::RatingStore.new
       end
 
       delegate :store_veteran_record, to: :veteran_store
@@ -26,6 +31,19 @@ module Fakes
 
     def fetch_veteran_info(file_number)
       get_veteran_record(file_number)
+    end
+
+    def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)
+      profiles = get_rating_record(participant_id)
+
+      # simulate the response if participant doesn't exist or doesn't have any ratings
+      return { response: { response_text: "No Data Found" } } if profiles.blank?
+
+      profiles
+    end
+
+    def get_rating_record(participant_id)
+      self.class.rating_store.fetch_and_inflate(participant_id)
     end
 
     # rubocop:disable Metrics/MethodLength

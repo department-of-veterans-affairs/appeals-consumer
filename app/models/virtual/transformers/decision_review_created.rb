@@ -4,6 +4,8 @@
 class Transformers::DecisionReviewCreated
   include MessagePayloadValidator
 
+  attr_reader :event_id
+
   # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
@@ -42,7 +44,8 @@ class Transformers::DecisionReviewCreated
   # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
   # and create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
-  def initialize(message_payload = {})
+  def initialize(event_id, message_payload = {})
+    @event_id = event_id
     validate(message_payload, self.class.name)
     assign(message_payload)
   end

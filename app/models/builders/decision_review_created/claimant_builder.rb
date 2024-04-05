@@ -2,7 +2,7 @@
 
 # This class is used to build out a DecisionReviewCreated::Claimant object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::ClaimantBuilder
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_reader :claimant, :decision_review_created, :bis_record
 
   VETERAN_TYPE = "VeteranClaimant"
@@ -56,7 +56,7 @@ class Builders::DecisionReviewCreated::ClaimantBuilder
   end
 
   def calculate_date_of_birth
-    claimant.date_of_birth = @bis_record[:birth_date].to_i * 1000
+    claimant.date_of_birth = @bis_record[:birth_date].to_i * 1000 if @bis_record[:birth_date]
   end
 
   def calculate_first_name

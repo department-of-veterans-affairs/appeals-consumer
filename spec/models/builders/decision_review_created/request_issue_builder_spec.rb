@@ -1,15 +1,23 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::RequestIssueBuilder do
+  let(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let(:event_id) { event.id }
+  let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
   let(:decision_review_created) { build(:decision_review_created) }
   let(:issue) { decision_review_created.decision_review_issues.first }
-  let(:builder) { described_class.new(issue, decision_review_created) }
+  let(:builder) { described_class.new(issue, decision_review_created, bis_rating_profiles) }
+  let(:bis_rating_profiles) { nil }
   let(:prior_decision_notification_date_converted_to_logical_type) do
     builder.send(:prior_decision_notification_date_converted_to_logical_type)
   end
 
+  before do
+    decision_review_created.instance_variable_set(:@event_id, event_id)
+  end
+
   describe "#self.build(issue, decision_review_created)" do
-    subject { described_class.build(issue, decision_review_created) }
+    subject { described_class.build(issue, decision_review_created, bis_rating_profiles) }
 
     it "initializes a new RequestIssuesBuilder instance for an individual DecisionReviewIssue" do
       expect(builder).to be_an_instance_of(described_class)
@@ -59,6 +67,10 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
     it "initializes a new Request Issue instance" do
       expect(builder.request_issue).to be_an_instance_of(DecisionReviewCreated::RequestIssue)
+    end
+
+    it "initializes an instance variable @bis_rating_profile" do
+      expect(builder.instance_variable_defined?(:@bis_rating_profiles)).to eq(true)
     end
   end
 
@@ -1035,23 +1047,39 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#calculate_ramp_claim_id" do
     subject { builder.send(:calculate_ramp_claim_id) }
-    context "when the issue has a value for prior_rating_decision_id" do
-      context "and the issue has a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_ramp_id) }
-        it "sets the Request Issue's ramp_claim_id to issue.prior_decision_ramp_id converted to a string" do
-          expect(subject).to eq(issue.prior_decision_ramp_id.to_s)
-        end
+    context "when the issue has a not-null prior_rating_decision_id" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+      let(:bis_rating_profiles) do
+        {
+          rba_issue_list: {
+            rba_issue: {
+              rba_issue_id: "1234",
+              prfil_date: Date.new(1970, 1, 1)
+            }
+          },
+          rba_claim_list: {
+            rba_claim: [
+              {
+                bnft_clm_tc: "682HLRRRAMP",
+                clm_id: "1002003",
+                prfl_date: issue.prior_decision_rating_profile_date
+              },
+              {
+                bnft_clm_tc: "030HLRR",
+                clm_id: "1002005",
+                prfl_date: Date.new(1970, 1, 1)
+              }
+            ]
+          }
+        }
       end
 
-      context "and the issue does NOT have a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
-        it "sets the Request Issue's ramp_claim_id to nil" do
-          expect(subject).to eq nil
-        end
+      it "returns the claim id of the RAMP ep if there is one" do
+        expect(subject).to eq("1002003")
       end
     end
 
-    context "when the issue DOES NOT have a value for prior_rating_decision_id" do
+    context "when the issue has a null prior_rating_decision_id" do
       it "sets the Request Issue's ramp_claim_id to nil" do
         expect(subject).to eq nil
       end
@@ -2012,6 +2040,548 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     context "when the value is not nil" do
       it "returns the value converted to an integer" do
         expect(subject.class).to eq(Integer)
+      end
+    end
+  end
+
+  describe "#determine_ramp_claim_id" do
+    subject { builder.send(:determine_ramp_claim_id) }
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+
+    context "when @bis_rating_profiles or associated_claims_data is nil" do
+      context "@bis_rating_profiles is nil" do
+        it "returns nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+
+      context "@associated_claims_data is nil" do
+        before do
+          allow(builder).to receive(:associated_claims_data).and_return(nil)
+        end
+
+        it "returns nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+    end
+
+    context "when @bis_rating_profiles and associated_claims_data are not nil" do
+      context "when associated_ramp_ep is nil" do
+        let(:bis_rating_profiles) do
+          {
+            rba_claim_list: {
+              rba_claim: {
+                bnft_clm_tc: "030HLRR",
+                clm_id: "1002003",
+                prfl_date: Date.new(1980, 1, 1)
+              }
+            }
+          }
+        end
+
+        it "returns nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+
+      context "when associated_ramp_ep is not nil" do
+        let(:bis_rating_profiles) do
+          {
+            rba_claim_list: {
+              rba_claim: {
+                bnft_clm_tc: "682HLRRRAMP",
+                clm_id: "1002003",
+                prfl_date: issue.prior_decision_rating_profile_date.to_date
+              }
+            }
+          }
+        end
+
+        it "returns the clm_id of the RAMP ep" do
+          expect(subject).to eq("1002003")
+        end
+      end
+    end
+  end
+
+  describe "#associated_claims_data" do
+    subject { builder.send(:associated_claims_data) }
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+
+    context "when there isn't a key rba_claim_list containg a hash with key rba_claim" do
+      let(:bis_rating_profiles) do
+        {
+          rba_issue_list: {
+            rba_issue: {
+              rba_issue_id: "123456",
+              prfil_date: Date.new(1980, 1, 1)
+            }
+          }
+        }
+      end
+
+      it "returns nil" do
+        expect(subject).to eq(nil)
+      end
+    end
+
+    context "when key is found at rba_claim_list, rba_claim" do
+      context "when rba_claim key has nil value" do
+        let(:bis_rating_profiles) do
+          {
+            rba_issue_list: {
+              rba_issue: {
+                rba_issue_id: "123456",
+                prfil_date: Date.new(1980, 1, 1)
+              }
+            },
+            rba_claim_list: {
+              rba_claim: nil
+            }
+          }
+        end
+
+        it "returns nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+
+      context "when rba_claim key does not have nil value" do
+        context "when no claims have a prfl_date matching the issue's prior_decision_rating_profile_date" do
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: "123456",
+                  prfil_date: Date.new(1980, 1, 1)
+                }
+              },
+              rba_claim_list: {
+                rba_claim: {
+                  bnft_clm_tc: "030HLRR",
+                  clm_id: "1002003",
+                  prfl_date: Date.new(1980, 1, 1)
+                }
+              }
+            }
+          end
+
+          it "returns nil" do
+            expect(subject).to eq(nil)
+          end
+        end
+
+        context "when there are multiple claims that have a prfl_date matching the"\
+          " issue's prior_decision_rating_profile_date" do
+          let(:issue_profile_date) { issue.prior_decision_rating_profile_date }
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: issue.prior_rating_decision_id,
+                  prfil_date: issue_profile_date.to_date
+                }
+              },
+              rba_claim_list: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: issue_profile_date.to_date
+                  },
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: issue_profile_date.to_date
+                  }
+                ]
+              }
+            }
+          end
+
+          it "returns an array with both claim objects" do
+            expect(subject).to eq(bis_rating_profiles[:rba_claim_list][:rba_claim])
+          end
+        end
+
+        context "when there are multiple claims and only one that have a prfl_date matching the"\
+          " issue's prior_decision_rating_profile_date" do
+          let(:issue_profile_date) { issue.prior_decision_rating_profile_date }
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: issue.prior_rating_decision_id,
+                  prfil_date: issue_profile_date.to_date
+                }
+              },
+              rba_claim_list: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: Date.new(1980, 1, 1)
+                  },
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: issue_profile_date.to_date
+                  }
+                ]
+              }
+            }
+          end
+
+          it "returns an array with one claim object" do
+            expect(subject).to eq([bis_rating_profiles[:rba_claim_list][:rba_claim][1]])
+          end
+        end
+
+        context "when there is only one claim and it has a prfl_date matching the"\
+        " issue's prior_decision_rating_profile_date" do
+          let(:issue_profile_date) { issue.prior_decision_rating_profile_date }
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: issue.prior_rating_decision_id,
+                  prfil_date: issue_profile_date.to_date
+                }
+              },
+              rba_claim_list: {
+                rba_claim: {
+                  bnft_clm_tc: "030HLRR",
+                  clm_id: "1002003",
+                  prfl_date: issue.prior_decision_rating_profile_date
+                }
+              }
+            }
+          end
+
+          it "returns an array with one claim object" do
+            expect(subject).to eq([bis_rating_profiles[:rba_claim_list][:rba_claim]])
+          end
+        end
+      end
+    end
+  end
+
+  describe "#find_all_claims" do
+    subject { builder.send(:find_all_claims) }
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+
+    context "when key does not exist at rba_claim_list, rba_key" do
+      let(:bis_rating_profiles) do
+        {
+          rba_issue_list: {
+            rba_issue: {
+              rba_issue_id: "123456",
+              prfil_date: Date.new(1980, 1, 1)
+            }
+          }
+        }
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when key exists at rba_claim_list, rba_key" do
+      context "when rba_claim has nil value" do
+        let(:bis_rating_profiles) do
+          {
+            rba_issue_list: {
+              rba_issue: {
+                rba_issue_id: "123456",
+                prfil_date: Date.new(1980, 1, 1)
+              }
+            },
+            rba_claim_list: {
+              rba_claim: nil
+            }
+          }
+        end
+
+        it "returns nil" do
+          expect(subject).to eq nil
+        end
+      end
+
+      context "when rba_claim has not nil value" do
+        context "when the value is an object" do
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: "12345",
+                  prfil_date: Date.new(1970, 1, 1)
+                }
+              },
+              rba_claim_list: {
+                rba_claim: {
+                  bnft_clm_tc: "030HLRR",
+                  clm_id: "1002003",
+                  prfl_date: Date.new(1970, 1, 1)
+                }
+              }
+            }
+          end
+
+          it "returns the claim wrapped in an array" do
+            expect(subject).to eq([bis_rating_profiles[:rba_claim_list][:rba_claim]])
+          end
+        end
+
+        context "when the value is an array of objects" do
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: "1234",
+                  prfil_date: Date.new(1970, 1, 1)
+                }
+              },
+              rba_claim_list: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: Date.new(1980, 1, 1)
+                  },
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: Date.new(1970, 1, 1)
+                  }
+                ]
+              }
+            }
+          end
+
+          it "returns the value of rba_claim" do
+            expect(subject).to eq(bis_rating_profiles[:rba_claim_list][:rba_claim])
+          end
+        end
+      end
+    end
+  end
+
+  describe "#find_associated_claims(all_claims)" do
+    subject { builder.send(:find_associated_claims, all_claims) }
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+    context "when there aren't any claims that match the issue's prior_decision_rating_profile_date" do
+      let(:all_claims) do
+        [
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: Date.new(1980, 1, 1)
+          }
+        ]
+      end
+
+      it "returns nil" do
+        expect(subject).to eq(nil)
+      end
+    end
+
+    context "when there is at least one claim that match the issue's prior_decision_rating_profile_date" do
+      let(:all_claims) do
+        [
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date.to_date
+          },
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: Date.new(1980, 1, 1)
+          }
+        ]
+      end
+
+      it "returns an array of the matching claims" do
+        expect(subject.count).to eq(1)
+      end
+    end
+  end
+
+  describe "#claim_profile_date_matches_issue_profile_date?(claim)" do
+    subject { builder.send(:claim_profile_date_matches_issue_profile_date?, claim) }
+    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+
+    context "when claim[:prfl_date] or issue.prior_decision_rating_profile_date are nil" do
+      context "when claim[:prfl_date] is nil" do
+        let(:claim) do
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: nil
+          }
+        end
+
+        it "returns nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+
+      context "when issue.prior_decision_rating_profile_date is nil" do
+        let(:claim) do
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: Date.new(1970, 1, 1)
+          }
+        end
+
+        before do
+          issue.prior_decision_rating_profile_date = nil
+        end
+
+        it "returns nil" do
+          expect(subject).to eq(nil)
+        end
+      end
+    end
+
+    context "when claim[:prfl_date] and issue.prior_decision_rating_profile_date are both not-nil" do
+      context "when claim[:prfl_date] does not match issue.prior_decision_rating_profile_date" do
+        let(:claim) do
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: Date.new(1970, 1, 1)
+          }
+        end
+
+        it "returns false" do
+          expect(subject).to eq(false)
+        end
+      end
+
+      context "when claim[:prfl_date] matches issue.prior_decision_rating_profile_date" do
+        let(:claim) do
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          }
+        end
+
+        it "returns true" do
+          expect(subject).to eq(true)
+        end
+      end
+    end
+  end
+
+  describe "find_associated_ramp_ep(associated_claims_data)" do
+    subject { builder.send(:find_associated_ramp_ep, associated_claims_data) }
+    context "when one of the associated claims contains nil for bnft_clm_tc and the other is non-ramp" do
+      let(:associated_claims_data) do
+        [
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          },
+          {
+            bnft_clm_tc: nil,
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          }
+        ]
+      end
+
+      it "returns nil" do
+        expect(subject).to eq(nil)
+      end
+    end
+
+    context "when one of the associated claims contains nil for bnft_clm_tc and the other is ramp" do
+      let(:associated_claims_data) do
+        [
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          },
+          {
+            bnft_clm_tc: "682HLRRRAMP",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          }
+        ]
+      end
+
+      it "returns the claim with ramp ep code" do
+        expect(subject).to eq(associated_claims_data[1])
+      end
+    end
+
+    context "when none of the associated claims contain a RAMP ep code" do
+      let(:associated_claims_data) do
+        [
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          },
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          }
+        ]
+      end
+
+      it "returns nil" do
+        expect(subject).to eq nil
+      end
+    end
+
+    context "when one of the associated claims contain a RAMP ep code" do
+      let(:associated_claims_data) do
+        [
+          {
+            bnft_clm_tc: "682HLRRRAMP",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          },
+          {
+            bnft_clm_tc: "030HLRR",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          }
+        ]
+      end
+
+      it "returns the obj with the RAMP ep" do
+        expect(subject).to eq(associated_claims_data[0])
+      end
+    end
+
+    context "when multiple associated claims contain a RAMP ep code" do
+      let(:associated_claims_data) do
+        [
+          {
+            bnft_clm_tc: "682HLRRRAMP",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          },
+          {
+            bnft_clm_tc: "682HLRRRAMP",
+            clm_id: "1002003",
+            prfl_date: issue.prior_decision_rating_profile_date
+          }
+        ]
+      end
+
+      it "returns the first obj with the RAMP ep" do
+        expect(subject).to eq(associated_claims_data[0])
       end
     end
   end

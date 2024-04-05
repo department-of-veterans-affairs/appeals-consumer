@@ -65,18 +65,22 @@ FactoryBot.define do
     # START: Payloads that raise error upon DecisionReviewCreated initialization
     trait :invalid_attribute_name do
       message_payload { { "invalid_attribute" => "invalid" } }
+      event_id { nil }
     end
 
     trait :invalid_data_type do
       message_payload { { "claim_id" => "invalid" } }
+      event_id { nil }
     end
 
     trait :nil do
       message_payload { nil }
+      event_id { nil }
     end
 
     trait :empty do
       message_payload { {} }
+      event_id { nil }
     end
 
     trait :without_decision_review_issues do
@@ -130,6 +134,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :nonrating_hlr_non_veteran_claimant do
@@ -161,6 +166,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :nonrating_sc_compensation do
@@ -192,6 +198,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :rating_sc_compensation do
@@ -223,6 +230,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :nonrating_hlr_pension do
@@ -254,6 +262,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :rating_hlr_veteran_claimant do
@@ -285,6 +294,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :rating_hlr_non_veteran_claimant do
@@ -316,6 +326,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
     # END: DecisionReviewCreated Scenarios
 
@@ -1858,7 +1869,7 @@ FactoryBot.define do
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_disability_sequence_number" => nil,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "prior_decision_rating_profile_date" => "2017-02-10T07:21:24+00:00",
             "eligible" => true,
             "eligibility_result" => "ELIGIBLE",
             "time_override" => true,
@@ -3776,6 +3787,6 @@ FactoryBot.define do
     ## END: Rating Decision HLR
     # END: DecisionReviewIssue Scenarios
 
-    initialize_with { new(message_payload) }
+    initialize_with { new(event_id, message_payload) }
   end
 end
