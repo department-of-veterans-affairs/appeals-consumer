@@ -27,6 +27,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     "actor_username" => "BVADWISE101",
     "actor_station" => "101",
     "actor_application" => "PASYSACCTCREATE",
+    "auto_remand" => false,
     "decision_review_issues" =>
       [
         {

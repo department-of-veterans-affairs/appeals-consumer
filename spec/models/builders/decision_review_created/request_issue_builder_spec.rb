@@ -37,7 +37,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(subject.instance_variable_defined?(:@closed_at)).to be_truthy
       expect(subject.instance_variable_defined?(:@closed_status)).to be_truthy
       expect(subject.instance_variable_defined?(:@contested_rating_issue_diagnostic_code)).to be_truthy
-      expect(subject.instance_variable_defined?(:@ramp_claim_id)).to be_truthy
       expect(subject.instance_variable_defined?(:@rating_issue_associated_at)).to be_truthy
       expect(subject.instance_variable_defined?(:@type)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
@@ -103,7 +102,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(builder).to receive(:calculate_closed_at)
       expect(builder).to receive(:calculate_closed_status)
       expect(builder).to receive(:calculate_contested_rating_issue_diagnostic_code)
-      expect(builder).to receive(:calculate_ramp_claim_id)
       expect(builder).to receive(:calculate_rating_issue_associated_at)
 
       builder.send(:calculate_methods)
@@ -327,17 +325,17 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   describe "#assign_contested_decision_issue_id" do
     subject { builder.send(:assign_contested_decision_issue_id) }
 
-    context "when the issue has an associated_caseflow_decision_id" do
+    context "when the issue has an prior_caseflow_decision_issue_id" do
       let(:decision_review_created) do
         build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr)
       end
 
-      it "assigns the Request Issue's contested_decision_issue_id to issue.associated_caseflow_decision_id" do
-        expect(subject).to eq(issue.associated_caseflow_decision_id)
+      it "assigns the Request Issue's contested_decision_issue_id to issue.prior_caseflow_decision_issue_id" do
+        expect(subject).to eq(issue.prior_caseflow_decision_issue_id)
       end
     end
 
-    context "when the issue has an associated_caseflow_decision_id" do
+    context "when the issue has an prior_caseflow_decision_issue_id" do
       it "assigns the Request Issue's contested_decision_issue_id to nil" do
         expect(subject).to eq(nil)
       end
@@ -772,7 +770,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#calculate_nonrating_issue_description" do
     subject { builder.send(:calculate_nonrating_issue_description) }
-    context "when issue is nonrating and doesn't have a value for associated_caseflow_decision_id" do
+    context "when issue is nonrating and doesn't have a value for prior_caseflow_decision_issue_id" do
       let(:duplicate_text_removed_from_prior_decision_text) do
         "Service connection for tetnus denied"
       end
@@ -783,7 +781,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
     end
 
-    context "when the issue is nonrating and DOES have a value for associated_caseflow_decision_id" do
+    context "when the issue is nonrating and DOES have a value for prior_caseflow_decision_issue_id" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
 
       it "sets the Request Issue's nonrating_issue_description to nil" do
@@ -1029,31 +1027,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         it "sets Request Issue's contested_rating_issue_diagnostic_code to issue.prior_decision_diagnostic_code" do
           expect(subject).to eq(issue.prior_decision_diagnostic_code)
         end
-      end
-    end
-  end
-
-  describe "#calculate_ramp_claim_id" do
-    subject { builder.send(:calculate_ramp_claim_id) }
-    context "when the issue has a value for prior_rating_decision_id" do
-      context "and the issue has a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_ramp_id) }
-        it "sets the Request Issue's ramp_claim_id to issue.prior_decision_ramp_id converted to a string" do
-          expect(subject).to eq(issue.prior_decision_ramp_id.to_s)
-        end
-      end
-
-      context "and the issue does NOT have a value for prior_decision_ramp_id" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
-        it "sets the Request Issue's ramp_claim_id to nil" do
-          expect(subject).to eq nil
-        end
-      end
-    end
-
-    context "when the issue DOES NOT have a value for prior_rating_decision_id" do
-      it "sets the Request Issue's ramp_claim_id to nil" do
-        expect(subject).to eq nil
       end
     end
   end
@@ -1473,7 +1446,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
     end
 
-    context "when the issue has an associated_caseflow_decision_id value" do
+    context "when the issue has an prior_caseflow_decision_issue_id value" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
       it "returns true" do
         expect(subject).to eq true
@@ -1801,7 +1774,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#decision_issue?" do
     subject { builder.send(:decision_issue?) }
-    context "when the issue has a not-null value for associated_caseflow_decision_id" do
+    context "when the issue has a not-null value for prior_caseflow_decision_issue_id" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_nonrating_hlr) }
       it "returns true" do
         expect(subject).to eq true

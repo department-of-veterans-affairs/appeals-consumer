@@ -88,7 +88,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     calculate_closed_at
     calculate_closed_status
     calculate_contested_rating_issue_diagnostic_code
-    calculate_ramp_claim_id
     calculate_rating_issue_associated_at
   end
 
@@ -134,7 +133,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # both rating and nonrating issues can be associated to a caseflow decision_issue
   def assign_contested_decision_issue_id
-    @request_issue.contested_decision_issue_id = issue.associated_caseflow_decision_id
+    @request_issue.contested_decision_issue_id = issue.prior_caseflow_decision_issue_id
   end
 
   # TODO: change to new field used for prior_decision_notification_date - 1 business day
@@ -219,12 +218,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
       if rating_or_rating_decision?
         issue.prior_decision_diagnostic_code
       end
-  end
-
-  # only populated for rating issues
-  # represents the claim_id of the RAMP EP connected to the rating issue
-  def calculate_ramp_claim_id
-    @request_issue.ramp_claim_id = rating? ? issue.prior_decision_ramp_id&.to_s : nil
   end
 
   # only populated for eligible rating issues
@@ -395,7 +388,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def decision_issue?
-    !!issue.associated_caseflow_decision_id
+    !!issue.prior_caseflow_decision_issue_id
   end
 
   def determine_benefit_type

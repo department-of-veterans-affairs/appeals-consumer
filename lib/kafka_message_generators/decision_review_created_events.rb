@@ -154,7 +154,7 @@ module KafkaMessageGenerators
       rating_messages("rating_decision_hlr", code)
     end
 
-    # creates scenarios for messages that have a prior_rating_decision_id and associated_caseflow_decision_id
+    # creates scenarios for messages that have a prior_rating_decision_id and prior_caseflow_decision_issue_id
     def create_hlr_decision_issue_prior_rating_messages(code)
       rating_messages("decision_issue_prior_rating_hlr", code)
     end
@@ -412,7 +412,7 @@ module KafkaMessageGenerators
       nonrating_messages("nonrating_hlr", code)
     end
 
-    # creates scenarios for messages that have a prior_nonrating_decision_id and associated_caseflow_decision_id
+    # creates scenarios for messages that have a prior_nonrating_decision_id and prior_caseflow_decision_issue_id
     def create_decision_issue_prior_nonrating_messages(code)
       nonrating_messages("decision_issue_prior_nonrating_hlr", code)
     end
@@ -704,7 +704,7 @@ module KafkaMessageGenerators
     def randomize_decision_review_issue_identifiers(issue)
       unique_identifier_keys =
         %w[contention_id prior_rating_decision_id prior_decision_rating_sn
-           prior_non_rating_decision_id associated_caseflow_decision_id associated_caseflow_request_issue_id
+           prior_non_rating_decision_id prior_caseflow_decision_issue_id associated_caseflow_request_issue_id
            legacy_appeal_issue_id]
 
       unique_identifier_keys.each { |key| randomize_value(key, issue) }

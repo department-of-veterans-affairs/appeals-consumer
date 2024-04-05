@@ -1158,7 +1158,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
           prior_decision_rating_sn:
             not_converted_issue.prior_decision_rating_sn,
           prior_non_rating_id: not_converted_issue.prior_non_rating_decision_id,
-          associated_caseflow_decision_id: not_converted_issue.associated_caseflow_decision_id,
+          prior_caseflow_decision_issue_id: not_converted_issue.prior_caseflow_decision_issue_id,
           associated_caseflow_request_issue_id: not_converted_issue.associated_caseflow_request_issue_id,
           legacy_appeal_issue_id: not_converted_issue.legacy_appeal_issue_id
         }
@@ -1173,7 +1173,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
           prior_decision_rating_sn:
             converted_issue["priorDecisionRatingSn"],
           prior_non_rating_id: converted_issue["priorNonRatingDecisionId"],
-          associated_caseflow_decision_id: converted_issue["associatedCaseflowDecisionId"],
+          prior_caseflow_decision_issue_id: converted_issue["associatedCaseflowDecisionId"],
           associated_caseflow_request_issue_id: converted_issue["associatedCaseflowRequestIssueId"],
           legacy_appeal_issue_id: converted_issue["legacyAppealIssueId"]
         }
@@ -1420,7 +1420,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
           prior_decision_rating_sn:
             not_converted_issue.prior_decision_rating_sn,
           prior_non_rating_decision_id: not_converted_issue.prior_non_rating_decision_id,
-          associated_caseflow_decision_id: not_converted_issue.associated_caseflow_decision_id,
+          prior_caseflow_decision_issue_id: not_converted_issue.prior_caseflow_decision_issue_id,
           associated_caseflow_request_issue_id: not_converted_issue.associated_caseflow_request_issue_id,
           legacy_appeal_issue_id: not_converted_issue.legacy_appeal_issue_id
         }
@@ -1435,7 +1435,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
           prior_decision_rating_sn:
             converted_issue.prior_decision_rating_sn,
           prior_non_rating_decision_id: converted_issue.prior_non_rating_decision_id,
-          associated_caseflow_decision_id: converted_issue.associated_caseflow_decision_id,
+          prior_caseflow_decision_issue_id: converted_issue.prior_caseflow_decision_issue_id,
           associated_caseflow_request_issue_id: converted_issue.associated_caseflow_request_issue_id,
           legacy_appeal_issue_id: converted_issue.legacy_appeal_issue_id
         }
@@ -1454,9 +1454,9 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     before do
       issue.contention_id = 1
       issue.prior_rating_decision_id = 1
-      issue.prior_decision_rating_sn = 1
+      issue.prior_decision_rating_sn = "1"
       issue.prior_non_rating_decision_id = 1
-      issue.associated_caseflow_decision_id = 1
+      issue.prior_caseflow_decision_issue_id = 1
       issue.associated_caseflow_request_issue_id = 1
       issue.legacy_appeal_issue_id = 1
       subject
@@ -1465,9 +1465,9 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     it "randomizes specific keys for an individual decision review issue" do
       expect(issue.contention_id).not_to eq(1)
       expect(issue.prior_rating_decision_id).not_to eq(1)
-      expect(issue.prior_decision_rating_sn).not_to eq(1)
+      expect(issue.prior_decision_rating_sn).not_to eq("1")
       expect(issue.prior_non_rating_decision_id).not_to eq(1)
-      expect(issue.associated_caseflow_decision_id).not_to eq(1)
+      expect(issue.prior_caseflow_decision_issue_id).not_to eq(1)
       expect(issue.associated_caseflow_request_issue_id).not_to eq(1)
       expect(issue.legacy_appeal_issue_id).not_to eq(1)
     end

@@ -10,13 +10,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_789,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -31,17 +30,18 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           },
           {
             "contention_id" => 123_456_790,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => 17_946,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Basic Eligibility: Service connection for ear infection denied",
             "prior_decision_type" => "Basic Eligibility",
             "prior_decision_notification_date" => "2023-08-01",
@@ -56,7 +56,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -127,6 +129,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -158,6 +161,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -189,6 +193,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -220,6 +225,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -251,6 +257,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -282,6 +289,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -313,6 +321,7 @@ FactoryBot.define do
           "actor_username" => "BVADWISE101",
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
           "decision_review_issues" => decision_review_issues
         }
       end
@@ -327,13 +336,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -348,7 +356,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -369,13 +379,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
@@ -390,17 +399,18 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           },
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 14,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
@@ -415,7 +425,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -426,13 +438,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
@@ -447,17 +458,18 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           },
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 14,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
@@ -472,7 +484,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -483,13 +497,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
@@ -504,7 +517,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -515,13 +530,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -536,7 +550,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -549,13 +565,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -570,7 +585,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -581,13 +598,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -602,7 +618,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -613,13 +631,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
@@ -634,7 +651,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -645,13 +664,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2018-08-01",
@@ -666,7 +684,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -677,13 +697,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -698,7 +717,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => false,
             "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -709,13 +730,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -730,7 +750,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => true,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -741,13 +763,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
@@ -762,7 +783,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -773,13 +796,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -794,7 +816,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -805,13 +829,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -826,7 +849,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -837,13 +862,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -858,7 +882,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -872,13 +898,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
@@ -893,7 +918,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -904,13 +931,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -925,7 +951,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -936,13 +964,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
@@ -957,7 +984,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -968,13 +997,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -989,7 +1017,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1000,13 +1030,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1021,7 +1050,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1038,13 +1069,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 12_345_980,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => true,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1059,7 +1089,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1082,13 +1114,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 12_345_980,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => true,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
@@ -1103,7 +1134,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1114,13 +1147,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => true,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
@@ -1135,7 +1167,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1150,13 +1184,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_792,
-            "associated_caseflow_decision_id" => 11,
+            "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1171,7 +1204,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1191,13 +1226,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 20,
+            "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2020-08-25",
@@ -1212,7 +1246,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1223,13 +1259,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1244,7 +1279,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1258,13 +1295,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_792,
-            "associated_caseflow_decision_id" => 11,
+            "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
@@ -1278,7 +1314,9 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => nil
+            "legacy_appeal_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1289,13 +1327,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 12,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1310,7 +1347,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1321,13 +1360,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
@@ -1342,7 +1380,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1353,13 +1393,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1374,7 +1413,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1387,13 +1428,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
@@ -1408,7 +1448,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1419,13 +1461,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 20,
+            "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2018-08-01",
@@ -1440,7 +1481,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1451,13 +1494,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1472,7 +1514,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => false,
             "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1483,13 +1527,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1504,7 +1547,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => true,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1515,13 +1560,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
@@ -1536,7 +1580,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1547,13 +1593,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 14,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1568,7 +1613,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1579,13 +1626,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 14,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1600,7 +1646,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1611,13 +1659,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 14,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1632,7 +1679,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1643,13 +1692,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1664,7 +1712,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1675,13 +1725,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => 13,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1696,7 +1745,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1712,13 +1763,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => 123_567,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1733,7 +1783,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1744,13 +1796,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1765,7 +1816,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1787,13 +1840,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
@@ -1808,7 +1860,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1820,13 +1874,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
@@ -1841,17 +1894,18 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           },
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 14,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
@@ -1866,7 +1920,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1878,13 +1934,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
@@ -1899,17 +1954,18 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           },
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 14,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
@@ -1924,7 +1980,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1936,13 +1994,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1957,7 +2014,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -1971,13 +2030,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
             "unidentified" => false,
             "prior_rating_decision_id" => 12,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -1992,7 +2050,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2004,13 +2064,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
             "unidentified" => false,
             "prior_rating_decision_id" => 12,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2025,7 +2084,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2037,13 +2098,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
@@ -2058,7 +2118,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2070,13 +2132,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2018-08-01",
@@ -2091,7 +2152,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2103,13 +2166,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2124,7 +2186,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => false,
             "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2136,13 +2200,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2157,7 +2220,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => true,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2169,13 +2234,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
@@ -2190,7 +2254,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2202,13 +2268,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2223,7 +2288,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2235,13 +2302,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2256,7 +2322,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2268,13 +2336,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2289,7 +2356,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2304,13 +2373,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
@@ -2325,7 +2393,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2337,13 +2407,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2358,7 +2427,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2370,13 +2441,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2391,7 +2461,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2403,13 +2475,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
@@ -2424,7 +2495,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2436,13 +2509,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2457,7 +2529,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2474,13 +2548,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 12_345_980,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => true,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2495,7 +2568,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2520,13 +2595,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 12_345_980,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => true,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
@@ -2541,7 +2615,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2553,13 +2629,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => true,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
@@ -2574,7 +2649,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2590,13 +2667,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_792,
-            "associated_caseflow_decision_id" => 11,
+            "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2611,7 +2687,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2633,13 +2711,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 20,
+            "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
@@ -2654,7 +2731,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2666,13 +2745,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2687,7 +2765,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2699,13 +2779,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => 123_567,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2720,7 +2799,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2735,13 +2816,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_792,
-            "associated_caseflow_decision_id" => 11,
+            "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
@@ -2756,7 +2836,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2768,13 +2850,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2789,7 +2870,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2801,13 +2884,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
@@ -2822,7 +2904,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2834,13 +2918,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2855,7 +2938,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2870,13 +2955,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
@@ -2891,7 +2975,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2903,13 +2989,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 20,
+            "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 13,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2018-08-01",
@@ -2924,7 +3009,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2936,13 +3023,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2957,7 +3043,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => false,
             "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -2969,13 +3057,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -2990,7 +3077,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => true,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3002,13 +3091,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
@@ -3023,7 +3111,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3035,13 +3125,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -3056,7 +3145,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3068,13 +3159,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -3089,7 +3179,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3101,13 +3193,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -3122,7 +3213,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3134,13 +3227,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -3155,7 +3247,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3167,13 +3261,12 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => 13,
+            "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => 20,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
@@ -3188,7 +3281,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3203,18 +3298,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Tetnus is denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 1_623_547,
+            "prior_decision_rating_sn" => "1_623_547",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3224,7 +3318,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3246,18 +3342,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3267,7 +3362,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3279,18 +3376,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3300,7 +3396,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3315,18 +3413,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3336,7 +3433,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3348,18 +3447,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3369,7 +3467,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3381,18 +3481,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => 123_456_791,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3402,7 +3501,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3414,18 +3515,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3435,7 +3535,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3449,18 +3551,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3470,7 +3571,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3482,18 +3585,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2018-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3503,7 +3605,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3515,18 +3619,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3536,7 +3639,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => false,
             "legacy_appeal_id" => "123456",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3548,18 +3653,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3569,7 +3673,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => true,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3581,18 +3687,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3602,7 +3707,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => "12345",
-            "legacy_appeal_issue_id" => 1
+            "legacy_appeal_issue_id" => 1,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3614,18 +3721,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3635,7 +3741,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3647,18 +3755,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3668,7 +3775,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3680,18 +3789,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3701,7 +3809,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3713,18 +3823,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3734,7 +3843,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end
@@ -3746,18 +3857,17 @@ FactoryBot.define do
         [
           {
             "contention_id" => nil,
-            "associated_caseflow_decision_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
             "prior_rating_decision_id" => nil,
             "prior_non_rating_decision_id" => nil,
             "prior_decision_award_event_id" => nil,
-            "prior_decision_ramp_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
-            "prior_decision_rating_sn" => 20,
+            "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
@@ -3767,7 +3877,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
           }
         ]
       end

@@ -27,6 +27,7 @@ FactoryBot.define do
         "actor_username" => "BVADWISE101",
         "actor_station" => "101",
         "actor_application" => "PASYSACCTCREATE",
+        "auto_remand" => false,
         "decision_review_issues" => [
           {
             "contention_id" => 123_456_789,
@@ -46,7 +47,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => 1,
+            "source_claim_id_for_remand" => 1
           },
           {
             "contention_id" => 987_654_321,
@@ -66,7 +69,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => 1,
+            "source_claim_id_for_remand" => 1
           }
         ]
       }.to_json
