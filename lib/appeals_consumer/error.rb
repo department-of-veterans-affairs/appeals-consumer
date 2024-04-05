@@ -19,7 +19,7 @@ module AppealsConsumer::Error
   class CaseflowError < SerializableError; end
   class ClientRequestError < CaseflowError; end
   class NullContentionIdError < StandardError; end
-  class NullPriorDecisionNotificationDate < StandardError; end
+  class NullPriorDecisionDate < StandardError; end
   class NullAssociatedCaseflowRequestIssueId < StandardError; end
   class IssueEligibilityResultNotRecognized < StandardError; end
   class RequestIssueCollectionBuildError < StandardError; end

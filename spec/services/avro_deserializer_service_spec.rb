@@ -32,22 +32,26 @@ describe AvroDeserializerService do
       "same_station_review_requested" => false,
       "intake_creation_time" => Time.now.utc,
       "claim_creation_time" => Time.now.utc,
-      "created_by_username" => "BVADWISE101",
-      "created_by_station" => "101",
-      "created_by_application" => "PASYSACCTCREATE",
+      "actor_username" => "BVADWISE101",
+      "actor_station" => "101",
+      "actor_application" => "PASYSACCTCREATE",
       "informal_conference_tracked_item_id" => "1",
+      "auto_remand" => false,
       "decision_review_issues" => [
         {
           "contention_id" => 123_456_789,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,
+          "prior_caseflow_decision_issue_id" => 1,
           "prior_rating_decision_id" => nil,
           "prior_non_rating_decision_id" => 12,
+          "prior_decision_date" => Date.new(2022, 1, 1),
           "prior_decision_text" => "service connection for tetnus denied",
           "prior_decision_type" => "DIC",
           "prior_decision_notification_date" => Date.new(2022, 1, 1),
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
+          "prior_decision_rating_sn" => nil,
           "eligible" => true,
           "eligibility_result" => "ELIGIBLE",
           "time_override" => nil,
@@ -58,21 +62,23 @@ describe AvroDeserializerService do
           "legacy_appeal_issue_id" => nil,
           "prior_decision_award_event_id" => nil,
           "prior_decision_rating_profile_date" => nil,
-          "associated_caseflow_decision_id" => nil,
-          "prior_decision_ramp_id" => nil,
-          "prior_decision_rating_disability_sequence_number" => nil
+          "source_contention_id_for_remand" => 1,
+          "source_claim_id_for_remand" => 1
         },
         {
           "contention_id" => 987_654_321,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,
+          "prior_caseflow_decision_issue_id" => 1,
           "prior_rating_decision_id" => nil,
           "prior_non_rating_decision_id" => 13,
+          "prior_decision_date" => Date.new(2022, 1, 1),
           "prior_decision_text" => "service connection for ear infection denied",
           "prior_decision_type" => "Basic Eligibility",
           "prior_decision_notification_date" => Date.new(2022, 1, 1),
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
+          "prior_decision_rating_sn" => nil,
           "eligible" => true,
           "eligibility_result" => "ELIGIBLE",
           "time_override" => nil,
@@ -83,9 +89,8 @@ describe AvroDeserializerService do
           "legacy_appeal_issue_id" => nil,
           "prior_decision_award_event_id" => nil,
           "prior_decision_rating_profile_date" => nil,
-          "associated_caseflow_decision_id" => nil,
-          "prior_decision_ramp_id" => nil,
-          "prior_decision_rating_disability_sequence_number" => nil
+          "source_contention_id_for_remand" => 1,
+          "source_claim_id_for_remand" => 1
         }
       ]
     }

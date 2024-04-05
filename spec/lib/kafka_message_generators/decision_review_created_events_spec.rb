@@ -1156,10 +1156,10 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
         {
           contention_id: not_converted_issue.contention_id,
           prior_rating_decision_id: not_converted_issue.prior_rating_decision_id,
-          prior_decision_rating_disability_sequence_number:
-            not_converted_issue.prior_decision_rating_disability_sequence_number,
+          prior_decision_rating_sn:
+            not_converted_issue.prior_decision_rating_sn,
           prior_non_rating_id: not_converted_issue.prior_non_rating_decision_id,
-          associated_caseflow_decision_id: not_converted_issue.associated_caseflow_decision_id,
+          prior_caseflow_decision_issue_id: not_converted_issue.prior_caseflow_decision_issue_id,
           associated_caseflow_request_issue_id: not_converted_issue.associated_caseflow_request_issue_id,
           legacy_appeal_issue_id: not_converted_issue.legacy_appeal_issue_id
         }
@@ -1171,10 +1171,10 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
         {
           contention_id: converted_issue["contentionId"],
           prior_rating_decision_id: converted_issue["priorRatingDecisionId"],
-          prior_decision_rating_disability_sequence_number:
-            converted_issue["priorDecisionRatingDisabilitySequenceNumber"],
+          prior_decision_rating_sn:
+            converted_issue["priorDecisionRatingSn"],
           prior_non_rating_id: converted_issue["priorNonRatingDecisionId"],
-          associated_caseflow_decision_id: converted_issue["associatedCaseflowDecisionId"],
+          prior_caseflow_decision_issue_id: converted_issue["associatedCaseflowDecisionId"],
           associated_caseflow_request_issue_id: converted_issue["associatedCaseflowRequestIssueId"],
           legacy_appeal_issue_id: converted_issue["legacyAppealIssueId"]
         }
@@ -1232,7 +1232,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       expect(subject.claim_creation_time.class).to eq(Integer)
 
       subject.decision_review_issues.each do |issue|
-        expect(issue.prior_decision_notification_date.class).to eq(Integer)
+        expect(issue.prior_decision_date.class).to eq(Integer)
       end
     end
   end
@@ -1418,14 +1418,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     let(:not_converted_dri_values) do
       decision_review_issues.map do |not_converted_issue|
         {
-          contention_id: not_converted_issue.contention_id,
-          prior_rating_decision_id: not_converted_issue.prior_rating_decision_id,
-          prior_decision_rating_disability_sequence_number:
-            not_converted_issue.prior_decision_rating_disability_sequence_number,
-          prior_non_rating_decision_id: not_converted_issue.prior_non_rating_decision_id,
-          associated_caseflow_decision_id: not_converted_issue.associated_caseflow_decision_id,
-          associated_caseflow_request_issue_id: not_converted_issue.associated_caseflow_request_issue_id,
-          legacy_appeal_issue_id: not_converted_issue.legacy_appeal_issue_id
+          contention_id: not_converted_issue.contention_id
         }
       end
     end
@@ -1433,14 +1426,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     let(:converted_dri_values) do
       converted_decision_review_issues.map do |converted_issue|
         {
-          contention_id: converted_issue.contention_id,
-          prior_rating_decision_id: converted_issue.prior_rating_decision_id,
-          prior_decision_rating_disability_sequence_number:
-            converted_issue.prior_decision_rating_disability_sequence_number,
-          prior_non_rating_decision_id: converted_issue.prior_non_rating_decision_id,
-          associated_caseflow_decision_id: converted_issue.associated_caseflow_decision_id,
-          associated_caseflow_request_issue_id: converted_issue.associated_caseflow_request_issue_id,
-          legacy_appeal_issue_id: converted_issue.legacy_appeal_issue_id
+          contention_id: converted_issue.contention_id
         }
       end
     end

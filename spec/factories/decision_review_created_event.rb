@@ -24,9 +24,10 @@ FactoryBot.define do
         "same_station_review_requested" => false,
         "intake_creation_time" => Time.now.utc.to_time.to_s,
         "claim_creation_time" => Time.now.utc.to_time.to_s,
-        "created_by_username" => "BVADWISE101",
-        "created_by_station" => "101",
-        "created_by_application" => "PASYSACCTCREATE",
+        "actor_username" => "BVADWISE101",
+        "actor_station" => "101",
+        "actor_application" => "PASYSACCTCREATE",
+        "auto_remand" => false,
         "decision_review_issues" => [
           {
             "contention_id" => 123_456_789,
@@ -37,6 +38,7 @@ FactoryBot.define do
             "prior_decision_text" => "service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => Date.new(2022, 1, 1).to_time.to_s,
+            "prior_decision_date" => Date.new(2022, 1, 1).to_time.to_s,
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_percentage" => nil,
             "eligible" => true,
@@ -46,7 +48,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => 1,
+            "source_claim_id_for_remand" => 1
           },
           {
             "contention_id" => 987_654_321,
@@ -57,6 +61,7 @@ FactoryBot.define do
             "prior_decision_text" => "service connection for ear infection denied",
             "prior_decision_type" => "Basic Eligibility",
             "prior_decision_notification_date" => Date.new(2022, 1, 1).to_time.to_s,
+            "prior_decision_date" => Date.new(2022, 1, 1).to_time.to_s,
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_percentage" => nil,
             "eligible" => true,
@@ -66,7 +71,9 @@ FactoryBot.define do
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
-            "legacy_appeal_issue_id" => nil
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => 1,
+            "source_claim_id_for_remand" => 1
           }
         ]
       }.to_json

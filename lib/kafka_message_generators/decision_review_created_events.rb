@@ -183,7 +183,7 @@ module KafkaMessageGenerators
       rating_messages("rating_decision_hlr", code)
     end
 
-    # creates scenarios for messages that have a prior_rating_decision_id and associated_caseflow_decision_id
+    # creates scenarios for messages that have a prior_rating_decision_id and prior_caseflow_decision_issue_id
     def create_hlr_decision_issue_prior_rating_messages(code)
       rating_messages("decision_issue_prior_rating_hlr", code)
     end
@@ -242,7 +242,7 @@ module KafkaMessageGenerators
     def create_unidentified_messages(issue_type, code)
       veteran_claimant = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
       non_veteran_claimant = create_drc_message("eligible_#{issue_type}_non_veteran_claimant", code)
-      no_decision_date = create_drc_message("eligible_#{issue_type}_without_prior_decision_notification_date", code)
+      no_decision_date = create_drc_message("eligible_#{issue_type}_without_prior_decision_date", code)
       with_poa_access = create_drc_message_with_poa_access("eligible_#{issue_type}_veteran_claimant", code)
       without_poa_access = create_drc_message_without_poa_access("eligible_#{issue_type}_veteran_claimant", code)
       nil_poa_access = create_drc_message_with_nil_poa_access("eligible_#{issue_type}_veteran_claimant", code)
@@ -422,7 +422,7 @@ module KafkaMessageGenerators
       legacy_time_restriction =
         create_drc_message("ineligible_#{issue_type}_legacy_time_restriction", code)
       pending_hlr = create_drc_message("ineligible_#{issue_type}_pending_hlr", code)
-      pending_board = create_drc_message("ineligible_#{issue_type}_pending_board", code)
+      pending_board = create_drc_message("ineligible_#{issue_type}_pending_board_appeal", code)
       pending_supplemental = create_drc_message("ineligible_#{issue_type}_pending_supplemental", code)
 
       [
@@ -439,7 +439,7 @@ module KafkaMessageGenerators
 
     def create_ineligible_hlr_messages(issue_type, code, ineligible_supp_messages)
       completed_hlr = create_drc_message("ineligible_#{issue_type}_completed_hlr", code)
-      completed_board = create_drc_message("ineligible_#{issue_type}_completed_board", code)
+      completed_board = create_drc_message("ineligible_#{issue_type}_completed_board_appeal", code)
 
       [completed_hlr, completed_board] + ineligible_supp_messages
     end
@@ -498,7 +498,7 @@ module KafkaMessageGenerators
       nonrating_messages("nonrating_hlr", code)
     end
 
-    # creates scenarios for messages that have a prior_nonrating_decision_id and associated_caseflow_decision_id
+    # creates scenarios for messages that have a prior_nonrating_decision_id and prior_caseflow_decision_issue_id
     def create_decision_issue_prior_nonrating_messages(code)
       nonrating_messages("decision_issue_prior_nonrating_hlr", code)
     end
@@ -760,7 +760,7 @@ module KafkaMessageGenerators
     # the key in the array contains a dates as a string
     # to be encoded, it must be converted to date logical type
     def convert_decision_review_issue_attrs(issue)
-      key_with_date_value = %w[prior_decision_notification_date]
+      key_with_date_value = %w[prior_decision_date prior_decision_notification_date]
       convert_value_to_date_logical_type(key_with_date_value, issue)
     end
 

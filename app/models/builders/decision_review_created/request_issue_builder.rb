@@ -14,19 +14,19 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   # eligibility_result values that have a 1-to-1 match to a Request Issue ineligible_reason
   TIME_RESTRICTION = "TIME_RESTRICTION"
   COMPLETED_HLR = "COMPLETED_HLR"
-  COMPLETED_BOARD = "COMPLETED_BOARD"
+  COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
   PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
 
   # eligibility_result values grouped by Request Issue ineligible_reason
-  COMPLETED_REVIEW = %w[COMPLETED_BOARD COMPLETED_HLR].freeze
-  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD PENDING_SUPPLEMENTAL].freeze
+  COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
+  PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD_APPEAL PENDING_SUPPLEMENTAL].freeze
   LEGACY_APPEAL_NOT_ELIGIBLE = %w[LEGACY_TIME_RESTRICTION NO_SOC_SSOC].freeze
 
   # eligibility_result values grouped by ineligible and eligible
   ELIGIBLE = %w[ELIGIBLE ELIGIBLE_LEGACY].freeze
   INELIGIBLE = %w[
     TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC
-    PENDING_HLR COMPLETED_HLR PENDING_BOARD COMPLETED_BOARD PENDING_SUPPLEMENTAL
+    PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
   ].freeze
 
   INELIGIBLE_CLOSED_STATUS = "ineligible"
@@ -96,8 +96,8 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     calculate_closed_at
     calculate_closed_status
     calculate_contested_rating_issue_diagnostic_code
-    calculate_ramp_claim_id
     calculate_rating_issue_associated_at
+    calculate_ramp_claim_id
   end
 
   # EP codes ending in "PMC" are pension, otherwise "compensation"
@@ -128,7 +128,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
   def assign_contested_rating_decision_reference_id
-    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_disability_sequence_number&.to_s
+    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_sn&.to_s
   end
 
   # only populate if issue is a rating issue
@@ -142,18 +142,17 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # both rating and nonrating issues can be associated to a caseflow decision_issue
   def assign_contested_decision_issue_id
-    @request_issue.contested_decision_issue_id = issue.associated_caseflow_decision_id
+    @request_issue.contested_decision_issue_id = issue.prior_caseflow_decision_issue_id
   end
 
-  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   # only unidentified issues can have an optional user-input decision date
   def calculate_decision_date
-    handle_missing_notification_date if prior_decision_notification_date_not_present? && identified?
+    handle_missing_decision_date if prior_decision_date_not_present? && identified?
 
-    @request_issue.decision_date = prior_decision_notification_date_converted_to_logical_type
+    @request_issue.decision_date = prior_decision_date_converted_to_logical_type
   end
 
-  # if the issue's eligibility_result is "PENDING_BOARD", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
+  # if the issue's eligibility_result is "PENDING_BOARD_APPEAL", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
   # there must be an associated_caseflow_request_issue_id to correlate the pre-existing request issue to
   def calculate_ineligible_due_to_id
     @request_issue.ineligible_due_to_id =
@@ -341,14 +340,13 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     LEGACY_APPEAL_NOT_ELIGIBLE.include?(issue.eligibility_result)
   end
 
-  def completed_board?
-    issue.eligibility_result == COMPLETED_BOARD
+  def completed_board_appeal?
+    issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
 
-  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
   def decision_date_before_ama?
-    decision_date = prior_decision_notification_date_converted_to_logical_type
+    decision_date = prior_decision_date_converted_to_logical_type
 
     if decision_date
       ama_activation_date_logical_type = (AMA_ACTIVATION_DATE - EPOCH_DATE).to_i
@@ -365,9 +363,8 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     rating? || rating_decision? || nonrating?
   end
 
-  # TODO: change to new field used for prior_decision_notification_date - 1 business day
-  def prior_decision_notification_date_not_present?
-    !issue.prior_decision_notification_date
+  def prior_decision_date_not_present?
+    !issue.prior_decision_date
   end
 
   def contention_id_not_present?
@@ -399,11 +396,11 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def rating_decision?
-    !!issue.prior_decision_rating_disability_sequence_number
+    !!issue.prior_decision_rating_sn
   end
 
   def decision_issue?
-    !!issue.associated_caseflow_decision_id
+    !!issue.prior_caseflow_decision_issue_id
   end
 
   def determine_benefit_type
@@ -423,15 +420,15 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def determine_completed_claim_review_type
-    completed_board? ? appeal_to_higher_level_review : higher_level_review_to_higher_level_review
+    completed_board_appeal? ? appeal_to_higher_level_review : higher_level_review_to_higher_level_review
   end
 
   def contention_id_present?
     !!issue.contention_id
   end
 
-  def prior_decision_notification_date_converted_to_logical_type
-    convert_to_date_logical_type(issue.prior_decision_notification_date)
+  def prior_decision_date_converted_to_logical_type
+    convert_to_date_logical_type(issue.prior_decision_date)
   end
 
   # fetch rating profile from BIS and find the clm_id of the RAMP ep, if one exists
@@ -493,8 +490,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     fail AppealsConsumer::Error::NullContentionIdError, "Issue is eligible but has null for contention_id"
   end
 
-  def handle_missing_notification_date
-    fail AppealsConsumer::Error::NullPriorDecisionNotificationDate, "Issue is identified but has null for"\
-      " prior_decision_notification_date"
+  def handle_missing_decision_date
+    fail AppealsConsumer::Error::NullPriorDecisionDate, "Issue is identified but has null for prior_decision_date"
   end
 end
