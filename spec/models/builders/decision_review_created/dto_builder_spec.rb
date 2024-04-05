@@ -60,6 +60,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           "prior_decision_text" => "service connection for ear infection denied",
           "prior_decision_type" => "Basic Eligibility",
           "prior_decision_notification_date" => "2023-08-01",
+          "prior_decision_date" => "2023-08-01",
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
           "eligible" => true,
