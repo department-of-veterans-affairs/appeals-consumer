@@ -19,6 +19,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -45,6 +46,7 @@ FactoryBot.define do
             "prior_decision_text" => "Basic Eligibility: Service connection for ear infection denied",
             "prior_decision_type" => "Basic Eligibility",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -67,18 +69,22 @@ FactoryBot.define do
     # START: Payloads that raise error upon DecisionReviewCreated initialization
     trait :invalid_attribute_name do
       message_payload { { "invalid_attribute" => "invalid" } }
+      event_id { nil }
     end
 
     trait :invalid_data_type do
       message_payload { { "claim_id" => "invalid" } }
+      event_id { nil }
     end
 
     trait :nil do
       message_payload { nil }
+      event_id { nil }
     end
 
     trait :empty do
       message_payload { {} }
+      event_id { nil }
     end
 
     trait :without_decision_review_issues do
@@ -133,6 +139,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :nonrating_hlr_non_veteran_claimant do
@@ -165,6 +172,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :nonrating_sc_compensation do
@@ -197,6 +205,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :rating_sc_compensation do
@@ -229,6 +238,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :nonrating_hlr_pension do
@@ -261,6 +271,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :rating_hlr_veteran_claimant do
@@ -293,6 +304,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
 
     trait :rating_hlr_non_veteran_claimant do
@@ -325,6 +337,7 @@ FactoryBot.define do
           "decision_review_issues" => decision_review_issues
         }
       end
+      event_id { nil }
     end
     # END: DecisionReviewCreated Scenarios
 
@@ -345,6 +358,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -388,6 +402,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -414,6 +429,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -447,6 +463,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -473,6 +490,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -506,6 +524,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC:",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -539,7 +558,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
-            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => nil,
@@ -560,7 +579,7 @@ FactoryBot.define do
     ### END: Valid Eligible Nonrating HLR
 
     ### START: Valid Ineligible Nonrating HLR
-    trait :ineligible_nonrating_hlr_pending_board_appeals do
+    trait :ineligible_nonrating_hlr_pending_board_appeal do
       decision_review_issues do
         [
           {
@@ -574,6 +593,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -607,6 +627,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -640,6 +661,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -673,6 +695,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_date" => "2018-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -706,6 +729,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -739,6 +763,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -772,6 +797,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -805,6 +831,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -838,6 +865,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -871,6 +899,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -893,7 +922,7 @@ FactoryBot.define do
 
     ### START: Invalid Nonrating HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_nonrating_hlr_without_prior_decision_notification_date do
+    trait :eligible_nonrating_hlr_without_prior_decision_date do
       decision_review_issues do
         [
           {
@@ -907,6 +936,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -940,6 +970,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -973,6 +1004,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1006,6 +1038,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1039,6 +1072,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1078,6 +1112,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1109,7 +1144,7 @@ FactoryBot.define do
 
     ### START: Invalid Nonrating Unidentified HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_nonrating_hlr_unidentified_without_prior_decision_notification_date do
+    trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
       decision_review_issues do
         [
           {
@@ -1123,6 +1158,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1155,7 +1191,8 @@ FactoryBot.define do
             "prior_decision_award_event_id" => nil,
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
-            "prior_decision_notification_date" => nil,
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1193,6 +1230,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1235,6 +1273,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1268,6 +1307,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1290,7 +1330,7 @@ FactoryBot.define do
 
     ### START: Invalid Nonrating Prior Caseflow Decision Issue HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_notification_date do
+    trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
       decision_review_issues do
         [
           {
@@ -1304,6 +1344,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1336,6 +1377,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1369,6 +1411,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1402,6 +1445,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1437,6 +1481,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1470,6 +1515,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_date" => "2018-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1503,6 +1549,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1536,6 +1583,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1569,6 +1617,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1602,6 +1651,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1621,7 +1671,7 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeals do
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeal do
       decision_review_issues do
         [
           {
@@ -1635,6 +1685,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1668,6 +1719,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1701,6 +1753,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1734,6 +1787,7 @@ FactoryBot.define do
             "prior_decision_text" => "DIC: Service connection for tetnus denied",
             "prior_decision_type" => "DIC",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1772,6 +1826,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1805,6 +1860,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1849,6 +1905,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -1882,15 +1939,16 @@ FactoryBot.define do
             "prior_decision_award_event_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_notification_date" => "2023-08-25",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
             "eligibility_result" => "ELIGIBLE",
-            "time_override" => true,
-            "time_override_reason" => "good cause exemption",
+            "time_override" => nil,
+            "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
@@ -1908,15 +1966,16 @@ FactoryBot.define do
             "prior_decision_award_event_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_notification_date" => "2023-08-25",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
-            "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+            "prior_decision_rating_profile_date" => "2017-02-10T07:21:24+00:00",
             "eligible" => true,
             "eligibility_result" => "ELIGIBLE",
-            "time_override" => true,
-            "time_override_reason" => "good cause exemption",
+            "time_override" => nil,
+            "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
@@ -1942,15 +2001,16 @@ FactoryBot.define do
             "prior_decision_award_event_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_notification_date" => "2023-08-25",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
             "eligibility_result" => "CONTESTED",
-            "time_override" => true,
-            "time_override_reason" => "good cause exemption",
+            "time_override" => nil,
+            "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
@@ -1968,15 +2028,16 @@ FactoryBot.define do
             "prior_decision_award_event_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_notification_date" => "2023-08-25",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
             "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
             "eligible" => true,
             "eligibility_result" => "ELIGIBLE",
-            "time_override" => true,
-            "time_override_reason" => "good cause exemption",
+            "time_override" => nil,
+            "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
             "legacy_appeal_id" => nil,
@@ -2003,6 +2064,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2024,7 +2086,7 @@ FactoryBot.define do
     ### END: Valid Eligible Rating HLR
 
     ### START: Valid Ineligible Rating HLR
-    trait :ineligible_rating_hlr_pending_board_appeals do
+    trait :ineligible_rating_hlr_pending_board_appeal do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -2039,6 +2101,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2073,6 +2136,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2107,6 +2171,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2141,6 +2206,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_date" => "2018-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2175,6 +2241,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2209,6 +2276,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2243,6 +2311,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2277,6 +2346,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2311,6 +2381,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2345,6 +2416,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2367,7 +2439,7 @@ FactoryBot.define do
 
     ### START: Invalid Rating HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_rating_hlr_without_prior_decision_notification_date do
+    trait :eligible_rating_hlr_without_prior_decision_date do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -2382,6 +2454,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2416,6 +2489,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2450,6 +2524,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2484,6 +2559,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2518,6 +2594,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2557,6 +2634,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2589,7 +2667,7 @@ FactoryBot.define do
 
     ### START: Invalid Rating Unidentified HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_rating_hlr_unidentified_without_prior_decision_notification_date do
+    trait :eligible_rating_hlr_unidentified_without_prior_decision_date do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -2604,6 +2682,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2637,7 +2716,8 @@ FactoryBot.define do
             "prior_decision_award_event_id" => nil,
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
-            "prior_decision_notification_date" => nil,
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => nil,
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2676,6 +2756,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2720,6 +2801,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2023-08-25",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2754,6 +2836,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2788,6 +2871,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2810,7 +2894,7 @@ FactoryBot.define do
 
     ### START: Invalid Rating Prior Caseflow Decision Issue HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_notification_date do
+    trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_date do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -2825,6 +2909,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2859,6 +2944,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2893,6 +2979,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2927,6 +3014,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2964,6 +3052,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -2998,6 +3087,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_date" => "2018-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3032,6 +3122,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3066,6 +3157,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3100,6 +3192,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3134,6 +3227,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3153,7 +3247,7 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeals do
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeal do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -3168,6 +3262,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3202,6 +3297,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3236,6 +3332,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3270,6 +3367,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => nil,
             "prior_decision_rating_percentage" => nil,
@@ -3307,6 +3405,7 @@ FactoryBot.define do
             "prior_decision_text" => "Tetnus is denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "1_623_547",
             "prior_decision_rating_percentage" => nil,
@@ -3351,6 +3450,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3385,6 +3485,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3407,7 +3508,7 @@ FactoryBot.define do
 
     ### START: Invalid Rating Decision HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
-    trait :eligible_rating_decision_hlr_without_prior_decision_notification_date do
+    trait :eligible_rating_decision_hlr_without_prior_decision_date do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -3422,6 +3523,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => nil,
+            "prior_decision_date" => nil,
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3456,6 +3558,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3490,6 +3593,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3524,6 +3628,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3560,6 +3665,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3594,6 +3700,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2018-08-01",
+            "prior_decision_date" => "2018-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3628,6 +3735,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3662,6 +3770,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3696,6 +3805,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2022-08-01",
+            "prior_decision_date" => "2022-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3730,6 +3840,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3749,7 +3860,7 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_rating_decision_hlr_pending_board_appeals do
+    trait :ineligible_rating_decision_hlr_pending_board_appeal do
       rating_hlr_veteran_claimant
       decision_review_issues do
         [
@@ -3764,6 +3875,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3798,6 +3910,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3832,6 +3945,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3866,6 +3980,7 @@ FactoryBot.define do
             "prior_decision_text" => "Service connection for tetnus denied",
             "prior_decision_type" => "Disability Evaluation",
             "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
             "prior_decision_diagnostic_code" => "5008",
             "prior_decision_rating_sn" => "20",
             "prior_decision_rating_percentage" => nil,
@@ -3888,6 +4003,6 @@ FactoryBot.define do
     ## END: Rating Decision HLR
     # END: DecisionReviewIssue Scenarios
 
-    initialize_with { new(message_payload) }
+    initialize_with { new(event_id, message_payload) }
   end
 end

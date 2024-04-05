@@ -18,15 +18,17 @@ module AppealsConsumer::Error
 
   class CaseflowError < SerializableError; end
   class ClientRequestError < CaseflowError; end
-  class BisVeteranNotFound < StandardError; end
-  class BisClaimantNotFound < StandardError; end
   class NullContentionIdError < StandardError; end
-  class NullPriorDecisionNotificationDate < StandardError; end
+  class NullPriorDecisionDate < StandardError; end
   class NullAssociatedCaseflowRequestIssueId < StandardError; end
   class IssueEligibilityResultNotRecognized < StandardError; end
   class RequestIssueCollectionBuildError < StandardError; end
   class RequestIssueBuildError < StandardError; end
   class NotNullContentionIdError < StandardError; end
+  class BisLimitedPoaError < StandardError; end
+  class BisVeteranError < StandardError; end
+  class BisPersonError < StandardError; end
+  class BisRatingProfilesError < StandardError; end
   # Custom error specifically for PII existance in payload hashes
   class PIIFoundViolationError < StandardError; end
   # Custom error specifically for build errors

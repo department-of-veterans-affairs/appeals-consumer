@@ -2,10 +2,10 @@
 
 # This class is used to build out an individual Request Issue from decision_review_created.decision_review_issues
 class Builders::DecisionReviewCreated::RequestIssueBuilder
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_reader :decision_review_created, :issue, :request_issue
 
-  REQUEST_ISSUE = "DecisionReviewCreated::RequestIssue"
+  REQUEST_ISSUE = "RequestIssue"
 
   # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
@@ -41,16 +41,24 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     legacy_appeal_not_eligible: "legacy_appeal_not_eligible"
   }.freeze
 
+  # used to determine ramp_claim_id
+  RAMP_EP_CODES = {
+    "682HLRRRAMP" => "Higher-Level Review Rating",
+    "683SCRRRAMP" => "Supplemental Claim Review Rating",
+    "683HAERRAMP" => "Higher-Level Review Additional Evidence Rating"
+  }.freeze
+
   # returns the DecisionReviewCreated::RequestIssue record with all attributes assigned
-  def self.build(issue, decision_review_created)
-    builder = new(issue, decision_review_created)
+  def self.build(issue, decision_review_created, bis_rating_profiles)
+    builder = new(issue, decision_review_created, bis_rating_profiles)
     builder.assign_attributes
     builder.request_issue
   end
 
-  def initialize(issue, decision_review_created)
+  def initialize(issue, decision_review_created, bis_rating_profiles)
     @decision_review_created = decision_review_created
     @issue = issue
+    @bis_rating_profiles = bis_rating_profiles
     @request_issue = DecisionReviewCreated::RequestIssue.new
   end
 
@@ -89,6 +97,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     calculate_closed_status
     calculate_contested_rating_issue_diagnostic_code
     calculate_rating_issue_associated_at
+    calculate_ramp_claim_id
   end
 
   # EP codes ending in "PMC" are pension, otherwise "compensation"
@@ -136,12 +145,11 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.contested_decision_issue_id = issue.prior_caseflow_decision_issue_id
   end
 
-  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   # only unidentified issues can have an optional user-input decision date
   def calculate_decision_date
-    handle_missing_notification_date if prior_decision_notification_date_not_present? && identified?
+    handle_missing_decision_date if prior_decision_date_not_present? && identified?
 
-    @request_issue.decision_date = prior_decision_notification_date_converted_to_logical_type
+    @request_issue.decision_date = prior_decision_date_converted_to_logical_type
   end
 
   # if the issue's eligibility_result is "PENDING_BOARD_APPEAL", "PENDING_HLR", or "PENDING_SUPPLEMENTAL"
@@ -197,7 +205,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.vacols_sequence_id = issue.legacy_appeal_issue_id
   end
 
-  # default initial state of "DecisionReviewCreated::RequestIssue"
+  # default initial state of "RequestIssue"
   def assign_type
     @request_issue.type = REQUEST_ISSUE
   end
@@ -218,6 +226,12 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
       if rating_or_rating_decision?
         issue.prior_decision_diagnostic_code
       end
+  end
+
+  # only populated for rating issues
+  # represents the claim_id of the RAMP EP connected to the rating issue
+  def calculate_ramp_claim_id
+    @request_issue.ramp_claim_id = rating? ? determine_ramp_claim_id : nil
   end
 
   # only populated for eligible rating issues
@@ -330,10 +344,9 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
 
-  # TODO: change to new field used for prior_decision_notification_date - 1 business day
   # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
   def decision_date_before_ama?
-    decision_date = prior_decision_notification_date_converted_to_logical_type
+    decision_date = prior_decision_date_converted_to_logical_type
 
     if decision_date
       ama_activation_date_logical_type = (AMA_ACTIVATION_DATE - EPOCH_DATE).to_i
@@ -350,9 +363,8 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     rating? || rating_decision? || nonrating?
   end
 
-  # TODO: change to new field used for prior_decision_notification_date - 1 business day
-  def prior_decision_notification_date_not_present?
-    !issue.prior_decision_notification_date
+  def prior_decision_date_not_present?
+    !issue.prior_decision_date
   end
 
   def contention_id_not_present?
@@ -415,8 +427,54 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     !!issue.contention_id
   end
 
-  def prior_decision_notification_date_converted_to_logical_type
-    convert_to_date_logical_type(issue.prior_decision_notification_date)
+  def prior_decision_date_converted_to_logical_type
+    convert_to_date_logical_type(issue.prior_decision_date)
+  end
+
+  # fetch rating profile from BIS and find the clm_id of the RAMP ep, if one exists
+  def determine_ramp_claim_id
+    return nil unless @bis_rating_profiles && associated_claims_data
+
+    associated_ramp_ep = find_associated_ramp_ep(associated_claims_data)
+    associated_ramp_ep&.dig(:clm_id)
+  end
+
+  # parses response to find all claim data, then finds claims that associate with this issue
+  def associated_claims_data
+    all_claims = find_all_claims
+    return nil if all_claims.nil?
+
+    find_associated_claims(all_claims)
+  end
+
+  def find_all_claims
+    claims = @bis_rating_profiles.dig(:rba_claim_list, :rba_claim)
+
+    Array.wrap(claims) if !!claims
+  end
+
+  def find_associated_claims(all_claims)
+    matching_claims = all_claims.select do |claim|
+      claim_profile_date_matches_issue_profile_date?(claim)
+    end
+
+    matching_claims.presence
+  end
+
+  # finds matching claims by comparing profile date of the claim with the issue's profile date
+  def claim_profile_date_matches_issue_profile_date?(claim)
+    return unless claim[:prfl_date] && issue.prior_decision_rating_profile_date
+
+    claim[:prfl_date].to_date == issue.prior_decision_rating_profile_date.to_date
+  end
+
+  # return the first associated_claim that has a RAMP ep code. if there aren't any that match return nil
+  def find_associated_ramp_ep(associated_claims_data)
+    associated_claims_data.find do |claim|
+      ep_code = claim[:bnft_clm_tc]
+
+      RAMP_EP_CODES.key?(ep_code)
+    end
   end
 
   def handle_contention_id_present
@@ -432,8 +490,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     fail AppealsConsumer::Error::NullContentionIdError, "Issue is eligible but has null for contention_id"
   end
 
-  def handle_missing_notification_date
-    fail AppealsConsumer::Error::NullPriorDecisionNotificationDate, "Issue is identified but has null for"\
-      " prior_decision_notification_date"
+  def handle_missing_decision_date
+    fail AppealsConsumer::Error::NullPriorDecisionDate, "Issue is identified but has null for prior_decision_date"
   end
 end

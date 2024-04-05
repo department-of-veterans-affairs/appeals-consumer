@@ -7,7 +7,7 @@ describe Transformers::DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
-  subject { build(:decision_review_created) }
+  subject { build(:decision_review_created, event_id: 13) }
 
   describe "#initialize" do
     context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid "\
@@ -37,6 +37,7 @@ describe Transformers::DecisionReviewCreated do
         expect(subject.actor_station).to eq("101")
         expect(subject.actor_application).to eq("PASYSACCTCREATE")
         expect(subject.decision_review_issues.size).to eq(2)
+        expect(subject.event_id).to eq(13)
       end
 
       it "initializes DecisionReviewIssue objects for every obj in issues_array" do

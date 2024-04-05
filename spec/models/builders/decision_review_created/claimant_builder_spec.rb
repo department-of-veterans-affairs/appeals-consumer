@@ -4,9 +4,15 @@ describe Builders::DecisionReviewCreated::ClaimantBuilder do
   let(:decision_review_created) do
     build(:decision_review_created, payee_code: payee_code, claimant_participant_id: "5382910292")
   end
+  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let!(:event_id) { event.id }
   let(:builder) { described_class.new(decision_review_created) }
   let(:claimant) { described_class.build(decision_review_created) }
   let(:payee_code) { "00" }
+
+  before do
+    decision_review_created.instance_variable_set(:@event_id, event_id)
+  end
 
   describe "#build" do
     it "returns a DecisionReviewCreated::Claimant object" do
@@ -56,14 +62,51 @@ describe Builders::DecisionReviewCreated::ClaimantBuilder do
     end
   end
 
-  describe "error handling for fetching BIS record" do
+  describe "fetching BIS record" do
     context "when the BIS record is not found" do
+      let(:msg) do
+        "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
+        " #{decision_review_created.claimant_participant_id}"
+      end
+      let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
+
       before do
         allow_any_instance_of(BISService).to receive(:fetch_person_info).and_return({})
+        allow(Rails.logger).to receive(:info)
       end
 
-      it "raises an error" do
-        expect { claimant }.to raise_error(AppealsConsumer::Error::BisClaimantNotFound)
+      it "logs message" do
+        expect(Rails.logger).to receive(:info).with(/#{msg}/)
+        claimant
+      end
+
+      it "sets BIS fields to nil" do
+        expect(claimant.name_suffix).to eq nil
+        expect(claimant.ssn).to eq nil
+        expect(claimant.date_of_birth).to eq nil
+        expect(claimant.first_name).to eq nil
+        expect(claimant.middle_name).to eq nil
+        expect(claimant.last_name).to eq nil
+        expect(claimant.email).to eq nil
+      end
+
+      context "when there is already a message in the event_audit's notes column" do
+        let!(:event_audit_with_note) do
+          create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note")
+        end
+
+        it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
+          claimant
+          expect(event_audit_with_note.reload.notes)
+            .to eq("Note #{Time.zone.now}: Test note - Note #{Time.zone.now}: #{msg}")
+        end
+      end
+
+      context "when there isn't a message in the event_audit's notes column" do
+        it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
+          claimant
+          expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: #{msg}")
+        end
       end
     end
   end

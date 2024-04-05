@@ -64,9 +64,9 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       allow(Karafka.producer).to receive(:produce_sync)
     end
 
-    it "publishes 6983 messages to the DecisionReviewCreated topic" do
+    it "publishes 5897 messages to the DecisionReviewCreated topic" do
       subject
-      expect(Karafka.producer).to have_received(:produce_sync).exactly(6983).times do |args|
+      expect(Karafka.producer).to have_received(:produce_sync).exactly(5897).times do |args|
         expect(args[:topic]).to eq("decision_review_created")
       end
     end
@@ -104,29 +104,29 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
   describe "#create_messages" do
     subject { decision_review_created_events.send(:create_messages) }
-    it "creates 6983 messages" do
-      expect(subject.flatten.count).to eq(6983)
+    it "creates 5897 messages" do
+      expect(subject.flatten.count).to eq(5897)
     end
   end
 
   describe "#create_rating_messages" do
     subject { decision_review_created_events.send(:create_rating_messages) }
-    it "creates 2779 rating messages" do
-      expect(subject.flatten.count).to eq(2779)
+    it "creates 2849 rating messages" do
+      expect(subject.flatten.count).to eq(2849)
     end
   end
 
   describe "#create_nonrating_messages" do
     subject { decision_review_created_events.send(:create_nonrating_messages) }
-    it "creates 2779 rating messages" do
-      expect(subject.flatten.count).to eq(4204)
+    it "creates 3048 rating messages" do
+      expect(subject.flatten.count).to eq(3048)
     end
   end
 
   describe "#create_rating_ep_code_messages(ep_codes)" do
     subject { decision_review_created_events.send(:create_rating_ep_code_messages, rating_ep_codes) }
-    it "creates 2779 rating messages" do
-      expect(subject.flatten.count).to eq(2779)
+    it "creates 2849 rating messages" do
+      expect(subject.flatten.count).to eq(2849)
     end
   end
 
@@ -135,15 +135,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_rating_ep_code }
-      it "creates 77 messages for the sc rating ep code" do
-        expect(subject.flatten.count).to eq(77)
+      it "creates 79 messages for the sc rating ep code" do
+        expect(subject.flatten.count).to eq(79)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_rating_ep_code }
-      it "creates 83 messages for the hlr rating ep code" do
-        expect(subject.flatten.count).to eq(83)
+      it "creates 85 messages for the hlr rating ep code" do
+        expect(subject.flatten.count).to eq(85)
       end
     end
   end
@@ -153,15 +153,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_rating_ep_code }
-      it "creates 25 messages for the sc rating ep code" do
-        expect(subject.flatten.count).to eq(25)
+      it "creates 26 messages for the sc rating ep code" do
+        expect(subject.flatten.count).to eq(26)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_rating_ep_code }
-      it "creates 27 messages for each hlr rating ep code" do
-        expect(subject.flatten.count).to eq(27)
+      it "creates 28 messages for each hlr rating ep code" do
+        expect(subject.flatten.count).to eq(28)
       end
     end
   end
@@ -191,15 +191,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_rating_ep_code }
-      it "creates 22 messages for the sc rating ep code" do
-        expect(subject.flatten.count).to eq(22)
+      it "creates 23 messages for the sc rating ep code" do
+        expect(subject.flatten.count).to eq(23)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_rating_ep_code }
-      it "creates 24 messages for the hlr rating ep code" do
-        expect(subject.flatten.count).to eq(24)
+      it "creates 25 messages for the hlr rating ep code" do
+        expect(subject.flatten.count).to eq(25)
       end
     end
   end
@@ -232,8 +232,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a rating issue" do
           let(:issue_type) { "rating_hlr" }
-          it "creates 25 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(25)
+          it "creates 26 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(26)
           end
         end
 
@@ -246,8 +246,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_rating_hlr" }
-          it "creates 22 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(22)
+          it "creates 23 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(23)
           end
         end
       end
@@ -257,8 +257,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a rating issue" do
           let(:issue_type) { "rating_hlr" }
-          it "creates 27 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(27)
+          it "creates 28 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(28)
           end
         end
 
@@ -271,8 +271,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_rating_hlr" }
-          it "creates 24 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(24)
+          it "creates 25 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(25)
           end
         end
       end
@@ -298,8 +298,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a rating issue" do
           let(:issue_type) { "rating_hlr" }
-          it "creates 11 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(11)
+          it "creates 12 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(12)
           end
         end
 
@@ -312,8 +312,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_rating_hlr" }
-          it "creates 9 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(9)
+          it "creates 10 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(10)
           end
         end
       end
@@ -323,8 +323,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a rating issue" do
           let(:issue_type) { "rating_hlr" }
-          it "creates 11 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(11)
+          it "creates 12 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(12)
           end
         end
 
@@ -337,8 +337,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_rating_hlr" }
-          it "creates 9 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(9)
+          it "creates 10 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(10)
           end
         end
       end
@@ -430,8 +430,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a rating issue" do
           let(:issue_type) { "rating_hlr" }
-          it "creates 11 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(11)
+          it "creates 12 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(12)
           end
         end
 
@@ -444,8 +444,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_rating_hlr" }
-          it "creates 9 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(9)
+          it "creates 10 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(10)
           end
         end
       end
@@ -455,8 +455,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a rating issue" do
           let(:issue_type) { "rating_hlr" }
-          it "creates 11 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(11)
+          it "creates 12 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(12)
           end
         end
 
@@ -469,8 +469,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_rating_hlr" }
-          it "creates 9 messages for the rating issue" do
-            expect(subject.flatten.count).to eq(9)
+          it "creates 10 messages for the rating issue" do
+            expect(subject.flatten.count).to eq(10)
           end
         end
       end
@@ -545,15 +545,16 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#create_rating_issue_messages(issue_type, code, rating_decision_messages)" do
+  describe "#create_assoc_decision_issue_messages(issue_type, code, rating_decision_messages)" do
     subject do
-      decision_review_created_events.send(:create_rating_issue_messages, issue_type, code, rating_decision_messages)
+      decision_review_created_events
+        .send(:create_assoc_decision_issue_messages, issue_type, code, rating_decision_messages)
     end
 
     let(:rating_decision_messages) { build_list(:decision_review_created, 2) }
 
     it "creates one message and returns that message plus rating_decision_messages" do
-      expect(subject.flatten.count).to eq(3)
+      expect(subject.flatten.count).to eq(4)
     end
   end
 
@@ -714,8 +715,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     subject { decision_review_created_events.send(:create_nonrating_ep_code_messages, ep_codes) }
     let(:ep_codes) { nonrating_ep_codes }
 
-    it "creates 4204 messages" do
-      expect(subject.flatten.count).to eq(4204)
+    it "creates 3048 messages" do
+      expect(subject.flatten.count).to eq(3048)
     end
   end
 
@@ -724,15 +725,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_nonrating_ep_code }
-      it "creates 122 messages for the sc nonrating ep code" do
-        expect(subject.flatten.count).to eq(122)
+      it "creates 88 messages for the sc nonrating ep code" do
+        expect(subject.flatten.count).to eq(88)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_nonrating_ep_code }
-      it "creates 126 messages for the hlr nonrating ep code" do
-        expect(subject.flatten.count).to eq(126)
+      it "creates 92 messages for the hlr nonrating ep code" do
+        expect(subject.flatten.count).to eq(92)
       end
     end
   end
@@ -760,15 +761,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_nonrating_ep_code }
-      it "creates 55 messages for the sc rating ep code" do
-        expect(subject.flatten.count).to eq(55)
+      it "creates 21 messages for the sc rating ep code" do
+        expect(subject.flatten.count).to eq(21)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_nonrating_ep_code }
-      it "creates 57 messages for each hlr rating ep code" do
-        expect(subject.flatten.count).to eq(57)
+      it "creates 23 messages for each hlr rating ep code" do
+        expect(subject.flatten.count).to eq(23)
       end
     end
   end
@@ -807,8 +808,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_nonrating_hlr" }
-          it "creates 55 messages for the nonrating issue" do
-            expect(subject.flatten.count).to eq(55)
+          it "creates 21 messages for the nonrating issue" do
+            expect(subject.flatten.count).to eq(21)
           end
         end
       end
@@ -825,8 +826,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue has an associated decision issue" do
           let(:issue_type) { "decision_issue_prior_nonrating_hlr" }
-          it "creates 57 messages for the nonrating issue" do
-            expect(subject.flatten.count).to eq(57)
+          it "creates 23 messages for the nonrating issue" do
+            expect(subject.flatten.count).to eq(23)
           end
         end
       end
@@ -846,8 +847,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     context "when the issue is identified" do
       context "when the issue has an associated decision issue" do
         let(:issue_type) { "decision_issue_prior_nonrating_hlr" }
-        it "creates 42 messages" do
-          expect(subject.flatten.count).to eq(42)
+        it "creates 8 messages" do
+          expect(subject.flatten.count).to eq(8)
         end
       end
 
@@ -902,8 +903,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       context "when the issue has an associated decision issue" do
         let(:issue_type) { "decision_issue_prior_nonrating_hlr" }
 
-        it "returns 42 messages" do
-          expect(subject.flatten.count).to eq(42)
+        it "returns 8 messages" do
+          expect(subject.flatten.count).to eq(8)
         end
       end
 
@@ -1231,7 +1232,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       expect(subject.claim_creation_time.class).to eq(Integer)
 
       subject.decision_review_issues.each do |issue|
-        expect(issue.prior_decision_notification_date.class).to eq(Integer)
+        expect(issue.prior_decision_date.class).to eq(Integer)
       end
     end
   end
@@ -1389,18 +1390,20 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#remove_file_numbers_from_cache" do
-    subject { decision_review_created_events.send(:remove_file_numbers_from_cache) }
+  describe "#change_veteran_bis_response" do
+    subject { decision_review_created_events.send(:change_veteran_bis_response) }
+    let(:new_bis_record) { { ptcpnt_id: nil } }
+    let(:file_number) { [decision_review_created.file_number] }
 
     before do
       Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
       decision_review_created_events
-        .instance_variable_set(:@file_numbers_to_remove_from_cache, [decision_review_created.file_number])
+        .instance_variable_set(:@file_numbers_to_remove_from_cache, file_number)
     end
 
-    it "removes the file numbers stored in @file_numbers_to_remove_from_cache from the redis cache" do
+    it "restores the file number to the cache with new veteran_bis_record" do
       subject
-      expect(Fakes::VeteranStore.new.all_veteran_file_numbers).to be_empty
+      expect(Fakes::BISService.new.fetch_veteran_info(file_number)).to eq(new_bis_record)
     end
   end
 
@@ -1415,14 +1418,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     let(:not_converted_dri_values) do
       decision_review_issues.map do |not_converted_issue|
         {
-          contention_id: not_converted_issue.contention_id,
-          prior_rating_decision_id: not_converted_issue.prior_rating_decision_id,
-          prior_decision_rating_sn:
-            not_converted_issue.prior_decision_rating_sn,
-          prior_non_rating_decision_id: not_converted_issue.prior_non_rating_decision_id,
-          prior_caseflow_decision_issue_id: not_converted_issue.prior_caseflow_decision_issue_id,
-          associated_caseflow_request_issue_id: not_converted_issue.associated_caseflow_request_issue_id,
-          legacy_appeal_issue_id: not_converted_issue.legacy_appeal_issue_id
+          contention_id: not_converted_issue.contention_id
         }
       end
     end
@@ -1430,14 +1426,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     let(:converted_dri_values) do
       converted_decision_review_issues.map do |converted_issue|
         {
-          contention_id: converted_issue.contention_id,
-          prior_rating_decision_id: converted_issue.prior_rating_decision_id,
-          prior_decision_rating_sn:
-            converted_issue.prior_decision_rating_sn,
-          prior_non_rating_decision_id: converted_issue.prior_non_rating_decision_id,
-          prior_caseflow_decision_issue_id: converted_issue.prior_caseflow_decision_issue_id,
-          associated_caseflow_request_issue_id: converted_issue.associated_caseflow_request_issue_id,
-          legacy_appeal_issue_id: converted_issue.legacy_appeal_issue_id
+          contention_id: converted_issue.contention_id
         }
       end
     end
@@ -1453,23 +1442,11 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     before do
       issue.contention_id = 1
-      issue.prior_rating_decision_id = 1
-      issue.prior_decision_rating_sn = "1"
-      issue.prior_non_rating_decision_id = 1
-      issue.prior_caseflow_decision_issue_id = 1
-      issue.associated_caseflow_request_issue_id = 1
-      issue.legacy_appeal_issue_id = 1
       subject
     end
 
     it "randomizes specific keys for an individual decision review issue" do
       expect(issue.contention_id).not_to eq(1)
-      expect(issue.prior_rating_decision_id).not_to eq(1)
-      expect(issue.prior_decision_rating_sn).not_to eq("1")
-      expect(issue.prior_non_rating_decision_id).not_to eq(1)
-      expect(issue.prior_caseflow_decision_issue_id).not_to eq(1)
-      expect(issue.associated_caseflow_request_issue_id).not_to eq(1)
-      expect(issue.legacy_appeal_issue_id).not_to eq(1)
     end
   end
 
