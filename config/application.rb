@@ -47,8 +47,6 @@ module AppealsConsumer
 
     config.bgs_environment = ENV["BGS_ENVIRONMENT"] || "beplinktest"
 
-    config.station_id = "317"
-    config.css_id = "APPEALSCONSUMER1"
     config.redis_url = ENV["REDIS_URL_CACHE"]
 
     config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL_CACHE"], expires_in: 24.hours }
