@@ -106,7 +106,9 @@ describe AvroDeserializerService do
     it "initializes an AvroTurf::Messaging instance with the correct arguments" do
       expect(AvroTurf::Messaging).to receive(:new).with(
         registry_url: ENV.fetch("SCHEMA_REGISTRY_URL"),
-        logger: an_instance_of(AvroLoggerService)
+        logger: an_instance_of(AvroLoggerService),
+        user: ENV["KAFKA_USERNAME"],
+        password: ENV["KAFKA_PASSWORD"]
       )
       avro_deserializer
     end
