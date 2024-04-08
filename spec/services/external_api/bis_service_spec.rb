@@ -8,6 +8,7 @@ describe ExternalApi::BISService do
   let(:bis_veteran_service) { double("veteran") }
   let(:bis_people_service) { double("people") }
   let(:bis_org_service) { double("org") }
+  let(:bis_rating_profile_service) { double("rating_profile") }
   let(:bis_client) { double("BGS::Services") }
   let(:bis) { ExternalApi::BISService.new(client: bis_client) }
   let(:veteran_record) { { name: "foo", ssn: "123" } }
@@ -32,6 +33,23 @@ describe ExternalApi::BISService do
   let(:cache_key) { "bis_veteran_info_#{file_number}" }
   let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
   let(:cache) { Rails.cache }
+  let(:rating_profiles) do
+    {
+      rba_issue_list: {
+        rba_issue: {
+          rba_issue_id: "123456",
+          prfil_date: Date.new(1980, 1, 1)
+        }
+      },
+      rba_claim_list: {
+        rba_claim: {
+          bnft_clm_tc: "030HLRR",
+          clm_id: "1002003",
+          prfl_date: Date.new(1980, 1, 1)
+        }
+      }
+    }
+  end
 
   before do
     # veteran services
@@ -46,6 +64,10 @@ describe ExternalApi::BISService do
     allow(bis).to receive(:fetch_limited_poas_by_claim_ids).and_call_original
     allow(bis_client).to receive(:org).and_return(bis_org_service)
     allow(bis_org_service).to receive(:find_limited_poas_by_bnft_claim_ids) { bis_limited_poas }
+    # rating profile services
+    allow(bis).to receive(:fetch_rating_profiles_in_range).and_call_original
+    allow(bis_client).to receive(:rating_profile).and_return(bis_rating_profile_service)
+    allow(bis_rating_profile_service).to receive(:find_in_date_range) { rating_profiles }
 
     allow(Rails).to receive(:cache).and_return(memory_store)
     Rails.cache.clear
@@ -101,6 +123,52 @@ describe ExternalApi::BISService do
       bis_info = bis.fetch_limited_poas_by_claim_ids(claim_ids)
       Rails.cache.write(claim_ids, bis_info)
       expect(Rails.cache.read(claim_ids)).to eq bis_info
+    end
+  end
+
+  describe "#fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)" do
+    let!(:participant_id) { "123456789" }
+    let!(:start_date) { "2017-02-07T07:21:24+00:00" }
+    let!(:end_date) { "2017-02-07T07:21:24+00:00" }
+    let!(:formatted_start_date) { start_date.to_date }
+    let!(:formatted_end_date) { end_date.to_date }
+    let!(:cache_key) { "bis_rating_profiles_#{participant_id}_#{formatted_start_date}_#{formatted_end_date}" }
+    let(:msg) do
+      "Fetching rating profiles for participant_id #{participant_id}"\
+        " within the date range #{formatted_start_date} - #{formatted_end_date}"
+    end
+
+    subject do
+      bis.fetch_rating_profiles_in_range(participant_id: participant_id, start_date: start_date, end_date: end_date)
+    end
+
+    before do
+      allow(Rails.logger).to receive(:info)
+    end
+
+    after do
+      bis.bust_fetch_rating_profiles_in_range_cache(participant_id, formatted_start_date, formatted_end_date)
+    end
+
+    it "fetch_rating_profiles_in_range is called" do
+      subject
+      expect(bis_rating_profile_service).to have_received(:find_in_date_range).once
+      expect(Rails.logger).to have_received(:info)
+        .with(/#{msg}/)
+    end
+
+    it "should set cache key,value if not exists" do
+      expect(Rails.cache.exist?(cache_key)).to eq false
+      subject
+      expect(Rails.cache.exist?(cache_key)).to eq true
+      expect(Rails.cache.read(cache_key)).to eq subject
+    end
+
+    it "should retrieve cache key,value if exists" do
+      expect(Rails.cache.exist?(cache_key)).to eq false
+      subject
+      Rails.cache.write(cache_key, subject)
+      expect(Rails.cache.read(cache_key)).to eq subject
     end
   end
 end

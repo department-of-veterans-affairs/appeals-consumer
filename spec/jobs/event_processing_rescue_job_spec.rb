@@ -26,6 +26,38 @@ describe EventProcessingRescueJob, type: :job do
           .and change { stuck_audit.reload.ended_at }.from(nil)
       end
 
+      context "updating audit notes" do
+        let(:cancelled_note) do
+          "EventAudit was left in an uncompleted state for longer "\
+          "than 26 minutes and was marked as \"CANCELLED\" at #{Time.zone.now}."
+        end
+        let(:new_audit_notes) do
+          "test note - #{cancelled_note}"
+        end
+
+        before do
+          Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
+        end
+
+        context "when the audit has an existing note" do
+          let!(:stuck_audit_with_notes) do
+            create(:event_audit, :stuck, event: event, notes: "test note")
+          end
+
+          it "updates the audit's notes with new cancelled message" do
+            expect { EventProcessingRescueJob.perform_now }
+              .to change { stuck_audit_with_notes.reload.notes }.from("test note").to(new_audit_notes)
+          end
+        end
+
+        context "when the audit does not have an existing note" do
+          it "updates the audit's notes with existing message concatenated with new cancelled message" do
+            expect { EventProcessingRescueJob.perform_now }
+              .to change { stuck_audit.reload.notes }.from(nil).to(cancelled_note)
+          end
+        end
+      end
+
       context "when the event is in an end state" do
         it "skips re-enqueueing the event" do
           allow_any_instance_of(Event).to receive(:end_state?).and_return(true)
@@ -57,7 +89,7 @@ describe EventProcessingRescueJob, type: :job do
         expect(stuck_audit.reload.status).not_to eq("cancelled")
         expect(Rails.logger)
           .to have_received(:info)
-          .with("[EventProcessingRescueJob] Time limit exceeded, stopping job execution.")
+          .with(/Time limit exceeded, stopping job execution./)
       end
     end
   end
@@ -67,7 +99,7 @@ describe EventProcessingRescueJob, type: :job do
       allow(EventAudit).to receive(:stuck).and_raise(StandardError)
       expect(Rails.logger)
         .to receive(:error)
-        .with(/\[EventProcessingRescueJob\] encountered an exception:/)
+        .with(/Encountered an exception./)
       expect { EventProcessingRescueJob.perform_now }.not_to raise_error
     end
   end
@@ -84,7 +116,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(stuck_audit).to receive(:cancelled!).and_raise(StandardError.new("Test Error"))
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Failed to process audit/)
+            .with(/Failed to process EventAudit./)
           expect { subject.send(:process_audit, stuck_audit) }.not_to raise_error
         end
       end
@@ -96,7 +128,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(event).to receive(:determine_job).and_raise(StandardError.new("Test Error"))
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Error during the re-enqueue for event/)
+            .with(/Error during the re-enqueue for Event./)
           expect { subject.send(:handle_reenqueue, event) }.not_to raise_error
         end
       end
@@ -106,7 +138,7 @@ describe EventProcessingRescueJob, type: :job do
           allow(event).to receive(:determine_job).and_return(nil)
           expect(Rails.logger)
             .to receive(:error)
-            .with(/\[EventProcessingRescueJob\] Failed to re-enqueue job for Event:/)
+            .with(/Failed to re-enqueue job for Event./)
           subject.send(:handle_reenqueue, event)
         end
       end
@@ -144,6 +176,33 @@ describe EventProcessingRescueJob, type: :job do
                                type: event.type,
                                error_message: error.message
                              })
+      end
+    end
+
+    describe "#_audit_concatenated_notes(msg)" do
+      let(:msg) do
+        "EventAudit was left in an uncompleted state for longer "\
+        "than 26 minutes and was marked as \"CANCELLED\" at #{Time.zone.now}."
+      end
+      let!(:event) { create(:decision_review_created_event) }
+      subject { described_class.new.send(:audit_concatenated_notes, audit) }
+
+      before do
+        Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
+      end
+
+      context "when the audit record has not-nil value for notes" do
+        let!(:audit) { create(:event_audit, :stuck, notes: "test note", event: event) }
+        it "updates the audit with existing message concatenates with new cancelled message" do
+          expect(subject).to eq("test note - #{msg}")
+        end
+      end
+
+      context "when the audit record has nil value for notes" do
+        let!(:audit) { create(:event_audit, :stuck, event: event) }
+        it "updates the audit with new cancelled message" do
+          expect(subject).to eq(msg)
+        end
       end
     end
   end

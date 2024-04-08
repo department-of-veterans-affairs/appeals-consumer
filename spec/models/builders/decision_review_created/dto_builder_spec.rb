@@ -2,7 +2,6 @@
 
 # TODO: finish "_retrieve..." method specs on implementation
 # TODO: instance_variable_get after implementation to verify correctness for retrievals
-# TODO: add sentry/slack notifications if necessary
 
 RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
   message_payload = {
@@ -25,9 +24,10 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     "same_station_review_requested" => false,
     "intake_creation_time" => Time.now.utc.to_s,
     "claim_creation_time" => Time.now.utc.to_s,
-    "created_by_username" => "BVADWISE101",
-    "created_by_station" => "101",
-    "created_by_application" => "PASYSACCTCREATE",
+    "actor_username" => "BVADWISE101",
+    "actor_station" => "101",
+    "actor_application" => "PASYSACCTCREATE",
+    "auto_remand" => false,
     "decision_review_issues" =>
       [
         {
@@ -39,6 +39,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           "prior_decision_text" => "service connection for tetnus denied",
           "prior_decision_type" => "DIC",
           "prior_decision_notification_date" => "2023-08-01",
+          "prior_decision_date" => "2023-08-01",
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
           "eligible" => true,
@@ -59,6 +60,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           "prior_decision_text" => "service connection for ear infection denied",
           "prior_decision_type" => "Basic Eligibility",
           "prior_decision_notification_date" => "2023-08-01",
+          "prior_decision_date" => "2023-08-01",
           "prior_decision_diagnostic_code" => nil,
           "prior_decision_rating_percentage" => nil,
           "eligible" => true,
@@ -165,8 +167,8 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         drc_dto_builder.send(:assign_from_decision_review_created)
 
         expect(drc_dto_builder.instance_variable_get(:@decision_review_created)).to eq drc
-        expect(drc_dto_builder.instance_variable_get(:@css_id)).to eq drc.created_by_username
-        expect(drc_dto_builder.instance_variable_get(:@station)).to eq drc.created_by_station
+        expect(drc_dto_builder.instance_variable_get(:@css_id)).to eq drc.actor_username
+        expect(drc_dto_builder.instance_variable_get(:@station)).to eq drc.actor_station
         expect(drc_dto_builder.instance_variable_get(:@detail_type)).to eq drc.decision_review_type
         expect(drc_dto_builder.instance_variable_get(:@vet_file_number)).to eq drc.file_number
         expect(drc_dto_builder.instance_variable_get(:@vet_first_name)).to eq drc.veteran_first_name
@@ -212,7 +214,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
               fail StandardError
             end
           end
-          expect { builder.send(:assign_from_builders) }.to raise_error(Builders::BaseDtoBuilder::DtoBuildError)
+          expect { builder.send(:assign_from_builders) }.to raise_error(AppealsConsumer::Error::DtoBuildError)
         end
       end
     end

@@ -17,18 +17,7 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
-  # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
-    config.cache_store = :memory_store
-    config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
-    }
-  else
-    config.action_controller.perform_caching = false
-
-    config.cache_store = :null_store
-  end
+  config.action_controller.perform_caching = false
 
   # set to true to create queues and override the sqs endpiont
   config.sqs_create_queues = true
@@ -41,7 +30,6 @@ Rails.application.configure do
   ENV["AWS_SECRET_ACCESS_KEY"] ||= "dummysecretkey"
 
   config.caseflow_url = ENV["CASEFLOW_URL"] ||= "http://host.docker.internal:3000"
-  config.caseflow_key = ENV["CASEFLOW_KEY"]
   
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

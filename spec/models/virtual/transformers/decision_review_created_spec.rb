@@ -7,7 +7,7 @@ describe Transformers::DecisionReviewCreated do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
   end
 
-  subject { build(:decision_review_created) }
+  subject { build(:decision_review_created, event_id: 13) }
 
   describe "#initialize" do
     context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid "\
@@ -33,10 +33,11 @@ describe Transformers::DecisionReviewCreated do
         expect(subject.same_station_review_requested).to eq(false)
         expect(subject.intake_creation_time).to be_an_instance_of(String)
         expect(subject.claim_creation_time).to be_an_instance_of(String)
-        expect(subject.created_by_username).to eq("BVADWISE101")
-        expect(subject.created_by_station).to eq("101")
-        expect(subject.created_by_application).to eq("PASYSACCTCREATE")
+        expect(subject.actor_username).to eq("BVADWISE101")
+        expect(subject.actor_station).to eq("101")
+        expect(subject.actor_application).to eq("PASYSACCTCREATE")
         expect(subject.decision_review_issues.size).to eq(2)
+        expect(subject.event_id).to eq(13)
       end
 
       it "initializes DecisionReviewIssue objects for every obj in issues_array" do
@@ -48,18 +49,17 @@ describe Transformers::DecisionReviewCreated do
           case issue.contention_id
           when 123_456_789
             expect(issue.contention_id).to eq(123_456_789)
-            expect(issue.associated_caseflow_decision_id).to eq(nil)
+            expect(issue.prior_caseflow_decision_issue_id).to eq(nil)
             expect(issue.associated_caseflow_request_issue_id).to eq(nil)
             expect(issue.unidentified).to eq(false)
             expect(issue.prior_rating_decision_id).to eq(nil)
             expect(issue.prior_non_rating_decision_id).to eq(12)
             expect(issue.prior_decision_award_event_id).to eq(17_946)
-            expect(issue.prior_decision_ramp_id).to eq(nil)
             expect(issue.prior_decision_text).to eq("DIC: Service connection for tetnus denied")
             expect(issue.prior_decision_type).to eq("DIC")
             expect(issue.prior_decision_notification_date).to eq("2023-08-01")
             expect(issue.prior_decision_diagnostic_code).to eq(nil)
-            expect(issue.prior_decision_rating_disability_sequence_number).to eq(nil)
+            expect(issue.prior_decision_rating_sn).to eq(nil)
             expect(issue.prior_decision_rating_percentage).to eq(nil)
             expect(issue.prior_decision_rating_profile_date).to eq(nil)
             expect(issue.eligible).to eq(true)
@@ -72,18 +72,17 @@ describe Transformers::DecisionReviewCreated do
             expect(issue.legacy_appeal_issue_id).to eq(nil)
           when 123_456_790
             expect(issue.contention_id).to eq(123_456_790)
-            expect(issue.associated_caseflow_decision_id).to eq(nil)
+            expect(issue.prior_caseflow_decision_issue_id).to eq(nil)
             expect(issue.associated_caseflow_request_issue_id).to eq(nil)
             expect(issue.unidentified).to eq(false)
             expect(issue.prior_rating_decision_id).to eq(nil)
             expect(issue.prior_non_rating_decision_id).to eq(13)
             expect(issue.prior_decision_award_event_id).to eq(17_946)
-            expect(issue.prior_decision_ramp_id).to eq(nil)
             expect(issue.prior_decision_text).to eq("Basic Eligibility: Service connection for ear infection denied")
             expect(issue.prior_decision_type).to eq("Basic Eligibility")
             expect(issue.prior_decision_notification_date).to eq("2023-08-01")
             expect(issue.prior_decision_diagnostic_code).to eq(nil)
-            expect(issue.prior_decision_rating_disability_sequence_number).to eq(nil)
+            expect(issue.prior_decision_rating_sn).to eq(nil)
             expect(issue.prior_decision_rating_percentage).to eq(nil)
             expect(issue.prior_decision_rating_profile_date).to eq(nil)
             expect(issue.eligible).to eq(true)

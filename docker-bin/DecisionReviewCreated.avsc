@@ -21,22 +21,22 @@
     {
       "name": "veteranFirstName",
       "type": "string",
-      "doc": "The first name of the DecisionReviewCreated::Veteran"
+      "doc": "The first name of the Veteran"
     },
     {
       "name": "veteranLastName",
       "type": "string",
-      "doc": "The last name of the DecisionReviewCreated::Veteran"
+      "doc": "The last name of the Veteran"
     },
     {
       "name": "veteranParticipantId",
       "type": "string",
-      "doc": "The Participant ID of the DecisionReviewCreated::Veteran"
+      "doc": "The Participant ID of the Veteran"
     },
     {
       "name": "fileNumber",
       "type": "string",
-      "doc": "The File Number of the DecisionReviewCreated::Veteran"
+      "doc": "The File Number of the Veteran"
     },
     {
       "name": "claimantParticipantId",
@@ -71,7 +71,7 @@
     {
       "name": "payeeCode",
       "type": "string",
-      "doc": "Number that indicates the person receiving a benefit, such as DecisionReviewCreated::Veteran or spouse"
+      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
     },
     {
       "name": "modifier",
@@ -127,17 +127,17 @@
       "doc": "The time at which this decision review claim was created"
     },
     {
-      "name": "createdByUsername",
+      "name": "actorUsername",
       "type": "string",
       "doc": "The user who created this decision review in the system"
     },
     {
-      "name": "createdByStation",
+      "name": "actorStation",
       "type": "string",
       "doc": "The station number of the user who created the decision review"
     },
     {
-      "name": "createdByApplication",
+      "name": "actorApplication",
       "type": "string",
       "doc": "The application that the user used to create this decision review"
     },
@@ -149,6 +149,11 @@
       ],
       "default": null,
       "doc": "The ID of the informal conference tracked Item ID."
+    },
+    {
+      "name": "autoRemand",
+      "type": "boolean",
+      "doc": "True/false value to indicate whether or not this decision review is an automatically established remand."
     },
     {
       "name": "decisionReviewIssues",
@@ -173,7 +178,7 @@
                 "long"
               ],
               "default": null,
-              "doc": "The ID of the associated request issue from Caseflow. This corresponds to DecisionReviewCreated::RequestIssue.id in Caseflow."
+              "doc": "The ID of the associated request issue from Caseflow. This corresponds to RequestIssue.id in Caseflow."
             },
             {
               "name": "unidentified",
@@ -187,7 +192,7 @@
                 "long"
               ],
               "default": null,
-              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with DecisionReviewCreated::RequestIssue.contested_rating_issue_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue."
+              "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with RequestIssue.contested_rating_issue_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue."
             },
             {
               "name": "priorNonRatingDecisionId",
@@ -196,7 +201,16 @@
                 "long"
               ],
               "default": null,
-              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with DecisionReviewCreated::RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue."
+              "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue."
+            },
+            {
+              "name": "priorCaseflowDecisionIssueId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The Caseflow identifier (decision_issue.id) of the disposition decision that this issue is appealing. This value can be not-null in two different situations. 1) When this issue is appealing a disposition that did not have an actual decision recorded in VBMS Ratings or Awards. In this case both priorRatingDecisionId and priorNonRatingDecisionId will be null. 2) When this issue is appealing an actual Rating or Non-Rating decision made in VBMS and that decision was made for a previous AMA issue."
             },
             {
               "name": "priorDecisionText",
@@ -225,6 +239,20 @@
               ],
               "default": null,
               "doc": "The date at which the claimant was notified of the prior decision. If its a rating issue, its the promulgation date plus one business day. If its a non-rating issue, its the authorization date plus one business day. If its an unidentified issue, its the user provided date."
+            },
+            {
+              "name": "priorDecisionDate",
+              "type": [
+                "null",
+                {
+                  "type": "int",
+                  "connect.version": 1,
+                  "connect.name": "org.apache.kafka.connect.data.Date",
+                  "logicalType": "date"
+                }
+              ],
+              "default": null,
+              "doc": "The date at which the prior decision was finalized in the system. If its a rating issue, its the promulgation date. If its a non-rating issue, its the authorization date. If its an unidentified issue, its the user provided date minus one business day."
             },
             {
               "name": "priorDecisionDiagnosticCode",
@@ -264,8 +292,8 @@
                   "CONTESTED",
                   "PENDING_HLR",
                   "COMPLETED_HLR",
-                  "PENDING_BOARD",
-                  "COMPLETED_BOARD",
+                  "PENDING_BOARD_APPEAL",
+                  "COMPLETED_BOARD_APPEAL",
                   "PENDING_SUPPLEMENTAL"
                 ]
               },
@@ -341,34 +369,34 @@
                 "string"
               ],
               "default": null,
-              "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to DecisionReviewCreated::RequestIssue.contested_rating_issue_profile_date in Caseflow."
+              "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to RequestIssue.contested_rating_issue_profile_date in Caseflow."
             },
             {
-              "name": "associatedCaseflowDecisionId",
+              "name": "sourceClaimIdForRemand",
               "type": [
                 "null",
                 "long"
               ],
               "default": null,
-              "doc": "The id of the caseflow decision issue that corresponds to the intaken issue"
+              "doc": "The claim ID of the decision review that triggered the auto-establishment of this remand decision review, if applicable."
             },
             {
-              "name": "priorDecisionRampId",
+              "name": "sourceContentionIdForRemand",
               "type": [
                 "null",
                 "long"
               ],
               "default": null,
-              "doc": "The claim id of the ramp ep connected to an intaken rating issue."
+              "doc": "The ID of the contention that was assigned a disposition that triggered the auto-establishment of this remand decision review, if applicable."
             },
             {
-              "name": "priorDecisionRatingDisabilitySequenceNumber",
+              "name": "priorDecisionRatingSn",
               "type": [
                 "null",
-                "long"
+                "string"
               ],
               "default": null,
-              "doc": "The disSn of the disability evaluation or disability decision that the intaken issue is contesting."
+              "doc": "If the decision originated from VBMS-Ratings, then this is the rating sequence number. An identifier for the rating decision (on the specific decision type itself, disability evaluation, competency, smc, etc). If the decision originated from VBMS-Awards, no ratingSn is associated to the decision."
             }
           ]
         }

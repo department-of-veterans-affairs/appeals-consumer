@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: investigate and nail down error handling/notification
-
 # This class is ultimately responsible for constructing a DecisionReviewCreated payload
 # that will be sent to Caseflow.
 # :reek:TooManyInstanceVariables
@@ -14,8 +12,8 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   def initialize(drc_event)
     super()
-    @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
     @event_id = drc_event.id
+    @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
     assign_attributes
   end
 
@@ -23,7 +21,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   # :reek:UtilityFunction
   def build_decision_review_created(message_payload)
-    Transformers::DecisionReviewCreated.new(message_payload)
+    Transformers::DecisionReviewCreated.new(@event_id, message_payload)
   end
 
   # :reek:TooManyStatements
@@ -37,9 +35,9 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   # :reek:TooManyStatements
   def assign_from_decision_review_created
     @claim_id = @decision_review_created.claim_id
-    @css_id = @decision_review_created.created_by_username
+    @css_id = @decision_review_created.actor_username
     @detail_type = @decision_review_created.decision_review_type
-    @station = @decision_review_created.created_by_station
+    @station = @decision_review_created.actor_station
     @vet_file_number = @decision_review_created.file_number
     @vet_first_name = @decision_review_created.veteran_first_name
     @vet_last_name = @decision_review_created.veteran_last_name
@@ -55,8 +53,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
       @end_product_establishment = build_end_product_establishment
       @request_issues = build_request_issues
     rescue StandardError => error
-      # TODO: make sure this is notified in sentry/slack
-      raise DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
+      raise AppealsConsumer::Error::DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
         #{error.message}"
     end
   end

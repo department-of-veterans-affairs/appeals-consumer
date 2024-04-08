@@ -2,7 +2,7 @@
 
 # This class is used to build out a DecisionReviewCreated::Veteran object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::VeteranBuilder
-  include ModelBuilder
+  include DecisionReviewCreated::ModelBuilder
   attr_reader :veteran, :decision_review_created, :bis_record
 
   def self.build(decision_review_created)
@@ -56,15 +56,15 @@ class Builders::DecisionReviewCreated::VeteranBuilder
   end
 
   def calculate_name_suffix
-    @veteran.name_suffix = bis_record[:name_suffix]
+    @veteran.name_suffix = bis_record&.dig(:name_suffix)
   end
 
   def calculate_ssn
-    @veteran.ssn = bis_record[:ssn]
+    @veteran.ssn = bis_record&.dig(:ssn)
   end
 
   def calculate_middle_name
-    @veteran.middle_name = bis_record[:middle_name]
+    @veteran.middle_name = bis_record&.dig(:middle_name)
   end
 
   def convert_bis_synced_at_to_milliseconds
@@ -72,7 +72,7 @@ class Builders::DecisionReviewCreated::VeteranBuilder
   end
 
   def convert_date_of_death_to_logical_type_int
-    date = bis_record[:date_of_death]
+    date = bis_record&.dig(:date_of_death)
 
     if date
       target_date = Date.strptime(date, "%m/%d/%Y")

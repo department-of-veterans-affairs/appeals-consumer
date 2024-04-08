@@ -4,6 +4,8 @@
 class Transformers::DecisionReviewCreated
   include MessagePayloadValidator
 
+  attr_reader :event_id
+
   # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
@@ -29,10 +31,11 @@ class Transformers::DecisionReviewCreated
     "same_station_review_requested" => [TrueClass, FalseClass],
     "intake_creation_time" => String,
     "claim_creation_time" => String,
-    "created_by_username" => String,
-    "created_by_station" => String,
-    "created_by_application" => String,
-    "decision_review_issues" => Array
+    "actor_username" => String,
+    "actor_station" => String,
+    "actor_application" => String,
+    "decision_review_issues" => Array,
+    "auto_remand" => [TrueClass, FalseClass]
   }
   # rubocop:enable Style/MutableConstant
 
@@ -42,7 +45,8 @@ class Transformers::DecisionReviewCreated
   # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
   # and create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
-  def initialize(message_payload = {})
+  def initialize(event_id, message_payload = {})
+    @event_id = event_id
     validate(message_payload, self.class.name)
     assign(message_payload)
   end
@@ -78,26 +82,24 @@ end
 class DecisionReviewIssue
   include MessagePayloadValidator
 
-  # TODO: VERIFY ATTRIBUTES NAMES: prior_decision_ramp_id, prior_decision_rating_disability_sequence_number
-  # TODO: ADD FIELD: prior_decision_notification_date - 1 business day (not added to avro yet)
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
   # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_ISSUE_ATTRIBUTES ||= {
     "contention_id" => [Integer, NilClass],
-    "associated_caseflow_decision_id" => [Integer, NilClass],
+    "prior_caseflow_decision_issue_id" => [Integer, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
     "unidentified" => [TrueClass, FalseClass],
     "prior_rating_decision_id" => [Integer, NilClass],
     "prior_non_rating_decision_id" => [Integer, NilClass],
     "prior_decision_award_event_id" => [Integer, NilClass],
-    "prior_decision_ramp_id" => [Integer, NilClass],
     "prior_decision_text" => String,
     "prior_decision_type" => [String, NilClass],
     "prior_decision_notification_date" => [String, NilClass],
+    "prior_decision_date" => [String, NilClass],
     "prior_decision_diagnostic_code" => [String, NilClass],
-    "prior_decision_rating_disability_sequence_number" => [Integer, NilClass],
+    "prior_decision_rating_sn" => [String, NilClass],
     "prior_decision_rating_percentage" => [String, NilClass],
     "prior_decision_rating_profile_date" => [String, NilClass],
     "eligible" => [TrueClass, FalseClass],
@@ -107,7 +109,10 @@ class DecisionReviewIssue
     "contested" => [TrueClass, FalseClass, NilClass],
     "soc_opt_in" => [TrueClass, FalseClass, NilClass],
     "legacy_appeal_id" => [String, NilClass],
-    "legacy_appeal_issue_id" => [Integer, NilClass]
+    "legacy_appeal_issue_id" => [Integer, NilClass],
+    "source_contention_id_for_remand" => [Integer, NilClass],
+    "source_claim_id_for_remand" => [Integer, NilClass]
+
   }
   # rubocop:enable Style/MutableConstant
 
