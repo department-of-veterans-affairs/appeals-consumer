@@ -10,8 +10,7 @@ class KarafkaApp < Karafka::App
         'sasl.username': ENV["KAFKA_USERNAME"],
         'sasl.password': ENV["KAFKA_PASSWORD"],
         'sasl.mechanisms': "PLAIN",
-        'group.id': "APPEALS_APL_SERVICES_UAT",
-        'debug': "all"
+        'group.id': "APPEALS_APL_SERVICES_UAT"
       }
     end
     config.kafka = karafka_config
@@ -20,8 +19,6 @@ class KarafkaApp < Karafka::App
     # development mode. Otherwise Karafka process would not be aware of code changes
     config.consumer_persistence = !Rails.env.development?
   end
-  Karafka::App.logger.level = Logger::DEBUG
-
 
   # Comment out this part if you are not using instrumentation and/or you are not
   # interested in logging events for certain environments. Since instrumentation
