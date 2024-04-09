@@ -17,7 +17,7 @@ gem "aws-sdk-sqs"
 
 # BGS
 gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git",
-           ref: "7d7c67f7bad5e5aa03e257f0d8e57a4aa1a6cbbf"
+           ref: "0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
