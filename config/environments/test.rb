@@ -54,4 +54,7 @@ Rails.application.configure do
 
   # Max failed errors until event is switched to "failed"
   ENV["MAX_ERRORS_FOR_FAILURE"] ||= "3"
+
+  # Dynatrace variables
+  ENV["STATSD_ENV"] = "test"
 end
