@@ -19,6 +19,8 @@ gem "aws-sdk-sqs"
 gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git",
            ref: "0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e"
 
+gem "benchmark"           
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
@@ -71,6 +73,8 @@ gem "jruby-openssl", platforms: :jruby
 gem "redis-mutex"
 
 gem "sentry-raven"
+
+gem "statsd-instrument"
 
 gem "strong_migrations"
 

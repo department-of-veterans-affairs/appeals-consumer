@@ -438,6 +438,7 @@ GEM
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
     sql_tracker (1.3.2)
+    statsd-instrument (3.7.0)
     stringio (3.0.9)
     strong_migrations (1.6.4)
       activerecord (>= 5.2)
@@ -479,6 +480,7 @@ PLATFORMS
 DEPENDENCIES
   avro_turf
   aws-sdk-sqs
+  benchmark
   bgs!
   bootsnap
   brakeman
@@ -521,6 +523,7 @@ DEPENDENCIES
   simplecov-lcov
   solargraph
   sql_tracker
+  statsd-instrument
   strong_migrations
   timecop
   tzinfo-data

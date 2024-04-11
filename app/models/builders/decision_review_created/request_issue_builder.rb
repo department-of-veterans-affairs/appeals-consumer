@@ -212,7 +212,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # ineligible issues are closed upon creation
   def calculate_closed_at
-    @request_issue.closed_at = ineligible? ? decision_review_created.claim_creation_time : nil
+    @request_issue.closed_at = ineligible? ? claim_creation_time_converted_to_timestamp_ms : nil
   end
 
   # default state of ineligible issues - "ineligible"
@@ -238,7 +238,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   def calculate_rating_issue_associated_at
     @request_issue.rating_issue_associated_at =
       if rating? && eligible?
-        decision_review_created.claim_creation_time
+        claim_creation_time_converted_to_timestamp_ms
       end
   end
 

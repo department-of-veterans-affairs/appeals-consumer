@@ -73,4 +73,7 @@ Rails.application.configure do
   ENV["MAX_ERRORS_FOR_FAILURE"] ||= "3"
 
   config.api_key = "token"
+
+  # Dynatrace variables
+  ENV["STATSD_ENV"] = "development"
 end
