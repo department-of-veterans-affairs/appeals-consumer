@@ -12,32 +12,36 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # the consumption process, and uses a block within `process_event` for job execution.
   # rubocop:disable Metrics/MethodLength
   def consume
-    messages.each do |message|
-      extra_details = extra_details(message)
+    MetricsService.record("Consuming and creating messages",
+                          service: :kafka,
+                          name: "DecisionReviewCreatedConsumer.consume") do 
+      messages.each do |message|
+        extra_details = extra_details(message)
 
-      log_consumption_start(extra_details)
+        log_consumption_start(extra_details)
 
-      begin
-        ActiveRecord::Base.transaction do
-          event = handle_event_creation(message)
+        begin
+          ActiveRecord::Base.transaction do
+            event = handle_event_creation(message)
 
-          # Processes the event with additional logic provided in the block for job enqueueing.
-          process_event(event, extra_details) do |new_event|
-            # Enqueues a job for further processing of the newly created event.
-            DecisionReviewCreatedEventProcessingJob.perform_later(new_event)
+            # Processes the event with additional logic provided in the block for job enqueueing.
+            process_event(event, extra_details) do |new_event|
+              # Enqueues a job for further processing of the newly created event.
+              DecisionReviewCreatedEventProcessingJob.perform_later(new_event)
+            end
+          end
+        rescue StandardError => error
+          if attempt > 3
+            logger.error(error, sentry_details(message), notify_alerts: true)
+            next
+          else
+            logger.error(error, extra_details)
+            raise AppealsConsumer::Error::EventConsumptionError, error.message
           end
         end
-      rescue StandardError => error
-        if attempt > 3
-          logger.error(error, sentry_details(message), notify_alerts: true)
-          next
-        else
-          logger.error(error, extra_details)
-          raise AppealsConsumer::Error::EventConsumptionError, error.message
-        end
-      end
 
-      log_consumption_end(extra_details)
+        log_consumption_end(extra_details)
+      end
     end
   end
   # rubocop:enable Metrics/MethodLength
