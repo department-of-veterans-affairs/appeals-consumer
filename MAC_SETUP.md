@@ -70,14 +70,11 @@ make run-cmd rails c
 
 1. Open a terminal and cd to your caseflow directory.
    - Run `make run` (or `make run-m1`) and then open the rails console: `rails c`
-   - Generate and copy a new api key: `ApiKey.create(consumer_name: "APPEALSCONSUMER1").key_string`
 
-2. In the appeals-consumer directory:
-    1. Open the ENV file: appeals-consumer/docker-bin/env.sh and add:
-        - `export CASEFLOW_KEY=<ApiKey value you created in caseflow console>`
-
-3. In a terminal in the appeals-consumer directory run `make build` and then `make run`
+2. In a terminal in the appeals-consumer directory run `make build` and then `make run`
    - To test the connection, in a seperate terminal, open the consumer rails console with `make run-cmd rails c`
    - Copy and paste the following: `event = FactoryBot.create(:decision_review_created_event, message_payload: "{}")`
    - Run `event.process!`
    - There should be a response from caseflow that looks something like this: `[CaseflowService] #<HTTPI::Response:0x00007f3c7e1a1640>`
+   - If the terminal output is too long and you are unable to scroll up far enough to see the CaseflowService response, in your terminal 
+   settings increase your scroll limit to unlimited. You may need to `event.process!` again.
