@@ -22,6 +22,10 @@ down:  ## Stop the docker containers
 run:  ## Alias for make up to keep inline with Caseflow's process
 	make up
 
+reset:  ## Remove docker containers and docker volumes and rebuilds them 
+	docker-compose down -v 
+	make build	
+
 run-cmd:  ## Run provided command in rails docker container
 	docker-compose run --rm rails $(RUN_ARGS)
 
