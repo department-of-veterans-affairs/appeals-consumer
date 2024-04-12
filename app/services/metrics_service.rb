@@ -84,7 +84,7 @@ class MetricsService
           uuid: SecureRandom.uuid
         }
       }
-      MetricsService.emit_gauge(sent_to_info)
+      MetricsService.emit_gauge(**sent_to_info)
     end
 
     Rails.logger.info("FINISHED #{description}: #{stopwatch}")
