@@ -14,7 +14,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   def consume
     MetricsService.record("Consuming and creating messages",
                           service: :kafka,
-                          name: "DecisionReviewCreatedConsumer.consume") do 
+                          name: "DecisionReviewCreatedConsumer.consume") do
       messages.each do |message|
         extra_details = extra_details(message)
 

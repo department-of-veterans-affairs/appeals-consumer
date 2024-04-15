@@ -28,7 +28,7 @@ describe DecisionReviewCreatedConsumer do
     end
 
     context "when event is a new record" do
-      it "saves the event, performs DecisionReviewCreatedEventProcessingJob, and calls MetricsService to record metrics" do
+      it "saves the event, performs DecisionReviewCreatedEventProcessingJob, and calls MetricsService.record" do
         expect(event).to receive(:save)
         expect(DecisionReviewCreatedEventProcessingJob).to receive(:perform_later).with(event)
         # The following expects are for MetricsService being used inside consume

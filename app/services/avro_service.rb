@@ -11,7 +11,7 @@ class AvroService
   def encode(message, schema_name)
     MetricsService.record("Avro encode for #{message}",
                           service: :avro_service,
-                          name:"AvroService.encode") do
+                          name: "AvroService.encode") do
       @avro.encode(
         message,
         subject: schema_name,
@@ -24,7 +24,7 @@ class AvroService
   def decode(message)
     MetricsService.record("Avro decode for #{message}",
                           service: :avro_service,
-                          name:"AvroService.decode") do
+                          name: "AvroService.decode") do
       @avro.decode_message(message)
     end
   end

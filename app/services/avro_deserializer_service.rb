@@ -15,7 +15,7 @@ class AvroDeserializerService
   def call(message)
     MetricsService.record("Avro deserializing for #{message}",
                           service: :avro_deserializer,
-                          name:"AvroDeserializerService.call") do
+                          name: "AvroDeserializerService.call") do
       decoded_message = decode_avro_message(message)
       transformed_message_payload = transform_payload_to_snakecase(decoded_message)
 

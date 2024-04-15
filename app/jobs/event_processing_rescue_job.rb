@@ -12,7 +12,7 @@ class EventProcessingRescueJob < ApplicationJob
   def perform
     MetricsService.record("Event rescue processing",
                           service: :event_processing_rescue_job,
-                          name:"EventProcessingRescueJob.perform") do
+                          name: "EventProcessingRescueJob.perform") do
       start_processing!
       stuck_audits = EventAudit.stuck
       stuck_audits.find_each do |audit|

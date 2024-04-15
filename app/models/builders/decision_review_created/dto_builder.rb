@@ -13,7 +13,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   def initialize(drc_event)
     MetricsService.record("Build decision review created #{drc_event}",
                           service: :dto_builder,
-                          name:"Builders::DecisionReviewCreated::DtoBuilder.initialize") do
+                          name: "Builders::DecisionReviewCreated::DtoBuilder.initialize") do
       super()
       @event_id = drc_event.id
       @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
