@@ -105,5 +105,10 @@ RSpec.describe BaseEventProcessingJob, type: :job do
         end
       end
     end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      subject
+    end
   end
 end
