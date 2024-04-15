@@ -117,6 +117,11 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         expect(Builders::DecisionReviewCreated::DtoBuilder.new(drc_event))
           .to be_instance_of(Builders::DecisionReviewCreated::DtoBuilder)
       end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        Builders::DecisionReviewCreated::DtoBuilder.new(drc_event)
+      end
     end
 
     context "when a decision_review_created object is found from a mocked payload (with building from event)" do
@@ -129,6 +134,11 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
       it "should return a DecisionReviewCreatedBuilder with a drc and associated attributes" do
         expect(Builders::DecisionReviewCreated::DtoBuilder.new(drc_event))
           .to be_instance_of(Builders::DecisionReviewCreated::DtoBuilder)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        Builders::DecisionReviewCreated::DtoBuilder.new(drc_event)
       end
     end
   end
