@@ -11,6 +11,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   let(:prior_decision_date_converted_to_logical_type) do
     builder.send(:prior_decision_date_converted_to_logical_type)
   end
+  let(:claim_creation_time_converted_to_timestamp_ms) do
+    builder.claim_creation_time_converted_to_timestamp_ms
+  end
 
   before do
     decision_review_created.instance_variable_set(:@event_id, event_id)
@@ -927,8 +930,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     subject { builder.send(:calculate_closed_at) }
     context "when issue is ineligible" do
       let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
-      it "sets the Request Issue's closed_at to decision_review_created.claim_creation_time" do
-        expect(subject).to eq(decision_review_created.claim_creation_time)
+      it "sets the Request Issue's closed_at to claim_creation_time_converted_to_timestamp_ms" do
+        expect(subject).to eq(claim_creation_time_converted_to_timestamp_ms)
       end
     end
 
@@ -1128,15 +1131,15 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       context "and the issue is eligible" do
         context "rating" do
           let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
-          it "sets the Request Issue's rating_issue_associated_at to decision_review_created.claim_creation_time" do
-            expect(subject).to eq(decision_review_created.claim_creation_time)
+          it "sets the Request Issue's rating_issue_associated_at to claim_creation_time_converted_to_timestamp_ms" do
+            expect(subject).to eq(claim_creation_time_converted_to_timestamp_ms)
           end
         end
 
         context "decision issue associated with a rating issue" do
           let(:decision_review_created) { build(:decision_review_created, :eligible_decision_issue_prior_rating_hlr) }
-          it "sets the Request Issue's rating_issue_associated_at to decision_review_created.claim_creation_time" do
-            expect(subject).to eq(decision_review_created.claim_creation_time)
+          it "sets the Request Issue's rating_issue_associated_at to claim_creation_time_converted_to_timestamp_ms" do
+            expect(subject).to eq(claim_creation_time_converted_to_timestamp_ms)
           end
         end
       end

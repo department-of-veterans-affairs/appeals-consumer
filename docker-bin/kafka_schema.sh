@@ -1,4 +1,4 @@
-export TOPIC=DecisionReviewCreated
+export TOPIC=VBMS_CEST_UAT_DECISION_REVIEW_INTAKE
 
 jq -Rs '{ schema: .}' /usr/bin/$TOPIC.avsc > temp-schema.json
 
