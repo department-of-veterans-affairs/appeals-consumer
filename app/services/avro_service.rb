@@ -9,16 +9,12 @@ class AvroService
   end
 
   def encode(message, schema_name)
-    MetricsService.record("Avro encode for #{message}",
-                          service: :avro_service,
-                          name: "AvroService.encode") do
-      @avro.encode(
-        message,
-        subject: schema_name,
-        version: ENV["SCHEMA_VERSION"],
-        validate: true
-      )
-    end
+    @avro.encode(
+      message,
+      subject: schema_name,
+      version: ENV["SCHEMA_VERSION"],
+      validate: true
+    )
   end
 
   def decode(message)

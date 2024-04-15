@@ -32,14 +32,6 @@ RSpec.describe AvroService, type: :service do
         expect(subject.decode(sample_encoded_message)).to eq sample_decoded_message
       end
 
-      it "calls MetricsService to record metrics for encode" do
-        allow(avro_turf_messager).to receive(:encode).with(sample_decoded_message, subject: "person", version: ENV["SCHEMA_VERSION"], validate: true).and_return(sample_encoded_message)
-        subject.instance_variable_set(:@avro, avro_turf_messager)
-
-        expect(MetricsService).to receive(:emit_gauge)
-        subject.encode(sample_decoded_message, "person")
-      end
-
       it "calls MetricsService to record metrics for decode" do
         allow(avro_turf_messager).to receive(:decode_message).with(sample_encoded_message).and_return(sample_decoded_message)
         subject.instance_variable_set(:@avro, avro_turf_messager)
