@@ -123,8 +123,7 @@ describe AvroDeserializerService do
     end
 
     it "calls MetricsService to record metrics" do
-      # called twice due to Avroservice.encode being used during setup
-      expect(MetricsService).to receive(:emit_gauge).twice
+      expect(MetricsService).to receive(:emit_gauge)
       subject
     end
   end
