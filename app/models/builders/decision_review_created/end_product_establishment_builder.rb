@@ -5,6 +5,10 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
   include DecisionReviewCreated::ModelBuilder
   attr_reader :end_product_establishment, :decision_review_created
 
+  PEND_STATUS = "PEND"
+  RW_STATUS = "RW"
+  RFD_STATUS = "RFD"
+
   def self.build(decision_review_created)
     builder = new(decision_review_created)
     builder.assign_attributes
@@ -30,7 +34,8 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
     calculate_committed_at
     calculate_established_at
     calculate_last_synced_at
-    assign_synced_status
+    calculate_synced_status
+    determine_synced_status
     assign_development_item_reference_id
     assign_reference_id
     self
@@ -83,8 +88,21 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
     @end_product_establishment.last_synced_at = claim_creation_time_converted_to_timestamp_ms
   end
 
-  def assign_synced_status
-    @end_product_establishment.synced_status = @decision_review_created.claim_lifecycle_status
+  def calculate_synced_status
+    @end_product_establishment.synced_status = determine_synced_status
+  end
+
+  def determine_synced_status
+    status = ""
+    case @decision_review_created.claim_lifecycle_status
+    when "Open"
+      status = PEND_STATUS
+    when "Ready to Work"
+      status = RW_STATUS
+    when "Ready for Decision"
+      status = RFD_STATUS
+    end
+    status
   end
 
   def assign_development_item_reference_id
