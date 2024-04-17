@@ -5,6 +5,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   let(:builder) { described_class.new(decision_review_created) }
   let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
   let!(:event_id) { event.id }
+  let(:ready_to_work_status) { "RW" }
   let(:veteran_bis_record) do
     {
       file_number: decision_review_created.file_number,
@@ -109,7 +110,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       expect(builder).to receive(:calculate_committed_at)
       expect(builder).to receive(:calculate_established_at)
       expect(builder).to receive(:calculate_last_synced_at)
-      expect(builder).to receive(:assign_synced_status)
+      expect(builder).to receive(:calculate_synced_status)
       expect(builder).to receive(:assign_development_item_reference_id)
       expect(builder).to receive(:assign_reference_id)
 
@@ -276,9 +277,9 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       end
     end
 
-    describe "#_assign_synced_status" do
+    describe "#_calculate_synced_status" do
       it "should assign a synced status to the epe instance" do
-        expect(builder.end_product_establishment.synced_status).to eq decision_review_created.claim_lifecycle_status
+        expect(builder.end_product_establishment.synced_status).to eq(ready_to_work_status)
       end
     end
 

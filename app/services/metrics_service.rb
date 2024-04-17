@@ -60,7 +60,7 @@ class MetricsService
     ] + extra_tags
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength
   # :reek:LongParameterList
   def self.record(description, service: nil, name: "unknown")
     return_value = nil
@@ -102,7 +102,7 @@ class MetricsService
   ensure
     increment_metrics_service_counter("request_attempt", service, name, app) if service
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/MethodLength
 
   private_class_method def self.increment_metrics_service_counter(metric_name, service, endpoint_name, app_name)
     increment_counter(

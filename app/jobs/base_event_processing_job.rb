@@ -26,6 +26,7 @@ class BaseEventProcessingJob < ApplicationJob
     end
   rescue StandardError => error
     handle_job_error!(error)
+    raise error
   ensure
     ended_at
   end

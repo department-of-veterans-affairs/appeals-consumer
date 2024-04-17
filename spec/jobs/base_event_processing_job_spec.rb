@@ -3,6 +3,7 @@
 RSpec.describe BaseEventProcessingJob, type: :job do
   let(:event) { create(:event) }
   let(:job) { described_class.new }
+  let(:standard_error) { StandardError.new }
 
   before do
     allow(RequestStore).to receive(:store).and_return({})
@@ -42,30 +43,34 @@ RSpec.describe BaseEventProcessingJob, type: :job do
       context "outside of a transaction block" do
         before do
           allow(Rails.logger).to receive(:error)
-          allow_any_instance_of(Event).to receive(:process!).and_raise(StandardError.new)
+          allow_any_instance_of(Event).to receive(:process!).and_raise(standard_error)
         end
 
-        it "handles the error and logs a message" do
-          subject
-          expect { subject.not_to raise_error }
-          expect(Rails.logger)
-            .to have_received(:error)
+        it "handles the error by logging a message and then re-enqueues the job for a retry due to error" do
+          # Expect the job to raise an error
+          expect { subject }.to raise_error(standard_error)
+
+          # Expect the error to be logged
+          expect(Rails.logger).to have_received(:error)
             .with(/An error has occured while processing a job for the event with event_id/)
-          expect(EventAudit.last.status).to eq("failed")
-          expect(EventAudit.last.ended_at).not_to be_nil
+
+          # Expect the job to be re-enqueued for a retry upon failure
+          expect do
+            BaseEventProcessingJob.perform_later(event)
+          end.to have_enqueued_job(BaseEventProcessingJob).on_queue("appeals_consumer_development_high_priority")
         end
 
         context "when the number of event audits is less than MAX_ERRORS_FOR_FAILURE" do
           it "updates the state of the event to 'error'" do
-            subject
-            expect(event.state).to eq("error")
+            expect { subject }.to raise_error(standard_error)
+            expect(event.reload.state).to eq("error")
           end
         end
 
         context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
-          it "updates the state of the event to 'error'" do
+          it "updates the state of the event to 'failed'" do
             create_list(:event_audit, 3, event: event, status: "failed")
-            job.perform(event)
+            expect { subject }.to raise_error(standard_error)
 
             expect(event.reload.state).to eq("failed")
           end
@@ -76,8 +81,8 @@ RSpec.describe BaseEventProcessingJob, type: :job do
         let!(:audit_count) { event.event_audits.count }
 
         it "rollsback the transaction" do
-          allow_any_instance_of(EventAudit).to receive(:started_at!).and_raise(StandardError.new)
-          subject
+          allow_any_instance_of(EventAudit).to receive(:started_at!).and_raise(standard_error)
+          expect { subject }.to raise_error(standard_error)
 
           expect(event.event_audits.count).to eq(audit_count)
           expect(event.reload.state).not_to eq("in_progress")
@@ -86,8 +91,8 @@ RSpec.describe BaseEventProcessingJob, type: :job do
 
       context "within the completed processing transaction" do
         it "rollsback the transaction" do
-          allow_any_instance_of(EventAudit).to receive(:completed!).and_raise(StandardError.new)
-          subject
+          allow_any_instance_of(EventAudit).to receive(:completed!).and_raise(standard_error)
+          expect { subject }.to raise_error(standard_error)
 
           expect(event.event_audits.last.status).not_to eq("completed")
           expect(event.reload.state).not_to eq("processed")
@@ -96,9 +101,9 @@ RSpec.describe BaseEventProcessingJob, type: :job do
 
       context "within the handle job error transaction" do
         it "rollsback the transaction" do
-          allow_any_instance_of(Event).to receive(:process!).and_raise(StandardError.new)
-          allow_any_instance_of(Event).to receive(:handle_failure).and_raise(StandardError.new)
-          expect { subject }.to raise_error(StandardError)
+          allow_any_instance_of(Event).to receive(:process!).and_raise(standard_error)
+          allow_any_instance_of(Event).to receive(:handle_failure).and_raise(standard_error)
+          expect { subject }.to raise_error(standard_error)
 
           expect(event.event_audits.last.status).not_to eq("failed")
           expect(event.reload.state).not_to eq("error")
