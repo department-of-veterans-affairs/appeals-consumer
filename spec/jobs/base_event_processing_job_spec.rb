@@ -51,8 +51,8 @@ RSpec.describe BaseEventProcessingJob, type: :job do
           expect { subject }.to raise_error(standard_error)
 
           # Expect the error to be logged
-          expect(Rails.logger).to have_received(:error).with(/An error has occured while processing a job for the event
-                                                              with event_id/)
+          expect(Rails.logger).to have_received(:error)
+            .with(/An error has occured while processing a job for the event with event_id/)
 
           # Expect the job to be re-enqueued for a retry upon failure
           expect do
