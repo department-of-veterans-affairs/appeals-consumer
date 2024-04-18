@@ -17,9 +17,13 @@ class BaseEventProcessingJob < ApplicationJob
       return true
     end
 
-    start_processing!
-    @event.process!
-    complete_processing!
+    MetricsService.record("Processing #{@event}",
+                          service: :base_event_processing_job,
+                          name: "BaseEventProcessingJob.perform") do
+      start_processing!
+      @event.process!
+      complete_processing!
+    end
   rescue StandardError => error
     handle_job_error!(error)
     raise error

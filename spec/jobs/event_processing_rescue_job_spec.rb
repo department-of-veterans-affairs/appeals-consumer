@@ -92,6 +92,11 @@ describe EventProcessingRescueJob, type: :job do
           .with(/Time limit exceeded, stopping job execution./)
       end
     end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      EventProcessingRescueJob.perform_now
+    end
   end
 
   describe "rescue_from StandardError" do

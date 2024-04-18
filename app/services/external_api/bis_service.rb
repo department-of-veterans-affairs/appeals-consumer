@@ -26,14 +26,22 @@ module ExternalApi
       logger.info("Fetching veteran info for file number: #{file_number}")
       @veteran_info[file_number] ||=
         Rails.cache.fetch(fetch_veteran_info_cache_key(file_number), expires_in: 10.minutes) do
-          client.veteran.find_by_file_number(file_number)
+          MetricsService.record("BIS: fetch veteran info for file number: #{file_number}",
+                                service: :bis,
+                                name: "veteran.find_by_file_number") do
+            client.veteran.find_by_file_number(file_number)
+          end
         end
     end
 
     def fetch_person_info(participant_id)
       logger.info("Fetching person info by participant id: #{participant_id}")
       bis_info = Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
-        client.people.find_person_by_ptcpnt_id(participant_id)
+        MetricsService.record("BIS: fetch person info for participant id: #{participant_id}",
+                              service: :bis,
+                              name: "people.find_person_by_ptcpnt_id") do
+          client.people.find_person_by_ptcpnt_id(participant_id)
+        end
       end
 
       return {} unless bis_info
@@ -54,7 +62,11 @@ module ExternalApi
       logger.info("Fetching limited poas for claim ids: #{claim_ids}")
       @limited_poa[claim_ids] ||=
         Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
-          bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
+          bis_limited_poas = MetricsService.record("BIS: fetch limited poas by claim ids: #{claim_ids}",
+                                                   service: :bis,
+                                                   name: "org.find_limited_poas_by_bnft_claim_ids") do
+            client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
+          end
 
           get_limited_poas_hash_from_bis(bis_limited_poas)
         end
@@ -69,11 +81,18 @@ module ExternalApi
 
       Rails.cache.fetch(fetch_rating_profiles_in_range_cache_key(participant_id, start_date, end_date),
                         expires_in: 10.minutes) do
-        client.rating_profile.find_in_date_range(
-          participant_id: participant_id,
-          start_date: start_date,
-          end_date: end_date
-        )
+        MetricsService.record("BIS: fetch rating profiles in range: \
+                              participant_id = #{participant_id}, \
+                              start_date = #{start_date} \
+                              end_date = #{end_date}",
+                              service: :bis,
+                              name: "rating_profile.find_in_date_range") do
+          client.rating_profile.find_in_date_range(
+            participant_id: participant_id,
+            start_date: start_date,
+            end_date: end_date
+          )
+        end
       end
     end
 

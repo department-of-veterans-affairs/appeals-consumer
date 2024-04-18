@@ -77,11 +77,9 @@ make run-cmd rails c
 
 1. Open a terminal and cd to your caseflow directory.
    - Run `make run` and then open the rails console: `rails c`
-   - Generate and copy a new api key: `ApiKey.create(consumer_name: "APPEALSCONSUMER1").key_string`
 
 2. In the appeals-consumer directory:
    1. Open the ENV file: appeals-consumer/docker-bin/env.sh and add: 
-      - `export CASEFLOW_KEY=<ApiKey value you created in caseflow console>`
       - `export CASEFLOW_URL=http://127.0.0.1:3000`
    2. Open the supervisord.conf file and change `3000` to `3001` under `program:rails`
    3. Open docker-compose.yml go down to the `rails` section

@@ -10,18 +10,22 @@ class EventProcessingRescueJob < ApplicationJob
   end
 
   def perform
-    start_processing!
-    stuck_audits = EventAudit.stuck
-    stuck_audits.find_each do |audit|
-      if time_exceeded?
-        logger.info("Time limit exceeded, stopping job execution.")
-        break
-      end
+    MetricsService.record("Event rescue processing",
+                          service: :event_processing_rescue_job,
+                          name: "EventProcessingRescueJob.perform") do
+      start_processing!
+      stuck_audits = EventAudit.stuck
+      stuck_audits.find_each do |audit|
+        if time_exceeded?
+          logger.info("Time limit exceeded, stopping job execution.")
+          break
+        end
 
-      process_audit(audit)
-      @processed_audits_count += 1
+        process_audit(audit)
+        @processed_audits_count += 1
+      end
+      complete_processing!
     end
-    complete_processing!
   end
 
   private

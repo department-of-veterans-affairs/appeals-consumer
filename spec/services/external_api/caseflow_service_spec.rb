@@ -72,6 +72,11 @@ describe ExternalApi::CaseflowService do
         response = described_class.establish_decision_review_created_records_from_event!(drc_dto_builder)
         expect(response.code).to eq(200)
       end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        described_class.establish_decision_review_created_records_from_event!(drc_dto_builder)
+      end
     end
 
     context "when the request fails with an error code" do
@@ -122,6 +127,15 @@ describe ExternalApi::CaseflowService do
           error_message
         )
         expect(response.code).to eq(200)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        described_class.establish_decision_review_created_event_error!(
+          event_id,
+          errored_claim_id,
+          error_message
+        )
       end
     end
   end

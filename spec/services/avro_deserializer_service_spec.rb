@@ -121,6 +121,11 @@ describe AvroDeserializerService do
       expect(subject).to be_an_instance_of(AvroTurf::Messaging::DecodedMessage)
       expect(subject.message).to eq(snakecase_payload)
     end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      subject
+    end
   end
 
   describe "#decode_avro_message(message)" do
