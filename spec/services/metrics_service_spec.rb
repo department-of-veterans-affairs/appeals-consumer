@@ -30,7 +30,7 @@ describe MetricsService do
             metric_group: "service",
             metric_name: "request_latency",
             metric_value: anything,
-            app_name: "other",
+            app_name: "appeals-consumer",
             attrs: {
               service: service,
               endpoint: name,
@@ -40,7 +40,7 @@ describe MetricsService do
         )
         expect(MetricsService).to receive(:increment_counter).with(
           metric_group: "service",
-          app_name: "other",
+          app_name: "appeals-consumer",
           metric_name: "request_attempt",
           attrs: {
             service: service,
@@ -60,7 +60,7 @@ describe MetricsService do
         expect(Rails.logger).to receive(:error)
         expect(MetricsService).to receive(:increment_counter).with(
           metric_group: "service",
-          app_name: "other",
+          app_name: "appeals-consumer",
           metric_name: "request_error",
           attrs: {
             service: service,
@@ -69,7 +69,7 @@ describe MetricsService do
         )
         expect(MetricsService).to receive(:increment_counter).with(
           metric_group: "service",
-          app_name: "other",
+          app_name: "appeals-consumer",
           metric_name: "request_attempt",
           attrs: {
             service: service,

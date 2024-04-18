@@ -64,7 +64,7 @@ class MetricsService
   # :reek:LongParameterList
   def self.record(description, service: nil, name: "unknown")
     return_value = nil
-    app = RequestStore[:application] || "other"
+    app = RequestStore[:application] || "appeals-consumer"
 
     Rails.logger.info("STARTED #{description}")
     stopwatch = Benchmark.measure do
