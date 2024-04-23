@@ -544,8 +544,9 @@ module KafkaMessageGenerators
       decision_type_messages = create_decision_type_messages(issue_type, code)
       eligible_with_two_issues = create_eligible_with_two_issues(issue_type, code)
       contested_with_additional_issue = create_contested_with_additional_issue(issue_type, code)
+      decision_source_message = create_decision_source_message(issue_type, code)
 
-      identified_messages + decision_type_messages + eligible_with_two_issues + contested_with_additional_issue
+      identified_messages + decision_type_messages + eligible_with_two_issues + contested_with_additional_issue + decision_source_message
     end
 
     def create_eligible_with_two_issues(issue_type, code)
@@ -556,6 +557,12 @@ module KafkaMessageGenerators
 
     def create_contested_with_additional_issue(issue_type, code)
       drc = create_drc_message("ineligible_#{issue_type}_contested_with_additional_issue", code)
+
+      [drc]
+    end
+
+    def create_decision_source_message(issue_type, code)
+      drc = create_drc_message("eligible_#{issue_type}_with_decision_source", code)
 
       [drc]
     end

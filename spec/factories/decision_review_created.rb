@@ -544,6 +544,41 @@ FactoryBot.define do
       end
     end
 
+    trait :eligible_nonrating_hlr_with_decision_source do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "prior_caseflow_decision_issue_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC:",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_sn" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil,
+            "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE"
+          }
+        ]
+      end
+    end
+
     trait :eligible_nonrating_hlr_legacy do
       decision_review_issues do
         [
@@ -1133,6 +1168,41 @@ FactoryBot.define do
       end
     end
 
+    trait :eligible_nonrating_hlr_unidentified_with_decision_source do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 12_345_980,
+            "prior_caseflow_decision_issue_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => true,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => nil,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_sn" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil,
+            "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE"
+          }
+        ]
+      end
+    end
+
     trait :eligible_nonrating_hlr_unidentified_veteran_claimant do
       eligible_nonrating_hlr_unidentified
     end
@@ -1289,6 +1359,41 @@ FactoryBot.define do
             "legacy_appeal_issue_id" => nil,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
+          }
+        ]
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_with_decision_source do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => 123_456_791,
+            "prior_caseflow_decision_issue_id" => 20,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2020-08-25",
+            "prior_decision_date" => "2020-08-25",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_sn" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => true,
+            "time_override_reason" => "good cause exemption",
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil,
+            "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE"
           }
         ]
       end
