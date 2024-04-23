@@ -11,10 +11,14 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
               :hash_response
 
   def initialize(drc_event)
-    super()
-    @event_id = drc_event.id
-    @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
-    assign_attributes
+    MetricsService.record("Build decision review created #{drc_event}",
+                          service: :dto_builder,
+                          name: "Builders::DecisionReviewCreated::DtoBuilder.initialize") do
+      super()
+      @event_id = drc_event.id
+      @decision_review_created = build_decision_review_created(drc_event.message_payload_hash)
+      assign_attributes
+    end
   end
 
   private
@@ -26,8 +30,9 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   # :reek:TooManyStatements
   def assign_attributes
-    assign_from_decision_review_created
+    # assign_from_builders needs to be called first for other assign methods to fucntion properly
     assign_from_builders
+    assign_from_decision_review_created
     assign_from_retrievals
     assign_hash_response
   end
@@ -36,7 +41,8 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   def assign_from_decision_review_created
     @claim_id = @decision_review_created.claim_id
     @css_id = @decision_review_created.actor_username
-    @detail_type = @decision_review_created.decision_review_type
+    @detail_type = @intake.detail_type
+    @decision_review_created.decision_review_type
     @station = @decision_review_created.actor_station
     @vet_file_number = @decision_review_created.file_number
     @vet_first_name = @decision_review_created.veteran_first_name

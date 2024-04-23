@@ -23,7 +23,7 @@ describe Transformers::DecisionReviewCreated do
         expect(subject.ep_code).to eq("030HLRNR")
         expect(subject.ep_code_category).to eq("non-rating")
         expect(subject.claim_received_date).to eq("2023-08-25")
-        expect(subject.claim_lifecycle_status).to eq("RW")
+        expect(subject.claim_lifecycle_status).to eq("Ready to Work")
         expect(subject.payee_code).to eq("00")
         expect(subject.modifier).to eq("01")
         expect(subject.limited_poa_code).to eq nil

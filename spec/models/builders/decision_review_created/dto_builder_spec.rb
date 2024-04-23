@@ -117,6 +117,11 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         expect(Builders::DecisionReviewCreated::DtoBuilder.new(drc_event))
           .to be_instance_of(Builders::DecisionReviewCreated::DtoBuilder)
       end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        Builders::DecisionReviewCreated::DtoBuilder.new(drc_event)
+      end
     end
 
     context "when a decision_review_created object is found from a mocked payload (with building from event)" do
@@ -129,6 +134,11 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
       it "should return a DecisionReviewCreatedBuilder with a drc and associated attributes" do
         expect(Builders::DecisionReviewCreated::DtoBuilder.new(drc_event))
           .to be_instance_of(Builders::DecisionReviewCreated::DtoBuilder)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        Builders::DecisionReviewCreated::DtoBuilder.new(drc_event)
       end
     end
   end
@@ -164,12 +174,15 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
 
     describe "#_assign_from_decision_review_created" do
       it "should assign instance variables based on decision_review_created" do
+        # _assign_from_decision_review_created is dependent on call before it of _assign_from_builders
+        drc_dto_builder.send(:assign_from_builders)
         drc_dto_builder.send(:assign_from_decision_review_created)
 
         expect(drc_dto_builder.instance_variable_get(:@decision_review_created)).to eq drc
         expect(drc_dto_builder.instance_variable_get(:@css_id)).to eq drc.actor_username
         expect(drc_dto_builder.instance_variable_get(:@station)).to eq drc.actor_station
-        expect(drc_dto_builder.instance_variable_get(:@detail_type)).to eq drc.decision_review_type
+        expect(drc_dto_builder.instance_variable_get(:@detail_type))
+          .to eq builder.instance_variable_get(:@intake).instance_variable_get(:@detail_type)
         expect(drc_dto_builder.instance_variable_get(:@vet_file_number)).to eq drc.file_number
         expect(drc_dto_builder.instance_variable_get(:@vet_first_name)).to eq drc.veteran_first_name
         expect(drc_dto_builder.instance_variable_get(:@vet_last_name)).to eq drc.veteran_last_name

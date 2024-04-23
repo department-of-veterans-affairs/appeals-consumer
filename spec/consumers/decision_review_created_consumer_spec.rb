@@ -28,9 +28,14 @@ describe DecisionReviewCreatedConsumer do
     end
 
     context "when event is a new record" do
-      it "saves the even and performs DecisionReviewCreatedEventProcessingJob" do
+      it "saves the event, performs DecisionReviewCreatedEventProcessingJob, and calls MetricsService.record" do
         expect(event).to receive(:save)
         expect(DecisionReviewCreatedEventProcessingJob).to receive(:perform_later).with(event)
+        # The following expects are for MetricsService being used inside consume
+        expect(Rails.logger).to receive(:info).with(a_string_starting_with("STARTED"))
+        expect(Rails.logger).to receive(:info).with(a_string_starting_with("FINISHED"))
+        expect(MetricsService).to receive(:emit_gauge)
+        # End of MetricsService specific expects
         expect(Karafka.logger).to receive(:info).with(/Starting consumption/)
         expect(Karafka.logger).to receive(:info).with(/Dropped Event into processing job/)
         expect(Karafka.logger).to receive(:info).with(/Completed consumption of message/)
@@ -41,8 +46,13 @@ describe DecisionReviewCreatedConsumer do
     context "when event is not a new record" do
       let(:new_record) { false }
 
-      it "does not perform DecisionReviewCreatedEventProcessingJob" do
+      it "does not perform DecisionReviewCreatedEventProcessingJob, and calls MetricsService to record metrics" do
         expect(DecisionReviewCreatedEventProcessingJob).not_to receive(:perform_later)
+        # The following expects are for MetricsService being used inside consume
+        expect(Rails.logger).to receive(:info).with(a_string_starting_with("STARTED"))
+        expect(Rails.logger).to receive(:info).with(a_string_starting_with("FINISHED"))
+        expect(MetricsService).to receive(:emit_gauge)
+        # End of MetricsService specific expects
         expect(Karafka.logger).to receive(:info).with(/Starting consumption/)
         expect(Karafka.logger).to receive(:info).with(/Event record already exists. Skipping enqueueing job/)
         expect(Karafka.logger).to receive(:info).with(/Completed consumption of message/)

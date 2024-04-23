@@ -18,6 +18,10 @@ class AvroService
   end
 
   def decode(message)
-    @avro.decode_message(message)
+    MetricsService.record("Avro decode for #{message}",
+                          service: :avro_service,
+                          name: "AvroService.decode") do
+      @avro.decode_message(message)
+    end
   end
 end

@@ -86,6 +86,11 @@ describe ExternalApi::BISService do
         expect(vet_record).to eq(veteran_record)
         expect(Rails.cache.exist?(cache_key)).to be_truthy
       end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        bis.fetch_veteran_info(file_number)
+      end
     end
   end
 
@@ -96,6 +101,11 @@ describe ExternalApi::BISService do
 
       expect(bis_people_service).to have_received(:find_person_by_ptcpnt_id).once
       expect(pers_info).to eq(person_info)
+    end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      bis.fetch_person_info(participant_id)
     end
   end
 
@@ -123,6 +133,11 @@ describe ExternalApi::BISService do
       bis_info = bis.fetch_limited_poas_by_claim_ids(claim_ids)
       Rails.cache.write(claim_ids, bis_info)
       expect(Rails.cache.read(claim_ids)).to eq bis_info
+    end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      bis.fetch_limited_poas_by_claim_ids(claim_ids)
     end
   end
 
@@ -169,6 +184,11 @@ describe ExternalApi::BISService do
       subject
       Rails.cache.write(cache_key, subject)
       expect(Rails.cache.read(cache_key)).to eq subject
+    end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      subject
     end
   end
 end

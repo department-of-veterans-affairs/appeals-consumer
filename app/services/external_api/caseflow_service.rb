@@ -32,7 +32,11 @@ class ExternalApi::CaseflowService
     def send_caseflow_request(payload, endpoint, headers = {})
       url = URI.join(caseflow_base_url, endpoint).to_s
       request = build_request(url, payload, headers)
-      response = HTTPI.post(request)
+      response = MetricsService.record("Caseflow Service: POST to #{endpoint}",
+                                       service: :caseflow_service,
+                                       name: "send_caseflow_request") do
+        HTTPI.post(request)
+      end
       logger.info(response.to_s)
       response
     end

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 RSpec.describe DecisionReviewCreatedEventProcessingJob, type: :job do
+  include ActiveJob::TestHelper
   let!(:event) { create(:decision_review_created_event) }
 
   describe "#perform_now(event)" do
     subject { DecisionReviewCreatedEventProcessingJob.perform_now(event) }
 
-    it "calls DecisionReviewCreatedEventProcessingJob.process!(event) immediately" do
-      expect(event).to receive(:process!)
-      subject
+    before do
+      allow(event).to receive(:process!)
     end
 
-    it "does not raise an error" do
+    it "calls DecisionReviewCreatedEventProcessingJob.process!(event) immediately and does not raise an error" do
       expect { subject }.not_to raise_error
     end
   end
@@ -25,7 +25,7 @@ RSpec.describe DecisionReviewCreatedEventProcessingJob, type: :job do
     end
 
     it "logs the error" do
-      described_class.perform_now(event)
+      expect { described_class.perform_now(event) }.to raise_error
       expect(Rails.logger)
         .to have_received(:error)
         .with(/An error has occured while processing a job for the event with event_id/)

@@ -31,6 +31,14 @@ RSpec.describe AvroService, type: :service do
         subject.instance_variable_set(:@avro, avro_turf_messager)
         expect(subject.decode(sample_encoded_message)).to eq sample_decoded_message
       end
+
+      it "calls MetricsService to record metrics for decode" do
+        allow(avro_turf_messager).to receive(:decode_message).with(sample_encoded_message).and_return(sample_decoded_message)
+        subject.instance_variable_set(:@avro, avro_turf_messager)
+
+        expect(MetricsService).to receive(:emit_gauge)
+        subject.decode(sample_encoded_message)
+      end
     end
     # rubocop:enable Layout/LineLength
   end

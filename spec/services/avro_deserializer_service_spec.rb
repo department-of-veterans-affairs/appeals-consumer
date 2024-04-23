@@ -97,7 +97,7 @@ describe AvroDeserializerService do
   end
 
   let(:avro_service) { AvroService.new }
-  let(:encoded_message) { avro_service.encode(camelcase_payload, "DecisionReviewCreated") }
+  let(:encoded_message) { avro_service.encode(camelcase_payload, "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE") }
   let(:message) { instance_double(Karafka::Messages::Message, raw_payload: encoded_message) }
   let(:decoded_message) { avro_deserializer.send(:decode_avro_message, message) }
   let(:transformed_message_payload) { avro_deserializer.send(:transform_payload_to_snakecase, decoded_message) }
@@ -120,6 +120,11 @@ describe AvroDeserializerService do
     it "returns an instance of AvroTurf::Messaging::DecodedMessage with the decoded, snakecase message" do
       expect(subject).to be_an_instance_of(AvroTurf::Messaging::DecodedMessage)
       expect(subject.message).to eq(snakecase_payload)
+    end
+
+    it "calls MetricsService to record metrics" do
+      expect(MetricsService).to receive(:emit_gauge)
+      subject
     end
   end
 

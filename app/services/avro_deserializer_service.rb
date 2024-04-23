@@ -13,13 +13,17 @@ class AvroDeserializerService
   end
 
   def call(message)
-    decoded_message = decode_avro_message(message)
-    transformed_message_payload = transform_payload_to_snakecase(decoded_message)
+    MetricsService.record("Avro deserializing for #{message}",
+                          service: :avro_deserializer,
+                          name: "AvroDeserializerService.call") do
+      decoded_message = decode_avro_message(message)
+      transformed_message_payload = transform_payload_to_snakecase(decoded_message)
 
-    AvroTurf::Messaging::DecodedMessage.new(decoded_message.schema_id,
-                                            decoded_message.writer_schema,
-                                            decoded_message.reader_schema,
-                                            transformed_message_payload)
+      AvroTurf::Messaging::DecodedMessage.new(decoded_message.schema_id,
+                                              decoded_message.writer_schema,
+                                              decoded_message.reader_schema,
+                                              transformed_message_payload)
+    end
   end
 
   private
