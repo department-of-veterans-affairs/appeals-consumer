@@ -8,5 +8,5 @@ class DecisionReviewCreated::RequestIssue
                 :is_unidentified, :unidentified_issue_text, :nonrating_issue_category, :nonrating_issue_description,
                 :untimely_exemption, :untimely_exemption_notes, :vacols_id, :vacols_sequence_id, :benefit_type,
                 :closed_at, :closed_status, :contested_rating_issue_diagnostic_code, :ramp_claim_id,
-                :rating_issue_associated_at, :type, :nonrating_issue_bgs_id
+                :rating_issue_associated_at, :type, :nonrating_issue_bgs_id, :nonrating_issue_bgs_source
 end
