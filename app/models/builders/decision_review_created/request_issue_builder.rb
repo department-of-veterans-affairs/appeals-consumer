@@ -248,7 +248,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def assign_nonrating_issue_bgs_source
-    @request_issue.nonrating_issue_bgs_source = issue.prior_decision_source
+    @request_issue.nonrating_issue_bgs_source = issue.prior_decision_source&.to_s
   end
 
   # exception thrown if an unrecognized eligibility_result is passed in

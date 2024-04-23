@@ -70,6 +70,7 @@ describe Transformers::DecisionReviewCreated do
             expect(issue.soc_opt_in).to eq(nil)
             expect(issue.legacy_appeal_id).to eq(nil)
             expect(issue.legacy_appeal_issue_id).to eq(nil)
+            expect(issue.prior_decision_source).to eq(nil)
           when 123_456_790
             expect(issue.contention_id).to eq(123_456_790)
             expect(issue.prior_caseflow_decision_issue_id).to eq(nil)
@@ -93,6 +94,7 @@ describe Transformers::DecisionReviewCreated do
             expect(issue.soc_opt_in).to eq(nil)
             expect(issue.legacy_appeal_id).to eq(nil)
             expect(issue.legacy_appeal_issue_id).to eq(nil)
+            expect(issue.prior_decision_source).to eq(nil)
           end
         end
       end

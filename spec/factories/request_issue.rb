@@ -28,5 +28,6 @@ FactoryBot.define do
     rating_issue_associated_at { Time.now.utc }
     type { "RatingRequestIssue" }
     nonrating_issue_bgs_id { nil }
+    nonrating_issue_bgs_source { nil }
   end
 end

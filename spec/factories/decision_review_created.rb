@@ -33,7 +33,8 @@ FactoryBot.define do
             "legacy_appeal_id" => nil,
             "legacy_appeal_issue_id" => nil,
             "source_contention_id_for_remand" => nil,
-            "source_claim_id_for_remand" => nil
+            "source_claim_id_for_remand" => nil,
+            "prior_decision_source" => nil
           },
           {
             "contention_id" => 123_456_790,
@@ -60,7 +61,8 @@ FactoryBot.define do
             "legacy_appeal_id" => nil,
             "legacy_appeal_issue_id" => nil,
             "source_contention_id_for_remand" => nil,
-            "source_claim_id_for_remand" => nil
+            "source_claim_id_for_remand" => nil,
+            "prior_decision_source" => nil
           }
         ]
       end
