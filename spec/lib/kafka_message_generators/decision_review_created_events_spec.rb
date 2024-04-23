@@ -66,7 +66,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     it "publishes 5931 messages to the DecisionReviewCreated topic" do
       subject
-      expect(Karafka.producer).to have_received(:produce_sync).exactly(5897).times do |args|
+      expect(Karafka.producer).to have_received(:produce_sync).exactly(5931).times do |args|
         expect(args[:topic]).to eq("VBMS_CEST_UAT_DECISION_REVIEW_INTAKE")
       end
     end

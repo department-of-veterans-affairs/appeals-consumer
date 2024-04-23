@@ -546,7 +546,8 @@ module KafkaMessageGenerators
       contested_with_additional_issue = create_contested_with_additional_issue(issue_type, code)
       decision_source_message = create_decision_source_message(issue_type, code)
 
-      identified_messages + decision_type_messages + eligible_with_two_issues + contested_with_additional_issue + decision_source_message
+      identified_messages + decision_type_messages + eligible_with_two_issues + contested_with_additional_issue +
+        decision_source_message
     end
 
     def create_eligible_with_two_issues(issue_type, code)
