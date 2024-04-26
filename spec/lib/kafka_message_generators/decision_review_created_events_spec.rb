@@ -118,7 +118,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
   describe "#create_nonrating_messages" do
     subject { decision_review_created_events.send(:create_nonrating_messages) }
-    it "creates 3082 rating messages" do
+    it "creates 3082 nonrating messages" do
       expect(subject.flatten.count).to eq(3082)
     end
   end
