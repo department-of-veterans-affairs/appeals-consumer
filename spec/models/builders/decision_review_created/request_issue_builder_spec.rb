@@ -52,6 +52,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(subject.instance_variable_defined?(:@rating_issue_associated_at)).to be_truthy
       expect(subject.instance_variable_defined?(:@type)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
+      expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_source)).to be_truthy
     end
 
     it "returns the Request Issue" do
@@ -98,6 +99,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(builder).to receive(:assign_vacols_sequence_id)
       expect(builder).to receive(:assign_nonrating_issue_bgs_id)
       expect(builder).to receive(:assign_type)
+      expect(builder).to receive(:assign_nonrating_issue_bgs_source)
 
       builder.send(:assign_methods)
     end
@@ -122,6 +124,25 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(builder).to receive(:calculate_rating_issue_associated_at)
 
       builder.send(:calculate_methods)
+    end
+  end
+
+  describe "#assign_nonrating_issue_bgs_source" do
+    subject { builder.send(:assign_nonrating_issue_bgs_source) }
+
+    context "when the issue has a prior_decision_rating_sn value" do
+      let(:decision_review_created) { build(:decision_review_created, :eligible_nonrating_hlr_with_decision_source) }
+
+      it "assigns the Request Issue's nonrating_issue_bgs_source to"\
+         " issue.prior_decision_source converted to a string" do
+        expect(subject).to eq(issue.prior_decision_source.to_s)
+      end
+    end
+
+    context "when the issue does not have a prior_decision_source value" do
+      it "assigns the Request Issue's nonrating_issue_bgs_source to nil" do
+        expect(subject).to eq(nil)
+      end
     end
   end
 

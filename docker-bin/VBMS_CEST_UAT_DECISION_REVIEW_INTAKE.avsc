@@ -153,6 +153,7 @@
     {
       "name": "autoRemand",
       "type": "boolean",
+      "default": false,
       "doc": "True/false value to indicate whether or not this decision review is an automatically established remand."
     },
     {
@@ -184,6 +185,15 @@
               "name": "unidentified",
               "type": "boolean",
               "doc": "Indicates whether this issue was unidentified. If true, both PriorRatingDecisionId and PriorNonRatingDecisionId will be null."
+            },
+            {
+              "name": "priorDecisionSource",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The source of the prior decision."
             },
             {
               "name": "priorRatingDecisionId",
@@ -271,6 +281,15 @@
               ],
               "default": null,
               "doc": "The rating percentage of the prior decision that is being reviewed by this issue"
+            },
+            {
+              "name": "priorDecisionRatingSn",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "If the decision originated from VBMS-Ratings, then this is the rating sequence number. An identifier for the rating decision (on the specific decision type itself, disability evaluation, competency, smc, etc). If the decision originated from VBMS-Awards, no ratingSn is associated to the decision."
             },
             {
               "name": "eligible",
@@ -388,15 +407,6 @@
               ],
               "default": null,
               "doc": "The ID of the contention that was assigned a disposition that triggered the auto-establishment of this remand decision review, if applicable."
-            },
-            {
-              "name": "priorDecisionRatingSn",
-              "type": [
-                "null",
-                "string"
-              ],
-              "default": null,
-              "doc": "If the decision originated from VBMS-Ratings, then this is the rating sequence number. An identifier for the rating decision (on the specific decision type itself, disability evaluation, competency, smc, etc). If the decision originated from VBMS-Awards, no ratingSn is associated to the decision."
             }
           ]
         }
