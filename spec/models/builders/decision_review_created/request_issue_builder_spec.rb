@@ -736,7 +736,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
     context "decision_review_created does not have 'NON-RATING' for ep_code_category" do
       context "issue has true for unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified_veteran_claimant) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :eligible_rating_hlr_unidentified_veteran_claimant)
+        end
 
         it "sets is_unidentified to true" do
           expect(subject).to eq true
@@ -773,7 +775,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
     context "decision_review_created does not have 'NON-RATING' for ep_code_category" do
       context "issue has true for unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified_veteran_claimant) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :eligible_rating_hlr_unidentified_veteran_claimant)
+        end
 
         it "sets unidentified_issue_text to the issue's prior_decision_text" do
           expect(subject).to eq(issue.prior_decision_text)
@@ -857,7 +861,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
 
       context "rating decision" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_decision_hlr_veteran_claimant) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :eligible_rating_decision_hlr_veteran_claimant)
+        end
 
         it "sets the Request Issue's nonrating_issue_description to nil" do
           expect(subject).to eq nil
@@ -873,7 +879,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
 
       context "rating unidentified" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified_veteran_claimant) }
+        let(:decision_review_created) do
+          build(:decision_review_created, :eligible_rating_hlr_unidentified_veteran_claimant)
+        end
 
         it "sets the Request Issue's nonrating_issue_description to nil" do
           expect(subject).to eq nil
