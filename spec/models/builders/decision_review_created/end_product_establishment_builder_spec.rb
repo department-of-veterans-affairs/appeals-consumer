@@ -6,6 +6,8 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
   let!(:event_id) { event.id }
   let(:ready_to_work_status) { "RW" }
+  let(:pending_status) { "PEND" }
+  let(:ready_for_decision_status) { "RFD" }
   let(:veteran_bis_record) do
     {
       file_number: decision_review_created.file_number,
@@ -278,8 +280,24 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     end
 
     describe "#_calculate_synced_status" do
-      it "should assign a synced status to the epe instance" do
-        expect(builder.end_product_establishment.synced_status).to eq(ready_to_work_status)
+      context "decision_review_created has 'Open' for claim_lifecycle_status" do
+        let(:decision_review_created) { build(:decision_review_created, claim_lifecycle_status: "Open") }
+        it "should assign a synced status of 'PEND' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq(pending_status)
+        end
+      end
+
+      context "decision_review_created has 'Ready to Work' for claim_lifecycle_status" do
+        it "should assign a synced status of 'RW' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq(ready_to_work_status)
+        end
+      end
+
+      context "decision_review_created has 'Ready for Decision' for claim_lifecycle_status" do
+        let(:decision_review_created) { build(:decision_review_created, claim_lifecycle_status: "Ready for Decision") }
+        it "should assign a synced status of 'RFD' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq(ready_for_decision_status)
+        end
       end
     end
 
