@@ -6,6 +6,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   attr_reader :decision_review_created, :issue, :request_issue
 
   REQUEST_ISSUE = "RequestIssue"
+  NONRATING_EP_CODE_CATEGORY = "NON-RATING"
 
   # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
@@ -73,7 +74,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     assign_contested_rating_decision_reference_id
     assign_contested_rating_issue_reference_id
     assign_contested_decision_issue_id
-    assign_is_unidentified
     assign_untimely_exemption
     assign_untimely_exemption_notes
     assign_vacols_id
@@ -99,6 +99,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     calculate_contested_rating_issue_diagnostic_code
     calculate_rating_issue_associated_at
     calculate_ramp_claim_id
+    calculate_is_unidentified
   end
 
   # EP codes ending in "PMC" are pension, otherwise "compensation"
@@ -168,24 +169,27 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.ineligible_reason = determine_ineligible_reason
   end
 
-  def assign_is_unidentified
-    @request_issue.is_unidentified = unidentified?
+  # caseflow expects unidentified issues to be rating
+  # if the issue is unidentified and nonrating, assign to 'false'
+  # and handle as if it were an identified nonrating issue
+  def calculate_is_unidentified
+    @request_issue.is_unidentified = (unidentified? && nonrating_ep_code?) ? false : unidentified?
   end
 
-  # only populate if issue is unidentified
+  # only populate if issue is unidentified rating
   def calculate_unidentified_issue_text
-    @request_issue.unidentified_issue_text =  unidentified? ? issue.prior_decision_text : nil
+    @request_issue.unidentified_issue_text =  (unidentified? && !nonrating_ep_code?) ? issue.prior_decision_text : nil
   end
 
-  # only populate if issue is nonrating
+  # always populate if ep_code_category is "NON-RATING"
   def calculate_nonrating_issue_category
-    @request_issue.nonrating_issue_category = nonrating? ? issue.prior_decision_type : nil
+    @request_issue.nonrating_issue_category = nonrating_ep_code? ? issue.prior_decision_type : nil
   end
 
   # only populate for issues that are nonrating and do not have an associated caseflow decision issue
   def calculate_nonrating_issue_description
     @request_issue.nonrating_issue_description =
-      if nonrating? && !decision_issue?
+      if nonrating_ep_code? && !decision_issue?
         remove_duplicate_prior_decision_type_text
       end
   end
@@ -406,6 +410,10 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   def decision_issue?
     !!issue.prior_caseflow_decision_issue_id
+  end
+
+  def nonrating_ep_code?
+    !!(decision_review_created.ep_code_category.upcase == NONRATING_EP_CODE_CATEGORY)
   end
 
   def determine_benefit_type
