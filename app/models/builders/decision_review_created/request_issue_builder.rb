@@ -170,10 +170,9 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   # caseflow expects unidentified issues to be rating
-  # if the issue is unidentified and nonrating, assign to 'false'
-  # and handle as if it were an identified nonrating issue
+  # if the issue is nonrating, assign to 'false'
   def calculate_is_unidentified
-    @request_issue.is_unidentified = (unidentified? && nonrating_ep_code?) ? false : unidentified?
+    @request_issue.is_unidentified = nonrating_ep_code? ? false : unidentified?
   end
 
   # only populate if issue is unidentified rating
