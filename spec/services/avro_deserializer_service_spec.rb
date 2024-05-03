@@ -99,7 +99,7 @@ describe AvroDeserializerService do
   end
 
   let(:avro_service) { AvroService.new }
-  let(:encoded_message) { avro_service.encode(camelcase_payload, "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE") }
+  let(:encoded_message) { avro_service.encode(camelcase_payload, ENV["DECISION_REVIEW_CREATED_TOPIC"]) }
   let(:message) { instance_double(Karafka::Messages::Message, raw_payload: encoded_message) }
   let(:decoded_message) { avro_deserializer.send(:decode_avro_message, message) }
   let(:transformed_message_payload) { avro_deserializer.send(:transform_payload_to_snakecase, decoded_message) }

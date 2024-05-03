@@ -883,13 +883,13 @@ module KafkaMessageGenerators
 
     # encode message before publishing
     def encode_message(message)
-      AvroService.new.encode(message, "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE")
+      AvroService.new.encode(message, ENV["DECISION_REVIEW_CREATED_TOPIC"])
     end
 
     # publish message to the DecisionReviewCreated topic
     def publish_message(encoded_message)
       @published_messages_count ||= 0
-      Karafka.producer.produce_sync(topic: "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE", payload: encoded_message)
+      Karafka.producer.produce_sync(topic: ENV["DECISION_REVIEW_CREATED_TOPIC"], payload: encoded_message)
       @published_messages_count += 1
     end
   end

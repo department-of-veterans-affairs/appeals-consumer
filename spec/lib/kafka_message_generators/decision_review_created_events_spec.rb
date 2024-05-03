@@ -67,7 +67,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     it "publishes 5931 messages to the DecisionReviewCreated topic" do
       subject
       expect(Karafka.producer).to have_received(:produce_sync).exactly(5931).times do |args|
-        expect(args[:topic]).to eq("VBMS_CEST_UAT_DECISION_REVIEW_INTAKE")
+        expect(args[:topic]).to eq(ENV["DECISION_REVIEW_CREATED_TOPIC"])
       end
     end
   end
@@ -1623,7 +1623,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   describe "#encode_message(message)" do
     subject { decision_review_created_events.send(:encode_message, message) }
     let(:avro_service) { double(AvroService.new) }
-    let(:schema_name) { "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE" }
+    let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
     let(:sample_encoded_message) { "Obj\u0001\u0004\u0014avro.codec\bnull\u0016avro.schema\x9E\u0005{\"type\":\"record\",\"name\":\"person\",\"doc\":\"just a person\",\"fields\":[{\"name\":\"full_name\",\"type\":\"string\",\"doc\":\"full name of person\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"age of person\"},{\"name\":\"computer\",\"type\":{\"type\":\"record\",\"name\":\"computer\",\"doc\":\"my work computer\",\"fields\":[{\"name\":\"brand\",\"type\":\"string\",\"doc\":\"name of brand\"}]}}]}\u0000\xE7z\\\x9C\xE4CJݦ\u0003\xAB[+״\xB0\u0002\u0014\bJohnd\u0006mac\xE7z\\\x9C\xE4CJݦ\u0003\xAB[+״\xB0" }
 
@@ -1654,7 +1654,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     it "publishes 1 message to the DecisionReviewCreated topic" do
       subject
       expect(Karafka.producer).to have_received(:produce_sync).once do |args|
-        expect(args[:topic]).to eq("VBMS_CEST_UAT_DECISION_REVIEW_INTAKE")
+        expect(args[:topic]).to eq(ENV["DECISION_REVIEW_CREATED_TOPIC"])
       end
     end
   end
