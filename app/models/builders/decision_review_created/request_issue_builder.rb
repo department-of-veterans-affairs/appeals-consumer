@@ -148,8 +148,15 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   # only unidentified issues can have an optional user-input decision date
+  # if an identified issue does not have a decision date, the error is logged
+  # and current in progress EventAudit notes are updated with error
   def calculate_decision_date
-    handle_missing_decision_date if prior_decision_date_not_present? && identified?
+    begin
+      handle_missing_decision_date if prior_decision_date_not_present? && identified?
+    rescue AppealsConsumer::Error::NullPriorDecisionDate => error
+      error_name_and_msg = "#{error.class.name}-#{error}"
+      log_msg_and_update_current_event_audit_notes!(error_name_and_msg, error: true)
+    end
 
     @request_issue.decision_date = prior_decision_date_converted_to_logical_type
   end
@@ -504,6 +511,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   def handle_missing_decision_date
     msg = "Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
-    track_event_info(msg)
+    fail AppealsConsumer::Error::NullPriorDecisionDate, msg
   end
 end

@@ -479,32 +479,77 @@ describe DecisionReviewCreated::ModelBuilder do
     end
   end
 
-  describe "#track_event_info(msg)" do
+  describe "#log_msg_and_update_current_event_audit_notes!(msg, error: false)" do
     let(:msg) { "Test note" }
     let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
-    it "logs the message" do
-      allow(Rails.logger).to receive(:info)
-      dummy.send(:track_event_info, msg)
-      expect(Rails.logger).to have_received(:info).with(/#{msg}/)
+    context "when error: true is not passed as an argument" do
+      it "logs the message as info" do
+        allow(Rails.logger).to receive(:info)
+        dummy.send(:log_msg_and_update_current_event_audit_notes!, msg)
+        expect(Rails.logger).to have_received(:info).with(/#{msg}/)
+      end
+    end
+
+    context "when error: true is passed as an argument" do
+      it "logs the message as error" do
+        allow(Rails.logger).to receive(:error)
+        dummy.send(:log_msg_and_update_current_event_audit_notes!, msg, error: true)
+        expect(Rails.logger).to have_received(:error).with(/#{msg}/)
+      end
     end
 
     it "updates the last event's 'in_progress' event_audit note column with the message" do
-      dummy.send(:track_event_info, msg)
+      dummy.send(:log_msg_and_update_current_event_audit_notes!, msg)
       expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: Test note")
     end
   end
 
-  describe "#log_info(msg)" do
+  describe "#log_msg(msg, error)" do
+    let(:msg) { "Test note" }
+
+    context "when error: true is not passed as an argument" do
+      it "logs the message as info" do
+        allow(Rails.logger).to receive(:info)
+        dummy.send(:log_msg_and_update_current_event_audit_notes!, msg)
+        expect(Rails.logger).to have_received(:info).with(/#{msg}/)
+      end
+    end
+
+    context "when error: true is passed as an argument" do
+      it "logs the message as error" do
+        allow(Rails.logger).to receive(:error)
+        dummy.send(:log_msg_and_update_current_event_audit_notes!, msg, error: true)
+        expect(Rails.logger).to have_received(:error).with(/#{msg}/)
+      end
+    end
+  end
+
+  describe "#log_info(msg, logger)" do
     let(:msg) { "Test note 2" }
+    let(:logger) { LoggerService.new }
 
     before do
       allow(Rails.logger).to receive(:info)
     end
 
-    it "logs the message" do
+    it "logs the message as info" do
       expect(Rails.logger).to receive(:info).with(/#{msg}/)
-      dummy.send(:log_info, msg)
+      dummy.send(:log_info, msg, logger)
+    end
+  end
+
+  describe "#log_error(msg, logger)" do
+    let(:msg) { "Test note 2" }
+    let(:logger) { LoggerService.new }
+
+    before do
+      allow(Rails.logger).to receive(:error)
+    end
+
+    it "logs the message as error" do
+      expect(Rails.logger).to receive(:error).with(/#{msg}/)
+      dummy.send(:log_error, msg, logger)
     end
   end
 
