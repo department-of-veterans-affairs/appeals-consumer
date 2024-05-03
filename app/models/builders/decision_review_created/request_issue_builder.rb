@@ -496,6 +496,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def handle_missing_decision_date
-    fail AppealsConsumer::Error::NullPriorDecisionDate, "Issue is identified but has null for prior_decision_date"
+    msg = "Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
+    track_event_info(msg)
   end
 end

@@ -479,18 +479,18 @@ describe DecisionReviewCreated::ModelBuilder do
     end
   end
 
-  describe "#handle_response(msg)" do
+  describe "#track_event_info(msg)" do
     let(:msg) { "Test note" }
     let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
     it "logs the message" do
       allow(Rails.logger).to receive(:info)
-      dummy.send(:handle_response, msg)
+      dummy.send(:track_event_info, msg)
       expect(Rails.logger).to have_received(:info).with(/#{msg}/)
     end
 
     it "updates the last event's 'in_progress' event_audit note column with the message" do
-      dummy.send(:handle_response, msg)
+      dummy.send(:track_event_info, msg)
       expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: Test note")
     end
   end

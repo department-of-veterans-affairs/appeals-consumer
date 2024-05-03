@@ -23,7 +23,7 @@ module DecisionReviewCreated::ModelBuilder
     unless bis_record&.dig(:ptcpnt_id)
       msg = "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
        " #{@decision_review_created.file_number}"
-      handle_response(msg)
+      track_event_info(msg)
     end
 
     @bis_synced_at = Time.zone.now
@@ -55,7 +55,7 @@ module DecisionReviewCreated::ModelBuilder
     if bis_record.empty?
       msg = "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
        " #{@decision_review_created.claimant_participant_id}"
-      handle_response(msg)
+      track_event_info(msg)
     end
 
     bis_record
@@ -81,7 +81,7 @@ module DecisionReviewCreated::ModelBuilder
         " #{@decision_review_created.veteran_participant_id} within the date range #{earliest_issue_profile_date}"\
         " - #{latest_issue_profile_date_plus_one_day}."
 
-      handle_response(msg)
+      track_event_info(msg)
     end
 
     @bis_rating_profiles_record
@@ -107,7 +107,7 @@ module DecisionReviewCreated::ModelBuilder
     @bis_rating_profiles_record&.dig(:response, :response_text)&.downcase
   end
 
-  def handle_response(msg)
+  def track_event_info(msg)
     log_info(msg)
     update_event_audit_notes!(msg)
   end
