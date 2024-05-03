@@ -525,9 +525,19 @@ describe DecisionReviewCreated::ModelBuilder do
     end
   end
 
-  describe "#log_info(msg, logger)" do
+  describe "logger" do
+    before do
+      allow(LoggerService).to receive(:new)
+    end
+
+    it "initializes a new instance of LoggerService" do
+      expect(LoggerService).to receive(:new).with(dummy.class.name)
+      dummy.send(:logger)
+    end
+  end
+
+  describe "#log_info(msg)" do
     let(:msg) { "Test note 2" }
-    let(:logger) { LoggerService.new }
 
     before do
       allow(Rails.logger).to receive(:info)
@@ -535,13 +545,12 @@ describe DecisionReviewCreated::ModelBuilder do
 
     it "logs the message as info" do
       expect(Rails.logger).to receive(:info).with(/#{msg}/)
-      dummy.send(:log_info, msg, logger)
+      dummy.send(:log_info, msg)
     end
   end
 
-  describe "#log_error(msg, logger)" do
+  describe "#log_error(msg)" do
     let(:msg) { "Test note 2" }
-    let(:logger) { LoggerService.new }
 
     before do
       allow(Rails.logger).to receive(:error)
@@ -549,7 +558,7 @@ describe DecisionReviewCreated::ModelBuilder do
 
     it "logs the message as error" do
       expect(Rails.logger).to receive(:error).with(/#{msg}/)
-      dummy.send(:log_error, msg, logger)
+      dummy.send(:log_error, msg)
     end
   end
 

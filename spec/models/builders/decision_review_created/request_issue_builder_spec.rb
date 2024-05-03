@@ -388,7 +388,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       context "when the issue is identified" do
         let(:error) { AppealsConsumer::Error::NullPriorDecisionDate }
         let(:error_msg) do
-          "Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
+          "#{error}-Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
         end
 
         before do

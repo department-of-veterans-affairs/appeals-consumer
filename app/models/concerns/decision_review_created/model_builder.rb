@@ -114,15 +114,18 @@ module DecisionReviewCreated::ModelBuilder
   end
 
   def log_msg(msg, error)
-    logger = LoggerService.new(self.class.name)
-    error ? log_error(msg, logger) : log_info(msg, logger)
+    error ? log_error(msg) : log_info(msg)
   end
 
-  def log_info(msg, logger)
+  def logger
+    LoggerService.new(self.class.name)
+  end
+
+  def log_info(msg)
     logger.info(msg)
   end
 
-  def log_error(msg, logger)
+  def log_error(msg)
     logger.error(msg)
   end
 
