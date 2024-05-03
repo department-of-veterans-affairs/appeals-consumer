@@ -80,6 +80,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
     assign_type
+    assign_nonrating_issue_bgs_source
   end
 
   def calculate_methods
@@ -244,6 +245,10 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   def assign_nonrating_issue_bgs_id
     @request_issue.nonrating_issue_bgs_id = issue.prior_non_rating_decision_id&.to_s
+  end
+
+  def assign_nonrating_issue_bgs_source
+    @request_issue.nonrating_issue_bgs_source = issue.prior_decision_source&.to_s
   end
 
   # exception thrown if an unrecognized eligibility_result is passed in

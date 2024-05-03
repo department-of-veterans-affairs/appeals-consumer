@@ -111,7 +111,8 @@ class DecisionReviewIssue
     "legacy_appeal_id" => [String, NilClass],
     "legacy_appeal_issue_id" => [Integer, NilClass],
     "source_contention_id_for_remand" => [Integer, NilClass],
-    "source_claim_id_for_remand" => [Integer, NilClass]
+    "source_claim_id_for_remand" => [Integer, NilClass],
+    "prior_decision_source" => [String, NilClass]
 
   }
   # rubocop:enable Style/MutableConstant

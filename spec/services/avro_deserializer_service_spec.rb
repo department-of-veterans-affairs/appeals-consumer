@@ -63,7 +63,8 @@ describe AvroDeserializerService do
           "prior_decision_award_event_id" => nil,
           "prior_decision_rating_profile_date" => nil,
           "source_contention_id_for_remand" => 1,
-          "source_claim_id_for_remand" => 1
+          "source_claim_id_for_remand" => 1,
+          "prior_decision_source" => nil
         },
         {
           "contention_id" => 987_654_321,
@@ -90,7 +91,8 @@ describe AvroDeserializerService do
           "prior_decision_award_event_id" => nil,
           "prior_decision_rating_profile_date" => nil,
           "source_contention_id_for_remand" => 1,
-          "source_claim_id_for_remand" => 1
+          "source_claim_id_for_remand" => 1,
+          "prior_decision_source" => nil
         }
       ]
     }

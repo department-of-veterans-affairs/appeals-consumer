@@ -64,9 +64,9 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       allow(Karafka.producer).to receive(:produce_sync)
     end
 
-    it "publishes 5897 messages to the DecisionReviewCreated topic" do
+    it "publishes 5931 messages to the DecisionReviewCreated topic" do
       subject
-      expect(Karafka.producer).to have_received(:produce_sync).exactly(5897).times do |args|
+      expect(Karafka.producer).to have_received(:produce_sync).exactly(5931).times do |args|
         expect(args[:topic]).to eq("VBMS_CEST_UAT_DECISION_REVIEW_INTAKE")
       end
     end
@@ -104,8 +104,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
   describe "#create_messages" do
     subject { decision_review_created_events.send(:create_messages) }
-    it "creates 5897 messages" do
-      expect(subject.flatten.count).to eq(5897)
+    it "creates 5931 messages" do
+      expect(subject.flatten.count).to eq(5931)
     end
   end
 
@@ -118,8 +118,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
   describe "#create_nonrating_messages" do
     subject { decision_review_created_events.send(:create_nonrating_messages) }
-    it "creates 3048 rating messages" do
-      expect(subject.flatten.count).to eq(3048)
+    it "creates 3082 nonrating messages" do
+      expect(subject.flatten.count).to eq(3082)
     end
   end
 
@@ -715,8 +715,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     subject { decision_review_created_events.send(:create_nonrating_ep_code_messages, ep_codes) }
     let(:ep_codes) { nonrating_ep_codes }
 
-    it "creates 3048 messages" do
-      expect(subject.flatten.count).to eq(3048)
+    it "creates 3082 messages" do
+      expect(subject.flatten.count).to eq(3082)
     end
   end
 
@@ -725,15 +725,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_nonrating_ep_code }
-      it "creates 88 messages for the sc nonrating ep code" do
-        expect(subject.flatten.count).to eq(88)
+      it "creates 89 messages for the sc nonrating ep code" do
+        expect(subject.flatten.count).to eq(89)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_nonrating_ep_code }
-      it "creates 92 messages for the hlr nonrating ep code" do
-        expect(subject.flatten.count).to eq(92)
+      it "creates 93 messages for the hlr nonrating ep code" do
+        expect(subject.flatten.count).to eq(93)
       end
     end
   end
@@ -743,15 +743,15 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     context "when the decision review is a supplemental claim" do
       let(:code) { sc_nonrating_ep_code }
-      it "creates 58 messages for the sc rating ep code" do
-        expect(subject.flatten.count).to eq(58)
+      it "creates 59 messages for the sc rating ep code" do
+        expect(subject.flatten.count).to eq(59)
       end
     end
 
     context "when the decision review is a higher level review" do
       let(:code) { hlr_nonrating_ep_code }
-      it "creates 60 messages for each hlr rating ep code" do
-        expect(subject.flatten.count).to eq(60)
+      it "creates 61 messages for each hlr rating ep code" do
+        expect(subject.flatten.count).to eq(61)
       end
     end
   end
@@ -801,8 +801,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a nonrating issue" do
           let(:issue_type) { "nonrating_hlr" }
-          it "creates 58 messages for the nonrating issue" do
-            expect(subject.flatten.count).to eq(58)
+          it "creates 59 messages for the nonrating issue" do
+            expect(subject.flatten.count).to eq(59)
           end
         end
 
@@ -819,8 +819,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
         context "when the issue is a nonrating issue" do
           let(:issue_type) { "nonrating_hlr" }
-          it "creates 60 messages for the nonrating issue" do
-            expect(subject.flatten.count).to eq(60)
+          it "creates 61 messages for the nonrating issue" do
+            expect(subject.flatten.count).to eq(61)
           end
         end
 
@@ -854,8 +854,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
       context "when the issue does not have an associated decision issue" do
         let(:issue_type) { "nonrating_hlr" }
-        it "creates 44 messages" do
-          expect(subject.flatten.count).to eq(44)
+        it "creates 45 messages" do
+          expect(subject.flatten.count).to eq(45)
         end
       end
     end
@@ -911,8 +911,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       context "when the issue does ont have an associated decision issue" do
         let(:issue_type) { "nonrating_hlr" }
 
-        it "returns 44 messages" do
-          expect(subject.flatten.count).to eq(44)
+        it "returns 45 messages" do
+          expect(subject.flatten.count).to eq(45)
         end
       end
     end
