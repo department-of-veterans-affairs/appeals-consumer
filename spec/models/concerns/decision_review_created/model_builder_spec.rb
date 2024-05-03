@@ -508,10 +508,10 @@ describe DecisionReviewCreated::ModelBuilder do
   describe "#log_msg(msg, error)" do
     let(:msg) { "Test note" }
 
-    context "when error: true is not passed as an argument" do
+    context "when error: false is passed as an argument" do
       it "logs the message as info" do
         allow(Rails.logger).to receive(:info)
-        dummy.send(:log_msg_and_update_current_event_audit_notes!, msg)
+        dummy.send(:log_msg, msg, false)
         expect(Rails.logger).to have_received(:info).with(/#{msg}/)
       end
     end
@@ -519,7 +519,7 @@ describe DecisionReviewCreated::ModelBuilder do
     context "when error: true is passed as an argument" do
       it "logs the message as error" do
         allow(Rails.logger).to receive(:error)
-        dummy.send(:log_msg_and_update_current_event_audit_notes!, msg, error: true)
+        dummy.send(:log_msg, msg, true)
         expect(Rails.logger).to have_received(:error).with(/#{msg}/)
       end
     end
