@@ -35,5 +35,6 @@ describe DecisionReviewCreated::RequestIssue do
     expect(request_issue.rating_issue_associated_at).to eq(Time.now.utc)
     expect(request_issue.type).to eq("RatingRequestIssue")
     expect(request_issue.nonrating_issue_bgs_id).to eq(nil)
+    expect(request_issue.nonrating_issue_bgs_source).to eq(nil)
   end
 end

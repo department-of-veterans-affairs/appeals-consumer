@@ -6,7 +6,7 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
   # issues with this eligibility_result are not included in the caseflow payload
   # caseflow does not track or have a concept of this when determining ineligible_reason
   CONTESTED = "CONTESTED"
-  RATING = "rating"
+  RATING = "RATING"
 
   def self.build(decision_review_created)
     builder = new(decision_review_created)
@@ -62,7 +62,7 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
   end
 
   def rating_ep_code_category?
-    @decision_review_created.ep_code_category == RATING
+    @decision_review_created.ep_code_category.upcase == RATING
   end
 
   def at_least_one_valid_bis_issue?
