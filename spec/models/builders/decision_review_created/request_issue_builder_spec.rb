@@ -16,6 +16,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   end
 
   before do
+    Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
     decision_review_created.instance_variable_set(:@event_id, event_id)
   end
 
@@ -380,23 +381,48 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
   end
 
-  # TODO: change to new field used for prior_decision_date - 1 business day
   describe "#calculate_decision_date" do
     subject { builder.send(:calculate_decision_date) }
 
     context "when issue does not have a prior_decision_date" do
       context "when the issue is identified" do
-        before do
-          issue.prior_decision_date = nil
-        end
-
         let(:error) { AppealsConsumer::Error::NullPriorDecisionDate }
         let(:error_msg) do
-          "Issue is identified but has null for prior_decision_date"
+          "#{error}-Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
         end
 
-        it "raises AppealsConsumer::Error::NullPriorDecisionDate with message" do
-          expect { subject }.to raise_error(error, error_msg)
+        before do
+          issue.prior_decision_date = nil
+          allow(Rails.logger).to receive(:error)
+        end
+
+        it "logs message as error" do
+          expect(Rails.logger).to receive(:error).with(/#{error_msg}/)
+          subject
+        end
+
+        it "sets decision_date to nil" do
+          expect(subject).to eq nil
+        end
+
+        context "when there is already a message in the event_audit's notes column" do
+          let!(:event_audit_with_note) do
+            create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note")
+          end
+
+          it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
+            subject
+            expect(event_audit_with_note.reload.notes)
+              .to eq("Note #{Time.zone.now}: Test note - Note #{Time.zone.now}: #{error_msg}")
+          end
+        end
+
+        context "when there isn't a message in the event_audit's notes column" do
+          let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
+          it "updates the event's last event_audit record that has status: 'IN_PROGRESS' with the msg" do
+            subject
+            expect(event_audit_without_note.reload.notes).to eq("Note #{Time.zone.now}: #{error_msg}")
+          end
         end
       end
 
@@ -2029,10 +2055,10 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     subject { builder.send(:handle_missing_decision_date) }
     let(:error) { AppealsConsumer::Error::NullPriorDecisionDate }
     let(:error_msg) do
-      "Issue is identified but has null for prior_decision_date"
+      "Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
     end
 
-    it "raises AppealsConsumer::Error::NullPriorDecisionDate with message" do
+    it "raises AppealsConsumer::Error::NullPriorDecisionDate" do
       expect { subject }.to raise_error(error, error_msg)
     end
   end

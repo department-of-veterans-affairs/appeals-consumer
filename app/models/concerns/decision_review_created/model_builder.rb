@@ -2,6 +2,7 @@
 
 # This module is to encapsulate common functionanlity amungst the individiual
 # model builder classes such as Builders::DecisionReviewCreated::EndProductEstablishment
+# rubocop:disable Metrics/ModuleLength
 module DecisionReviewCreated::ModelBuilder
   # used to convert date type to date logical type
   EPOCH_DATE = Date.new(1970, 1, 1)
@@ -23,7 +24,7 @@ module DecisionReviewCreated::ModelBuilder
     unless bis_record&.dig(:ptcpnt_id)
       msg = "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
        " #{@decision_review_created.file_number}"
-      handle_response(msg)
+      log_msg_and_update_current_event_audit_notes!(msg)
     end
 
     @bis_synced_at = Time.zone.now
@@ -55,7 +56,7 @@ module DecisionReviewCreated::ModelBuilder
     if bis_record.empty?
       msg = "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
        " #{@decision_review_created.claimant_participant_id}"
-      handle_response(msg)
+      log_msg_and_update_current_event_audit_notes!(msg)
     end
 
     bis_record
@@ -81,7 +82,7 @@ module DecisionReviewCreated::ModelBuilder
         " #{@decision_review_created.veteran_participant_id} within the date range #{earliest_issue_profile_date}"\
         " - #{latest_issue_profile_date_plus_one_day}."
 
-      handle_response(msg)
+      log_msg_and_update_current_event_audit_notes!(msg)
     end
 
     @bis_rating_profiles_record
@@ -107,14 +108,25 @@ module DecisionReviewCreated::ModelBuilder
     @bis_rating_profiles_record&.dig(:response, :response_text)&.downcase
   end
 
-  def handle_response(msg)
-    log_info(msg)
+  def log_msg_and_update_current_event_audit_notes!(msg, error: false)
+    log_msg(msg, error)
     update_event_audit_notes!(msg)
   end
 
+  def log_msg(msg, error)
+    error ? log_error(msg) : log_info(msg)
+  end
+
+  def logger
+    LoggerService.new(self.class.name)
+  end
+
   def log_info(msg)
-    logger = LoggerService.new(self.class.name)
     logger.info(msg)
+  end
+
+  def log_error(msg)
+    logger.error(msg)
   end
 
   def update_event_audit_notes!(msg)
@@ -131,3 +143,4 @@ module DecisionReviewCreated::ModelBuilder
     "#{last_event_audit.notes} - #{custom_note}"
   end
 end
+# rubocop:enable Metrics/ModuleLength

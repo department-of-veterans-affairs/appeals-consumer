@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Dynatrace variables
   ENV["STATSD_ENV"] = "development"
+
+  # Local avro file for DecisionReviewCreated topic
+  ENV["DECISION_REVIEW_CREATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01"
 end
