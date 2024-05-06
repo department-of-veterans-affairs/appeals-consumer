@@ -85,4 +85,7 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path =~ /health-check/ } }
+  # Set environment variable for UAT
+  
+  config.decision_review_created_topic = "BIA_SERVICES_BIE_CATALOG_UAT_DECISION_REVIEW_CREATED_V01"
 end
