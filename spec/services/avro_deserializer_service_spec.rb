@@ -100,7 +100,7 @@ describe AvroDeserializerService do
 
   let(:avro_service) { AvroService.new }
   let(:encoded_message) do
-    avro_service.encode(camelcase_payload, Rails.application.config.decision_review_created_topic)
+    avro_service.encode(camelcase_payload, ENV["DECISION_REVIEW_CREATED_TOPIC"])
   end
   let(:message) { instance_double(Karafka::Messages::Message, raw_payload: encoded_message) }
   let(:decoded_message) { avro_deserializer.send(:decode_avro_message, message) }

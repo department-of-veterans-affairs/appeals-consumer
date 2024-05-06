@@ -88,5 +88,5 @@ Rails.application.configure do
   # Set environment variable for UAT
   
   # DecisionReviewCreated topic in UAT
-  config.decision_review_created_topic = "BIA_SERVICES_BIE_CATALOG_UAT_DECISION_REVIEW_CREATED_V01"
+  ENV["DECISION_REVIEW_CREATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_UAT_DECISION_REVIEW_CREATED_V01"
 end

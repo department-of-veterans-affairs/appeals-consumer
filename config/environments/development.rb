@@ -78,5 +78,5 @@ Rails.application.configure do
   ENV["STATSD_ENV"] = "development"
 
   # Local avro file for DecisionReviewCreated topic
-  config.decision_review_created_topic = "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01"
+  ENV["DECISION_REVIEW_CREATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01"
 end

@@ -44,7 +44,7 @@ class KarafkaApp < Karafka::App
       # Uncomment this if you use Karafka with ActiveJob
       # You need to define the topic per each queue name you use
       # active_job_topic :default
-      topic Rails.application.config.decision_review_created_topic do
+      topic ENV["DECISION_REVIEW_CREATED_TOPIC"] do
         # Uncomment this if you want Karafka to manage your topics configuration
         # Managing topics configuration via routing will allow you to ensure config consistency
         # across multiple environments
