@@ -63,7 +63,8 @@ describe AvroDeserializerService do
           "prior_decision_award_event_id" => nil,
           "prior_decision_rating_profile_date" => nil,
           "source_contention_id_for_remand" => 1,
-          "source_claim_id_for_remand" => 1
+          "source_claim_id_for_remand" => 1,
+          "prior_decision_source" => nil
         },
         {
           "contention_id" => 987_654_321,
@@ -90,14 +91,17 @@ describe AvroDeserializerService do
           "prior_decision_award_event_id" => nil,
           "prior_decision_rating_profile_date" => nil,
           "source_contention_id_for_remand" => 1,
-          "source_claim_id_for_remand" => 1
+          "source_claim_id_for_remand" => 1,
+          "prior_decision_source" => nil
         }
       ]
     }
   end
 
   let(:avro_service) { AvroService.new }
-  let(:encoded_message) { avro_service.encode(camelcase_payload, "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE") }
+  let(:encoded_message) do
+    avro_service.encode(camelcase_payload, ENV["DECISION_REVIEW_CREATED_TOPIC"])
+  end
   let(:message) { instance_double(Karafka::Messages::Message, raw_payload: encoded_message) }
   let(:decoded_message) { avro_deserializer.send(:decode_avro_message, message) }
   let(:transformed_message_payload) { avro_deserializer.send(:transform_payload_to_snakecase, decoded_message) }

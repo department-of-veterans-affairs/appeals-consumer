@@ -544,8 +544,10 @@ module KafkaMessageGenerators
       decision_type_messages = create_decision_type_messages(issue_type, code)
       eligible_with_two_issues = create_eligible_with_two_issues(issue_type, code)
       contested_with_additional_issue = create_contested_with_additional_issue(issue_type, code)
+      decision_source_message = create_decision_source_message(issue_type, code)
 
-      identified_messages + decision_type_messages + eligible_with_two_issues + contested_with_additional_issue
+      identified_messages + decision_type_messages + eligible_with_two_issues + contested_with_additional_issue +
+        decision_source_message
     end
 
     def create_eligible_with_two_issues(issue_type, code)
@@ -556,6 +558,12 @@ module KafkaMessageGenerators
 
     def create_contested_with_additional_issue(issue_type, code)
       drc = create_drc_message("ineligible_#{issue_type}_contested_with_additional_issue", code)
+
+      [drc]
+    end
+
+    def create_decision_source_message(issue_type, code)
+      drc = create_drc_message("eligible_#{issue_type}_with_decision_source", code)
 
       [drc]
     end
@@ -875,13 +883,16 @@ module KafkaMessageGenerators
 
     # encode message before publishing
     def encode_message(message)
-      AvroService.new.encode(message, "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE")
+      AvroService.new.encode(message, ENV["DECISION_REVIEW_CREATED_TOPIC"])
     end
 
     # publish message to the DecisionReviewCreated topic
     def publish_message(encoded_message)
       @published_messages_count ||= 0
-      Karafka.producer.produce_sync(topic: "VBMS_CEST_UAT_DECISION_REVIEW_INTAKE", payload: encoded_message)
+      Karafka.producer.produce_sync(
+        topic: ENV["DECISION_REVIEW_CREATED_TOPIC"],
+        payload: encoded_message
+      )
       @published_messages_count += 1
     end
   end
