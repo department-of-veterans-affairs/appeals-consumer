@@ -8,7 +8,7 @@
 class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
               :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email,
-              :hash_response
+              :payload
 
   def initialize(drc_event)
     MetricsService.record("Build decision review created #{drc_event}",
@@ -34,7 +34,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
     assign_from_builders
     assign_from_decision_review_created
     assign_from_retrievals
-    assign_hash_response
+    assign_payload
   end
 
   # :reek:TooManyStatements
@@ -76,8 +76,8 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
     @claimant_email = assign_claimant_email
   end
 
-  def assign_hash_response
-    @hash_response = validate_no_pii(build_hash_response)
+  def assign_payload
+    @payload = validate_no_pii(build_payload)
   end
 
   def build_intake
@@ -136,7 +136,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
     @claimant.email
   end
 
-  def build_hash_response
+  def build_payload
     {
       "event_id": @event_id,
       "claim_id": @claim_id,

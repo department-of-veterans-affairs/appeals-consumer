@@ -22,13 +22,13 @@ class Builders::BaseDtoBuilder
   end
 
   # :reek:FeatureEnvy
-  def validate_no_pii(hash_response)
-    hash_response.extend Hashie::Extensions::DeepFind
+  def validate_no_pii(payload)
+    payload.extend Hashie::Extensions::DeepFind
     Builders::BaseDtoBuilder::PII_FIELDS.each do |field|
-      unless hash_response.deep_find_all(field).blank?
+      unless payload.deep_find_all(field).blank?
         fail AppealsConsumer::Error::PIIFoundViolationError, "PII field detected: #{field}"
       end
     end
-    hash_response
+    payload
   end
 end

@@ -6,7 +6,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   attr_reader :decision_review_created, :issue, :request_issue
 
   REQUEST_ISSUE = "RequestIssue"
-  NONRATING_EP_CODE_CATEGORY = "NON-RATING"
+  NONRATING_EP_CODE_CATEGORY = "NON_RATING"
 
   # the date AMA was launched
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
