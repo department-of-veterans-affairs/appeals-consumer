@@ -21,7 +21,7 @@ describe Transformers::DecisionReviewCreated do
         expect(subject.file_number).to eq("123456789")
         expect(subject.claimant_participant_id).to eq("123456789")
         expect(subject.ep_code).to eq("030HLRNR")
-        expect(subject.ep_code_category).to eq("non-rating")
+        expect(subject.ep_code_category).to eq("NON_RATING")
         expect(subject.claim_received_date).to eq("2023-08-25")
         expect(subject.claim_lifecycle_status).to eq("Ready to Work")
         expect(subject.payee_code).to eq("00")

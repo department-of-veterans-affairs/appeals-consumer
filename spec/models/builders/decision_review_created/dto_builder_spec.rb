@@ -167,7 +167,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         expect(drc_dto_builder).to receive(:assign_from_decision_review_created)
         expect(drc_dto_builder).to receive(:assign_from_builders)
         expect(drc_dto_builder).to receive(:assign_from_retrievals)
-        expect(drc_dto_builder).to receive(:assign_hash_response)
+        expect(drc_dto_builder).to receive(:assign_payload)
         drc_dto_builder.send(:assign_attributes)
       end
     end
@@ -248,15 +248,15 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
       end
     end
 
-    describe "#_assign_hash_response" do
+    describe "#_assign_payload" do
       it "should recieve the following methods: " do
-        expect(drc_dto_builder).to receive(:build_hash_response)
+        expect(drc_dto_builder).to receive(:build_payload)
         expect(drc_dto_builder).to receive(:validate_no_pii)
-        drc_dto_builder.send(:assign_hash_response)
+        drc_dto_builder.send(:assign_payload)
       end
-      it "should assing to @hash_response" do
-        drc_dto_builder.send(:assign_hash_response)
-        expect(drc_dto_builder.instance_variable_get(:@hash_response)).to be_instance_of(Hash)
+      it "should assing to @payload" do
+        drc_dto_builder.send(:assign_payload)
+        expect(drc_dto_builder.instance_variable_get(:@payload)).to be_instance_of(Hash)
       end
     end
 
@@ -314,7 +314,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
       end
     end
 
-    describe "#_build_hash_response" do
+    describe "#_build_payload" do
       it "should return hash reponse object" do
         drc_dto_builder.instance_variable_set(:@css_id, 1)
         drc_dto_builder.instance_variable_set(:@detail_type, "HIGHER_LEVEL_REVIEW")
@@ -327,7 +327,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           .instance_variable_set(:@end_product_establishment, DecisionReviewCreated::EndProductEstablishment.new)
         drc_dto_builder.instance_variable_set(:@request_issues, [])
 
-        built_hash = drc_dto_builder.send(:build_hash_response)
+        built_hash = drc_dto_builder.send(:build_payload)
 
         expect(built_hash["css_id"]).to eq 1
         expect(built_hash["detail_type"]).to eq "HIGHER_LEVEL_REVIEW"

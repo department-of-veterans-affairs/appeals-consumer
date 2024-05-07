@@ -18,7 +18,7 @@ describe ExternalApi::CaseflowService do
     let(:drc_dto_builder) do
       instance_double(
         "DrcDtoBuilder",
-        hash_response: { "claim_id" => "123" },
+        payload: { "claim_id" => "123" },
         vet_ssn: "1234-56-789",
         vet_file_number: "12345",
         vet_first_name: "John",
@@ -64,7 +64,7 @@ describe ExternalApi::CaseflowService do
     context "when the request is successfull" do
       before do
         stub_request(:post, endpoint)
-          .with(body: drc_dto_builder.hash_response.to_json, headers: headers)
+          .with(body: drc_dto_builder.payload.to_json, headers: headers)
           .to_return(status: 200, body: '{"success": true}', headers: {})
       end
 
@@ -82,7 +82,7 @@ describe ExternalApi::CaseflowService do
     context "when the request fails with an error code" do
       before do
         stub_request(:post, endpoint)
-          .with(body: drc_dto_builder.hash_response.to_json, headers: headers)
+          .with(body: drc_dto_builder.payload.to_json, headers: headers)
           .to_return(status: 500, body: '{"error": "Internal Server Error"}', headers: {})
       end
 

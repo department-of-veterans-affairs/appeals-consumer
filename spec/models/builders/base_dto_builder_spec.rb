@@ -103,7 +103,7 @@ RSpec.describe Builders::BaseDtoBuilder, type: :model do
 
   # accepts hash
   describe "#validate_no_pii" do
-    context "when no PII field is found in the hash_response" do
+    context "when no PII field is found in the payload" do
       let(:sample_hash) do
         {
           "id": 1,
@@ -112,11 +112,11 @@ RSpec.describe Builders::BaseDtoBuilder, type: :model do
         }.as_json
       end
 
-      it "should return an unchanged hash_response" do
+      it "should return an unchanged payload" do
         expect(subject.validate_no_pii(sample_hash)).to eq sample_hash
       end
     end
-    context "when there IS A PII field found in the hash_response" do
+    context "when there IS A PII field found in the payload" do
       let(:sample_hash) do
         {
           "id": 1,
