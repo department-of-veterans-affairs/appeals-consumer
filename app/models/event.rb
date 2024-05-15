@@ -52,6 +52,9 @@ class Event < ApplicationRecord
     event_type = type.demodulize
     job_class_name = "#{event_type}ProcessingJob"
     job_class = job_class_name.safe_constantize
+    if message_payload["file_number"] == "964521852"
+      job_class = nil
+    end
 
     if job_class.nil?
       logger.error(

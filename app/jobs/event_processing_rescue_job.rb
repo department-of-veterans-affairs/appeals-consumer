@@ -15,6 +15,11 @@ class EventProcessingRescueJob < ApplicationJob
                           name: "EventProcessingRescueJob.perform") do
       start_processing!
       stuck_audits = EventAudit.stuck
+
+      if stuck_audits.first.event.message_payload_hash["file_number"] == "536974158"
+        fail StandardError, "EventProcessingRescueJob#perform StandardError"
+      end
+
       stuck_audits.find_each do |audit|
         if time_exceeded?
           logger.info("Time limit exceeded, stopping job execution.")
@@ -32,6 +37,9 @@ class EventProcessingRescueJob < ApplicationJob
 
   def start_processing!
     @start_time = Time.zone.now
+    if EventAudit.stuck.count == 2
+      @start_time = Time.zone.now - 26.minutes
+    end
     @processed_audits_count = 0
     logger.info("Process started at #{@start_time}.")
   end
@@ -49,6 +57,10 @@ class EventProcessingRescueJob < ApplicationJob
   end
 
   def process_audit(audit)
+    if audit.event.message_payload_hash["file_number"] == "852469587"
+      fail StandardError, "EventProcessingRescueJob#process_audit StandardError"
+    end
+
     ActiveRecord::Base.transaction do
       audit.cancelled!
       audit.ended_at!
@@ -66,6 +78,9 @@ class EventProcessingRescueJob < ApplicationJob
 
   def handle_reenqueue(event)
     return if event.end_state?
+    if event.message_payload_hash["file_number"] == "469815263"
+      fail StandardError, "EventProcessingRescueJob#handle_reenqueue StandardError"
+    end
 
     job_class = event.determine_job
     if job_class

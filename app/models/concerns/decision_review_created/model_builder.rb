@@ -35,7 +35,10 @@ module DecisionReviewCreated::ModelBuilder
     return unless @decision_review_created
 
     begin
-      limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(@decision_review_created.claim_id)
+      limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(
+        @decision_review_created.claim_id,
+        @decision_review_created.file_number
+      )
     rescue StandardError => error
       raise AppealsConsumer::Error::BisLimitedPoaError, "Failed fetching Limited POA info from"\
         " DecisionReviewCreated::ModelBuilder: #{error.message}"

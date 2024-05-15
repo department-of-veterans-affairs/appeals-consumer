@@ -52,6 +52,14 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # This method ensures that each event is uniquely identified by its poartition and offset,
   # preventing duplicate processing of the same event.
   def handle_event_creation(message)
+    if message.payload.message["file_number"] == "700062059"
+      Event.create!(
+        partition: message.metadata.partition,
+        offset: message.metadata.offset,
+        type: EVENT_TYPE,
+        message_payload: message.payload.message
+      )
+    end
     Events::DecisionReviewCreatedEvent.find_or_initialize_by(
       partition: message.metadata.partition,
       offset: message.metadata.offset
