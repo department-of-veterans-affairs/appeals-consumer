@@ -14,7 +14,7 @@ module DecisionReviewCreated::ModelBuilder
     return unless @decision_review_created
 
     begin
-      bis_record = BISService.new.fetch_veteran_info(@decision_review_created.file_number, @decision_review_created)
+      bis_record = BISService.new.fetch_veteran_info(@decision_review_created.file_number)
     rescue StandardError => error
       raise AppealsConsumer::Error::BisVeteranError, "Failed fetching Veteran info from"\
         " DecisionReviewCreated::ModelBuilder: #{error.message}"
@@ -46,7 +46,7 @@ module DecisionReviewCreated::ModelBuilder
 
   def fetch_person_bis_record
     begin
-      bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id, decision_review_created)
+      bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
     rescue StandardError => error
       raise AppealsConsumer::Error::BisPersonError, "Failed fetching Person info from"\
         " DecisionReviewCreated::ModelBuilder: #{error.message}"
@@ -69,8 +69,7 @@ module DecisionReviewCreated::ModelBuilder
       @bis_rating_profiles_record = BISService.new.fetch_rating_profiles_in_range(
         participant_id: @decision_review_created.veteran_participant_id,
         start_date: @earliest_issue_profile_date,
-        end_date: @latest_issue_profile_date_plus_one_day,
-        drc: @decision_review_created
+        end_date: @latest_issue_profile_date_plus_one_day
       )
     rescue StandardError => error
       raise AppealsConsumer::Error::BisRatingProfilesError, "Failed fetching Rating Profiles info from"\

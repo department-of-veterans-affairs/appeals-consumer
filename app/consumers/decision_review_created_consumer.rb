@@ -52,6 +52,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # This method ensures that each event is uniquely identified by its poartition and offset,
   # preventing duplicate processing of the same event.
   def handle_event_creation(message)
+    # Fake Claim ID that doesn't exist in Production env used to test consumption of an Event that already exists
     if message.payload.message["claim_id"] == 9
       Event.create!(
         partition: message.metadata.partition,

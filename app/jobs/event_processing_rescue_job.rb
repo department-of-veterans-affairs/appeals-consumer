@@ -15,6 +15,7 @@ class EventProcessingRescueJob < ApplicationJob
                           name: "EventProcessingRescueJob.perform") do
       start_processing!
       stuck_audits = EventAudit.stuck
+      # Fake Claim ID that doesn't exist in Production env used to test EventProcessingRescueJob error handling
       if stuck_audits&.first&.event&.message_payload_hash&.dig("claim_id") == 12
         fail StandardError, "EventProcessingRescueJob#perform StandardError"
       end
@@ -36,6 +37,7 @@ class EventProcessingRescueJob < ApplicationJob
 
   def start_processing!
     @start_time = Time.zone.now
+    # Fake Claim ID that doesn't exist in Production env used to test EventProcessingRescueJob time limit
     if EventAudit.stuck.any? { |stuck_audit| stuck_audit.event.message_payload_hash["claim_id"] == 10 }
       @start_time = Time.zone.now - 26.minutes
     end
@@ -56,6 +58,7 @@ class EventProcessingRescueJob < ApplicationJob
   end
 
   def process_audit(audit)
+    # Fake Claim ID that doesn't exist in Production env used to test EventProcessingRescueJob error handling
     if audit.event.message_payload_hash["claim_id"] == 13
       fail StandardError, "EventProcessingRescueJob#process_audit StandardError"
     end
@@ -77,6 +80,7 @@ class EventProcessingRescueJob < ApplicationJob
 
   def handle_reenqueue(event)
     return if event.end_state?
+    # Fake Claim ID that doesn't exist in Production env used to test EventProcessingRescueJob error handling
     if event.message_payload_hash["claim_id"] == 14
       fail StandardError, "EventProcessingRescueJob#handle_reenqueue StandardError"
     end

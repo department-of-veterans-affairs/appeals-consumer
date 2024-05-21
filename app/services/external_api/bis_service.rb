@@ -23,31 +23,32 @@ module ExternalApi
     end
 
     # rubocop:disable Metrics/MethodLength
-    def fetch_veteran_info(file_number, decision_review_created)
+    def fetch_veteran_info(file_number)
       logger.info("Fetching veteran info for file number: #{file_number}")
       @veteran_info[file_number] ||=
         Rails.cache.fetch(fetch_veteran_info_cache_key(file_number), expires_in: 10.minutes) do
           MetricsService.record("BIS: fetch veteran info for file number: #{file_number}",
                                 service: :bis,
                                 name: "veteran.find_by_file_number") do
-            case decision_review_created.event_id
-            when 31 # update with file number
+            # Mocks BIS Veteran responses for specific Event IDs to test Caseflow Veteran attributes
+            case Event.last.id
+            when 31
               { ptcpnt_id: nil }
-            when 32 # update with file number
+            when 32
               {
                 middle_name: nil,
                 ssn: nil,
                 name_suffix: nil,
                 date_of_death: nil,
-                ptcpnt_id: decision_review_created.participant_id
+                ptcpnt_id: Event.last.message_payload_hash["veteran_participant_id"]
               }
-            when 33 # update with file number
+            when 33
               {
                 middle_name: "John",
                 ssn: "123456789",
                 name_suffix: "II",
                 date_of_death: "05/14/2024",
-                ptcpnt_id: decision_review_created.participant_id
+                ptcpnt_id: Event.last.message_payload_hash["veteran_participant_id"]
               }
             else
               client.veteran.find_by_file_number(file_number)
@@ -57,13 +58,14 @@ module ExternalApi
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
-    def fetch_person_info(participant_id, decision_review_created)
+    def fetch_person_info(participant_id)
       logger.info("Fetching person info by participant id: #{participant_id}")
       Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
         MetricsService.record("BIS: fetch person info for participant id: #{participant_id}",
                               service: :bis,
                               name: "people.find_person_by_ptcpnt_id") do
-          case decision_review_created.event_id
+          # Mocks BIS Person responses for specific Event IDs to test Caseflow Person attributes
+          case Event.last.id
           when 31
             @person_info[participant_id] ||= {}
           when 32
@@ -122,7 +124,7 @@ module ExternalApi
         end
     end
 
-    def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:, drc:)
+    def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)
       start_date, end_date = formatted_start_and_end_dates(start_date, end_date)
       logger.info(
         "Fetching rating profiles for participant_id #{participant_id}"\
@@ -137,15 +139,16 @@ module ExternalApi
                               end_date = #{end_date}",
                               service: :bis,
                               name: "rating_profile.find_in_date_range") do
-          case drc.event_id
-          when 31 # replace with veteran participant ID
+          # Mocks BIS Rating Profile responses for specific Event IDs to test Caseflow RequestIssue ramp_claim_id
+          case Event.last.id
+          when 31
             { response: { response_text: "No data found" } }
-          when 32 # replace with veteran participant ID
+          when 32
             {
               rba_claim_list: { rba_claim: nil },
               response: { response_text: "Success" }
             }
-          when 33 # replace with veteran participant ID
+          when 33
             {
               rba_claim_list: {
                 rba_claim: [

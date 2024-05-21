@@ -52,6 +52,7 @@ class Event < ApplicationRecord
     event_type = type.demodulize
     job_class_name = "#{event_type}ProcessingJob"
     job_class = job_class_name.safe_constantize
+    # Fake Claim ID used to test EventProcessingRescueJob when it can't find the job to re-enqueue the Event into
     if message_payload_hash["claim_id"] == 11
       job_class = nil
     end
