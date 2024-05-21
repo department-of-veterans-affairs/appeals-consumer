@@ -52,23 +52,6 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # This method ensures that each event is uniquely identified by its poartition and offset,
   # preventing duplicate processing of the same event.
   def handle_event_creation(message)
-    # Applies to message on 5-22-2024 between 11:00-11:30am ET
-    # Applies to message on 5-22-2024 between 11:45am-12:00pm ET
-    # Message consumed during this time will be used to test consumption of an Event that already exists
-    # by creating the Event before it is found/initialized
-    time1_et = Time.zone.parse("2024-05-22 15:00:00").in_time_zone("Eastern Time (US & Canada)")
-    time2_et = Time.zone.parse("2024-05-22 15:30:00").in_time_zone("Eastern Time (US & Canada)")
-    time3_et = Time.zone.parse("2024-05-22 15:45:00").in_time_zone("Eastern Time (US & Canada)")
-    time4_et = Time.zone.parse("2024-05-22 16:00:00").in_time_zone("Eastern Time (US & Canada)")
-    message_timestamp_et = message.metadata.timestamp.in_time_zone("Eastern Time (US & Canada)")
-    if message_timestamp_et.between?(time1_et, time2_et) || message_timestamp_et.between?(time3_et, time4_et)
-      Event.create!(
-        partition: message.metadata.partition,
-        offset: message.metadata.offset,
-        type: EVENT_TYPE,
-        message_payload: message.payload.message
-      )
-    end
     Events::DecisionReviewCreatedEvent.find_or_initialize_by(
       partition: message.metadata.partition,
       offset: message.metadata.offset
