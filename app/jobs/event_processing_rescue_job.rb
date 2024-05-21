@@ -36,7 +36,7 @@ class EventProcessingRescueJob < ApplicationJob
 
   def start_processing!
     @start_time = Time.zone.now
-    if EventAudit.stuck.any? { |stuck_audit| stuck_audit.event.message_payload["claim_id"] == 10 }
+    if EventAudit.stuck.any? { |stuck_audit| stuck_audit.event.message_payload_hash["claim_id"] == 10 }
       @start_time = Time.zone.now - 26.minutes
     end
     @processed_audits_count = 0

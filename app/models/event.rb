@@ -52,7 +52,7 @@ class Event < ApplicationRecord
     event_type = type.demodulize
     job_class_name = "#{event_type}ProcessingJob"
     job_class = job_class_name.safe_constantize
-    if message_payload["claim_id"] == 11
+    if message_payload_hash["claim_id"] == 11
       job_class = nil
     end
 
