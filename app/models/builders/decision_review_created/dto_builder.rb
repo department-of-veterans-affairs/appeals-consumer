@@ -52,6 +52,9 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   # :reek:TooManyStatements
   def assign_from_builders
     begin
+      if [35, 36, 37].include?(@decision_review_created.event_id)
+        fail StandardError, "Appeals-Consumer DtoBuilder StandardError"
+      end
       @intake = build_intake
       @veteran = build_veteran
       @claimant = build_claimant

@@ -52,7 +52,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
   # This method ensures that each event is uniquely identified by its poartition and offset,
   # preventing duplicate processing of the same event.
   def handle_event_creation(message)
-    if message.payload.message["file_number"] == "700062059"
+    if message.payload.message["claim_id"] == 9
       Event.create!(
         partition: message.metadata.partition,
         offset: message.metadata.offset,

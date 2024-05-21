@@ -53,10 +53,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   def self.build(issue, decision_review_created, bis_rating_profiles)
     builder = new(issue, decision_review_created, bis_rating_profiles)
     builder.assign_attributes
-    if %w[742329273 285158018 532418273].include?(decision_review_created.file_number)
-      fail StandardError, "Appeals-Consumer StandardError"
-    end
-
     builder.request_issue
   end
 

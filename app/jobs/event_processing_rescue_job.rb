@@ -15,8 +15,7 @@ class EventProcessingRescueJob < ApplicationJob
                           name: "EventProcessingRescueJob.perform") do
       start_processing!
       stuck_audits = EventAudit.stuck
-
-      if stuck_audits.first.event.message_payload_hash["file_number"] == "536974158"
+      if stuck_audits&.first&.event&.message_payload_hash&.dig("claim_id") == 12
         fail StandardError, "EventProcessingRescueJob#perform StandardError"
       end
 
@@ -37,7 +36,7 @@ class EventProcessingRescueJob < ApplicationJob
 
   def start_processing!
     @start_time = Time.zone.now
-    if EventAudit.stuck.count == 2
+    if EventAudit.stuck.any? { |stuck_audit| stuck_audit.event.message_payload["claim_id"] == 10 }
       @start_time = Time.zone.now - 26.minutes
     end
     @processed_audits_count = 0
@@ -57,7 +56,7 @@ class EventProcessingRescueJob < ApplicationJob
   end
 
   def process_audit(audit)
-    if audit.event.message_payload_hash["file_number"] == "852469587"
+    if audit.event.message_payload_hash["claim_id"] == 13
       fail StandardError, "EventProcessingRescueJob#process_audit StandardError"
     end
 
@@ -78,7 +77,7 @@ class EventProcessingRescueJob < ApplicationJob
 
   def handle_reenqueue(event)
     return if event.end_state?
-    if event.message_payload_hash["file_number"] == "469815263"
+    if event.message_payload_hash["claim_id"] == 14
       fail StandardError, "EventProcessingRescueJob#handle_reenqueue StandardError"
     end
 
