@@ -54,7 +54,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
     begin
       # Throws an error for specific Event IDs to test error handling
       # These Event IDs will also throw an error in Caseflow's decision_review_created_error endpoint
-      if [36, 37].include?(@decision_review_created.event_id)
+      if [19, 20].include?(@decision_review_created.event_id)
         fail StandardError, "Appeals-Consumer DtoBuilder StandardError"
       end
 
@@ -65,6 +65,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
       @end_product_establishment = build_end_product_establishment
       @request_issues = build_request_issues
     rescue StandardError => error
+      puts "DtoBuilder#assign_from_builders rescue block was entered for Event ID: #{@decision_review_created.event_id} at #{Time.zone.now}"
       raise AppealsConsumer::Error::DtoBuildError, "Failed building from Builders::DecisionReviewCreated::DtoBuilder:
         #{error.message}"
     end

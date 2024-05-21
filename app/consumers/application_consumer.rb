@@ -38,6 +38,7 @@ class ApplicationConsumer < Karafka::BaseConsumer
 
   # Logs an attempt to process an event that already exists in the database, indicating no further action was taken.
   def log_repeat_consumption(extra_details)
+    puts "ApplicationConsumer#log_repeat_consumption was entered at #{Time.zone.now}"
     log_info("Event record already exists. Skipping enqueueing job", extra_details)
   end
 

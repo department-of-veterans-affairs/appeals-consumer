@@ -32,9 +32,9 @@ module ExternalApi
                                 name: "veteran.find_by_file_number") do
             # Mocks BIS Veteran responses for specific Event IDs to test Caseflow Veteran attributes
             case Event.last.id
-            when 31
+            when 15, 23
               { ptcpnt_id: nil }
-            when 32
+            when 16, 24
               {
                 middle_name: nil,
                 ssn: nil,
@@ -42,7 +42,7 @@ module ExternalApi
                 date_of_death: nil,
                 ptcpnt_id: Event.last.message_payload_hash["veteran_participant_id"]
               }
-            when 33
+            when 17, 25
               {
                 middle_name: "John",
                 ssn: "123456789",
@@ -66,9 +66,9 @@ module ExternalApi
                               name: "people.find_person_by_ptcpnt_id") do
           # Mocks BIS Person responses for specific Event IDs to test Caseflow Person attributes
           case Event.last.id
-          when 31
+          when 15, 23
             @person_info[participant_id] ||= {}
-          when 32
+          when 16, 24
             @person_info[participant_id] ||= {
               first_name: nil,
               last_name: nil,
@@ -79,7 +79,7 @@ module ExternalApi
               file_number: nil,
               ssn: nil
             }
-          when 33
+          when 17, 25
             @person_info[participant_id] ||= {
               first_name: "Clarence",
               last_name: "Thompson",
@@ -141,14 +141,14 @@ module ExternalApi
                               name: "rating_profile.find_in_date_range") do
           # Mocks BIS Rating Profile responses for specific Event IDs to test Caseflow RequestIssue ramp_claim_id
           case Event.last.id
-          when 31
+          when 15, 23
             { response: { response_text: "No data found" } }
-          when 32
+          when 16, 24
             {
               rba_claim_list: { rba_claim: nil },
               response: { response_text: "Success" }
             }
-          when 33
+          when 17, 25
             {
               rba_claim_list: {
                 rba_claim: [
@@ -163,7 +163,7 @@ module ExternalApi
                 response_text: "Success"
               }
             }
-          when 34
+          when 18, 26
             {
               rba_claim_list: {
                 rba_claim: [

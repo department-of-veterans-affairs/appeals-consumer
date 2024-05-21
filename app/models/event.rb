@@ -58,6 +58,7 @@ class Event < ApplicationRecord
     end
 
     if job_class.nil?
+      puts "Event#determine_job rescue block was entered at #{Time.zone.now}"
       logger.error(
         "No processing job found for type: #{event_type}. "\
         "Please define a .#{event_type}ProcessingJob for the #{self.class} class."

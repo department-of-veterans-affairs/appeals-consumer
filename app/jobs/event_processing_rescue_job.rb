@@ -6,6 +6,7 @@ class EventProcessingRescueJob < ApplicationJob
   queue_as :high_priority
 
   rescue_from(StandardError) do |error|
+    puts "EventProcessingRescueJob#perform rescue block was entered at #{Time.zone.now}"
     logger.error("Encountered an exception.", extra_details(error: error))
   end
 
@@ -75,6 +76,7 @@ class EventProcessingRescueJob < ApplicationJob
 
     handle_reenqueue(audit.event)
   rescue StandardError => error
+    puts "EventProcessingRescueJob#perform rescue block was entered at #{Time.zone.now}"
     logger.error("Failed to process EventAudit.", extra_details(audit: audit, event: audit.event, error: error))
   end
 
@@ -95,6 +97,7 @@ class EventProcessingRescueJob < ApplicationJob
       logger.error("Failed to re-enqueue job for Event.", extra_details(event: event))
     end
   rescue StandardError => error
+    puts "EventProcessingRescueJob#perform rescue block was entered at #{Time.zone.now}"
     logger.error("Error during the re-enqueue for Event.", extra_details(event: event, error: error))
   end
 
