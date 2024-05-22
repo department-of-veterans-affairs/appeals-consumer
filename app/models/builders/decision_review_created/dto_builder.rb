@@ -54,7 +54,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
     begin
       # Throws an error for specific Event IDs to test error handling
       # These Event IDs will also throw an error in Caseflow's decision_review_created_error endpoint
-      if [19, 20].include?(@decision_review_created.event_id)
+      if [18, 19].include?(@decision_review_created.event_id)
         fail StandardError, "Appeals-Consumer DtoBuilder StandardError"
       end
 
