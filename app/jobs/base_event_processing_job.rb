@@ -53,6 +53,7 @@ class BaseEventProcessingJob < ApplicationJob
   def complete_processing!
     ActiveRecord::Base.transaction do
       @event.processed!
+      @event.error = nil
       @event_audit.completed!
     end
   end

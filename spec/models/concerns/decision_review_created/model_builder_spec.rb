@@ -86,10 +86,6 @@ describe DecisionReviewCreated::ModelBuilder do
 
       context "an error is thrown" do
         let(:error) { AppealsConsumer::Error::BisVeteranError }
-        let(:msg) do
-          "Failed fetching Veteran info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
-        end
         let(:timeout_msg) { "timeout" }
 
         before do
@@ -98,8 +94,9 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_veteran_info).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { subject }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          subject
         end
       end
     end
@@ -155,10 +152,6 @@ describe DecisionReviewCreated::ModelBuilder do
 
       context "an error is thrown" do
         let(:error) { AppealsConsumer::Error::BisPersonError }
-        let(:msg) do
-          "Failed fetching Person info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
-        end
         let(:timeout_msg) { "timeout" }
 
         before do
@@ -167,8 +160,9 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_person_info).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { subject }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          subject
         end
       end
     end
@@ -196,10 +190,6 @@ describe DecisionReviewCreated::ModelBuilder do
 
       context "an error is thrown" do
         let(:error) { AppealsConsumer::Error::BisLimitedPoaError }
-        let(:msg) do
-          "Failed fetching Limited POA info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
-        end
         let(:timeout_msg) { "timeout" }
 
         before do
@@ -208,8 +198,9 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_limited_poas_by_claim_ids).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { dummy.fetch_limited_poa }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          dummy.fetch_limited_poa
         end
       end
     end
@@ -322,8 +313,9 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_rating_profiles_in_range).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { subject }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          subject
         end
       end
     end

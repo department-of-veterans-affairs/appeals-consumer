@@ -50,7 +50,7 @@ module DecisionReviewCreated::ModelBuilder
     end
 
     # If the result is empty, the claimant wasn't found
-    if bis_record.empty?
+    if bis_record.blank?
       msg = "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
        " #{@decision_review_created.claimant_participant_id}"
       log_msg_and_update_current_event_audit_notes!(msg)
