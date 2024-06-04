@@ -16,8 +16,7 @@ module DecisionReviewCreated::ModelBuilder
     begin
       bis_record = BISService.new.fetch_veteran_info(@decision_review_created.file_number)
     rescue StandardError => error
-      raise AppealsConsumer::Error::BisVeteranError, "Failed fetching Veteran info from"\
-        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+      log_msg_and_update_current_event_audit_notes!(error.message, error: true)
     end
 
     # If the participant id is nil, that's another way of saying the veteran wasn't found
@@ -37,8 +36,7 @@ module DecisionReviewCreated::ModelBuilder
     begin
       limited_poa = BISService.new.fetch_limited_poas_by_claim_ids(@decision_review_created.claim_id)
     rescue StandardError => error
-      raise AppealsConsumer::Error::BisLimitedPoaError, "Failed fetching Limited POA info from"\
-        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+      log_msg_and_update_current_event_audit_notes!(error.message, error: true)
     end
 
     limited_poa ? limited_poa[@decision_review_created.claim_id] : nil
@@ -48,8 +46,7 @@ module DecisionReviewCreated::ModelBuilder
     begin
       bis_record = BISService.new.fetch_person_info(decision_review_created.claimant_participant_id)
     rescue StandardError => error
-      raise AppealsConsumer::Error::BisPersonError, "Failed fetching Person info from"\
-        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+      log_msg_and_update_current_event_audit_notes!(error.message, error: true)
     end
 
     # If the result is empty, the claimant wasn't found
@@ -72,8 +69,7 @@ module DecisionReviewCreated::ModelBuilder
         end_date: @latest_issue_profile_date_plus_one_day
       )
     rescue StandardError => error
-      raise AppealsConsumer::Error::BisRatingProfilesError, "Failed fetching Rating Profiles info from"\
-        " DecisionReviewCreated::ModelBuilder: #{error.message}"
+      log_msg_and_update_current_event_audit_notes!(error.message, error: true)
     end
 
     # log bis_record response if the response_text is anything other than "success"
