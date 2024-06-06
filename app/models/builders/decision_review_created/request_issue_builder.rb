@@ -80,7 +80,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
     assign_type
-    assign_nonrating_issue_bgs_source
   end
 
   def calculate_methods
@@ -100,6 +99,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     calculate_rating_issue_associated_at
     calculate_ramp_claim_id
     calculate_is_unidentified
+    calculate_nonrating_issue_bgs_source
   end
 
   # EP codes ending in "PMC" are pension, otherwise "compensation"
@@ -257,8 +257,11 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.nonrating_issue_bgs_id = issue.prior_non_rating_decision_id&.to_s
   end
 
-  def assign_nonrating_issue_bgs_source
-    @request_issue.nonrating_issue_bgs_source = issue.prior_decision_source&.to_s
+  def calculate_nonrating_issue_bgs_source
+    @request_issue.nonrating_issue_bgs_source =
+      if issue.prior_decision_source&.to_s == "NON_RATING"
+        issue.prior_decision_source&.to_s
+      end
   end
 
   # exception thrown if an unrecognized eligibility_result is passed in
