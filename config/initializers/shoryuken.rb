@@ -4,7 +4,7 @@
 
 # set up default exponential backoff parameters
 ActiveJob::QueueAdapters::ShoryukenAdapter::JobWrapper
-  .shoryuken_options(retry_intervals: [1.minutes, 5.minutes, 10.minutes])
+  .shoryuken_options(retry_intervals: [15.seconds, 30.seconds, 1.minutes])
   if Rails.application.config.sqs_endpoint
     # override the sqs_endpoint
     Shoryuken.configure_client do |config|
