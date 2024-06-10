@@ -575,7 +575,7 @@ FactoryBot.define do
             "legacy_appeal_issue_id" => nil,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil,
-            "prior_decision_source" => "NON_RATING"
+            "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE"
           }
         ]
       end

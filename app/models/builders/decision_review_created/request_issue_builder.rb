@@ -259,7 +259,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   def calculate_nonrating_issue_bgs_source
     @request_issue.nonrating_issue_bgs_source =
-      if issue.prior_decision_source&.to_s == "NON_RATING"
+      if decision_review_created.ep_code_category == NONRATING_EP_CODE_CATEGORY
         issue.prior_decision_source&.to_s
       end
   end
