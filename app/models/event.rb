@@ -52,7 +52,8 @@ class Event < ApplicationRecord
     event_type = type.demodulize
     job_class_name = "#{event_type}ProcessingJob"
     job_class = job_class_name.safe_constantize
-    if message_payload["file_number"] == "964521852"
+    # Fake Claim ID used to test EventProcessingRescueJob when it can't find the job to re-enqueue the Event into
+    if message_payload_hash["file_number"] == "764094592"
       job_class = nil
     end
 

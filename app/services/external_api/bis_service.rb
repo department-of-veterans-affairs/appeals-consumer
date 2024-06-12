@@ -31,9 +31,9 @@ module ExternalApi
                                 service: :bis,
                                 name: "veteran.find_by_file_number") do
             case file_number
-            when "444444444"
+            when "548743143"
               { ptcpnt_id: nil }
-            when "555555555"
+            when "012876551"
               {
                 middle_name: nil,
                 ssn: nil,
@@ -41,7 +41,7 @@ module ExternalApi
                 date_of_death: nil,
                 ptcpnt_id: file_number
               }
-            when "666666666"
+            when "661795100"
               {
                 middle_name: "John",
                 ssn: "123456789",
@@ -56,6 +56,7 @@ module ExternalApi
         end
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def fetch_person_info(participant_id)
       logger.info("Fetching person info by participant id: #{participant_id}")
       Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
@@ -63,21 +64,10 @@ module ExternalApi
                               service: :bis,
                               name: "people.find_person_by_ptcpnt_id") do
           case participant_id
-          when "601389886" # potentially replace with staged Dependent participant ID
-            {}
-          when "601389890" # potentially replace with staged Dependent participant ID
-            {
-              first_name: nil,
-              last_name: nil,
-              middle_name: nil,
-              name_suffix: nil,
-              birth_date: nil,
-              email_address: nil,
-              file_number: nil,
-              ssn: nil
-            }
-          when "601389893" # potentially replace with staged Dependent participant ID
-            {
+          when "601402088"
+            @person_info[participant_id] ||= {}
+          when "601402049"
+            @person_info[participant_id] ||= {
               first_name: "Clarence",
               last_name: "Thompson",
               middle_name: "Anthony",
@@ -105,18 +95,19 @@ module ExternalApi
         end
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
-    def fetch_limited_poas_by_claim_ids(claim_ids, file_number)
+    def fetch_limited_poas_by_claim_ids(claim_ids)
       logger.info("Fetching limited poas for claim ids: #{claim_ids}")
       @limited_poa[claim_ids] ||=
         Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
           MetricsService.record("BIS: fetch limited poas by claim ids: #{claim_ids}",
                                 service: :bis,
                                 name: "org.find_limited_poas_by_bnft_claim_ids") do
-            case file_number
-            when "444444444" # replace with staged Vet file number
+            case claim_ids
+            when "114477885"
               nil
-            when "555555555" # replace with staged Vet file number
+            when "588774411"
               {
                 claim_ids =>
                   {
@@ -124,7 +115,7 @@ module ExternalApi
                     limited_poa_code: "AccessCode"
                   }
               }
-            when "666666666" # replace with staged Vet file number
+            when "336699885"
               {
                 claim_ids =>
                   {
@@ -140,7 +131,6 @@ module ExternalApi
         end
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
     def fetch_rating_profiles_in_range(participant_id:, start_date:, end_date:)
       start_date, end_date = formatted_start_and_end_dates(start_date, end_date)
       logger.info(
@@ -156,30 +146,7 @@ module ExternalApi
                               end_date = #{end_date}",
                               service: :bis,
                               name: "rating_profile.find_in_date_range") do
-          case participant_id
-          when "35980" # replace with staged Vet file number
-            { response: { response_text: "No data found" } }
-          when "36128" # replace with staged Vet file number
-            {
-              rba_claim_list: { rba_claim: {} },
-              response: { response_text: "Success" }
-            }
-          when "36447" # replace with staged Vet file number
-            {
-              rba_claim_list: {
-                rba_claim: [
-                  {
-                    bnft_clm_tc: "682HLRRRAMP",
-                    clm_id: nil,
-                    prfl_date: start_date
-                  }
-                ]
-              },
-              response: {
-                response_text: "Success"
-              }
-            }
-          when "600867510"
+          if participant_id == "601402087"
             {
               rba_claim_list: {
                 rba_claim: [
@@ -187,36 +154,6 @@ module ExternalApi
                     bnft_clm_tc: "682HLRRRAMP",
                     clm_id: "1002003",
                     prfl_date: start_date
-                  }
-                ]
-              },
-              response: {
-                response_text: "Success"
-              }
-            }
-          when "601346153"
-            {
-              rba_claim_list: {
-                rba_claim: [
-                  {
-                    bnft_clm_tc: "030HLRR",
-                    clm_id: "1002003",
-                    prfl_date: start_date
-                  }
-                ]
-              },
-              response: {
-                response_text: "Success"
-              }
-            }
-          when "601339723"
-            {
-              rba_claim_list: {
-                rba_claim: [
-                  {
-                    bnft_clm_tc: "030HLRR",
-                    clm_id: "1002003",
-                    prfl_date: start_date - 10.days
                   }
                 ]
               },
@@ -234,7 +171,6 @@ module ExternalApi
         end
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/MethodLength
 
     def bust_fetch_veteran_info_cache(file_number)

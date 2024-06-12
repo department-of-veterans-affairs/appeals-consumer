@@ -52,6 +52,13 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   # :reek:TooManyStatements
   def assign_from_builders
     begin
+      # Throws an error for specific file numbers to test error handling
+      # The first file number will not error out in Caseflow's decision_review_created_error endpoint
+      # The last 3 file numbers will also throw an error in Caseflow's decision_review_created_error endpoint
+      if %w[011899943 796136998 900090003 222110353].include?(@decision_review_created.file_number)
+        fail StandardError, "Appeals-Consumer DtoBuilder StandardError"
+      end
+
       @intake = build_intake
       @veteran = build_veteran
       @claimant = build_claimant
