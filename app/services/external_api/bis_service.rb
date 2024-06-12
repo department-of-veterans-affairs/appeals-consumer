@@ -105,9 +105,9 @@ module ExternalApi
                                 service: :bis,
                                 name: "org.find_limited_poas_by_bnft_claim_ids") do
             case claim_ids
-            when "114477885"
+            when 114477885
               nil
-            when "588774411"
+            when 588774411
               {
                 claim_ids =>
                   {
@@ -115,7 +115,7 @@ module ExternalApi
                     limited_poa_code: "AccessCode"
                   }
               }
-            when "336699885"
+            when 336699885
               {
                 claim_ids =>
                   {
