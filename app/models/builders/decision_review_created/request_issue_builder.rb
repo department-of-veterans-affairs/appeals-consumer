@@ -487,7 +487,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   def claim_profile_date_matches_issue_profile_date?(claim)
     return unless claim&.dig(:prfl_date) && issue.prior_decision_rating_profile_date
 
-    claim&.dig(:prfl_date).to_date == issue.prior_decision_rating_profile_date.to_date
+    claim&.dig(:prfl_date)&.to_date == issue.prior_decision_rating_profile_date.to_date
   end
 
   # return the first associated_claim that has a RAMP ep code. if there aren't any that match return nil
