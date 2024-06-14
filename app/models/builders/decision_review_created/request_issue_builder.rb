@@ -80,7 +80,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
     assign_type
-    assign_nonrating_issue_bgs_source
   end
 
   def calculate_methods
@@ -100,6 +99,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     calculate_rating_issue_associated_at
     calculate_ramp_claim_id
     calculate_is_unidentified
+    calculate_nonrating_issue_bgs_source
   end
 
   # EP codes ending in "PMC" are pension, otherwise "compensation"
@@ -257,8 +257,11 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
     @request_issue.nonrating_issue_bgs_id = issue.prior_non_rating_decision_id&.to_s
   end
 
-  def assign_nonrating_issue_bgs_source
-    @request_issue.nonrating_issue_bgs_source = issue.prior_decision_source&.to_s
+  def calculate_nonrating_issue_bgs_source
+    @request_issue.nonrating_issue_bgs_source =
+      if decision_review_created.ep_code_category == NONRATING_EP_CODE_CATEGORY
+        issue.prior_decision_source&.to_s
+      end
   end
 
   # exception thrown if an unrecognized eligibility_result is passed in
@@ -467,7 +470,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def find_all_claims
-    claims = @bis_rating_profiles.dig(:rba_claim_list, :rba_claim)
+    claims = @bis_rating_profiles&.dig(:rba_claim_list, :rba_claim)
 
     Array.wrap(claims) if !!claims
   end
@@ -482,15 +485,15 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
 
   # finds matching claims by comparing profile date of the claim with the issue's profile date
   def claim_profile_date_matches_issue_profile_date?(claim)
-    return unless claim[:prfl_date] && issue.prior_decision_rating_profile_date
+    return unless claim&.dig(:prfl_date) && issue.prior_decision_rating_profile_date
 
-    claim[:prfl_date].to_date == issue.prior_decision_rating_profile_date.to_date
+    claim&.dig(:prfl_date)&.to_date == issue.prior_decision_rating_profile_date.to_date
   end
 
   # return the first associated_claim that has a RAMP ep code. if there aren't any that match return nil
   def find_associated_ramp_ep(associated_claims_data)
     associated_claims_data.find do |claim|
-      ep_code = claim[:bnft_clm_tc]
+      ep_code = claim&.dig(:bnft_clm_tc)
 
       RAMP_EP_CODES.key?(ep_code)
     end

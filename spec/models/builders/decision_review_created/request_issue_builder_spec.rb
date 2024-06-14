@@ -99,7 +99,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(builder).to receive(:assign_vacols_sequence_id)
       expect(builder).to receive(:assign_nonrating_issue_bgs_id)
       expect(builder).to receive(:assign_type)
-      expect(builder).to receive(:assign_nonrating_issue_bgs_source)
 
       builder.send(:assign_methods)
     end
@@ -123,13 +122,14 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(builder).to receive(:calculate_ramp_claim_id)
       expect(builder).to receive(:calculate_rating_issue_associated_at)
       expect(builder).to receive(:calculate_is_unidentified)
+      expect(builder).to receive(:calculate_nonrating_issue_bgs_source)
 
       builder.send(:calculate_methods)
     end
   end
 
-  describe "#assign_nonrating_issue_bgs_source" do
-    subject { builder.send(:assign_nonrating_issue_bgs_source) }
+  describe "#calculate_nonrating_issue_bgs_source" do
+    subject { builder.send(:calculate_nonrating_issue_bgs_source) }
 
     context "when the issue has a prior_decision_rating_sn value" do
       let(:decision_review_created) { build(:decision_review_created, :eligible_nonrating_hlr_with_decision_source) }

@@ -121,6 +121,6 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
   def determine_date_of_death
     return nil unless @veteran_bis_record&.key?(:date_of_death)
 
-    @veteran_bis_record[:date_of_death].nil? ? "1" : "2"
+    @veteran_bis_record&.dig(:date_of_death).nil? ? "1" : "2"
   end
 end

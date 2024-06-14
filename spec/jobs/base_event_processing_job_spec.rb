@@ -34,6 +34,7 @@ RSpec.describe BaseEventProcessingJob, type: :job do
       it "processes the event and updates the event audit" do
         subject
         expect(event.reload.state).to eq("processed")
+        expect(event.error).to eq(nil)
         expect(EventAudit.last.ended_at).not_to be_nil
         expect(EventAudit.last.status).to eq("completed")
       end

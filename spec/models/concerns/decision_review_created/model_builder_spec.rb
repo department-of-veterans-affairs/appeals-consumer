@@ -86,11 +86,10 @@ describe DecisionReviewCreated::ModelBuilder do
 
       context "an error is thrown" do
         let(:error) { AppealsConsumer::Error::BisVeteranError }
-        let(:msg) do
-          "Failed fetching Veteran info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
-        end
         let(:timeout_msg) { "timeout" }
+        let!(:event_audit) do
+          create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note")
+        end
 
         before do
           bis_service_instance = instance_double(BISService)
@@ -98,8 +97,14 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_veteran_info).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { subject }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          subject
+        end
+
+        it "updates the event's last event_audit record with the msg" do
+          subject
+          expect(event_audit.reload.notes).to include("Note #{Time.zone.now}: #{timeout_msg}")
         end
       end
     end
@@ -155,11 +160,10 @@ describe DecisionReviewCreated::ModelBuilder do
 
       context "an error is thrown" do
         let(:error) { AppealsConsumer::Error::BisPersonError }
-        let(:msg) do
-          "Failed fetching Person info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
-        end
         let(:timeout_msg) { "timeout" }
+        let!(:event_audit) do
+          create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note")
+        end
 
         before do
           bis_service_instance = instance_double(BISService)
@@ -167,8 +171,14 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_person_info).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { subject }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          subject
+        end
+
+        it "updates the event's last event_audit record with the msg" do
+          subject
+          expect(event_audit.reload.notes).to include("Note #{Time.zone.now}: #{timeout_msg}")
         end
       end
     end
@@ -196,11 +206,10 @@ describe DecisionReviewCreated::ModelBuilder do
 
       context "an error is thrown" do
         let(:error) { AppealsConsumer::Error::BisLimitedPoaError }
-        let(:msg) do
-          "Failed fetching Limited POA info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
-        end
         let(:timeout_msg) { "timeout" }
+        let!(:event_audit) do
+          create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note")
+        end
 
         before do
           bis_service_instance = instance_double(BISService)
@@ -208,8 +217,14 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_limited_poas_by_claim_ids).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { dummy.fetch_limited_poa }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          dummy.fetch_limited_poa
+        end
+
+        it "updates the event's last event_audit record with the msg" do
+          dummy.fetch_limited_poa
+          expect(event_audit.reload.notes).to include("Note #{Time.zone.now}: #{timeout_msg}")
         end
       end
     end
@@ -315,6 +330,9 @@ describe DecisionReviewCreated::ModelBuilder do
             " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
         end
         let(:timeout_msg) { "timeout" }
+        let!(:event_audit) do
+          create(:event_audit, event: event, status: :in_progress, notes: "Note #{Time.zone.now}: Test note")
+        end
 
         before do
           bis_service_instance = instance_double(BISService)
@@ -322,8 +340,14 @@ describe DecisionReviewCreated::ModelBuilder do
           allow(bis_service_instance).to receive(:fetch_rating_profiles_in_range).and_raise(StandardError, timeout_msg)
         end
 
-        it "rescues the error and rethrows custom exception" do
-          expect { subject }.to raise_error(error, msg)
+        it "logs the error" do
+          expect(Rails.logger).to receive(:error).with(/#{timeout_msg}/)
+          subject
+        end
+
+        it "updates the event's last event_audit record with the msg" do
+          subject
+          expect(event_audit.reload.notes).to include("Note #{Time.zone.now}: #{timeout_msg}")
         end
       end
     end
