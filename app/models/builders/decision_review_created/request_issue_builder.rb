@@ -470,9 +470,10 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   end
 
   def find_all_claims
-    claims = @bis_rating_profiles&.dig(:rba_claim_list, :rba_claim)
-
-    Array.wrap(claims) if !!claims
+    @bis_rating_profiles.extend Hashie::Extensions::DeepFind
+    claims = @bis_rating_profiles&.deep_find_all(:rba_claim)
+        return if claims.nil? || claims.all?(&:nil?)
+    claims.flatten
   end
 
   def find_associated_claims(all_claims)
