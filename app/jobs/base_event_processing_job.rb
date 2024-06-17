@@ -54,11 +54,7 @@ class BaseEventProcessingJob < ApplicationJob
     ActiveRecord::Base.transaction do
       @event.processed!
       @event_audit.completed!
-      # update error field here after event completes successfully
       @event.update!(error: nil)
-      # we use the .update! instead of just .update.
-      # Since a normal update doesn’t raise errors and just return “false”,
-      # it would not trigger a rollback in the transaction.
     end
   end
 
