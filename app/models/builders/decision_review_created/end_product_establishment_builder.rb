@@ -74,8 +74,8 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
 
   def calculate_limited_poa_code
     @limited_poa_hash.extend Hashie::Extensions::DeepFind
-      poa_code = @limited_poa_hash.deep_find_all(:limited_poa_code)
-      @end_product_establishment.limited_poa_code = poa_code.nil? ? nil : poa_code[0]
+    poa_code = @limited_poa_hash.deep_find_all(:limited_poa_code)
+    @end_product_establishment.limited_poa_code = poa_code.nil? ? nil : poa_code[0]
   end
 
   def calculate_committed_at
@@ -117,9 +117,9 @@ class Builders::DecisionReviewCreated::EndProductEstablishmentBuilder
   end
 
   def limited_poa_access
-      @limited_poa_hash.extend Hashie::Extensions::DeepFind
-         limited_poa = @limited_poa_hash&.deep_find_all(:limited_poa_access)
-         limited_poa.nil? ? nil : limited_poa[0]
+    @limited_poa_hash.extend Hashie::Extensions::DeepFind
+    limited_poa = @limited_poa_hash&.deep_find_all(:limited_poa_access)
+    limited_poa.nil? ? nil : limited_poa[0]
   end
 
   def determine_date_of_death
