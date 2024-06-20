@@ -2458,7 +2458,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         end
 
         context "when rba_claims are in different objects" do
-
           let(:bis_rating_profiles) do
             {
               rba_issue_list: {

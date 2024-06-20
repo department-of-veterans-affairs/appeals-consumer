@@ -472,7 +472,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder
   def find_all_claims
     @bis_rating_profiles.extend Hashie::Extensions::DeepFind
     claims = @bis_rating_profiles&.deep_find_all(:rba_claim)
-      return if claims.nil? || claims.all?(&:nil?)
+    return if claims.nil? || claims.all?(&:nil?)
 
     claims.flatten
   end
