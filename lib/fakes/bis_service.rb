@@ -110,7 +110,7 @@ module Fakes
         result[claim_id] = if claim_id == 0
                              {}
                            elsif claim_id.odd?
-                             { limited_poa_code: "OU3", limited_poa_access: "Y" }
+                             { :limited_poa_code => "OU3", :limited_poa_access => "Y" }
                            elsif claim_id.even?
                              { limited_poa_code: "007", limited_poa_access: "N" }
                            end
