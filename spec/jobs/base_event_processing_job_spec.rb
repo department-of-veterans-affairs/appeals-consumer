@@ -31,6 +31,13 @@ RSpec.describe BaseEventProcessingJob, type: :job do
     end
 
     context "when the job completes successfully" do
+      it "When error field is not nil before the job starts reverts to nil after job completes successfully" do
+        event.update(error: "Dummy text")
+        expect(event.error).not_to be_nil
+        subject
+        expect(EventAudit.last.error).to be_nil
+      end
+
       it "processes the event and updates the event audit" do
         subject
         expect(event.reload.state).to eq("processed")

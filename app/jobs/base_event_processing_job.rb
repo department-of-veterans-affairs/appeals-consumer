@@ -55,6 +55,7 @@ class BaseEventProcessingJob < ApplicationJob
       @event.processed!
       @event.update!(error: nil)
       @event_audit.completed!
+      @event.update!(error: nil)
     end
   end
 
