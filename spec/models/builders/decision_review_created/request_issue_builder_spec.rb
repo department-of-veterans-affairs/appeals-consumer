@@ -2456,6 +2456,51 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
             expect(subject).to eq(bis_rating_profiles[:rba_claim_list][:rba_claim])
           end
         end
+
+        context "when rba_claims are in different objects" do
+          let(:bis_rating_profiles) do
+            {
+              rba_issue_list: {
+                rba_issue: {
+                  rba_issue_id: "1234",
+                  prfil_date: Date.new(1970, 1, 1)
+                }
+              },
+              rba_claim_list: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002003",
+                    prfl_date: Date.new(1980, 1, 1)
+                  },
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002001",
+                    prfl_date: Date.new(1970, 1, 1)
+                  }
+                ]
+              },
+              rba_claim_list2: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002004",
+                    prfl_date: Date.new(1980, 1, 1)
+                  },
+                  {
+                    bnft_clm_tc: "030HLRR",
+                    clm_id: "1002002",
+                    prfl_date: Date.new(1970, 1, 1)
+                  }
+                ]
+              }
+            }
+          end
+          it "returns the value of all rba_claims" do
+            expect(subject).to eq(bis_rating_profiles[:rba_claim_list][:rba_claim]
+              .push(bis_rating_profiles[:rba_claim_list2][:rba_claim]).flatten)
+          end
+        end
       end
     end
   end
