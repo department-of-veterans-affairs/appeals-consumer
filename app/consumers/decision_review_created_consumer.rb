@@ -42,6 +42,7 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
 
         log_consumption_end(extra_details)
       end
+      messages = seek(messages.last.offset - 100)
     end
   end
   # rubocop:enable Metrics/MethodLength

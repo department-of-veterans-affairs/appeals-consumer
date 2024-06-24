@@ -15,6 +15,7 @@ class KarafkaApp < Karafka::App
     end
     config.kafka = karafka_config
     config.client_id = "Karafka-consumer"
+    config.initial_offset = "earliest"
     # Recreate consumers with each batch. This will allow Rails code reload to work in the
     # development mode. Otherwise Karafka process would not be aware of code changes
     config.consumer_persistence = !Rails.env.development?
