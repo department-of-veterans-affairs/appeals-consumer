@@ -22,6 +22,7 @@ module ExternalApi
       @limited_poa = {}
     end
 
+    # rubocop:disable Metrics/MethodLength
     def fetch_veteran_info(file_number)
       logger.info("Fetching veteran info for file number: #{file_number}")
       @veteran_info[file_number] ||=
@@ -29,12 +30,39 @@ module ExternalApi
           MetricsService.record("BIS: fetch veteran info for file number: #{file_number}",
                                 service: :bis,
                                 name: "veteran.find_by_file_number") do
-            client.veteran.find_by_file_number(file_number)
+            case file_number
+            when "984562356"
+              fail StandardError, "Veteran test error"
+            when "548743143"
+              { ptcpnt_id: nil }
+            when "012876551"
+              {
+                middle_name: nil,
+                ssn: nil,
+                name_suffix: nil,
+                date_of_death: nil,
+                ptcpnt_id: file_number
+              }
+            when "661795100"
+              {
+                middle_name: "John",
+                ssn: "123456789",
+                name_suffix: "II",
+                date_of_death: "05/14/2024",
+                ptcpnt_id: file_number
+              }
+            else
+              client.veteran.find_by_file_number(file_number)
+            end
           end
         end
     end
 
     def fetch_person_info(participant_id)
+      if participant_id == "600331949"
+        fail StandardError, "Person test error"
+      end
+
       logger.info("Fetching person info by participant id: #{participant_id}")
       bis_info = Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
         MetricsService.record("BIS: fetch person info for participant id: #{participant_id}",
@@ -62,13 +90,25 @@ module ExternalApi
       logger.info("Fetching limited poas for claim ids: #{claim_ids}")
       @limited_poa[claim_ids] ||=
         Rails.cache.fetch(claim_ids, expires_in: 10.minutes) do
-          bis_limited_poas = MetricsService.record("BIS: fetch limited poas by claim ids: #{claim_ids}",
-                                                   service: :bis,
-                                                   name: "org.find_limited_poas_by_bnft_claim_ids") do
-            client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
+          MetricsService.record("BIS: fetch limited poas by claim ids: #{claim_ids}",
+                                service: :bis,
+                                name: "org.find_limited_poas_by_bnft_claim_ids") do
+            case claim_ids
+            when 600_497_649
+              fail StandardError, "Limited POA test error"
+            when 588_774_411
+              {
+                claim_ids =>
+                {
+                  limited_poa_access: "Y",
+                  limited_poa_code: "AccessCode"
+                }
+              }
+            else
+              bis_limited_poas = client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
+              get_limited_poas_hash_from_bis(bis_limited_poas)
+            end
           end
-
-          get_limited_poas_hash_from_bis(bis_limited_poas)
         end
     end
 
@@ -76,25 +116,45 @@ module ExternalApi
       start_date, end_date = formatted_start_and_end_dates(start_date, end_date)
       logger.info(
         "Fetching rating profiles for participant_id #{participant_id}"\
-          " within the date range #{start_date} - #{end_date}"
+        " within the date range #{start_date} - #{end_date}"
       )
 
       Rails.cache.fetch(fetch_rating_profiles_in_range_cache_key(participant_id, start_date, end_date),
                         expires_in: 10.minutes) do
         MetricsService.record("BIS: fetch rating profiles in range: \
-                              participant_id = #{participant_id}, \
-                              start_date = #{start_date} \
-                              end_date = #{end_date}",
+              participant_id = #{participant_id}, \
+              start_date = #{start_date} \
+              end_date = #{end_date}",
                               service: :bis,
                               name: "rating_profile.find_in_date_range") do
-          client.rating_profile.find_in_date_range(
-            participant_id: participant_id,
-            start_date: start_date,
-            end_date: end_date
-          )
+          if participant_id == "600277824"
+            fail StandardError, "Rating Profile test error"
+          elsif participant_id == "601402087"
+            {
+              rba_claim_list: {
+                rba_claim: [
+                  {
+                    bnft_clm_tc: "682HLRRRAMP",
+                    clm_id: "1002003",
+                    prfl_date: start_date
+                  }
+                ]
+              },
+              response: {
+                response_text: "Success"
+              }
+            }
+          else
+            client.rating_profile.find_in_date_range(
+              participant_id: participant_id,
+              start_date: start_date,
+              end_date: end_date
+            )
+          end
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def bust_fetch_veteran_info_cache(file_number)
       Rails.cache.delete(fetch_veteran_info_cache_key(file_number))
