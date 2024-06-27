@@ -471,6 +471,7 @@ module KafkaMessageGenerators
     # represents a message post-consumption and post-deserialization
     # some fields must be changed to accurately reflect a message prior to consumption
     def create_drc_message(trait, ep_code)
+      # something needs to change here
       drc = FactoryBot.build(:decision_review_created, trait.to_sym, ep_code: ep_code)
       randomize_claim_id(drc)
       store_veteran_in_cache(drc)
@@ -629,7 +630,7 @@ module KafkaMessageGenerators
           middle_name: "Russell",
           last_name: drc.veteran_last_name,
           name_suffix: "II",
-          ssn: "987654321",
+          ssn: Faker::IDNumber.valid.delete("-"),
           address_line1: "122 Mullberry St.",
           address_line2: "PO BOX 123",
           address_line3: "Daisies",
