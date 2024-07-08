@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::ClaimReviewBuilder do
-  let(:decision_review_created) { build(:decision_review_created) }
+  let(:decision_review_created) { build(:decision_review_created, :test_claimant) }
   let(:builder) { described_class.new(decision_review_created) }
   let(:converted_claim_creation_time) { builder.send(:claim_creation_time_converted_to_timestamp_ms) }
 

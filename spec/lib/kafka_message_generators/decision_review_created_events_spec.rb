@@ -707,6 +707,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
 
     it "stores the veteran record in the cache" do
+      subject
       expect(Fakes::VeteranStore.new.all_veteran_file_numbers.include?(subject.file_number)).to eq true
     end
   end
