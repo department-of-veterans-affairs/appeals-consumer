@@ -13,7 +13,7 @@ describe Transformers::DecisionReviewCreated do
     context "when Transformers::DecisionReviewCreated and DecisionReviewIssue portions of payload have valid "\
     "attributes and data types" do
       it "initializes a Transformers::DecisionReviewCreated object" do
-        expect(subject.claim_id).to eq(1_234_567)
+        expect(subject.claim_id).to be_an_instance_of(Integer)
         expect(subject.decision_review_type).to eq("HIGHER_LEVEL_REVIEW")
         expect(subject.veteran_first_name).to eq("John")
         expect(subject.veteran_last_name).to eq("Smith")

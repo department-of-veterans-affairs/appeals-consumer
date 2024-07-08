@@ -114,7 +114,7 @@ FactoryBot.define do
     trait :nonrating_hlr_veteran_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -147,7 +147,7 @@ FactoryBot.define do
     trait :nonrating_hlr_non_veteran_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -180,7 +180,7 @@ FactoryBot.define do
     trait :nonrating_sc_compensation do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "SUPPLEMENTAL_CLAIM",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -213,7 +213,7 @@ FactoryBot.define do
     trait :rating_sc_compensation do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "SUPPLEMENTAL_CLAIM",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -246,7 +246,7 @@ FactoryBot.define do
     trait :nonrating_hlr_pension do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -281,7 +281,7 @@ FactoryBot.define do
 
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -314,7 +314,7 @@ FactoryBot.define do
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
@@ -347,7 +347,7 @@ FactoryBot.define do
     trait :test_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
