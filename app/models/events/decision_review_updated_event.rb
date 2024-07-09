@@ -2,6 +2,5 @@
 
 # A subclass of Event, representing the DecisionReviewUpdated Kafka topic event.
 class Events::DecisionReviewUpdatedEvent < Event
-  def process!
-  end
+  def process!; end
 end
