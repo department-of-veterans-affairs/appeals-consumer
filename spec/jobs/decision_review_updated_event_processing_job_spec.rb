@@ -25,10 +25,13 @@ RSpec.describe DecisionReviewUpdatedEventProcessingJob, type: :job do
     end
 
     it "logs the error" do
+      job_name = /\[DecisionReviewUpdatedEventProcessingJob\]/
+      error_message = /An error has occured while processing a job for the event with event_id/
+
       expect { described_class.perform_now(event) }.to raise_error(StandardError, "test error")
       expect(Rails.logger)
         .to have_received(:error)
-        .with(/An error has occured while processing a job for the event with event_id/)
+        .with(/#{job_name} #{error_message}/)
     end
   end
 
