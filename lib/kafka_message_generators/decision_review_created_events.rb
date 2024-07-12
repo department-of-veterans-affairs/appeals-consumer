@@ -462,7 +462,7 @@ module KafkaMessageGenerators
     # some fields must be changed to accurately reflect a message prior to consumption
     def create_drc_message(trait, ep_code)
       drc = FactoryBot.build(:decision_review_created, trait.to_sym, ep_code: ep_code)
-      update_claim_id(drc, trait)
+      update_claim_id(drc)
       store_veteran_in_cache(drc)
       drc
     end
@@ -603,8 +603,8 @@ module KafkaMessageGenerators
     end
 
     # set claim_id to a incremented value
-    def update_claim_id(drc, trait = nil)
-      drc.claim_id = update_value("claim_id", drc, trait)
+    def update_claim_id(drc)
+      drc.claim_id = update_value("claim_id", drc)
     end
 
     # store veteran record in Fakes::VeteranStore for all messages
@@ -834,7 +834,7 @@ module KafkaMessageGenerators
       issue_type.include?("decision_issue_prior")
     end
 
-    def update_value(key, object, _trait = nil)
+    def update_value(key, object)
       veteran_claimant = object.veteran_participant_id == object.claimant_participant_id
 
       object.claim_id = @claim_id
