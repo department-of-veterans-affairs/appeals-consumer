@@ -668,22 +668,6 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#randomize_and_track_file_number(drc)" do
-    subject { decision_review_created_events.send(:randomize_and_track_file_number, drc) }
-    let(:drc) { decision_review_created }
-    let(:file_numbers_to_remove_from_cache) do
-      decision_review_created_events.instance_variable_get(:@file_numbers_to_remove_from_cache)
-    end
-
-    it "sets the message's file number to a random value" do
-      expect(drc.file_number).not_to eq(subject.file_number)
-    end
-
-    it "adds file number to @file_numbers_to_remove_from_cache array" do
-      expect(file_numbers_to_remove_from_cache.include?(subject.file_number)).to eq true
-    end
-  end
-
   describe "#create_drc_message_without_bis_person(issue_trait, code)" do
     subject { decision_review_created_events.send(:create_drc_message_without_bis_person, issue_trait, code) }
 
@@ -979,12 +963,13 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#randomize_claim_id(drc)" do
-    subject { decision_review_created_events.send(:randomize_claim_id, drc) }
+  describe "#update_claim_id(drc)" do
+    subject { decision_review_created_events.send(:update_claim_id, drc) }
     let(:drc) { decision_review_created }
 
-    it "randomizes the message's claim_id" do
-      expect(drc.claim_id).not_to eq(subject)
+    it "updates the message's claim_id" do
+      subject
+      expect(drc.claim_id).to eq(710_000_000)
     end
   end
 
@@ -1214,10 +1199,6 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
       end
     end
 
-    it "randomizes identifiers" do
-      expect(not_converted_dri_values).not_to eq(converted_dri_values)
-    end
-
     it "camelizes keys" do
       expect(subject.keys).to eq(camelized_message_keys)
     end
@@ -1408,49 +1389,6 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#randomize_identifiers(message)" do
-    subject { decision_review_created_events.send(:randomize_identifiers, message) }
-    let(:message) { decision_review_created }
-    let(:decision_review_issues) { message.decision_review_issues }
-    let(:converted_decision_review_issues) do
-      subject
-    end
-
-    let(:not_converted_dri_values) do
-      decision_review_issues.map do |not_converted_issue|
-        {
-          contention_id: not_converted_issue.contention_id
-        }
-      end
-    end
-
-    let(:converted_dri_values) do
-      converted_decision_review_issues.map do |converted_issue|
-        {
-          contention_id: converted_issue.contention_id
-        }
-      end
-    end
-
-    it "randomizes certain decision review issue identifiers" do
-      expect(not_converted_dri_values).not_to eq(converted_dri_values)
-    end
-  end
-
-  describe "#randomize_decision_review_issue_identifiers(issue)" do
-    subject { decision_review_created_events.send(:randomize_decision_review_issue_identifiers, issue) }
-    let(:issue) { decision_review_created.decision_review_issues.first }
-
-    before do
-      issue.contention_id = 1
-      subject
-    end
-
-    it "randomizes specific keys for an individual decision review issue" do
-      expect(issue.contention_id).not_to eq(1)
-    end
-  end
-
   describe "#change_supp_decision_review_type_from_hlr_to_sc(message)" do
     subject { decision_review_created_events.send(:change_supp_decision_review_type_from_hlr_to_sc, message) }
     let(:message) { decision_review_created }
@@ -1560,8 +1498,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#randomize_value(key, object)" do
-    subject { decision_review_created_events.send(:randomize_value, key, object) }
+  describe "#update_value(key, object)" do
+    subject { decision_review_created_events.send(:update_value, key, object) }
     let(:object) { decision_review_created }
     let(:key) { "file_number" }
     let(:not_converted_file_number) { object.file_number }
@@ -1575,16 +1513,16 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
         object.file_number = nil
       end
 
-      it "keeps the value nil" do
+      it "set the value of file_number" do
         subject
-        expect(object.file_number).to eq nil
+        expect(object.file_number).to eq("310000000")
       end
     end
 
     context "when the value for the given key is not nil" do
       it "sets the value to a unique six digit integer" do
         expect(not_converted_file_number).not_to eq(converted_file_number)
-        expect(converted_file_number.to_s.length).to eq(6)
+        expect(converted_file_number.to_s.length).to eq(9)
       end
     end
   end

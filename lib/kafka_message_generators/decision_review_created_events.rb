@@ -445,7 +445,9 @@ module KafkaMessageGenerators
     # create the message, increment the file number, and add it to array that will test
     # logging and event audit notes column
     def create_drc_message_and_track_file_number(issue_trait, code)
-      reate_drc_message(issue_trait, code)
+      drc = create_drc_message(issue_trait, code)
+      @file_numbers_to_remove_from_cache << drc.file_number
+      drc
     end
 
     # if a claimant_participant_id is "", the fake BIS call with return an empty obj
@@ -460,7 +462,7 @@ module KafkaMessageGenerators
     # some fields must be changed to accurately reflect a message prior to consumption
     def create_drc_message(trait, ep_code)
       drc = FactoryBot.build(:decision_review_created, trait.to_sym, ep_code: ep_code)
-      update_claim_id(drc)
+      update_claim_id(drc, trait)
       store_veteran_in_cache(drc)
       drc
     end
@@ -601,8 +603,8 @@ module KafkaMessageGenerators
     end
 
     # set claim_id to a incremented value
-    def update_claim_id(drc)
-      drc.claim_id = update_value("claim_id", drc)
+    def update_claim_id(drc, trait = nil)
+      drc.claim_id = update_value("claim_id", drc, trait)
     end
 
     # store veteran record in Fakes::VeteranStore for all messages
@@ -832,11 +834,13 @@ module KafkaMessageGenerators
       issue_type.include?("decision_issue_prior")
     end
 
-    def update_value(key, object)
+    def update_value(key, object, _trait = nil)
+      veteran_claimant = object.veteran_participant_id == object.claimant_participant_id
+
       object.claim_id = @claim_id
       object.decision_review_issues[0].contention_id = @contention_id
       object.veteran_participant_id = @veteran_participant_id
-      object.claimant_participant_id = @claimant_participant_id
+      object.claimant_participant_id = veteran_claimant ? @veteran_participant_id : @claimant_participant_id
       object.file_number = @file_number
 
       @claim_id += 1
