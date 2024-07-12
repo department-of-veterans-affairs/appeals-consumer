@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/department-of-veterans-affairs/ruby-bgs.git
-  revision: 0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e
-  ref: 0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e
+  revision: 927ca6341342b1f1f0f7202e3e4817c1a00801b5
+  ref: 927ca6341342b1f1f0f7202e3e4817c1a00801b5
   specs:
-    bgs (0.3)
+    bgs (0.4)
       httpclient
       nokogiri (>= 1.11.0.rc4)
       savon (~> 2.12)
@@ -162,6 +162,7 @@ GEM
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    dogstatsd-ruby (5.6.1)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -491,6 +492,7 @@ DEPENDENCIES
   database_cleaner-active_record
   database_cleaner-redis
   debug
+  dogstatsd-ruby
   dotenv-rails
   factory_bot_rails
   faker
