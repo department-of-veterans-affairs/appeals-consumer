@@ -1,4 +1,4 @@
-export TOPIC=BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01
+export TOPIC=BIA_SERVICES_BIE_CATALOGUE_LOCAL_DECISION_REVIEW_UPDATED_V01
 
 
 jq -Rs '{ schema: .}' /usr/bin/$TOPIC.avsc > temp-schema.json
@@ -10,7 +10,7 @@ fi
 
 curl -s -X POST -H "Content-Type:application/vnd.schemaregistry.v1+json" --data @temp-schema.json http://schema-registry:9021/subjects/$TOPIC/versions > /dev/null
 
-echo "Avro was uploaded to the Schema-registry successfully"
+echo "DecisionReviewUpdated AVRO was uploaded to the Schema-registry successfully"
 
 export SCHEMA_VERSION=$(curl -s -X GET http://schema-registry:9021/subjects/$TOPIC/versions/latest | jq '.version')
 
