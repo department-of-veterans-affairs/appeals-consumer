@@ -79,4 +79,7 @@ Rails.application.configure do
 
   # Local avro file for DecisionReviewCreated topic
   ENV["DECISION_REVIEW_CREATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01"
+
+  # Local avro file for DecisionReviewUpdated topic
+  ENV["DECISION_REVIEW_UPDATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_UPDATED_V01"
 end
