@@ -18,7 +18,7 @@ describe DecisionReviewUpdatedConsumer do
   describe "#consume" do
     let(:event) { double("Event", new_record?: new_record, id: 1) }
     let(:new_record) { true }
-    job_name = /\[DecisionReviewUpdatedConsumer\]/
+    consumer_name = /\[DecisionReviewUpdatedConsumer\]/
 
     before do
       allow(consumer).to receive(:messages).and_return([message])
@@ -38,7 +38,7 @@ describe DecisionReviewUpdatedConsumer do
         expect(MetricsService).to receive(:emit_gauge)
         # End of MetricsService specific expects
         expect(Karafka.logger).to receive(:info).with(/Starting consumption/)
-        expect(Karafka.logger).to receive(:info).with(/#{job_name} Dropped Event into processing job/)
+        expect(Karafka.logger).to receive(:info).with(/#{consumer_name} Dropped Event into processing job/)
         expect(Karafka.logger).to receive(:info).with(/Completed consumption of message/)
         consumer.consume
       end
@@ -56,7 +56,7 @@ describe DecisionReviewUpdatedConsumer do
         expect(MetricsService).to receive(:emit_gauge)
         # End of MetricsService specific expects
         expect(Karafka.logger).to receive(:info).with(/Starting consumption/)
-        expect(Karafka.logger).to receive(:info).with(/#{job_name} #{logger_message}/)
+        expect(Karafka.logger).to receive(:info).with(/#{consumer_name} #{logger_message}/)
         expect(Karafka.logger).to receive(:info).with(/Completed consumption of message/)
         consumer.consume
       end
