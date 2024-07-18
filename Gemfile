@@ -24,7 +24,7 @@ gem "benchmark"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-gem 'ddtrace'
+gem "ddtrace", "0.34.1"
 gem "dogstatsd-ruby"
 gem "dotenv-rails"
 gem "faraday-retry"
