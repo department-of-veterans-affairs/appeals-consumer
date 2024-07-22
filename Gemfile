@@ -102,7 +102,7 @@ group :development, :test do
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "simplecov"
-  gem "simplecov_lcov_formatter", "~> 0.9.0"
+  gem "simplecov-lcov"
   gem "sql_tracker"
   gem "timecop"
   gem "webmock"
