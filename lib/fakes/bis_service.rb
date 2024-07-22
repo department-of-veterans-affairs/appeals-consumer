@@ -53,7 +53,7 @@ module Fakes
         # This claimant is over 75 years old so they get automatic AOD
         {
           birth_date: DateTime.new(1943, 9, 5),
-          first_name: "Bob",
+          first_name: "Kodi",
           middle_name: "Billy",
           last_name: "Vance",
           ssn: "666001234",
