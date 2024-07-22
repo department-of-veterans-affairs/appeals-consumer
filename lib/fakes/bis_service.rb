@@ -42,6 +42,11 @@ module Fakes
       profiles
     end
 
+    #Adding this for testing this does nothing
+    def do_nothing_method
+      puts("nothing")
+    end
+
     def get_rating_record(participant_id)
       self.class.rating_store.fetch_and_inflate(participant_id)
     end
