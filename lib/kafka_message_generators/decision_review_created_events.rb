@@ -78,6 +78,11 @@ module KafkaMessageGenerators
     def initialize
       clear_cache
       @file_numbers_to_remove_from_cache = []
+      @claim_id = 710_000_000
+      @contention_id = 710_000_000
+      @veteran_participant_id = "210000000"
+      @claimant_participant_id = "950000000"
+      @file_number = "310000000"
     end
 
     # creates all vbms intake scenarios for every ep code
@@ -138,7 +143,6 @@ module KafkaMessageGenerators
     def ensure_messages_contain_bis_rating_profile(rating_messages)
       rating_messages.flatten.each do |message|
         unless should_skip_creating_bis_rating_profile?(message)
-          randomize_veteran_participant_id(message)
           store_issue_bis_rating_profile_without_ramp_id(message)
         end
       end
@@ -155,10 +159,6 @@ module KafkaMessageGenerators
 
     def issues_dont_have_rating_identifier?(issues)
       issues.none? { |issue| !!issue.prior_rating_decision_id }
-    end
-
-    def randomize_veteran_participant_id(message)
-      message.veteran_participant_id = randomize_value("veteran_participant_id", message).to_s
     end
 
     # create messages for all types of rating issues
@@ -331,7 +331,6 @@ module KafkaMessageGenerators
 
     def create_with_ramp_claim_id(issue_type, code)
       drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
-      drc.veteran_participant_id = randomize_value("veteran_participant_id", drc).to_s
       store_bis_rating_profiles_with_ramp_id(drc)
       drc
     end
@@ -344,7 +343,6 @@ module KafkaMessageGenerators
 
     def create_with_no_data_found(issue_type, code)
       drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
-      drc.veteran_participant_id = randomize_value("veteran_participant_id", drc).to_s
       store_bis_rating_profiles(drc, bis_rating_profile_no_data)
       drc
     end
@@ -444,18 +442,10 @@ module KafkaMessageGenerators
       [completed_hlr, completed_board] + ineligible_supp_messages
     end
 
-    # create the message, randomize the file number, and add it to array that will test
+    # create the message, increment the file number, and add it to array that will test
     # logging and event audit notes column
     def create_drc_message_and_track_file_number(issue_trait, code)
       drc = create_drc_message(issue_trait, code)
-
-      randomize_and_track_file_number(drc)
-    end
-
-    # randomize the file number value and add it to array that will remove it from the redis cache
-    # tests logging and event audit notes column
-    def randomize_and_track_file_number(drc)
-      drc.file_number = randomize_value("file_number", drc).to_s
       @file_numbers_to_remove_from_cache << drc.file_number
       drc
     end
@@ -472,7 +462,7 @@ module KafkaMessageGenerators
     # some fields must be changed to accurately reflect a message prior to consumption
     def create_drc_message(trait, ep_code)
       drc = FactoryBot.build(:decision_review_created, trait.to_sym, ep_code: ep_code)
-      randomize_claim_id(drc)
+      update_claim_id(drc)
       store_veteran_in_cache(drc)
       drc
     end
@@ -612,9 +602,9 @@ module KafkaMessageGenerators
       drc
     end
 
-    # set claim_id to a random value
-    def randomize_claim_id(drc)
-      drc.claim_id = randomize_value("claim_id", drc)
+    # set claim_id to a incremented value
+    def update_claim_id(drc)
+      drc.claim_id = update_value("claim_id", drc)
     end
 
     # store veteran record in Fakes::VeteranStore for all messages
@@ -629,7 +619,7 @@ module KafkaMessageGenerators
           middle_name: "Russell",
           last_name: drc.veteran_last_name,
           name_suffix: "II",
-          ssn: "987654321",
+          ssn: Faker::IDNumber.valid.delete("-"),
           address_line1: "122 Mullberry St.",
           address_line2: "PO BOX 123",
           address_line3: "Daisies",
@@ -709,12 +699,10 @@ module KafkaMessageGenerators
     end
 
     # convert date and tiemstamp values from string to integer
-    # randomize identifiers to more accurately reflect real data
     # change keys from snakecase to lower camelcase to prevent schema validation error
     def convert_and_format_message(message)
       change_supp_decision_review_type_from_hlr_to_sc(message)
       convert_dates_and_timestamps_to_int(message)
-      randomize_identifiers(message)
       camelize_keys(message)
     end
 
@@ -818,21 +806,6 @@ module KafkaMessageGenerators
       end
     end
 
-    # assign a random integer to any field that would expect to have a unique identifier
-    def randomize_identifiers(message)
-      message.decision_review_issues.each do |issue|
-        randomize_decision_review_issue_identifiers(issue)
-      end
-    end
-
-    # assign a random integer to the keys listed in the array
-    def randomize_decision_review_issue_identifiers(issue)
-      unique_identifier_keys =
-        %w[contention_id]
-
-      unique_identifier_keys.each { |key| randomize_value(key, issue) }
-    end
-
     # change decision_review_type to "SUPPLEMENTAL_CLAIM" if issue is a supplemental
     def change_supp_decision_review_type_from_hlr_to_sc(message)
       change_decision_review_type_to_sc(message) if sc_issue?(message.ep_code)
@@ -861,10 +834,22 @@ module KafkaMessageGenerators
       issue_type.include?("decision_issue_prior")
     end
 
-    # if the key's value is not nil, assign a unique random number to the attribute to reflect real data
-    def randomize_value(key, object)
-      unique_six_digit_int = (SecureRandom.random_number(9e5) + 1e5).to_i
-      set_value(key, object, unique_six_digit_int) if !!object.send(key)
+    def update_value(key, object)
+      veteran_claimant = object.veteran_participant_id == object.claimant_participant_id
+
+      object.claim_id = @claim_id
+      object.decision_review_issues[0].contention_id = @contention_id
+      object.veteran_participant_id = @veteran_participant_id
+      object.claimant_participant_id = veteran_claimant ? @veteran_participant_id : @claimant_participant_id
+      object.file_number = @file_number
+
+      @claim_id += 1
+      @contention_id += 1
+      @veteran_participant_id = @veteran_participant_id.next
+      @claimant_participant_id = @claimant_participant_id.next
+      @file_number = @file_number.next
+
+      object.send(key)
     end
 
     # deep_transform_keys! doesn't work on ActiveRecord objects so they must be
