@@ -21,7 +21,7 @@ RSpec.describe AvroService, type: :service do
       sample_decoded_message = { "full_name" => "John", "age" => 50, "computer" => { "brand" => "mac" } }
 
       it "should be able to encode using an avro" do
-        allow(avro_turf_messager).to receive(:encode).with(sample_decoded_message, subject: "person", version: ENV["SCHEMA_VERSION_CREATED"], validate: true).and_return(sample_encoded_message)
+        allow(avro_turf_messager).to receive(:encode).with(sample_decoded_message, subject: "person", version: ENV["SCHEMA_VERSION"], validate: true).and_return(sample_encoded_message)
         subject.instance_variable_set(:@avro, avro_turf_messager)
         expect(subject.encode(sample_decoded_message, "person")).to eq sample_encoded_message
       end

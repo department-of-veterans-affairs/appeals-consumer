@@ -12,7 +12,7 @@ class AvroService
     @avro.encode(
       message,
       subject: schema_name,
-      version: ENV["SCHEMA_VERSION_CREATED"],
+      version: ENV["SCHEMA_VERSION"],
       validate: true
     )
   end

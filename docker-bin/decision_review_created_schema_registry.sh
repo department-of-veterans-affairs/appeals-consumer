@@ -13,6 +13,6 @@ curl -s -X POST \
 
 echo "DecisionReviewCreated AVRO was uploaded to the Schema-registry successfully"
 
-export SCHEMA_VERSION_CREATED=$(curl -s -X GET http://schema-registry:9021/subjects/$TOPIC/versions/latest | jq '.version')
+export SCHEMA_VERSION=$(curl -s -X GET http://schema-registry:9021/subjects/$TOPIC/versions/latest | jq '.version')
 
 rm temp-schema.json
