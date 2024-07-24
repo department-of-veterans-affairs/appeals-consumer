@@ -30,7 +30,7 @@ Rails.application.configure do
   ENV["AWS_SECRET_ACCESS_KEY"] ||= "dummysecretkey"
 
   config.caseflow_url = ENV["CASEFLOW_URL"] ||= "http://host.docker.internal:3000"
-  
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -51,7 +51,7 @@ Rails.application.configure do
 
   # Needed to run rspec request tests
   config.hosts << "www.example.com"
-  
+
   RequestStore.store[:current_user] = {
     css_id: ENV["CSS_ID"],
     station_id: ENV["STATION_ID"]
@@ -79,4 +79,5 @@ Rails.application.configure do
 
   # Local avro file for DecisionReviewCreated topic
   ENV["DECISION_REVIEW_CREATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01"
+  ENV["DECISION_REVIEW_UPDATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_UPDATED_V01"
 end
