@@ -6,6 +6,7 @@ describe DecisionReviewUpdatedConsumer do
   let(:payload) { double("Payload", message: { "claim_id" => 123 }, writer_schema: writer_schema) }
   let(:metadata) { double("Metadata", offset: 10, partition: 1) }
   let(:writer_schema) { double(fullname: "SchemaName") }
+  let(:event_type) { Events::DecisionReviewUpdatedEvent }
   let(:decision_review_updated_extra_details) do
     {
       partition: metadata.partition,
@@ -89,14 +90,14 @@ describe DecisionReviewUpdatedConsumer do
         end
       end
     end
-  end
 
-  describe "#handle_event_creation" do
-    it "initializes a new event with the correct type and state" do
-      event = consumer.send(:handle_event_creation, message)
-      expect(event.message_payload).to eq(payload.message)
-      expect(event.type).to eq(DecisionReviewUpdatedConsumer::EVENT_TYPE)
-      expect(event.state).to eq("not_started")
+    context "#handle_event_creation" do
+      it "initializes a new event with the correct type and state" do
+        event = consumer.send(:handle_event_creation, message, event_type)
+        expect(event.message_payload).to eq(payload.message)
+        expect(event.type).to eq("Events::DecisionReviewUpdatedEvent")
+        expect(event.state).to eq("not_started")
+      end
     end
   end
 end
