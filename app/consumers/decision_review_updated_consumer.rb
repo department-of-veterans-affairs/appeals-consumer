@@ -6,19 +6,19 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
 
   # rubocop:disable Metrics/MethodLength
   def consume
-    MetricsService.record("Consuming and creating messages",
+    MetricsService.record("Consuming messages and creating event records",
                           service: :kafka,
-                          name: "DecisionReviewUpdatedConsumer.consume") do
+                          name: "DecisionReviewUpdatedConsumer") do
       messages.each do |message|
-        extra_details = extra_details(message)
+        decision_review_updated_extra_details = decision_review_updated_extra_details(message)
 
-        log_consumption_start(extra_details)
+        log_consumption_start(decision_review_updated_extra_details)
 
         begin
           ActiveRecord::Base.transaction do
             event = handle_event_creation(message)
 
-            process_event(event, extra_details) do |new_event|
+            process_event(event, decision_review_updated_extra_details) do |new_event|
               DecisionReviewUpdatedEventProcessingJob.perform_later(new_event)
             end
           end
@@ -27,12 +27,12 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
             logger.error(error, sentry_details(message), notify_alerts: true)
             next
           else
-            logger.error(error, extra_details)
+            logger.error(error, decision_review_updated_extra_details)
             raise AppealsConsumer::Error::EventConsumptionError, error.message
           end
         end
 
-        log_consumption_end(extra_details)
+        log_consumption_end(decision_review_updated_extra_details)
       end
     end
   end
@@ -50,7 +50,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
     end
   end
 
-  def extra_details(message)
+  def decision_review_updated_extra_details(message)
     {
       type: EVENT_TYPE,
       partition: message.metadata.partition,
