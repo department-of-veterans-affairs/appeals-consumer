@@ -6,7 +6,7 @@ describe DecisionReviewUpdatedConsumer do
   let(:payload) { double("Payload", message: { "claim_id" => 123 }, writer_schema: writer_schema) }
   let(:metadata) { double("Metadata", offset: 10, partition: 1) }
   let(:writer_schema) { double(fullname: "SchemaName") }
-  let(:extra_details) do
+  let(:decision_review_updated_extra_details) do
     {
       partition: metadata.partition,
       offset: metadata.offset,
