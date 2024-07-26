@@ -7,7 +7,8 @@ describe ApplicationConsumer do
   let(:message) { instance_double("Message", payload: payload, metadata: metadata) }
   let(:payload) { double("Payload", message: { "claim_id" => 345 }) }
   let(:metadata) { double("Metadata", offset: 10, partition: 1) }
-  let(:event_type) { "Events::DecisionReviewUpdatedEvent" }
+  let(:event_state) { "not_started" }
+  let(:event_type) { Events::DecisionReviewUpdatedEvent }
 
   describe "log_info" do
     let(:message) { "Test message" }
@@ -50,8 +51,8 @@ describe ApplicationConsumer do
     it "initializes a new event with the correct type and state" do
       event = consumer.send(:handle_event_creation, message, event_type)
       expect(event.message_payload).to eq(payload.message)
-      expect(event.type).to eq(event_type)
-      expect(event.state).to eq("not_started")
+      expect(event.type).to eq(event_type.to_s)
+      expect(event.state).to eq(event_state)
     end
   end
 

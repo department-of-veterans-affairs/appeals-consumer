@@ -2,7 +2,7 @@
 
 class DecisionReviewUpdatedConsumer < ApplicationConsumer
   include LoggerMixin
-  EVENT_TYPE = "Events::DecisionReviewUpdatedEvent"
+  EVENT_TYPE = Events::DecisionReviewUpdatedEvent
 
   # rubocop:disable Metrics/MethodLength
   def consume
@@ -10,8 +10,9 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
                           service: :kafka,
                           name: "DecisionReviewUpdatedConsumer") do
       messages.each do |message|
-        extra_details = extra_details(message, EVENT_TYPE,
-                                      consumer_specific_details: { claim_id: message.payload.message["claim_id"] })
+        claim_id = message.payload.message["claim_id"]
+        extra_details = extra_details(message, EVENT_TYPE.to_s,
+                                      consumer_specific_details: { claim_id: claim_id })
 
         log_consumption_start(extra_details)
 
@@ -25,7 +26,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
           end
         rescue StandardError => error
           if attempt > 3
-            logger.error(error, sentry_details(message, EVENT_TYPE), notify_alerts: true)
+            logger.error(error, sentry_details(message, EVENT_TYPE.to_s), notify_alerts: true)
             next
           else
             logger.error(error, extra_details)

@@ -29,16 +29,12 @@ class ApplicationConsumer < Karafka::BaseConsumer
   # Attempts to find or initialize a new event based on message metadata.
   # This method ensures that each event is uniquely identified by its partition and offset,
   # preventing duplicate processing of the same event.
-  # The method .constantize is used because event_type will be passed by the consumer as a string,
-  # and it must be changed to a constant before calling .find_or_initialize_by
   def handle_event_creation(message, event_type)
-    event_as_constant = event_type.constantize
-
-    event_as_constant.find_or_initialize_by(
+    event_type.find_or_initialize_by(
       partition: message.metadata.partition,
       offset: message.metadata.offset
     ) do |event|
-      event.type = event_type
+      event.type = event_type.to_s
       event.message_payload = message.payload.message
     end
   end

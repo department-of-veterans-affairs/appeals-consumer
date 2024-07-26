@@ -72,7 +72,7 @@ describe DecisionReviewUpdatedConsumer do
       it "stores the payload, the event type, and sets the state in the Event table", :skip_before do
         allow(consumer).to receive(:messages).and_return([message])
         consumer.consume
-        event = Event.find_by(partition: 5, offset: 555)
+        event = Event.find_by(partition: message.metadata.partition, offset: message.metadata.offset)
         expect(event.message_payload).to eq(payload.message)
         expect(event.type).to eq(event_type)
         expect(event.state).to eq(event_state)
