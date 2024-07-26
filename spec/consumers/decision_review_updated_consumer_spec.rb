@@ -93,7 +93,7 @@ describe DecisionReviewUpdatedConsumer do
 
   describe "#handle_event_creation" do
     it "initializes a new event with the correct type and state" do
-      event = consumer.send(:handle_event_creation, message)
+      event = consumer.send(:handle_decision_review_updated_event_creation, message)
       expect(event.message_payload).to eq(payload.message)
       expect(event.type).to eq(DecisionReviewUpdatedConsumer::EVENT_TYPE)
       expect(event.state).to eq("not_started")

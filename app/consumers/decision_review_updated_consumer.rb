@@ -16,7 +16,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
 
         begin
           ActiveRecord::Base.transaction do
-            event = handle_event_creation(message)
+            event = handle_decision_review_updated_event_creation(message)
 
             process_event(event, decision_review_updated_extra_details) do |new_event|
               DecisionReviewUpdatedEventProcessingJob.perform_later(new_event)
@@ -24,7 +24,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
           end
         rescue StandardError => error
           if attempt > 3
-            logger.error(error, sentry_details(message), notify_alerts: true)
+            logger.error(error, decision_review_updated_sentry_details(message), notify_alerts: true)
             next
           else
             logger.error(error, decision_review_updated_extra_details)
@@ -40,7 +40,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
 
   private
 
-  def handle_event_creation(message)
+  def handle_decision_review_updated_event_creation(message)
     Events::DecisionReviewUpdatedEvent.find_or_initialize_by(
       partition: message.metadata.partition,
       offset: message.metadata.offset
@@ -59,7 +59,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
     }
   end
 
-  def sentry_details(message)
+  def decision_review_updated_sentry_details(message)
     {
       type: EVENT_TYPE,
       partition: message.metadata.partition,
