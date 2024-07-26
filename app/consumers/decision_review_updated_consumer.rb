@@ -2,7 +2,7 @@
 
 class DecisionReviewUpdatedConsumer < ApplicationConsumer
   include LoggerMixin
-  EVENT_TYPE = Events::DecisionReviewUpdatedEvent
+  EVENT_TYPE = "Events::DecisionReviewUpdatedEvent"
 
   # rubocop:disable Metrics/MethodLength
   def consume
@@ -16,7 +16,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
 
         begin
           ActiveRecord::Base.transaction do
-            event = handle_event_creation(message, EVENT_TYPE)
+            event = handle_event_creation(message)
 
             process_event(event, decision_review_updated_extra_details) do |new_event|
               DecisionReviewUpdatedEventProcessingJob.perform_later(new_event)
@@ -24,7 +24,7 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
           end
         rescue StandardError => error
           if attempt > 3
-            logger.error(error, sentry_details(message, EVENT_TYPE), notify_alerts: true)
+            logger.error(error, sentry_details(message), notify_alerts: true)
             next
           else
             logger.error(error, decision_review_updated_extra_details)
@@ -40,12 +40,31 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
 
   private
 
+  def handle_event_creation(message)
+    Events::DecisionReviewUpdatedEvent.find_or_initialize_by(
+      partition: message.metadata.partition,
+      offset: message.metadata.offset
+    ) do |event|
+      event.type = EVENT_TYPE
+      event.message_payload = message.payload.message
+    end
+  end
+
   def decision_review_updated_extra_details(message)
     {
       type: EVENT_TYPE,
       partition: message.metadata.partition,
       offset: message.metadata.offset,
       claim_id: message.payload.message["claim_id"]
+    }
+  end
+
+  def sentry_details(message)
+    {
+      type: EVENT_TYPE,
+      partition: message.metadata.partition,
+      offset: message.metadata.offset,
+      message_payload: message.payload.message
     }
   end
 end

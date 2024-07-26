@@ -26,17 +26,6 @@ class ApplicationConsumer < Karafka::BaseConsumer
     end
   end
 
-  # Locates or initializes event by type, partition, and offset.
-  def handle_event_creation(message, event_type)
-    event_type.find_or_initialize_by(
-      partition: message.metadata.partition,
-      offset: message.metadata.offset
-    ) do |event|
-      event.type = event_type
-      event.message_payload = message.payload.message
-    end
-  end
-
   # Logs the start of an event consumption with extra details for diagnostic purposes.
   def log_consumption_start(extra_details)
     log_info("Starting consumption", extra_details)
@@ -55,16 +44,6 @@ class ApplicationConsumer < Karafka::BaseConsumer
   # Logs the start of an event consumption with extra details for diagnostic purposes.
   def log_consumption_end(extra_details)
     log_info("Completed consumption of message", extra_details)
-  end
-
-  # Provides logger information for Sentry in the event of consumer failure.
-  def sentry_details(message, event_type)
-    {
-      type: event_type.to_s,
-      partition: message.metadata.partition,
-      offset: message.metadata.offset,
-      message_payload: message.payload.message
-    }
   end
 
   # Utility method for logging information with a consisten format, including the class name and optional details.
