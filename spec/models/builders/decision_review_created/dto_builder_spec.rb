@@ -146,7 +146,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
   context "when there is a DecisionReviewCreated object" do
     let(:builder) { Builders::DecisionReviewCreated::DtoBuilder.new(build(:decision_review_created_event)) }
 
-    let(:drc) { build(:decision_review_created) }
+    let(:drc) { build(:decision_review_created, :test_claimant) }
     let!(:drc_dto_builder) do
       builder.tap do |drc_dto_builder|
         drc_dto_builder.instance_variable_set(:@decision_review_created, drc)
@@ -261,7 +261,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     end
 
     describe "builder methods" do
-      let(:drc) { build(:decision_review_created) }
+      let(:drc) { build(:decision_review_created, :test_claimant) }
       let(:drc_dto_builder) do
         builder.tap do |drc_dto_builder|
           drc_dto_builder.instance_variable_set(:@decision_review_created, drc)

@@ -114,13 +114,13 @@ FactoryBot.define do
     trait :nonrating_hlr_veteran_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "123456789",
+          "veteran_participant_id" => Faker::Number.number(digits: 9).to_s,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => Faker::Number.number(digits: 9).to_s,
           "ep_code" => "030HLRNR",
           "ep_code_category" => "NON_RATING",
           "claim_received_date" => "2023-08-25",
@@ -147,13 +147,13 @@ FactoryBot.define do
     trait :nonrating_hlr_non_veteran_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "987654321",
+          "veteran_participant_id" => Faker::Number.number(digits: 9).to_s,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => Faker::Number.number(digits: 9).to_s,
           "ep_code" => "030HLRNR",
           "ep_code_category" => "NON_RATING",
           "claim_received_date" => "2023-08-25",
@@ -180,13 +180,13 @@ FactoryBot.define do
     trait :nonrating_sc_compensation do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "SUPPLEMENTAL_CLAIM",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "01010101",
+          "veteran_participant_id" => Faker::Number.number(digits: 9).to_s,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => Faker::Number.number(digits: 9).to_s,
           "ep_code" => "040SCNR",
           "ep_code_category" => "NON_RATING",
           "claim_received_date" => "2023-08-25",
@@ -213,13 +213,13 @@ FactoryBot.define do
     trait :rating_sc_compensation do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "SUPPLEMENTAL_CLAIM",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "123456789",
+          "veteran_participant_id" => Faker::Number.number(digits: 9).to_s,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => Faker::Number.number(digits: 9).to_s,
           "ep_code" => "040SCR",
           "ep_code_category" => "rating",
           "claim_received_date" => "2023-08-25",
@@ -246,13 +246,13 @@ FactoryBot.define do
     trait :nonrating_hlr_pension do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "01010101",
+          "veteran_participant_id" => Faker::Number.number(digits: 9).to_s,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => Faker::Number.number(digits: 9).to_s,
           "ep_code" => "030HLRNRPMC",
           "ep_code_category" => "NON_RATING",
           "claim_received_date" => "2023-08-25",
@@ -277,15 +277,17 @@ FactoryBot.define do
     end
 
     trait :rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "123456789",
+          "veteran_participant_id" => participant_id,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => participant_id,
           "ep_code" => "030HLRR",
           "ep_code_category" => "rating",
           "claim_received_date" => "2023-08-25",
@@ -312,13 +314,13 @@ FactoryBot.define do
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         {
-          "claim_id" => 1_234_567,
+          "claim_id" => Faker::Number.number(digits: 7),
           "decision_review_type" => "HIGHER_LEVEL_REVIEW",
           "veteran_first_name" => "John",
           "veteran_last_name" => "Smith",
-          "veteran_participant_id" => "123456789",
-          "file_number" => "123456789",
-          "claimant_participant_id" => "987654321",
+          "veteran_participant_id" => Faker::Number.number(digits: 9).to_s,
+          "file_number" => Faker::Number.number(digits: 9).to_s,
+          "claimant_participant_id" => Faker::Number.number(digits: 9).to_s,
           "ep_code" => "030HLRR",
           "ep_code_category" => "rating",
           "claim_received_date" => "2023-08-25",
@@ -329,6 +331,39 @@ FactoryBot.define do
           "originated_from_vacols_issue" => false,
           "informal_conference_requested" => false,
           "informal_conference_tracked_item_id" => nil,
+          "same_station_review_requested" => false,
+          "intake_creation_time" => Time.zone.now.to_s,
+          "claim_creation_time" => Time.zone.now.to_s,
+          "actor_username" => "BVADWISE101",
+          "actor_station" => "101",
+          "actor_application" => "PASYSACCTCREATE",
+          "auto_remand" => false,
+          "decision_review_issues" => decision_review_issues
+        }
+      end
+      event_id { nil }
+    end
+
+    trait :test_claimant do
+      message_payload do
+        {
+          "claim_id" => Faker::Number.number(digits: 7),
+          "decision_review_type" => "HIGHER_LEVEL_REVIEW",
+          "veteran_first_name" => "John",
+          "veteran_last_name" => "Smith",
+          "veteran_participant_id" => "123456789",
+          "file_number" => "123456789",
+          "claimant_participant_id" => "123456789",
+          "ep_code" => "030HLRNR",
+          "ep_code_category" => "NON_RATING",
+          "claim_received_date" => "2023-08-25",
+          "claim_lifecycle_status" => "Ready to Work",
+          "payee_code" => "00",
+          "modifier" => "01",
+          "limited_poa_code" => nil,
+          "originated_from_vacols_issue" => false,
+          "informal_conference_requested" => false,
+          "informal_conference_tracked_item_id" => "1",
           "same_station_review_requested" => false,
           "intake_creation_time" => Time.zone.now.to_s,
           "claim_creation_time" => Time.zone.now.to_s,
@@ -606,7 +641,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -778,7 +813,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => false,
-            "legacy_appeal_id" => "123456",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -812,7 +847,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -846,7 +881,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -1426,7 +1461,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -1668,7 +1703,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => false,
-            "legacy_appeal_id" => "123456",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -1702,7 +1737,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -1736,7 +1771,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -2148,7 +2183,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -2325,7 +2360,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => false,
-            "legacy_appeal_id" => "123456",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -2360,7 +2395,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -2395,7 +2430,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -2920,7 +2955,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3171,7 +3206,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => false,
-            "legacy_appeal_id" => "123456",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3206,7 +3241,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3241,7 +3276,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3534,7 +3569,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3784,7 +3819,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => false,
-            "legacy_appeal_id" => "123456",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3819,7 +3854,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => true,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
@@ -3854,7 +3889,7 @@ FactoryBot.define do
             "time_override_reason" => nil,
             "contested" => nil,
             "soc_opt_in" => nil,
-            "legacy_appeal_id" => "12345",
+            "legacy_appeal_id" => "LEGACYID",
             "legacy_appeal_issue_id" => 1,
             "source_contention_id_for_remand" => nil,
             "source_claim_id_for_remand" => nil
