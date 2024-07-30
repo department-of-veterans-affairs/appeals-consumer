@@ -98,6 +98,6 @@ module KafkaMessageGenerators::Base
         "Separation Pay Adjustment"
       ].freeze
     end
-  # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength
   end
 end
