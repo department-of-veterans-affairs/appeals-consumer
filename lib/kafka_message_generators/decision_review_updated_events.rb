@@ -52,6 +52,7 @@ module KafkaMessageGenerators
 
       rating + nonrating
     end
+    
     # create the same nonrating scenarios for both hlr/supplemental and compesation/pension
     def create_nonrating_messages
       [create_nonrating_ep_code_messages(nonrating_ep_codes)]
