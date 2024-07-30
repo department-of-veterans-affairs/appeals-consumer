@@ -15,18 +15,18 @@ module KafkaMessageGenerators::Base
     end
 
      # encode message before publishing
-     def encode_message(message, topic)
+    def encode_message(message, topic)
       AvroService.new.encode(message, topic)
     end
 
     # publish message to the DecisionReviewCreated topic
     def publish_message(encoded_message, topic)
-    @published_messages_count ||= 0
-    Karafka.producer.produce_sync(
-      topic:  topic,
-      payload: encoded_message
-    )
-    @published_messages_count += 1
+      @published_messages_count ||= 0
+      Karafka.producer.produce_sync(
+        topic:  topic,
+        payload: encoded_message
+      )
+      @published_messages_count += 1
     end
   end
 end
