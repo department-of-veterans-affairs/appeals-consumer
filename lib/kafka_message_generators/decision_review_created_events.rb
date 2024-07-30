@@ -3,6 +3,8 @@
 module KafkaMessageGenerators
   # rubocop:disable Metrics/ClassLength
   class DecisionReviewCreatedEvents
+    extend KafkaMessageGenerators::Base
+
     # all possible ep codes appeals-consumer could receive from vbms intake
     EP_CODES ||=
       {
@@ -94,9 +96,10 @@ module KafkaMessageGenerators
 
       puts "Started preparing and publishing #{messages.flatten.count} messages..."
       messages.flatten.each do |message|
+        topic = ENV["DECISION_REVIEW_CREATED_TOPIC"]
         formatted_message = convert_and_format_message(message)
-        encoded_message = encode_message(formatted_message)
-        publish_message(encoded_message)
+        encoded_message = KafkaMessageGenerators::Base.encode_message(formatted_message, topic)
+        KafkaMessageGenerators::Base.publish_message(encoded_message, topic)
       end
       puts "Finished publishing #{@published_messages_count} messages!"
     end
@@ -703,7 +706,7 @@ module KafkaMessageGenerators
     def convert_and_format_message(message)
       change_supp_decision_review_type_from_hlr_to_sc(message)
       convert_dates_and_timestamps_to_int(message)
-      camelize_keys(message)
+      KafkaMessageGenerators::Base.camelize_keys(message)
     end
 
     # the factorybot records used throughout this file represent a deserialized message containing
@@ -854,32 +857,33 @@ module KafkaMessageGenerators
 
     # deep_transform_keys! doesn't work on ActiveRecord objects so they must be
     # converted to a hash before converting to lower camelcase
-    def camelize_keys(message)
-      hash = convert_message_to_hash(message)
-      hash.deep_transform_keys! { |key| key.camelize(:lower) }
-    end
+    # def camelize_keys(message)
+    #   hash = convert_message_to_hash(message)
+    #   hash.deep_transform_keys! { |key| key.camelize(:lower) }
+    # end
 
-    def convert_message_to_hash(message)
-      json = message.to_json
-      hash = JSON.parse(json)
-      hash.delete("event_id")
-      hash
-    end
+    # def convert_message_to_hash(message)
+    #   json = message.to_json
+    #   hash = JSON.parse(json)
+    #   hash.delete("event_id")
+    #   hash
+    # end
 
     # encode message before publishing
-    def encode_message(message)
-      AvroService.new.encode(message, ENV["DECISION_REVIEW_CREATED_TOPIC"])
-    end
+    # def encode_message(message)
+    #   AvroService.new.encode(message, ENV["DECISION_REVIEW_CREATED_TOPIC"])
+    # end
 
     # publish message to the DecisionReviewCreated topic
-    def publish_message(encoded_message)
-      @published_messages_count ||= 0
-      Karafka.producer.produce_sync(
-        topic: ENV["DECISION_REVIEW_CREATED_TOPIC"],
-        payload: encoded_message
-      )
-      @published_messages_count += 1
-    end
+    # def publish_message(encoded_message)
+    #   byebug
+    #   @published_messages_count ||= 0
+    #   Karafka.producer.produce_sync(
+    #     topic:  ENV["DECISION_REVIEW_CREATED_TOPIC"],
+    #     payload: encoded_message
+    #   )
+    #   @published_messages_count += 1
+    # end
   end
   # rubocop:enable Metrics/ClassLength
 end
