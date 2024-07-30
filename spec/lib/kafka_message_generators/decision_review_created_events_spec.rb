@@ -1585,7 +1585,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     subject { KafkaMessageGenerators::Base.send(:publish_message, message, schema_name) }
     let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:prepared_message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
-    let(:message) { KafkaMessageGenerators::Base.send(:encode_message, prepared_message, schema_name ) }
+    let(:message) { KafkaMessageGenerators::Base.send(:encode_message, prepared_message, schema_name) }
 
     before do
       allow(Karafka.producer).to receive(:produce_sync)
