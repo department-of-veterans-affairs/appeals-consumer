@@ -14,7 +14,7 @@ module KafkaMessageGenerators::Base
       hash
     end
 
-     # encode message before publishing
+    # encode message before publishing
     def encode_message(message, topic)
       AvroService.new.encode(message, topic)
     end
