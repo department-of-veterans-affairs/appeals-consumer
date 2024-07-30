@@ -23,7 +23,7 @@ module KafkaMessageGenerators::Base
     def publish_message(encoded_message, topic)
       @published_messages_count ||= 0
       Karafka.producer.produce_sync(
-        topic:  topic,
+        topic: topic,
         payload: encoded_message
       )
       @published_messages_count += 1
