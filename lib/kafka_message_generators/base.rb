@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module KafkaMessageGenerators::Base
+  # rubocop:disable Metrics/ClassLength
   class << self
     def camelize_keys(message)
       hash = convert_message_to_hash(message)
@@ -45,13 +46,13 @@ module KafkaMessageGenerators::Base
         supplemental_claim: {
           compensation: {
             rating: %w[040SCR 040HDER 040AMDAOR 930AMASRC 930AMARRC 930AMADOR 930AMASCRLQE
-                      930AMARRCLQE 930AMASCRNQE 930AMARRCNQE 040SCRGTY],
+                       930AMARRCLQE 930AMASCRNQE 930AMARRCNQE 040SCRGTY],
             nonrating: %w[040SCNR 040HDENR 040AMADONR 930AMASNRC 930AMARNRC 930AMADONR
                           930ASCNRLQE 930ARNRCLQE 930ASCNRNQE 930ARNRCNQE]
           },
           pension: {
             rating: %w[040SCRPMC 040HDERPMC 040ADORPMC 930AMASRCPMC 930AMARRCPMC 930ASCRLQPMC
-                      930ARRCLQPMC 930ASCRNQPMC 930ARRCNQPMC 930ADORPMC],
+                       930ARRCLQPMC 930ASCRNQPMC 930ARRCNQPMC 930ADORPMC],
             nonrating: %w[040SCNRPMC 040HDENRPMC 040ADONRPMC 930ASNRCPMC 930ARNRCPMC 930ASCNRLPMC
                           930ARNRCLPMC 930ASCNRNPMC 930ARNRCNPMC 930ADONRPMC]
           }
@@ -99,4 +100,5 @@ module KafkaMessageGenerators::Base
     end
 
   end
+  # rubocop:enable Metrics/ClassLength
 end

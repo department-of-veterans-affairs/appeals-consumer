@@ -3,11 +3,11 @@
 module KafkaMessageGenerators
   class DecisionReviewUpdatedEvents
     # all possible ep codes appeals-consumer could receive from vbms intake
-    EP_CODES ||= KafkaMessageGenerators::Base.ep_codes
+    EP_CODES ||=KafkaMessageGenerators::Base.ep_codes
 
     # "DIC" is also a nonrating issue decision type but it isn't included in this last due
     # to it already being accounted for in the decision_review_created factory used throughout this class
-    NONRATING_DECISION_TYPES ||= KafkaMessageGenerators::Base.non_rating_decision_types
+    NONRATING_DECISION_TYPES ||=KafkaMessageGenerators::Base.non_rating_decision_types
 
     # clears the cache incase any records are currently stored
     # initializes variable that will hold file numbers to be removed from the cache
@@ -28,9 +28,9 @@ module KafkaMessageGenerators
       messages = create_messages
       puts "Finished creating messages!"
 
-      # puts "Started preparing and publishing #{messages.flatten.count} messages..."
+      puts "Started preparing and publishing #{messages.flatten.count} messages..."
       messages.flatten.each do |message|
-        topic = ENV["DECISION_REVIEW_CREATED_TOPIC"]
+        topic = ENV["DECISION_REVIEW_UPDATED_TOPIC"]
         formatted_message = convert_and_format_message(message)
         encoded_message = KafkaMessageGenerators::Base.encode_message(formatted_message, topic)
         KafkaMessageGenerators::Base.publish_message(encoded_message, topic)
