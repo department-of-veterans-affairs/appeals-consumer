@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module KafkaMessageGenerators::Base
-  # rubocop:disable Metrics/ClassLength
   class << self
     def camelize_keys(message)
       hash = convert_message_to_hash(message)
@@ -31,6 +30,7 @@ module KafkaMessageGenerators::Base
     end
 
     # all possible ep codes appeals-consumer could receive from vbms intake
+    # rubocop:disable Metrics/MethodLength
     def ep_codes
       {
         higher_level_review: {
@@ -98,7 +98,6 @@ module KafkaMessageGenerators::Base
         "Separation Pay Adjustment"
       ].freeze
     end
-
+  # rubocop:enable Metrics/MethodLength
   end
-  # rubocop:enable Metrics/ClassLength
 end

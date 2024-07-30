@@ -6,7 +6,7 @@ module KafkaMessageGenerators
     extend KafkaMessageGenerators::Base
 
     # all possible ep codes appeals-consumer could receive from vbms intake
-    EP_CODES ||=KafkaMessageGenerators::Base.ep_codes
+    EP_CODES ||= KafkaMessageGenerators::Base.ep_codes
 
     # "DIC" is also a nonrating issue decision type but it isn't included in this last due
     # to it already being accounted for in the decision_review_created factory used throughout this class
