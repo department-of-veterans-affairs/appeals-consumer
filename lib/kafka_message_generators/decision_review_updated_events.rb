@@ -18,7 +18,7 @@ module KafkaMessageGenerators
         supplemental_claim: {
           compensation: {
             rating: %w[040SCR 040HDER 040AMDAOR 930AMASRC 930AMARRC 930AMADOR 930AMASCRLQE
-                      930AMARRCLQE 930AMASCRNQE 930AMARRCNQE 040SCRGTY],
+                       930AMARRCLQE 930AMASCRNQE 930AMARRCNQE 040SCRGTY],
             nonrating: %w[040SCNR 040HDENR 040AMADONR 930AMASNRC 930AMARNRC 930AMADONR
                           930ASCNRLQE 930ARNRCLQE 930ASCNRNQE 930ARNRCNQE]
           },
@@ -87,7 +87,7 @@ module KafkaMessageGenerators
     # including scenarios that would raise an error within appeals-consumer
     def publish_messages!
       puts "Started creating messages..."
-      messages = create_messages
+      # messages = create_messages
       puts "Finished creating messages!"
 
       # puts "Started preparing and publishing #{messages.flatten.count} messages..."
