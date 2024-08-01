@@ -132,7 +132,7 @@ describe ExternalApi::CaseflowService do
     end
   end
 
-  describe "#edit_decision_review_updated_records_from_event!" do
+  describe "#edit_records_from_decision_review_updated_event!" do
     let(:endpoint) { "#{base_url}decision_review_updated" }
     let(:decision_review_updated_dto_builder) { dto_builder }
 
@@ -144,13 +144,13 @@ describe ExternalApi::CaseflowService do
       end
 
       it "returns the HTTP status code" do
-        response = described_class.edit_decision_review_updated_records_from_event!(decision_review_updated_dto_builder)
+        response = described_class.edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder)
         expect(response.code).to eq(200)
       end
 
       it "calls MetricsService to record metrics" do
         expect(MetricsService).to receive(:emit_gauge)
-        described_class.edit_decision_review_updated_records_from_event!(decision_review_updated_dto_builder)
+        described_class.edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder)
       end
     end
 
@@ -162,7 +162,7 @@ describe ExternalApi::CaseflowService do
       end
 
       it "raises a ClientRequestError with the proper message and code" do
-        expect { described_class.edit_decision_review_updated_records_from_event!(decision_review_updated_dto_builder) }
+        expect { described_class.edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder) }
           .to raise_error(AppealsConsumer::Error::ClientRequestError) do |error|
           expect(error.code).to eq(500)
           expect(error.message).to include(error_message, error_code)

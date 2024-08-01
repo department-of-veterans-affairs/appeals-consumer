@@ -26,7 +26,7 @@ class ExternalApi::CaseflowService
     end
 
     # Sends request to Caseflow API and processes response.
-    def edit_decision_review_updated_records_from_event!(decision_review_updated_dto_builder)
+    def edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder)
       payload = decision_review_updated_dto_builder.payload
       headers = build_headers(decision_review_updated_dto_builder)
       endpoint = "#{BASE_ENDPOINT}decision_review_updated"
