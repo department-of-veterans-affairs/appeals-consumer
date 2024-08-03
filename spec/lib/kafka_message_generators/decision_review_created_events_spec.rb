@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
-  let(:decision_review_created_events) { described_class.new }
+  let(:decision_review_created_events) { described_class.new("decision_review_created") }
   let(:decision_review_created) { build(:decision_review_created) }
   let(:rating_ep_codes) { decision_review_created_events.send(:rating_ep_codes) }
   let(:nonrating_ep_codes) { decision_review_created_events.send(:nonrating_ep_codes) }
@@ -1168,7 +1168,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
 
     let(:camelized_message) do
-      hash = KafkaMessageGenerators::Base.send(:convert_message_to_hash, message)
+      hash = decision_review_created_events.send(:convert_message_to_hash, message)
       hash.deep_transform_keys! { |key| key.camelize(:lower) }
     end
 
@@ -1528,10 +1528,10 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   end
 
   describe "#camelize_keys(message)" do
-    subject { KafkaMessageGenerators::Base.send(:camelize_keys, message) }
+    subject { decision_review_created_events.send(:camelize_keys, message) }
     let(:message) { decision_review_created }
     let(:hash_message) do
-      KafkaMessageGenerators::Base.send(:convert_message_to_hash, message)
+      decision_review_created_events.send(:convert_message_to_hash, message)
     end
 
     let(:camelcase_hash) do
@@ -1544,7 +1544,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   end
 
   describe "#convert_message_to_hash(message)" do
-    subject { KafkaMessageGenerators::Base.send(:convert_message_to_hash, message) }
+    subject { decision_review_created_events.send(:convert_message_to_hash, message) }
     let(:message) { decision_review_created }
 
     before do
@@ -1560,7 +1560,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # WIP
   # rubocop:disable Layout/LineLength
   describe "#encode_message(message)" do
-    subject { KafkaMessageGenerators::Base.send(:encode_message, message, schema_name) }
+    subject { decision_review_created_events.send(:encode_message, message, schema_name) }
     let(:avro_service) { double(AvroService.new) }
     let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
@@ -1582,10 +1582,10 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # rubocop:enable Layout/LineLength
 
   describe "#publish_message(message)" do
-    subject { KafkaMessageGenerators::Base.send(:publish_message, message, schema_name) }
+    subject { decision_review_created_events.publish_message(message, schema_name) }
     let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:prepared_message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
-    let(:message) { KafkaMessageGenerators::Base.send(:encode_message, prepared_message, schema_name) }
+    let(:message) { decision_review_created_events.encode_message(prepared_message, schema_name) }
 
     before do
       allow(Karafka.producer).to receive(:produce_sync)
