@@ -24,6 +24,16 @@
       "doc": "The type of decision review (higher level review, supplemental). This field is not updatable and is only for reference."
     },
     {
+      "name": "veteranFirstName",
+      "type": "string",
+      "doc": "The first name of the Veteran"
+    },
+    {
+      "name": "veteranLastName",
+      "type": "string",
+      "doc": "The last name of the Veteran"
+    },
+    {
       "name": "veteranParticipantId",
       "type": "string",
       "doc": "The Participant ID of the Veteran. This field is not updatable and is only for reference."
@@ -39,6 +49,41 @@
       "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
     },
     {
+      "name": "epCode",
+      "type": "string",
+      "doc": "The type of decision review that was created"
+    },
+    {
+      "name": "epCodeCategory",
+      "type": "string",
+      "doc": "Category of EP code (rating or non-rating)"
+    },
+    {
+      "name": "claimReceivedDate",
+      "type": {
+        "type": "int",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Date",
+        "logicalType": "date"
+      },
+      "doc": "The date that this decision review application was received"
+    },
+    {
+      "name": "claimLifecycleStatus",
+      "type": "string",
+      "doc": "The life cycle status of the claim"
+    },
+    {
+      "name": "payeeCode",
+      "type": "string",
+      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
+    },
+    {
+      "name": "modifier",
+      "type": "string",
+      "doc": "The third digit modifier"
+    },
+    {
       "name": "originatedFromVacolsIssue",
       "type": [
         "null",
@@ -46,6 +91,15 @@
       ],
       "default": null,
       "doc": "Whether a decision review originated from vacols"
+    },
+    {
+      "name": "limitedPoaCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The code of the limited POA for the claim created to work this decision review"
     },
     {
       "name": "trackedItemAction",
@@ -75,6 +129,16 @@
       "name": "updateTime",
       "type": "string",
       "doc": "Time at which the decision review was updated."
+    },
+    {
+      "name": "claimCreationTime",
+      "type": {
+        "type": "long",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Timestamp",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "The time at which this decision review claim was created"
     },
     {
       "name": "actorUsername",

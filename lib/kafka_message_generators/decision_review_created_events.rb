@@ -2,20 +2,12 @@
 
 module KafkaMessageGenerators
   # rubocop:disable Metrics/ClassLength
-  class DecisionReviewCreatedEvents
-    extend KafkaMessageGenerators::Base
-
-    # all possible ep codes appeals-consumer could receive from vbms intake
-    EP_CODES ||= KafkaMessageGenerators::Base.ep_codes
-
-    # "DIC" is also a nonrating issue decision type but it isn't included in this last due
-    # to it already being accounted for in the decision_review_created factory used throughout this class
-    NONRATING_DECISION_TYPES ||= KafkaMessageGenerators::Base.non_rating_decision_types
+  class DecisionReviewCreatedEvents < ::KafkaMessageGenerators::Base
 
     # clears the cache incase any records are currently stored
     # initializes variable that will hold file numbers to be removed from the cache
     # these file numbers will get a different bis response than the rest to test event audit notes and logging
-    def initialize
+    def initialize(decision_review_event_type)
       clear_cache
       @file_numbers_to_remove_from_cache = []
       @claim_id = 710_000_000
@@ -23,6 +15,7 @@ module KafkaMessageGenerators
       @veteran_participant_id = "210000000"
       @claimant_participant_id = "950000000"
       @file_number = "310000000"
+      @decision_review_event_type = decision_review_event_type
     end
 
     # creates all vbms intake scenarios for every ep code
@@ -36,8 +29,8 @@ module KafkaMessageGenerators
       messages.flatten.each do |message|
         topic = ENV["DECISION_REVIEW_CREATED_TOPIC"]
         formatted_message = convert_and_format_message(message)
-        encoded_message = KafkaMessageGenerators::Base.encode_message(formatted_message, topic)
-        KafkaMessageGenerators::Base.publish_message(encoded_message, topic)
+        encoded_message = encode_message(formatted_message, topic)
+        publish_message(encoded_message, topic)
       end
       puts "Finished publishing #{@published_messages_count} messages!"
     end
@@ -402,7 +395,7 @@ module KafkaMessageGenerators
     # represents a message post-consumption and post-deserialization
     # some fields must be changed to accurately reflect a message prior to consumption
     def create_drc_message(trait, ep_code)
-      drc = FactoryBot.build(:decision_review_created, trait.to_sym, ep_code: ep_code)
+      drc = FactoryBot.build(@decision_review_event_type.to_sym, trait.to_sym, ep_code: ep_code)
       update_claim_id(drc)
       store_veteran_in_cache(drc)
       drc
@@ -644,7 +637,7 @@ module KafkaMessageGenerators
     def convert_and_format_message(message)
       change_supp_decision_review_type_from_hlr_to_sc(message)
       convert_dates_and_timestamps_to_int(message)
-      KafkaMessageGenerators::Base.camelize_keys(message)
+      camelize_keys(message)
     end
 
     # the factorybot records used throughout this file represent a deserialized message containing
