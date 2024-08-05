@@ -7,7 +7,7 @@
 #   > bundle exec rspec spec/path/here.rb
 RUN_ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
-build:  ## First time local dev setup fail
+build:  ## First time local dev setup
 	if [ ! -f .env ]; then cp .env.template .env; fi;
 	docker compose build
 	docker compose run --rm rails bin/rails db:create
