@@ -1560,7 +1560,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # WIP
   # rubocop:disable Layout/LineLength
   describe "#encode_message(message)" do
-    subject { decision_review_created_events.send(:encode_message, message, schema_name) }
+    subject { decision_review_created_events.encode_message(message, schema_name) }
     let(:avro_service) { double(AvroService.new) }
     let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
@@ -1568,9 +1568,6 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     before do
       allow(AvroService).to receive(:new).and_return(avro_service)
-      allow(avro_service.instance_variable_get(:@avro)).to receive(:encode)
-        .with(message, subject: schema_name, version: ENV["SCHEMA_VERSION"], validate: true)
-        .and_return(sample_encoded_message)
     end
 
     it "encodes the message and returns the encoded message" do
