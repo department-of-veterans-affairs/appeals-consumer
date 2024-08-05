@@ -55,10 +55,10 @@ class KafkaMessageGenerators::Base
                         930ARNRCLPMC 930ASCNRNPMC 930ARNRCNPMC 930ADONRPMC]
         }
       }
-  }.freeze
+    }.freeze
 
-    # "DIC" is also a nonrating issue decision type but it isn't included in this last due
-    # to it already being accounted for in the decision_review_created factory used throughout this class
+  # "DIC" is also a nonrating issue decision type but it isn't included in this last due
+  # to it already being accounted for in the decision_review_created factory used throughout this class
   NONRATING_DECISION_TYPES ||=
     [
       "Accrued",
@@ -95,5 +95,5 @@ class KafkaMessageGenerators::Base
       "Other Witholding Adjustment",
       "Retired Pay Adjustment",
       "Separation Pay Adjustment"
-  ].freeze
+    ].freeze
 end
