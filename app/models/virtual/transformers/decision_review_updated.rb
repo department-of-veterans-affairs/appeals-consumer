@@ -36,7 +36,8 @@ class Transformers::DecisionReviewUpdated
     decision_review_issues_updated: Array,
     decision_review_issues_removed: Array,
     decision_review_issues_withdrawn: Array,
-    decision_review_issues_not_changed: Array
+    decision_review_issues_not_changed: Array,
+    decision: NilClass
   }.freeze
 
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -45,7 +46,7 @@ class Transformers::DecisionReviewUpdated
     @event_id = event_id
     validate(message_payload, self.class.name)
     assign(message_payload)
-    create_decision_review_issues_updated(message_payload[:decision_review_issues_updated])
+    create_decision_review_issues(message_payload)
   end
 
   def attribute_types
@@ -58,21 +59,30 @@ class Transformers::DecisionReviewUpdated
     end
   end
 
-  def create_decision_review_issues_updated(issues)
-    if issues.blank?
-      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
-    end
+  def create_decision_review_issues(payload)
+    issues = payload.slice(
+      :decision_review_issues_created,
+      :decision_review_issues_updated,
+      :decision_review_issues_removed,
+      :decision_review_issues_withdrawn,
+      :decision_review_issues_not_changed
+    )
 
-    @decision_review_issues_updated = issues.map { |issue| DecisionReviewIssueUpdated.new(issue) }
+    issues.each do |key, values|
+      if values.blank?
+        fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
+      end
+
+      instance_variable_set("@#{key}", values.map { |issue| DecisionReviewIssues.new(issue) })
+    end
   end
 end
 
-class DecisionReviewIssueUpdated
+class DecisionReviewIssues
   include MessagePayloadValidator
 
-  DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES = {
+  DECISION_REVIEW_ISSUE_ATTRIBUTES = {
     contention_id: [Integer, NilClass],
-    original_source: String,
     contention_action: String,
     associated_caseflow_request_issue_id: [Integer, NilClass],
     unidentified: [TrueClass, FalseClass],
@@ -100,10 +110,11 @@ class DecisionReviewIssueUpdated
     source_claim_id_for_remand: [Integer, NilClass],
     source_contention_id_for_remand: [Integer, NilClass],
     removed: [TrueClass, FalseClass],
-    withdrawn: [TrueClass, FalseClass]
+    withdrawn: [TrueClass, FalseClass],
+    decision: NilClass
   }.freeze
 
-  DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
+  DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
   def initialize(issue = {})
     validate(issue, self.class.name)
@@ -113,11 +124,11 @@ class DecisionReviewIssueUpdated
   private
 
   def attribute_types
-    DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES
+    DECISION_REVIEW_ISSUE_ATTRIBUTES
   end
 
   def assign(issue)
-    DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key do |attr|
+    DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", issue[attr])
     end
   end
