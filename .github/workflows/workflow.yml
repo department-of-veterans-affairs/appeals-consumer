@@ -13,11 +13,21 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
+    - name: Run docker-compose
+      uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        compose-file: "./docker/docker-compose.yml"
+
 # Sets up Ruby by using .ruby-version and Dependencies runs bundler and bundle install 
     - name: Set up Ruby and Install Ruby dependencies
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+    
+    - name: Run docker-compose
+      uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        compose-file: "./docker/docker-compose.yml"    
     
     - name: Set up Karafka
       run: |
