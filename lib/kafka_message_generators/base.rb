@@ -44,56 +44,56 @@ class KafkaMessageGenerators::Base
       supplemental_claim: {
         compensation: {
           rating: %w[040SCR 040HDER 040AMDAOR 930AMASRC 930AMARRC 930AMADOR 930AMASCRLQE
-                      930AMARRCLQE 930AMASCRNQE 930AMARRCNQE 040SCRGTY],
+                     930AMARRCLQE 930AMASCRNQE 930AMARRCNQE 040SCRGTY],
           nonrating: %w[040SCNR 040HDENR 040AMADONR 930AMASNRC 930AMARNRC 930AMADONR
                         930ASCNRLQE 930ARNRCLQE 930ASCNRNQE 930ARNRCNQE]
         },
         pension: {
           rating: %w[040SCRPMC 040HDERPMC 040ADORPMC 930AMASRCPMC 930AMARRCPMC 930ASCRLQPMC
-                      930ARRCLQPMC 930ASCRNQPMC 930ARRCNQPMC 930ADORPMC],
+                     930ARRCLQPMC 930ASCRNQPMC 930ARRCNQPMC 930ADORPMC],
           nonrating: %w[040SCNRPMC 040HDENRPMC 040ADONRPMC 930ASNRCPMC 930ARNRCPMC 930ASCNRLPMC
                         930ARNRCLPMC 930ASCNRNPMC 930ARNRCNPMC 930ADONRPMC]
         }
       }
-    }.freeze
+  }.freeze
 
     # "DIC" is also a nonrating issue decision type but it isn't included in this last due
     # to it already being accounted for in the decision_review_created factory used throughout this class
-    NONRATING_DECISION_TYPES ||=
-      [
-        "Accrued",
-        "Allotment",
-        "Apportionment",
-        "Attorney Fee",
-        "Basic Eligibility",
-        "Burial - Plot Allowance",
-        "Burial - Transportation Allowance",
-        "Burial - Service Connected",
-        "Burial - Non Service Connected",
-        "Burial - SC Burial and Transportation",
-        "Burial - NSC Burial and Plot Allowance",
-        "Burial - NSC Burial, Plot and Transportation",
-        "Burial - Other",
-        "Burial - No Burial Benefit Entitlement Due to Service",
-        "Burial - State Plot Allowance",
-        "Burial - Marker/Engraver Reimbursement",
-        "Chapter 18",
-        "Clothing Allowance",
-        "Custody of Children",
-        "DIC Spouse Status",
-        "Dependency",
-        "Disability Pay Adjustment",
-        "Drill Pay Adjustment",
-        "Election",
-        "Expense",
-        "Fraud",
-        "Income",
-        "Institutionalization Adjustment",
-        "Medal of Honor",
-        "Military Eligibility",
-        "Net Worth",
-        "Other Witholding Adjustment",
-        "Retired Pay Adjustment",
-        "Separation Pay Adjustment"
-      ].freeze
+  NONRATING_DECISION_TYPES ||=
+    [
+      "Accrued",
+      "Allotment",
+      "Apportionment",
+      "Attorney Fee",
+      "Basic Eligibility",
+      "Burial - Plot Allowance",
+      "Burial - Transportation Allowance",
+      "Burial - Service Connected",
+      "Burial - Non Service Connected",
+      "Burial - SC Burial and Transportation",
+      "Burial - NSC Burial and Plot Allowance",
+      "Burial - NSC Burial, Plot and Transportation",
+      "Burial - Other",
+      "Burial - No Burial Benefit Entitlement Due to Service",
+      "Burial - State Plot Allowance",
+      "Burial - Marker/Engraver Reimbursement",
+      "Chapter 18",
+      "Clothing Allowance",
+      "Custody of Children",
+      "DIC Spouse Status",
+      "Dependency",
+      "Disability Pay Adjustment",
+      "Drill Pay Adjustment",
+      "Election",
+      "Expense",
+      "Fraud",
+      "Income",
+      "Institutionalization Adjustment",
+      "Medal of Honor",
+      "Military Eligibility",
+      "Net Worth",
+      "Other Witholding Adjustment",
+      "Retired Pay Adjustment",
+      "Separation Pay Adjustment"
+  ].freeze
 end

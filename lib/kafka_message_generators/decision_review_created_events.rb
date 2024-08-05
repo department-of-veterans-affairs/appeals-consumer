@@ -3,11 +3,11 @@
 module KafkaMessageGenerators
   # rubocop:disable Metrics/ClassLength
   class DecisionReviewCreatedEvents < ::KafkaMessageGenerators::Base
-
     # clears the cache incase any records are currently stored
     # initializes variable that will hold file numbers to be removed from the cache
     # these file numbers will get a different bis response than the rest to test event audit notes and logging
     def initialize(decision_review_event_type)
+      super()
       clear_cache
       @file_numbers_to_remove_from_cache = []
       @claim_id = 710_000_000
