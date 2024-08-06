@@ -5,7 +5,7 @@
 namespace :kafka_message_generators do
   Dir[File.join(Rails.root, "lib", "kafka_message_generators", "*.rb")].each do |filename|
     task_name = File.basename(filename, ".rb").intern
-    task task_name, [:arg1] => :environment do |args|
+    task task_name, [:arg1] => :environment do |t,args|
       load(filename)
       # when bundle exec rake kafka_message_generators:decision_review_created_events is called
       # it runs the publish_messages! method within decision_review_created_events.rb
