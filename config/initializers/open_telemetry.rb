@@ -34,7 +34,7 @@ Rails.logger.info("DT_API_TOKEN is set to #{DT_API_TOKEN}")
 
 if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
   OpenTelemetry::SDK.configure do |c|
-    c.service_name = 'ruby-quickstart'
+    c.service_name = 'consumer-quickstart'
     c.service_version = '1.0.1'
     # c.use_all # application will be using all instrumentation provided by OpenTelemetry
     # c.use 'OpenTelemetry::Instrumentation::Rack', { untraced_endpoints: ['/health-check', '/sample', '/logs'] }
