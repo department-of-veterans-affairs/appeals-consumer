@@ -73,6 +73,7 @@ describe Transformers::DecisionReviewUpdated do
   end
   let(:decision_review_issues_created) do
     base_decision_review_issue.merge(
+      decision_review_issue_id: nil,
       contention_id: 123_456,
       contention_action: "ADD_CONTENTION",
       prior_decision_text: "An unidentified issue added during the edit"
@@ -80,6 +81,7 @@ describe Transformers::DecisionReviewUpdated do
   end
   let(:decision_review_issues_updated) do
     base_decision_review_issue.merge(
+      decision_review_issue_id: nil,
       contention_id: 123_456_791,
       contention_action: "Action",
       unidentified: false,
@@ -93,6 +95,7 @@ describe Transformers::DecisionReviewUpdated do
   end
   let(:decision_review_issues_removed) do
     base_decision_review_issue.merge(
+      decision_review_issue_id: nil,
       contention_id: 328_253,
       contention_action: "DELETE_CONTENTION",
       prior_decision_text: "The second unidentified issue (will be removed)",
@@ -101,6 +104,7 @@ describe Transformers::DecisionReviewUpdated do
   end
   let(:decision_review_issues_withdrawn) do
     base_decision_review_issue.merge(
+      decision_review_issue_id: nil,
       contention_id: 328_252,
       contention_action: "DELETE_CONTENTION",
       prior_decision_text: "The first unidentified issue (will be withdrawn)",
@@ -109,6 +113,7 @@ describe Transformers::DecisionReviewUpdated do
   end
   let(:decision_review_issues_not_changed) do
     base_decision_review_issue.merge(
+      decision_review_issue_id: nil,
       contention_id: 328_254,
       contention_action: "NONE",
       prior_decision_text: "The third unidentified issue (not changed)"

@@ -82,6 +82,7 @@ class DecisionReviewIssues
   include MessagePayloadValidator
 
   DECISION_REVIEW_ISSUE_ATTRIBUTES = {
+    decision_review_issue_id: [Integer, NilClass],
     contention_id: [Integer, NilClass],
     contention_action: String,
     associated_caseflow_request_issue_id: [Integer, NilClass],
