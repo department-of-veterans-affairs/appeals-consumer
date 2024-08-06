@@ -37,7 +37,7 @@ class Transformers::DecisionReviewUpdated
     decision_review_issues_removed: Array,
     decision_review_issues_withdrawn: Array,
     decision_review_issues_not_changed: Array,
-    decision: NilClass
+    decision: [Hash, NilClass]
   }.freeze
 
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -68,11 +68,11 @@ class Transformers::DecisionReviewUpdated
       :decision_review_issues_not_changed
     )
 
-    issues.each do |key, values|
-      if values.blank?
-        fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
-      end
+    if issues.values.flatten.empty?
+      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
+    end
 
+    issues.each do |key, values|
       instance_variable_set("@#{key}", values.map { |issue| DecisionReviewIssues.new(issue) })
     end
   end
@@ -111,7 +111,7 @@ class DecisionReviewIssues
     source_contention_id_for_remand: [Integer, NilClass],
     removed: [TrueClass, FalseClass],
     withdrawn: [TrueClass, FalseClass],
-    decision: NilClass
+    decision: [Hash, NilClass]
   }.freeze
 
   DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -119,6 +119,7 @@ class DecisionReviewIssues
   def initialize(issue = {})
     validate(issue, self.class.name)
     assign(issue)
+    create_decisions(issue[:decision])
   end
 
   private
@@ -133,12 +134,10 @@ class DecisionReviewIssues
     end
   end
 
-  def create_decisions(decisions)
-    if decisions.blank?
-      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
-    end
+  def create_decisions(decision)
+    return if decision.blank?
 
-    decisions.map { |decision| Decision.new(decision) }
+    @decision = Decision.new(decision)
   end
 end
 

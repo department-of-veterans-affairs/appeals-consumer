@@ -33,7 +33,7 @@ describe Transformers::DecisionReviewUpdated do
       actor_application: "PASYSACCTCREATE",
       auto_remand: false,
       decision_review_issues_created: [decision_review_issues_created],
-      decision_review_issues_updated: [decision_review_issue_updated],
+      decision_review_issues_updated: [decision_review_issues_updated],
       decision_review_issues_removed: [decision_review_issues_removed],
       decision_review_issues_withdrawn: [decision_review_issues_withdrawn],
       decision_review_issues_not_changed: [decision_review_issues_not_changed]
@@ -78,7 +78,7 @@ describe Transformers::DecisionReviewUpdated do
       prior_decision_text: "An unidentified issue added during the edit"
     )
   end
-  let(:decision_review_issue_updated) do
+  let(:decision_review_issues_updated) do
     base_decision_review_issue.merge(
       contention_id: 123_456_791,
       contention_action: "Action",
@@ -170,66 +170,97 @@ describe Transformers::DecisionReviewUpdated do
 
       it "set instance variables for DecisionReviewIssueUpdated" do
         subject.decision_review_issues_updated.each do |issue|
-          expect(issue.contention_id).to eq(decision_review_issue_updated[:contention_id])
-          expect(issue.contention_action).to eq(decision_review_issue_updated[:contention_action])
+          expect(issue.contention_id).to eq(decision_review_issues_updated[:contention_id])
+          expect(issue.contention_action).to eq(decision_review_issues_updated[:contention_action])
           expect(issue.associated_caseflow_request_issue_id).to eq(
-            decision_review_issue_updated[:associated_caseflow_request_issue_id]
+            decision_review_issues_updated[:associated_caseflow_request_issue_id]
           )
-          expect(issue.unidentified).to eq(decision_review_issue_updated[:unidentified])
-          expect(issue.prior_rating_decision_id).to eq(decision_review_issue_updated[:prior_rating_decision_id])
-          expect(issue.prior_non_rating_decision_id).to eq(decision_review_issue_updated[:prior_non_rating_decision_id])
+          expect(issue.unidentified).to eq(decision_review_issues_updated[:unidentified])
+          expect(issue.prior_rating_decision_id).to eq(decision_review_issues_updated[:prior_rating_decision_id])
+          expect(issue.prior_non_rating_decision_id).to eq(decision_review_issues_updated[:prior_non_rating_decision_id])
           expect(issue.prior_caseflow_decision_issue_id).to eq(
-            decision_review_issue_updated[:prior_caseflow_decision_issue_id]
+            decision_review_issues_updated[:prior_caseflow_decision_issue_id]
           )
-          expect(issue.prior_decision_text).to eq(decision_review_issue_updated[:prior_decision_text])
-          expect(issue.prior_decision_type).to eq(decision_review_issue_updated[:prior_decision_type])
-          expect(issue.prior_decision_source).to eq(decision_review_issue_updated[:prior_decision_source])
+          expect(issue.prior_decision_text).to eq(decision_review_issues_updated[:prior_decision_text])
+          expect(issue.prior_decision_type).to eq(decision_review_issues_updated[:prior_decision_type])
+          expect(issue.prior_decision_source).to eq(decision_review_issues_updated[:prior_decision_source])
           expect(issue.prior_decision_notification_date).to eq(
-            decision_review_issue_updated[:prior_decision_notification_date]
+            decision_review_issues_updated[:prior_decision_notification_date]
           )
-          expect(issue.prior_decision_date).to eq(decision_review_issue_updated[:prior_decision_date])
+          expect(issue.prior_decision_date).to eq(decision_review_issues_updated[:prior_decision_date])
           expect(issue.prior_decision_diagnostic_code).to eq(
-            decision_review_issue_updated[:prior_decision_diagnostic_code]
+            decision_review_issues_updated[:prior_decision_diagnostic_code]
           )
           expect(issue.prior_decision_rating_percentage).to eq(
-            decision_review_issue_updated[:prior_decision_rating_percentage]
+            decision_review_issues_updated[:prior_decision_rating_percentage]
           )
-          expect(issue.prior_decision_rating_sn).to eq(decision_review_issue_updated[:prior_decision_rating_sn])
-          expect(issue.eligible).to eq(decision_review_issue_updated[:eligible])
-          expect(issue.eligibility_result).to eq(decision_review_issue_updated[:eligibility_result])
-          expect(issue.time_override).to eq(decision_review_issue_updated[:time_override])
-          expect(issue.time_override_reason).to eq(decision_review_issue_updated[:time_override_reason])
-          expect(issue.contested).to eq(decision_review_issue_updated[:contested])
-          expect(issue.soc_opt_in).to eq(decision_review_issue_updated[:soc_opt_in])
-          expect(issue.legacy_appeal_id).to eq(decision_review_issue_updated[:legacy_appeal_id])
-          expect(issue.legacy_appeal_issue_id).to eq(decision_review_issue_updated[:legacy_appeal_issue_id])
+          expect(issue.prior_decision_rating_sn).to eq(decision_review_issues_updated[:prior_decision_rating_sn])
+          expect(issue.eligible).to eq(decision_review_issues_updated[:eligible])
+          expect(issue.eligibility_result).to eq(decision_review_issues_updated[:eligibility_result])
+          expect(issue.time_override).to eq(decision_review_issues_updated[:time_override])
+          expect(issue.time_override_reason).to eq(decision_review_issues_updated[:time_override_reason])
+          expect(issue.contested).to eq(decision_review_issues_updated[:contested])
+          expect(issue.soc_opt_in).to eq(decision_review_issues_updated[:soc_opt_in])
+          expect(issue.legacy_appeal_id).to eq(decision_review_issues_updated[:legacy_appeal_id])
+          expect(issue.legacy_appeal_issue_id).to eq(decision_review_issues_updated[:legacy_appeal_issue_id])
           expect(issue.prior_decision_award_event_id).to eq(
-            decision_review_issue_updated[:prior_decision_award_event_id]
+            decision_review_issues_updated[:prior_decision_award_event_id]
           )
           expect(issue.prior_decision_rating_profile_date).to eq(
-            decision_review_issue_updated[:prior_decision_rating_profile_date]
+            decision_review_issues_updated[:prior_decision_rating_profile_date]
           )
-          expect(issue.source_claim_id_for_remand).to eq(decision_review_issue_updated[:source_claim_id_for_remand])
+          expect(issue.source_claim_id_for_remand).to eq(decision_review_issues_updated[:source_claim_id_for_remand])
           expect(issue.source_contention_id_for_remand).to eq(
-            decision_review_issue_updated[:source_contention_id_for_remand]
+            decision_review_issues_updated[:source_contention_id_for_remand]
           )
-          expect(issue.removed).to eq(decision_review_issue_updated[:removed])
-          expect(issue.withdrawn).to eq(decision_review_issue_updated[:withdrawn])
+          expect(issue.removed).to eq(decision_review_issues_updated[:removed])
+          expect(issue.withdrawn).to eq(decision_review_issues_updated[:withdrawn])
         end
       end
     end
   end
 
   context "when invalid" do
-    context "with empty empty issues" do
+    context "when all issues are empty" do
       before do
         message_payload[:decision_review_issues_created] = []
+        message_payload[:decision_review_issues_updated] = []
+        message_payload[:decision_review_issues_removed] = []
+        message_payload[:decision_review_issues_withdrawn] = []
+        message_payload[:decision_review_issues_not_changed] = []
       end
+
       it "raises ArgumentError" do
         error_message =
           "Transformers::DecisionReviewUpdated: Message payload must include at least one decision review issue"
         expect { subject }.to raise_error(ArgumentError, error_message)
       end
+    end
+  end
+
+  context "when a decision exist" do
+    before do
+      message_payload[:decision_review_issues_updated][0][:decision] = decision
+    end
+
+    it "creates decision" do
+      decision = subject.decision_review_issues_updated[0].decision
+      expect(decision).to be_an_instance_of(Decision)
+    end
+
+    it "creates decision attributes" do
+      created_decision = subject.decision_review_issues_updated[0].decision
+
+      expect(created_decision.contention_id).to eq(decision[:contention_id])
+      expect(created_decision.disposition).to eq(decision[:disposition])
+      expect(created_decision.dta_error_explanation).to eq(decision[:dta_error_explanation])
+      expect(created_decision.decision_source).to eq(decision[:decision_source])
+      expect(created_decision.category).to eq(decision[:category])
+      expect(created_decision.decision_id).to eq(decision[:decision_id])
+      expect(created_decision.award_event_id).to eq(decision[:award_event_id])
+      expect(created_decision.rating_profile_date).to eq(decision[:rating_profile_date])
+      expect(created_decision.decision_recorded_time).to eq(decision[:decision_recorded_time])
+      expect(created_decision.decision_finalized_time).to eq(decision[:decision_finalized_time])
     end
   end
 end
