@@ -177,7 +177,9 @@ describe Transformers::DecisionReviewUpdated do
           )
           expect(issue.unidentified).to eq(decision_review_issues_updated[:unidentified])
           expect(issue.prior_rating_decision_id).to eq(decision_review_issues_updated[:prior_rating_decision_id])
-          expect(issue.prior_non_rating_decision_id).to eq(decision_review_issues_updated[:prior_non_rating_decision_id])
+          expect(issue.prior_non_rating_decision_id).to eq(
+            decision_review_issues_updated[:prior_non_rating_decision_id]
+          )
           expect(issue.prior_caseflow_decision_issue_id).to eq(
             decision_review_issues_updated[:prior_caseflow_decision_issue_id]
           )
