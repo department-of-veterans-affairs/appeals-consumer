@@ -43,10 +43,158 @@ FactoryBot.define do
           }
         ]
       end
-      decision_review_issues_updated { [] }
-      decision_review_issues_removed { [] }
-      decision_review_issues_withdrawn { [] }
-      decision_review_issues_not_changed { [] }
+
+      decision_review_issues_updated do
+        [
+          {
+            decision_review_issue_id: 22,
+            contention_id: 710_002_659,
+            contention_action: "UPDATE_CONTENTION",
+            associated_caseflow_request_issue_id: nil,
+            unidentified: true,
+            prior_rating_decision_id: nil,
+            prior_non_rating_decision_id: nil,
+            prior_caseflow_decision_issue_id: nil,
+            prior_decision_text: "Service connection for tetnus denied",
+            prior_decision_type: "Unknown",
+            prior_decision_source: nil,
+            prior_decision_notification_date: nil,
+            prior_decision_date: nil,
+            prior_decision_diagnostic_code: nil,
+            prior_decision_rating_percentage: nil,
+            prior_decision_rating_sn: nil,
+            eligible: true,
+            eligibility_result: "ELIGIBLE",
+            time_override: nil,
+            time_override_reason: nil,
+            contested: nil,
+            soc_opt_in: nil,
+            legacy_appeal_id: nil,
+            legacy_appeal_issue_id: nil,
+            prior_decision_award_event_id: nil,
+            prior_decision_rating_profile_date: nil,
+            source_claim_id_for_remand: nil,
+            source_contention_id_for_remand: nil,
+            removed: false,
+            withdrawn: false,
+            decision: nil
+          }
+        ]
+      end
+
+      decision_review_issues_removed do
+        [
+          {
+            decision_review_issue_id: 22,
+            contention_id: 710_002_659,
+            contention_action: "DELETE_CONTENTION",
+            associated_caseflow_request_issue_id: nil,
+            unidentified: true,
+            prior_rating_decision_id: nil,
+            prior_non_rating_decision_id: nil,
+            prior_caseflow_decision_issue_id: nil,
+            prior_decision_text: "Service connection for tetnus denied",
+            prior_decision_type: "Unknown",
+            prior_decision_source: nil,
+            prior_decision_notification_date: nil,
+            prior_decision_date: nil,
+            prior_decision_diagnostic_code: nil,
+            prior_decision_rating_percentage: nil,
+            prior_decision_rating_sn: nil,
+            eligible: true,
+            eligibility_result: "ELIGIBLE",
+            time_override: nil,
+            time_override_reason: nil,
+            contested: nil,
+            soc_opt_in: nil,
+            legacy_appeal_id: nil,
+            legacy_appeal_issue_id: nil,
+            prior_decision_award_event_id: nil,
+            prior_decision_rating_profile_date: nil,
+            source_claim_id_for_remand: nil,
+            source_contention_id_for_remand: nil,
+            removed: true,
+            withdrawn: false,
+            decision: nil
+          }
+        ]
+      end
+
+      decision_review_issues_withdrawn do
+        [
+          {
+            decision_review_issue_id: 22,
+            contention_id: 710_002_659,
+            contention_action: "DELETE_CONTENTION",
+            associated_caseflow_request_issue_id: nil,
+            unidentified: true,
+            prior_rating_decision_id: nil,
+            prior_non_rating_decision_id: nil,
+            prior_caseflow_decision_issue_id: nil,
+            prior_decision_text: "Service connection for tetnus denied",
+            prior_decision_type: "Unknown",
+            prior_decision_source: nil,
+            prior_decision_notification_date: nil,
+            prior_decision_date: nil,
+            prior_decision_diagnostic_code: nil,
+            prior_decision_rating_percentage: nil,
+            prior_decision_rating_sn: nil,
+            eligible: true,
+            eligibility_result: "ELIGIBLE",
+            time_override: nil,
+            time_override_reason: nil,
+            contested: nil,
+            soc_opt_in: nil,
+            legacy_appeal_id: nil,
+            legacy_appeal_issue_id: nil,
+            prior_decision_award_event_id: nil,
+            prior_decision_rating_profile_date: nil,
+            source_claim_id_for_remand: nil,
+            source_contention_id_for_remand: nil,
+            removed: false,
+            withdrawn: true,
+            decision: nil
+          }
+        ]
+      end
+
+      decision_review_issues_not_changed do
+        [
+          {
+            decision_review_issue_id: 22,
+            contention_id: 710_002_659,
+            contention_action: "NONE",
+            associated_caseflow_request_issue_id: nil,
+            unidentified: true,
+            prior_rating_decision_id: nil,
+            prior_non_rating_decision_id: nil,
+            prior_caseflow_decision_issue_id: nil,
+            prior_decision_text: "Service connection for tetnus denied",
+            prior_decision_type: "Unknown",
+            prior_decision_source: nil,
+            prior_decision_notification_date: nil,
+            prior_decision_date: nil,
+            prior_decision_diagnostic_code: nil,
+            prior_decision_rating_percentage: nil,
+            prior_decision_rating_sn: nil,
+            eligible: true,
+            eligibility_result: "ELIGIBLE",
+            time_override: nil,
+            time_override_reason: nil,
+            contested: nil,
+            soc_opt_in: nil,
+            legacy_appeal_id: nil,
+            legacy_appeal_issue_id: nil,
+            prior_decision_award_event_id: nil,
+            prior_decision_rating_profile_date: nil,
+            source_claim_id_for_remand: nil,
+            source_contention_id_for_remand: nil,
+            removed: false,
+            withdrawn: false,
+            decision: nil
+          }
+        ]
+      end
     end
 
     trait :rating_hlr_pension do
@@ -365,692 +513,164 @@ FactoryBot.define do
     ## START: HLR Pension
     trait :rating_hlr_pension_issue_created do
       rating_hlr_pension
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_pension_issue_updated do
       rating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_pension_issue_removed do
       rating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_pension_issue_withdrawn do
       rating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_pension_issue_not_changed do
       rating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
 
     trait :nonrating_hlr_pension_issue_created do
       nonrating_hlr_pension
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_pension_issue_updated do
       nonrating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_pension_issue_removed do
       nonrating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_pension_issue_withdrawn do
       nonrating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_pension_issue_not_changed do
       nonrating_hlr_pension
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
     ## END: HLR Pension
 
     ## START: HLR Compensation
     trait :rating_hlr_compensation_issue_created do
       rating_hlr_compensation
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_compensation_issue_updated do
       rating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_compensation_issue_removed do
       rating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_compensation_issue_withdrawn do
       rating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_hlr_compensation_issue_not_changed do
       rating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
 
     trait :nonrating_hlr_compensation_issue_created do
       nonrating_hlr_compensation
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_compensation_issue_updated do
       nonrating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_compensation_issue_removed do
       nonrating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_compensation_issue_withdrawn do
       nonrating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_hlr_compensation_issue_not_changed do
       nonrating_hlr_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
     ## END: HLR Compensation
     # END: HLRs
@@ -1059,692 +679,164 @@ FactoryBot.define do
     ## START: SC Pension
     trait :rating_sc_pension_issue_created do
       rating_sc_pension
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_pension_issue_updated do
       rating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_pension_issue_removed do
       rating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_pension_issue_withdrawn do
       rating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_pension_issue_not_changed do
       rating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
 
     trait :nonrating_sc_pension_issue_created do
       nonrating_sc_pension
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_pension_issue_updated do
       nonrating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_pension_issue_removed do
       nonrating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_pension_issue_withdrawn do
       nonrating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_pension_issue_not_changed do
       nonrating_sc_pension
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
     ## END: SC Pension
 
     ## START: SC Compensation
     trait :rating_sc_compensation_issue_created do
       rating_sc_compensation
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_compensation_issue_updated do
       rating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_compensation_issue_removed do
       rating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_compensation_issue_withdrawn do
       rating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :rating_sc_compensation_issue_not_changed do
       rating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
 
     trait :nonrating_sc_compensation_issue_created do
       nonrating_sc_compensation
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_compensation_issue_updated do
       nonrating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_updated do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "UPDATE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_compensation_issue_removed do
       nonrating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_removed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: true,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_withdrawn { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_compensation_issue_withdrawn do
       nonrating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_withdrawn do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "DELETE_CONTENTION",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: true,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_not_changed { [] }
     end
 
     trait :nonrating_sc_compensation_issue_not_changed do
       nonrating_sc_compensation
       decision_review_issues_created { [] }
-      decision_review_issues_not_changed do
-        [
-          {
-            decision_review_issue_id: 22,
-            contention_id: 710_002_659,
-            contention_action: "NONE",
-            associated_caseflow_request_issue_id: nil,
-            unidentified: true,
-            prior_rating_decision_id: nil,
-            prior_non_rating_decision_id: nil,
-            prior_caseflow_decision_issue_id: nil,
-            prior_decision_text: "Service connection for tetnus denied",
-            prior_decision_type: "Unknown",
-            prior_decision_source: nil,
-            prior_decision_notification_date: nil,
-            prior_decision_date: nil,
-            prior_decision_diagnostic_code: nil,
-            prior_decision_rating_percentage: nil,
-            prior_decision_rating_sn: nil,
-            eligible: true,
-            eligibility_result: "ELIGIBLE",
-            time_override: nil,
-            time_override_reason: nil,
-            contested: nil,
-            soc_opt_in: nil,
-            legacy_appeal_id: nil,
-            legacy_appeal_issue_id: nil,
-            prior_decision_award_event_id: nil,
-            prior_decision_rating_profile_date: nil,
-            source_claim_id_for_remand: nil,
-            source_contention_id_for_remand: nil,
-            removed: false,
-            withdrawn: false,
-            decision: nil
-          }
-        ]
-      end
+      decision_review_issues_updated { [] }
+      decision_review_issues_removed { [] }
+      decision_review_issues_withdrawn { [] }
     end
     ## END: SC Compensation
     # END: SCs
