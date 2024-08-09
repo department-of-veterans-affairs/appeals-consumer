@@ -60,6 +60,11 @@ class Transformers::DecisionReviewUpdated
   end
 
   def create_decision_review_issues(payload)
+    if payload_invalid?(payload)
+      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue " \
+        "updated when decision review issues not changed exist"
+    end
+
     issues = payload.slice(
       :decision_review_issues_created,
       :decision_review_issues_updated,
@@ -68,20 +73,24 @@ class Transformers::DecisionReviewUpdated
       :decision_review_issues_not_changed
     )
 
-    if issues.values.flatten.empty?
-      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
-    end
-
     issues.each do |key, values|
-      instance_variable_set("@#{key}", values.map { |issue| DecisionReviewIssues.new(issue) })
+      instance_variable_set("@#{key}", values.map { |issue| DecisionReviewIssueUpdated.new(issue) })
     end
+  end
+
+  def payload_invalid?(payload)
+    payload[:decision_review_issues_not_changed].any? &&
+      payload[:decision_review_issues_created].blank? &&
+      payload[:decision_review_issues_updated].blank? &&
+      payload[:decision_review_issues_removed].blank? &&
+      payload[:decision_review_issues_withdrawn].blank?
   end
 end
 
-class DecisionReviewIssues
+class DecisionReviewIssueUpdated
   include MessagePayloadValidator
 
-  DECISION_REVIEW_ISSUE_ATTRIBUTES = {
+  DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES = {
     decision_review_issue_id: [Integer, NilClass],
     contention_id: [Integer, NilClass],
     contention_action: String,
@@ -115,7 +124,7 @@ class DecisionReviewIssues
     decision: [Hash, NilClass]
   }.freeze
 
-  DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
+  DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
   def initialize(issue = {})
     validate(issue, self.class.name)
@@ -126,11 +135,11 @@ class DecisionReviewIssues
   private
 
   def attribute_types
-    DECISION_REVIEW_ISSUE_ATTRIBUTES
+    DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES
   end
 
   def assign(issue)
-    DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key do |attr|
+    DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", issue[attr])
     end
   end

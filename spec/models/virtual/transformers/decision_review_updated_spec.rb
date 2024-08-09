@@ -169,7 +169,7 @@ describe Transformers::DecisionReviewUpdated do
 
       it "instantiates a DecisionReviewIssueUpdated object" do
         subject.decision_review_issues_updated.each do |issue|
-          expect(issue).to be_an_instance_of(DecisionReviewIssues)
+          expect(issue).to be_an_instance_of(DecisionReviewIssueUpdated)
         end
       end
 
@@ -228,18 +228,18 @@ describe Transformers::DecisionReviewUpdated do
   end
 
   context "when invalid" do
-    context "when all issues are empty" do
+    context "when all issues are empty other than decision_review_issues_not_changed" do
       before do
         message_payload[:decision_review_issues_created] = []
         message_payload[:decision_review_issues_updated] = []
         message_payload[:decision_review_issues_removed] = []
         message_payload[:decision_review_issues_withdrawn] = []
-        message_payload[:decision_review_issues_not_changed] = []
       end
 
       it "raises ArgumentError" do
         error_message =
-          "Transformers::DecisionReviewUpdated: Message payload must include at least one decision review issue"
+          "Transformers::DecisionReviewUpdated: Message payload must include at least one decision review issue " \
+          "updated when decision review issues not changed exist"
         expect { subject }.to raise_error(ArgumentError, error_message)
       end
     end
