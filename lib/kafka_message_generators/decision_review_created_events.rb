@@ -772,7 +772,13 @@ module KafkaMessageGenerators
       veteran_claimant = object.veteran_participant_id == object.claimant_participant_id
 
       object.claim_id = @claim_id
-      object.decision_review_issues[0].contention_id = @contention_id
+      # FORK - updated does not have decision_review_issues
+      if @decision_review_event_type == "decision_review_created"
+        object.decision_review_issues[0].contention_id = @contention_id
+      else
+        puts "Made it here"
+        # TODO: - iterate through each option and update contention_id
+      end
       object.veteran_participant_id = @veteran_participant_id
       object.claimant_participant_id = veteran_claimant ? @veteran_participant_id : @claimant_participant_id
       object.file_number = @file_number

@@ -21,6 +21,7 @@ module KafkaMessageGenerators
     # creates all vbms intake scenarios for every ep code
     # including scenarios that would raise an error within appeals-consumer
     def publish_messages!
+      binding.pry
       puts "Started creating messages..."
       messages = create_messages
       puts "Finished creating messages!"
@@ -580,57 +581,57 @@ module KafkaMessageGenerators
       EP_CODES[:higher_level_review][:compensation][:nonrating]
     end
 
-    def hlr_pension_rating_ep_codes
-      EP_CODES[:higher_level_review][:pension][:rating]
-    end
+    # def hlr_pension_rating_ep_codes
+    #   EP_CODES[:higher_level_review][:pension][:rating]
+    # end
 
-    def hlr_pension_nonrating_ep_codes
-      EP_CODES[:higher_level_review][:pension][:nonrating]
-    end
+    # def hlr_pension_nonrating_ep_codes
+    #   EP_CODES[:higher_level_review][:pension][:nonrating]
+    # end
 
-    def sc_compensation_rating_ep_codes
-      EP_CODES[:supplemental_claim][:compensation][:rating]
-    end
+    # def sc_compensation_rating_ep_codes
+    #   EP_CODES[:supplemental_claim][:compensation][:rating]
+    # end
 
-    def sc_compensation_nonrating_ep_codes
-      EP_CODES[:supplemental_claim][:compensation][:nonrating]
-    end
+    # def sc_compensation_nonrating_ep_codes
+    #   EP_CODES[:supplemental_claim][:compensation][:nonrating]
+    # end
 
-    def sc_pension_rating_ep_codes
-      EP_CODES[:supplemental_claim][:pension][:rating]
-    end
+    # def sc_pension_rating_ep_codes
+    #   EP_CODES[:supplemental_claim][:pension][:rating]
+    # end
 
-    def sc_pension_nonrating_ep_codes
-      EP_CODES[:supplemental_claim][:pension][:nonrating]
-    end
+    # def sc_pension_nonrating_ep_codes
+    #   EP_CODES[:supplemental_claim][:pension][:nonrating]
+    # end
 
-    def sc_rating_ep_codes
-      sc_compensation_rating_ep_codes + sc_pension_rating_ep_codes
-    end
+    # def sc_rating_ep_codes
+    #   sc_compensation_rating_ep_codes + sc_pension_rating_ep_codes
+    # end
 
     def hlr_rating_ep_codes
-      hlr_compensation_rating_ep_codes + hlr_pension_rating_ep_codes
+      hlr_compensation_rating_ep_codes # + hlr_pension_rating_ep_codes
     end
 
-    def rating_ep_codes
-      sc_rating_ep_codes + hlr_rating_ep_codes
-    end
+    # def rating_ep_codes
+    #   sc_rating_ep_codes + hlr_rating_ep_codes
+    # end
 
-    def sc_nonrating_ep_codes
-      sc_compensation_nonrating_ep_codes + sc_pension_nonrating_ep_codes
-    end
+    # def sc_nonrating_ep_codes
+    #   sc_compensation_nonrating_ep_codes + sc_pension_nonrating_ep_codes
+    # end
 
-    def hlr_nonrating_ep_codes
-      hlr_compensation_nonrating_ep_codes + hlr_pension_nonrating_ep_codes
-    end
+    # def hlr_nonrating_ep_codes
+    #   hlr_compensation_nonrating_ep_codes + hlr_pension_nonrating_ep_codes
+    # end
 
-    def nonrating_ep_codes
-      sc_nonrating_ep_codes + hlr_nonrating_ep_codes
-    end
+    # def nonrating_ep_codes
+    #   sc_nonrating_ep_codes + hlr_nonrating_ep_codes
+    # end
 
-    def sc_ep_codes
-      sc_rating_ep_codes + sc_nonrating_ep_codes
-    end
+    # def sc_ep_codes
+    #   sc_rating_ep_codes + sc_nonrating_ep_codes
+    # end
 
     # convert date and tiemstamp values from string to integer
     # change keys from snakecase to lower camelcase to prevent schema validation error
