@@ -51,4 +51,7 @@ run-high-priority: ## start shoryuken with just the high priority queue
 	docker compose run --rm rails bundle exec shoryuken -q appeals_consumer_development_high_priority -R
 
 publish-decision-review-created-events: ## publish DecisionReviewCreated event messages to test consumption
-	docker compose run --rm rails bundle exec rake kafka_message_generators:decision_review_created_events
+	docker compose run --rm rails bundle exec rake kafka_message_generators:decision_review_created_events[decision_review_created]
+
+publish-decision-review-updated-events: ## publish DecisionReviewUpdated event messages to test consumption
+	docker compose run --rm rails bundle exec rake kafka_message_generators:decision_review_created_events[decision_review_updated]
