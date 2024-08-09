@@ -3,6 +3,28 @@
 FactoryBot.define do
   factory :decision_review_updated, class: "Transformers::DecisionReviewUpdated" do
     event_id { nil }
+    
+    trait :eligible_rating_hlr do
+      decision_review_issues_created do
+        [
+          review_issues_created_attributes(
+            contention_action: "ADD_CONTENTION- TEST",
+            prior_rating_decision_id: 13,
+          )
+        ]
+      end
+      decision_review_issues_removed do
+        review_issues_removed_attributes(
+          contention_action: "DELETE_CONTENTION"
+        )
+      end
+      decision_review_issues_withdrawn do
+        review_issues_withdrawn_attributes(
+          contention_action: "DELETE_CONTENTION"
+        )
+      end
+
+    end
 
     trait :eligible_rating_hlr_veteran_claimant do
       rating_hlr_veteran_claimant
@@ -15,7 +37,7 @@ FactoryBot.define do
 
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
-        base_review_issue
+        base_message_payload
       end
     end
 
@@ -59,11 +81,11 @@ def base_message_payload(**args)
     actor_station: "101",
     actor_application: "PASYSACCTCREATE",
     auto_remand: false,
-    decision_review_issues_created: [decision_review_issues_created],
-    decision_review_issues_updated: [decision_review_issues_updated],
-    decision_review_issues_removed: [decision_review_issues_removed],
-    decision_review_issues_withdrawn: [decision_review_issues_withdrawn],
-    decision_review_issues_not_changed: [decision_review_issues_not_changed]
+    decision_review_issues_created: [review_issues_created_attributes],
+    decision_review_issues_updated: [review_issues_updated_attributes],
+    decision_review_issues_removed: [review_issues_removed_attributes],
+    decision_review_issues_withdrawn: [review_issues_withdrawn_attributes],
+    decision_review_issues_not_changed: [review_issues_not_changed_attributes]
   }
 end
 
@@ -103,22 +125,22 @@ def base_review_issue
   }
 end
 
-def decision_review_issues_created
-  base_review_issue.merge(contention_action: "ADD_CONTENTION")
+def review_issues_created_attributes(**args)
+  base_review_issue.merge(args)
 end
 
-def decision_review_issues_updated
-  base_review_issue.merge(contention_action: "UPDATE_CONTENTION")
+def review_issues_updated_attributes(**args)
+  base_review_issue.merge(args)
 end
 
-def decision_review_issues_removed
-  base_review_issue.merge(contention_action: "DELETE_CONTENTION", removed: true)
+def review_issues_removed_attributes(**args)
+  base_review_issue.merge(args)
 end
 
-def decision_review_issues_withdrawn
-  base_review_issue.merge(contention_action: "DELETE_CONTENTION", withdrawn: true)
+def review_issues_withdrawn_attributes(**args)
+  base_review_issue.merge(args)
 end
 
-def decision_review_issues_not_changed
-  base_review_issue.merge(contention_action: "NONE")
+def review_issues_not_changed_attributes(**args)
+  base_review_issue.merge(args)
 end
