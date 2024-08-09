@@ -61,8 +61,7 @@ class Transformers::DecisionReviewUpdated
 
   def create_decision_review_issues(payload)
     if payload_invalid?(payload)
-      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue " \
-        "updated when decision review issues not changed exist"
+      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue updated"
     end
 
     issues = payload.slice(
@@ -79,8 +78,7 @@ class Transformers::DecisionReviewUpdated
   end
 
   def payload_invalid?(payload)
-    payload[:decision_review_issues_not_changed].any? &&
-      payload[:decision_review_issues_created].blank? &&
+    payload[:decision_review_issues_created].blank? &&
       payload[:decision_review_issues_updated].blank? &&
       payload[:decision_review_issues_removed].blank? &&
       payload[:decision_review_issues_withdrawn].blank?

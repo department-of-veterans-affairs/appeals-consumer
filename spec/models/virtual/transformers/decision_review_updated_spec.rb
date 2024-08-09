@@ -238,8 +238,7 @@ describe Transformers::DecisionReviewUpdated do
 
       it "raises ArgumentError" do
         error_message =
-          "Transformers::DecisionReviewUpdated: Message payload must include at least one decision review issue " \
-          "updated when decision review issues not changed exist"
+          "Transformers::DecisionReviewUpdated: Message payload must include at least one decision review issue updated"
         expect { subject }.to raise_error(ArgumentError, error_message)
       end
     end
