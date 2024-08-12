@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Builders::DecisionReviewUpdated::ClaimReviewBuilder
-  include DecisionReviewUpdated::ModelBuilder
   attr_reader :claim_review, :decision_review_updated
 
   def self.build(decision_review_updated)
@@ -16,7 +15,7 @@ class Builders::DecisionReviewUpdated::ClaimReviewBuilder
   end
 
   def assign_attributes
-    assign_autoremand
+    assign_auto_remand
     assign_remand_source_id
     assign_informal_conference
     assign_same_office
