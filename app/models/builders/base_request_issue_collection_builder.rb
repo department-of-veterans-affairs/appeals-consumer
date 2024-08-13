@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Builders::BaseRequestIssueCollectionBuilder
-  include DecisionReviewCreated::ModelBuilder
+  include DecisionReview::ModelBuilder
   # issues with this eligibility_result are not included in the caseflow payload
   # caseflow does not track or have a concept of this when determining ineligible_reason
   CONTESTED = "CONTESTED"
