@@ -7,14 +7,14 @@ class Builders::BaseRequestIssueCollectionBuilder
   CONTESTED = "CONTESTED"
   RATING = "RATING"
 
-  def self.build(decision_review_created)
-    builder = new(decision_review_created)
+  def self.build(decision_review_model)
+    builder = new(decision_review_model)
     builder.build_issues
   end
 
   # only fetch BIS rating profiles if there are rating issues
-  def initialize(decision_review_created)
-    @decision_review_created = decision_review_created
+  def initialize(decision_review_model)
+    @decision_review_model = decision_review_model
     @bis_rating_profiles = nil
 
     # only fetch and set BIS rating profiles if the message is rating and contains an identified BIS rating issue
@@ -61,7 +61,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def rating_ep_code_category?
-    @decision_review_created.ep_code_category.upcase == RATING
+    @decision_review_model.ep_code_category.upcase == RATING
   end
 
   def at_least_one_valid_bis_issue?
@@ -69,24 +69,24 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def remove_ineligible_contested_issues
-    @decision_review_created.decision_review_issues.reject { |issue| issue.eligibility_result == CONTESTED }
+    @decision_review_model.decision_review_issues.reject { |issue| issue.eligibility_result == CONTESTED }
   end
 
   def handle_no_issues_after_removing_contested
     fail AppealsConsumer::Error::RequestIssueCollectionBuildError, "Failed building from"\
-      " Builders::BaseRequestIssueCollectionBuilder for DecisionReviewCreated Claim ID:"\
-      " #{@decision_review_created.claim_id} does not contain any valid issues after"\
+      " Builders::BaseRequestIssueCollectionBuilder for DecisionReview Claim ID:"\
+      " #{@decision_review_model.claim_id} does not contain any valid issues after"\
       " removing 'CONTESTED' ineligible issues"
   end
 
   # index is only used as an identifier if the decision_review_issue's contention_id is nil
   def build_request_issue(issue, index)
     begin
-      # RequestIssueBuilder needs access to a few attributes within @decision_review_created
-      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_created, @bis_rating_profiles)
+      # RequestIssueBuilder needs access to a few attributes within @decision_review_model
+      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
       message = "Failed building from Builders::BaseRequestIssueCollectionBuilder for "\
-      "DecisionReviewCreated Claim ID: #{@decision_review_created.claim_id} "\
+      "DecisionReview Claim ID: #{@decision_review_model.claim_id} "\
       "#{issue_identifier_message(issue, index)} - #{error.message}"
 
       raise AppealsConsumer::Error::RequestIssueBuildError, message
