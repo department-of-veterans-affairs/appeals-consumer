@@ -74,7 +74,7 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   def handle_no_issues_after_removing_contested
     fail AppealsConsumer::Error::RequestIssueCollectionBuildError, "Failed building from"\
-      " Builders::BaseRequestIssueCollectionBuilder for DecisionReview Claim ID:"\
+      " #{self.class} for DecisionReview Claim ID:"\
       " #{@decision_review_model.claim_id} does not contain any valid issues after"\
       " removing 'CONTESTED' ineligible issues"
   end
@@ -85,7 +85,7 @@ class Builders::BaseRequestIssueCollectionBuilder
       # RequestIssueBuilder needs access to a few attributes within @decision_review_model
       Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
-      message = "Failed building from Builders::BaseRequestIssueCollectionBuilder for "\
+      message = "Failed building from #{self.class} for "\
       "DecisionReview Claim ID: #{@decision_review_model.claim_id} "\
       "#{issue_identifier_message(issue, index)} - #{error.message}"
 
