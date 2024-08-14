@@ -57,8 +57,6 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@removed_issues)).to eq("removed_issues")
       expect(dto_builder.instance_variable_get(:@withdrawn_issues)).to eq("withdrawn_issues")
     end
-
-    # need to add spec for failure, error logging
   end
 
   describe "#build_decision_review_updated" do
