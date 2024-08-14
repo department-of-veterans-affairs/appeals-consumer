@@ -2,12 +2,13 @@
 
 # Dummy class to include the module
 class DummyClass
-  include DecisionReviewCreated::ModelBuilder
+  # include DecisionReviewCreated::ModelBuilder
+  include DecisionReview::ModelBuilder
   attr_accessor :decision_review_created, :bis_synced_at, :earliest_issue_profile_date,
                 :latest_issue_profile_date_plus_one_day
 end
 
-describe DecisionReviewCreated::ModelBuilder do
+describe DecisionReview::ModelBuilder do
   let(:dummy) { DummyClass.new }
   let(:file_number) { "123456789" }
   let(:claim_id) { "987654321" }
@@ -327,7 +328,7 @@ describe DecisionReviewCreated::ModelBuilder do
         let(:error) { AppealsConsumer::Error::BisRatingProfilesError }
         let(:msg) do
           "Failed fetching Rating Profiles info from"\
-            " DecisionReviewCreated::ModelBuilder: #{timeout_msg}"
+            " DecisionReview::ModelBuilder: #{timeout_msg}"
         end
         let(:timeout_msg) { "timeout" }
         let!(:event_audit) do

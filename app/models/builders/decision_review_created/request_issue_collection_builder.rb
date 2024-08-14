@@ -2,7 +2,8 @@
 
 # This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
 class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
-  include DecisionReviewCreated::ModelBuilder
+  # include DecisionReviewCreated::ModelBuilder
+  include DecisionReview::ModelBuilder
   # issues with this eligibility_result are not included in the caseflow payload
   # caseflow does not track or have a concept of this when determining ineligible_reason
   CONTESTED = "CONTESTED"
@@ -84,7 +85,8 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
   def build_request_issue(issue, index)
     begin
       # RequestIssueBuilder needs access to a few attributes within @decision_review_created
-      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_created, @bis_rating_profiles)
+      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_created,
+                                                                 @bis_rating_profiles)
     rescue StandardError => error
       message = "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
       "DecisionReviewCreated Claim ID: #{@decision_review_created.claim_id} "\

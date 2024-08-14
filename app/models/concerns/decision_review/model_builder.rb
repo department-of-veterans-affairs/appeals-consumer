@@ -3,7 +3,7 @@
 # This module is to encapsulate common functionanlity amungst the individiual
 # model builder classes such as Builders::DecisionReviewCreated::EndProductEstablishment
 # rubocop:disable Metrics/ModuleLength
-module DecisionReviewCreated::ModelBuilder
+module DecisionReview::ModelBuilder
   # used to convert date type to date logical type
   EPOCH_DATE = Date.new(1970, 1, 1)
   PENSION_IDENTIFIER = "PMC"

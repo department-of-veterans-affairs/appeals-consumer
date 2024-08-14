@@ -2,7 +2,8 @@
 
 # This class is used to build out an DecisionReviewCreated::Intake object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::IntakeBuilder
-  include DecisionReviewCreated::ModelBuilder
+  # include DecisionReviewCreated::ModelBuilder
+  include DecisionReview::ModelBuilder
   attr_reader :intake, :decision_review_created
 
   COMPLETION_SUCCESS_STATUS = "success"
