@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class KafkaMessageGenerators::Base
+  def decision_review_updated?
+    @decision_review_event_type == "decision_review_updated"
+  end
+
   def camelize_keys(message)
     hash = convert_message_to_hash(message)
     hash.deep_transform_keys! { |key| key.camelize(:lower) }
@@ -26,6 +30,19 @@ class KafkaMessageGenerators::Base
       payload: encoded_message
     )
     @published_messages_count += 1
+  end
+
+  def issue_types
+    @issue_types ||= {
+      decision_review_created: [:decision_review_issues],
+      decision_review_updated: [
+        :decision_review_issues_created,
+        :decision_review_issues_not_changed,
+        :decision_review_issues_removed,
+        :decision_review_issues_updated,
+        :decision_review_issues_withdrawn
+      ]
+    }
   end
 
   # all possible ep codes appeals-consumer could receive from vbms intake

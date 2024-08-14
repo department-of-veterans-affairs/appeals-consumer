@@ -270,8 +270,10 @@ module KafkaMessageGenerators
     end
 
     def store_bis_rating_profiles_with_ramp_id(message)
-      message.decision_review_issues.each do |issue|
-        store_bis_rating_profiles(message, bis_rating_profile_with_ramp(issue, message))
+      issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
+        message.send(issue_type).each do |issue|
+          store_bis_rating_profiles(message, bis_rating_profile_with_ramp(issue, message))
+        end
       end
     end
 
