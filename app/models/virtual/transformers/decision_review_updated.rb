@@ -111,7 +111,7 @@ class DecisionReviewIssueUpdated
     "time_override_reason" => [String, NilClass],
     "contested" => [TrueClass, FalseClass, NilClass],
     "soc_opt_in" => [TrueClass, FalseClass, NilClass],
-    "legacy_appeal_id" => [Integer, NilClass],
+    "legacy_appeal_id" => [String, NilClass],
     "legacy_appeal_issue_id" => [Integer, NilClass],
     "prior_decision_award_event_id" => [Integer, NilClass],
     "prior_decision_rating_profile_date" => [String, NilClass],

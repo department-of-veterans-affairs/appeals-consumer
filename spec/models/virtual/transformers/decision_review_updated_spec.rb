@@ -29,7 +29,9 @@ describe Transformers::DecisionReviewUpdated do
         expect(subject.originated_from_vacols_issue).to eq(message_payload["originated_from_vacols_issue"])
         expect(subject.tracked_item_action).to eq(message_payload["tracked_item_action"])
         expect(subject.informal_conference_requested).to eq(message_payload["informal_conference_requested"])
-        expect(subject.informal_conference_tracked_item_id).to eq(message_payload["informal_conference_tracked_item_id"])
+        expect(subject.informal_conference_tracked_item_id).to eq(
+          message_payload["informal_conference_tracked_item_id"]
+        )
         expect(subject.same_station_review_requested).to eq(message_payload["same_station_review_requested"])
         expect(subject.update_time).to eq(message_payload["update_time"])
         expect(subject.actor_username).to eq(message_payload["actor_username"])
