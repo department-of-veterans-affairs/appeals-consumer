@@ -59,103 +59,8 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
     calculate_nonrating_issue_bgs_source
   end
 
-  # exception thrown if an unrecognized eligibility_result is passed in
-  # eligible issues always have NIL for ineligible_reason
-  def determine_ineligible_reason
-    if eligible?
-      nil
-    elsif pending_claim_review?
-      determine_pending_claim_review_type
-    elsif time_restriction?
-      determine_time_restriction_type
-    elsif completed_claim_review?
-      determine_completed_claim_review_type
-    elsif pending_legacy_appeal?
-      legacy_issue_not_withdrawn
-    elsif legacy_time_restriction_or_no_soc_ssoc?
-      legacy_appeal_not_eligible
-    else
-      handle_unrecognized_eligibility_result
-    end
-  end
-
-  def duplicate_of_nonrating_issue_in_active_review
-    INELIGIBLE_REASONS[:duplicate_of_nonrating_issue_in_active_review]
-  end
-
-  def duplicate_of_rating_issue_in_active_review
-    INELIGIBLE_REASONS[:duplicate_of_rating_issue_in_active_review]
-  end
-
-  def untimely
-    INELIGIBLE_REASONS[:untimely]
-  end
-
-  def higher_level_review_to_higher_level_review
-    INELIGIBLE_REASONS[:higher_level_review_to_higher_level_review]
-  end
-
-  def appeal_to_higher_level_review
-    INELIGIBLE_REASONS[:appeal_to_higher_level_review]
-  end
-
-  def before_ama
-    INELIGIBLE_REASONS[:before_ama]
-  end
-
-  def legacy_issue_not_withdrawn
-    INELIGIBLE_REASONS[:legacy_issue_not_withdrawn]
-  end
-
-  def legacy_appeal_not_eligible
-    INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
-  end
-
-  def handle_associated_request_issue_not_present
-    unless associated_caseflow_request_issue_present?
-      fail AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId, "Issue is ineligible due to a pending review"\
-        " but has null for associated_caseflow_request_issue_id"
-    end
-  end
-
-  # removes duplicate prior_decision_type text from prior_decision_text field
-  # example:
-  # prior_decision_type: "DIC"
-  # prior_decision_text: "DIC: Service connection for tetnus denied"
-  # final result: "Service connection for tetnus denied"
-  def remove_duplicate_prior_decision_type_text
-    category = issue.prior_decision_type
-    return issue.prior_decision_text unless category
-
-    category += ": "
-    description = issue.prior_decision_text
-
-    description.gsub(/^#{Regexp.escape(category)}/i, "")
-  end
-
-  def rating_or_decision_issue?
-    rating? || rating_decision? || decision_issue?
-  end
-
-  def pending_claim_review?
-    PENDING_REVIEW.include?(issue.eligibility_result)
-  end
-
-  def time_restriction?
-    issue.eligibility_result == TIME_RESTRICTION
-  end
-
-  def pending_legacy_appeal?
-    issue.eligibility_result == PENDING_LEGACY_APPEAL
-  end
-
-  def legacy_time_restriction_or_no_soc_ssoc?
-    LEGACY_APPEAL_NOT_ELIGIBLE.include?(issue.eligibility_result)
-  end
-
-  def completed_board_appeal?
-    issue.eligibility_result == COMPLETED_BOARD_APPEAL
-  end
+  ## THIS ONE DOESN"T PASS WHEN MIGRATED TO BASE
+  ## ===========================================
 
   # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
   def decision_date_before_ama?
@@ -166,31 +71,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
       decision_date < ama_activation_date_logical_type
     end
   end
-
-  def associated_caseflow_request_issue_present?
-    !!issue.associated_caseflow_request_issue_id
-  end
-
-  # an issue can contest a rating issue, rating decision, or nonrating issue
-  def identified?
-    rating? || rating_decision? || nonrating?
-  end
-
-  def prior_decision_date_not_present?
-    !issue.prior_decision_date
-  end
-
-  def contention_id_not_present?
-    !issue.contention_id
-  end
-
-  def ineligible?
-    INELIGIBLE.include?(issue.eligibility_result)
-  end
-
-  def eligible?
-    ELIGIBLE.include?(issue.eligibility_result)
-  end
+  ## ==========================================
 
   def rating_or_rating_decision?
     rating? || rating_decision?
