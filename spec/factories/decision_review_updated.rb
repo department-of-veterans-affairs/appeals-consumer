@@ -214,6 +214,44 @@ FactoryBot.define do
       end
     end
 
+    trait :eligible_rating_hlr_with_two_issues do
+      message_payload do 
+        base_message_payload(
+          decision_review_issues_created: [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_rating_decision_id: 12,
+              prior_decision_diagnostic_code: "5008"
+            ),
+            review_issues_created_attributes(
+              contention_action: "NONE",
+              contention_id: nil,
+              prior_rating_decision_id: 11,
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_updated: 
+          [
+            review_issues_updated_attributes(
+              prior_rating_decision_id: 13,
+              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            ),
+            review_issues_updated_attributes(
+              prior_rating_decision_id: 14,
+              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            )
+          ],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
