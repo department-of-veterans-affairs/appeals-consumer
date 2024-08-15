@@ -207,10 +207,6 @@ class Builders::BaseRequestIssueBuilder
       end
   end
 
-  ## ----------------------------------------------------
-  ## Test still pass after migrating the methods above from request_issue_builder.rb
-  ## ----------------------------------------------------
-
   # exception thrown if an unrecognized eligibility_result is passed in
   # eligible issues always have NIL for ineligible_reason
   def determine_ineligible_reason
@@ -309,20 +305,6 @@ class Builders::BaseRequestIssueBuilder
     issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
 
-  ## =============================
-  ## THIS ONE DOESN'T PASS
-  ## =============================
-
-  # # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
-  # def decision_date_before_ama?
-  #   decision_date = prior_decision_date_converted_to_logical_type
-
-  #   if decision_date
-  #     ama_activation_date_logical_type = (AMA_ACTIVATION_DATE - EPOCH_DATE).to_i
-  #     decision_date < ama_activation_date_logical_type
-  #   end
-  # end
-
   def associated_caseflow_request_issue_present?
     !!issue.associated_caseflow_request_issue_id
   end
@@ -376,17 +358,6 @@ class Builders::BaseRequestIssueBuilder
     !!(decision_review_created.ep_code_category.upcase == NONRATING_EP_CODE_CATEGORY)
   end
 
-  ## =============================
-  ## THIS ONE DOESN'T PASS
-  ## =============================
-  ## ++++++++++++++++++++++++++++++++++++++++
-
-  # def determine_benefit_type
-  #   decision_review_created.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
-  # end
-
-  ## ++++++++++++++++++++++++++++++++++++++++
-
   def determine_pending_claim_review_type
     rating? ? duplicate_of_rating_issue_in_active_review : duplicate_of_nonrating_issue_in_active_review
   end
@@ -410,5 +381,71 @@ class Builders::BaseRequestIssueBuilder
   def prior_decision_date_converted_to_logical_type
     convert_to_date_logical_type(issue.prior_decision_date)
   end
-  ## _____________ THE ONES ABOVE PASS _________________
+
+  # fetch rating profile from BIS and find the clm_id of the RAMP ep, if one exists
+  def determine_ramp_claim_id
+    return nil unless @bis_rating_profiles && associated_claims_data
+
+    associated_ramp_ep = find_associated_ramp_ep(associated_claims_data)
+    associated_ramp_ep&.dig(:clm_id)
+  end
+
+  # parses response to find all claim data, then finds claims that associate with this issue
+  def associated_claims_data
+    all_claims = find_all_claims
+    return nil if all_claims.nil?
+
+    find_associated_claims(all_claims)
+  end
+
+  def find_all_claims
+    @bis_rating_profiles.extend Hashie::Extensions::DeepFind
+    claims = @bis_rating_profiles&.deep_find_all(:rba_claim)
+    return if claims.nil? || claims.all?(&:nil?)
+
+    claims.flatten
+  end
+
+  def find_associated_claims(all_claims)
+    matching_claims = all_claims.select do |claim|
+      claim_profile_date_matches_issue_profile_date?(claim)
+    end
+
+    matching_claims.presence
+  end
+
+  # finds matching claims by comparing profile date of the claim with the issue's profile date
+  def claim_profile_date_matches_issue_profile_date?(claim)
+    return unless claim&.dig(:prfl_date) && issue.prior_decision_rating_profile_date
+
+    claim&.dig(:prfl_date)&.to_date == issue.prior_decision_rating_profile_date.to_date
+  end
+
+  # return the first associated_claim that has a RAMP ep code. if there aren't any that match return nil
+  def find_associated_ramp_ep(associated_claims_data)
+    associated_claims_data.find do |claim|
+      ep_code = claim&.dig(:bnft_clm_tc)
+
+      RAMP_EP_CODES.key?(ep_code)
+    end
+  end
+
+  def handle_contention_id_present
+    fail AppealsConsumer::Error::NotNullContentionIdError,
+         "Issue is ineligible but has a not-null contention_id value"
+  end
+
+  def handle_unrecognized_eligibility_result
+    fail AppealsConsumer::Error::IssueEligibilityResultNotRecognized, "Issue has an unrecognized eligibility_result:"\
+      " #{issue.eligibility_result}"
+  end
+
+  def handle_missing_contention_id
+    fail AppealsConsumer::Error::NullContentionIdError, "Issue is eligible but has null for contention_id"
+  end
+
+  def handle_missing_decision_date
+    msg = "Issue with contention_id #{issue.contention_id} is identified but has null for prior_decision_date"
+    fail AppealsConsumer::Error::NullPriorDecisionDate, msg
+  end
 end
