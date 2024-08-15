@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Builders::BaseRequestIssueBuilder
+  include DecisionReview::ModelBuilder
   REQUEST_ISSUE = "RequestIssue"
   NONRATING_EP_CODE_CATEGORY = "NON_RATING"
 
