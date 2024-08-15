@@ -59,7 +59,7 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
     calculate_nonrating_issue_bgs_source
   end
 
-  ## THIS ONE DOESN"T PASS WHEN MIGRATED TO BASE
+  ## THESE ONES DON'T PASS WHEN MIGRATED TO BASE
   ## ===========================================
 
   # used to determine if "TIME_RESTRICTION" eligibility_result maps to "untimely" or "before_ama" ineligible_reason
@@ -71,35 +71,12 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
       decision_date < ama_activation_date_logical_type
     end
   end
-  ## ==========================================
 
   def determine_benefit_type
     decision_review_created.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
 
-  def determine_pending_claim_review_type
-    rating? ? duplicate_of_rating_issue_in_active_review : duplicate_of_nonrating_issue_in_active_review
-  end
-
-  def determine_time_restriction_type
-    decision_date_before_ama? ? before_ama : untimely
-  end
-
-  def completed_claim_review?
-    COMPLETED_REVIEW.include?(issue.eligibility_result)
-  end
-
-  def determine_completed_claim_review_type
-    completed_board_appeal? ? appeal_to_higher_level_review : higher_level_review_to_higher_level_review
-  end
-
-  def contention_id_present?
-    !!issue.contention_id
-  end
-
-  def prior_decision_date_converted_to_logical_type
-    convert_to_date_logical_type(issue.prior_decision_date)
-  end
+  ## ==========================================
 
   # fetch rating profile from BIS and find the clm_id of the RAMP ep, if one exists
   def determine_ramp_claim_id
