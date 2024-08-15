@@ -36,22 +36,36 @@ class Builders::DecisionReviewUpdated::ClaimReviewBuilder
   end
 
   def any_opted_in_issues?
-    combine_decision_review_issues.any? { |issue| !!issue.soc_opt_in }
+    all_decision_review_updated_issues.any? { |issue| !!issue.soc_opt_in }
   end
 
-  # Combines decision review issues of all types into single array
-  def combine_decision_review_issues
-    all_decision_review_issues = []
-    decision_review_issues.each { |issues| all_decision_review_issues += issues }
-    all_decision_review_issues.flatten
-  end
-
-  def decision_review_issues
+  def all_decision_review_updated_issues
     [
-      decision_review_updated.decision_review_issues_created,
-      decision_review_updated.decision_review_issues_updated,
-      decision_review_updated.decision_review_issues_removed,
-      decision_review_updated.decision_review_issues_withdrawn
-    ]
+      decision_review_updated_issues_created,
+      decision_review_updated_issues_updated,
+      decision_review_updated_issues_removed,
+      decision_review_updated_issues_withdrawn,
+      decision_review_updated_issues_not_changed
+    ].flatten
+  end
+
+  def decision_review_updated_issues_created
+    decision_review_updated.decision_review_issues_created
+  end
+
+  def decision_review_updated_issues_updated
+    decision_review_updated.decision_review_issues_updated
+  end
+
+  def decision_review_updated_issues_removed
+    decision_review_updated.decision_review_issues_removed
+  end
+
+  def decision_review_updated_issues_withdrawn
+    decision_review_updated.decision_review_issues_withdrawn
+  end
+
+  def decision_review_updated_issues_not_changed
+    decision_review_updated.decision_review_issues_not_changed
   end
 end
