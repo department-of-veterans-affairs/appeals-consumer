@@ -44,4 +44,66 @@ class Builders::BaseRequestIssueBuilder
     "683SCRRRAMP" => "Supplemental Claim Review Rating",
     "683HAERRAMP" => "Higher-Level Review Additional Evidence Rating"
   }.freeze
+
+  # EP codes ending in "PMC" are pension, otherwise "compensation"
+  def calculate_benefit_type
+    @request_issue.benefit_type = determine_benefit_type
+  end
+
+  # only rating issues, rating decisions, and issues with an associated decision issue populate this field
+  def calculate_contested_issue_description
+    @request_issue.contested_issue_description =
+      rating_or_decision_issue? ? remove_duplicate_prior_decision_type_text : nil
+  end
+
+  # eligible issues should always have a not-nil contention_id
+  # ineligible issues should never have a nil contention_id
+  def calculate_contention_reference_id
+    @request_issue.contention_reference_id =
+      if eligible?
+        handle_missing_contention_id if contention_id_not_present?
+
+        issue.contention_id
+      elsif ineligible?
+        handle_contention_id_present if contention_id_present?
+
+        nil
+      end
+  end
+
+  # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
+  def assign_contested_rating_decision_reference_id
+    @request_issue.contested_rating_decision_reference_id = issue.prior_decision_rating_sn&.to_s
+  end
+
+  # only populate if issue is a rating issue
+  def calculate_contested_rating_issue_profile_date
+    @request_issue.contested_rating_issue_profile_date = rating? ? issue.prior_decision_rating_profile_date : nil
+  end
+
+  def assign_contested_rating_issue_reference_id
+    @request_issue.contested_rating_issue_reference_id = issue.prior_rating_decision_id&.to_s
+  end
+
+  # both rating and nonrating issues can be associated to a caseflow decision_issue
+  def assign_contested_decision_issue_id
+    @request_issue.contested_decision_issue_id = issue.prior_caseflow_decision_issue_id
+  end
+
+  # only unidentified issues can have an optional user-input decision date
+  # if an identified issue does not have a decision date, the error is logged
+  # and current in progress EventAudit notes are updated with error
+  def calculate_decision_date
+    begin
+      handle_missing_decision_date if prior_decision_date_not_present? && identified?
+    rescue AppealsConsumer::Error::NullPriorDecisionDate => error
+      error_name_and_msg = "#{error.class.name}-#{error}"
+      log_msg_and_update_current_event_audit_notes!(error_name_and_msg, error: true)
+    end
+
+    @request_issue.decision_date = prior_decision_date_converted_to_logical_type
+  end
+  ## ----------------------------------------------------
+  ## Test still pass after migrating the methods above from request_issue_builder.rb
+  ## ----------------------------------------------------
 end
