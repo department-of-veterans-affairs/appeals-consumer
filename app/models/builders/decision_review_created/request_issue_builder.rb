@@ -73,34 +73,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
   end
   ## ==========================================
 
-  def rating_or_rating_decision?
-    rating? || rating_decision?
-  end
-
-  def unidentified?
-    !!issue.unidentified
-  end
-
-  def nonrating?
-    !!issue.prior_non_rating_decision_id
-  end
-
-  def rating?
-    !!issue.prior_rating_decision_id
-  end
-
-  def rating_decision?
-    !!issue.prior_decision_rating_sn
-  end
-
-  def decision_issue?
-    !!issue.prior_caseflow_decision_issue_id
-  end
-
-  def nonrating_ep_code?
-    !!(decision_review_created.ep_code_category.upcase == NONRATING_EP_CODE_CATEGORY)
-  end
-
   def determine_benefit_type
     decision_review_created.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
