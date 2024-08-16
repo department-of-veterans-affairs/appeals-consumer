@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-# This class is used to build out an individual Request Issue from decision_review_created.decision_review_issues
+# This class is used to build out an individual Request Issue from decision_review_model.decision_review_issues
 class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseRequestIssueBuilder
-  attr_reader :decision_review_created, :issue, :request_issue
+  attr_reader :decision_review_model, :issue, :request_issue
 
   # returns the DecisionReviewCreated::RequestIssue record with all attributes assigned
-  def self.build(issue, decision_review_created, bis_rating_profiles)
-    builder = new(issue, decision_review_created, bis_rating_profiles)
+  def self.build(issue, decision_review_model, bis_rating_profiles)
+    builder = new(issue, decision_review_model, bis_rating_profiles)
     builder.assign_attributes
     builder.request_issue
   end
 
-  def initialize(issue, decision_review_created, bis_rating_profiles)
-    @decision_review_created = decision_review_created
+  def initialize(issue, decision_review_model, bis_rating_profiles)
+    @decision_review_model = decision_review_model
     @issue = issue
     @bis_rating_profiles = bis_rating_profiles
     @request_issue = DecisionReviewCreated::RequestIssue.new
@@ -72,6 +72,6 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
   end
 
   def determine_benefit_type
-    decision_review_created.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
+    decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
 end
