@@ -80,6 +80,7 @@ gem "strong_migrations"
 
 gem "next_rails"
 
+gem "opentelemetry-instrumentation-all", require: false
 gem "opentelemetry-sdk", require: false
 gem "opentelemetry-exporter-otlp", require: false
 gem "opentelemetry-instrumentation-rack", require: false

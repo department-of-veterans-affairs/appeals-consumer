@@ -4,7 +4,7 @@ require 'bundler/setup'
 
 # require 'opentelemetry/sdk'
 # require 'opentelemetry/exporter/otlp'
-# require 'opentelemetry/instrumentation/all'
+require 'opentelemetry/instrumentation/all'
 
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
