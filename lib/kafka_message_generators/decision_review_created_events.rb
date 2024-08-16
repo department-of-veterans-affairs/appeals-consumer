@@ -84,7 +84,9 @@ module KafkaMessageGenerators
 
     def should_skip_creating_bis_rating_profile?(message)
       rating_profile_already_in_bis?(message.veteran_participant_id) ||
-        issues_dont_have_rating_identifier?(message.decision_review_issues)
+      issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
+        issues_dont_have_rating_identifier?(message.send(issue_type))
+      end
     end
 
     def rating_profile_already_in_bis?(participant_id)
@@ -530,11 +532,13 @@ module KafkaMessageGenerators
     end
 
     def change_issue_decision_type_and_decision_text(drc, decision_type)
-      drc.decision_review_issues.each do |issue|
-        issue.prior_decision_type = decision_type
-        issue.prior_decision_text = "#{decision_type}: Service connection for tetnus denied"
+      issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
+        drc.send(issue_type).each do |issue|
+          issue.prior_decision_type = decision_type
+          issue.prior_decision_text = "#{decision_type}: Service connection for tetnus denied"
+        end
       end
-
+      
       drc
     end
 
@@ -649,9 +653,14 @@ module KafkaMessageGenerators
     def convert_dates_and_timestamps_to_int(message)
       convert_decision_review_created_attrs(message)
 
-      message.decision_review_issues.each do |issue|
-        convert_decision_review_issue_attrs(issue)
+      issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
+        message.send(issue_type).each do |issue|
+          convert_decision_review_issue_attrs(issue)
+        end
       end
+      # message.decision_review_issues.each do |issue|
+      #   convert_decision_review_issue_attrs(issue)
+      # end
 
       message
     end
@@ -671,7 +680,7 @@ module KafkaMessageGenerators
     end
 
     def convert_drc_timestamps(message)
-      keys_with_timestamp_value = %w[intake_creation_time claim_creation_time]
+      keys_with_timestamp_value = decision_review_updated? ? %w[claim_creation_time]: %w[intake_creation_time claim_creation_time]
       convert_value_to_timestamp_ms(keys_with_timestamp_value, message)
 
       message

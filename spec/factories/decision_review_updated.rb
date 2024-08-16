@@ -217,7 +217,8 @@ FactoryBot.define do
     trait :eligible_rating_hlr_with_two_issues do
       message_payload do 
         base_message_payload(
-          decision_review_issues_created: [
+          decision_review_issues_created: 
+          [
             review_issues_created_attributes(
               contention_id: nil,
               prior_rating_decision_id: 12,
@@ -245,12 +246,1366 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
             )
           ],
+          decision_review_issues_removed: 
+          [
+            review_issues_removed_attributes(
+              prior_rating_decision_id: 10,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED))",
+            ),
+            review_issues_removed_attributes(
+              prior_rating_decision_id: 9,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED))",
+            )
+          ],
+          decision_review_issues_withdrawn: 
+          [
+            review_issues_withdrawn_attributes(
+              prior_rating_decision_id: 7,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)",
+            ),
+            review_issues_withdrawn_attributes(
+              prior_rating_decision_id: 8,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)",
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
           decision_review_issues_removed: [],
           decision_review_issues_withdrawn: [],
           decision_review_issues_not_changed: [],
         )
       end
     end
+
+    trait :eligible_rating_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_non_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_without_prior_decision_date do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_legacy do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_time_override do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_non_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_date do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_legacy do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_time_override do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_non_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+    trait :eligible_rating_hlr_unidentified_without_prior_decision_date do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_non_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+     trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_unidentified_non_veteran_claimant do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_unidentified do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_without_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_without_prior_decision_date do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_legacy do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+     trait :eligible_nonrating_hlr_time_override do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+     end
+
+    trait :eligible_nonrating_hlr_with_two_issues do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_with_decision_source do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+    ## end of eligible
+
+    # start of ineligible
+    trait :ineligible_rating_hlr_contested_with_additional_issue do
+      message_payload do
+        base_message_payload(
+          decision_review_issues_created: 
+          [
+            review_issues_created_attributes(
+              prior_rating_decision_id: 13,
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "CONTESTED"
+            ),
+            review_issues_created_attributes(
+              contention_action: "NONE",
+              prior_rating_decision_id: 13,
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "CONTESTED"
+            )
+          ],
+          decision_review_issues_updated: 
+          [
+            review_issues_updated_attributes(
+              prior_rating_decision_id: 14,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_text: "Service connection for tetnus denied (UPDATE)",
+              eligibility_result: "CONTESTED"
+            ),
+            review_issues_updated_attributes(
+              prior_rating_decision_id: 15,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_text: "Service connection for tetnus denied (ADDITIONAL UPDATE)",
+              eligibility_result: "CONTESTED"
+            ),
+
+          ],
+          decision_review_issues_removed: 
+          [
+            review_issues_removed_attributes(
+              prior_rating_decision_id: 10,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED))",
+            ),
+            review_issues_removed_attributes(
+              prior_rating_decision_id: 9,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED AFTER)",
+            )
+          ],
+          decision_review_issues_withdrawn: 
+          [
+            review_issues_withdrawn_attributes(
+              prior_rating_decision_id: 7,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)",
+              eligibility_result: "CONTESTED"
+            ),
+            review_issues_withdrawn_attributes(
+              prior_rating_decision_id: 8,
+              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)",
+              eligibility_result: "CONTESTED"
+            )
+          ],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_hlr_without_ri_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_with_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: [],
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_contested do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_time_restriction_untimely do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_time_restriction_before_ama do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_no_soc_ssoc do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_legacy_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_legacy_time_restriction do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_supplemental do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_hlr_without_ri_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_with_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_time_restriction_untimely do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_time_restriction_before_ama do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_no_soc_ssoc do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_legacy_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_legacy_time_restriction do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_supplemental do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr_without_ri_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_before_ama do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_no_soc_ssoc do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_legacy_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_supplemental do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_completed_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_completed_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_completed_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_completed_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_completed_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_completed_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr_without_ri_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_with_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_contested do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_contested_with_additional_issue do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_hlr_without_ri_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_with_contention_id do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_time_restriction_untimely do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_time_restriction_before_ama do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_no_soc_ssoc do
+       message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_legacy_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_legacy_time_restriction do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_legacy_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_supplemental do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_legacy_time_restriction do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_supplemental do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_completed_hlr do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_completed_board_appeal do
+      message_payload do
+        base_message_payload(
+          # decision_review_issues_created: [],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
+        )
+      end
+    end
+    ## end of ineligible
 
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
@@ -349,15 +1704,15 @@ def review_issues_created_attributes(**args)
 end
 
 def review_issues_updated_attributes(**args)
-  base_review_issue.merge(contention_action: "UPDATE_CONTENTION", **args)
+  base_review_issue.merge(**args, contention_action: "UPDATE_CONTENTION", )
 end
 
 def review_issues_removed_attributes(**args)
-  base_review_issue.merge(contention_action: "DELETE_CONTENTION", removed: true, **args)
+  base_review_issue.merge( **args, contention_action: "DELETE_CONTENTION", removed: true)
 end
 
 def review_issues_withdrawn_attributes(**args)
-  base_review_issue.merge(contention_action: "DELETE_CONTENTION", withdrawn: true, **args)
+  base_review_issue.merge(**args, contention_action: "DELETE_CONTENTION", withdrawn: true)
 end
 
 def review_issues_not_changed_attributes(**args)
