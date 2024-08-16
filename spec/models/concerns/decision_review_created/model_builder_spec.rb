@@ -4,7 +4,7 @@
 class DummyClass
   # include DecisionReviewCreated::ModelBuilder
   include DecisionReview::ModelBuilder
-  attr_accessor :decision_review_model, :bis_synced_at, :earliest_issue_profile_date,
+  attr_accessor :decision_review_created, :bis_synced_at, :earliest_issue_profile_date,
                 :latest_issue_profile_date_plus_one_day
 end
 
@@ -33,12 +33,12 @@ describe DecisionReview::ModelBuilder do
       intake_creation_time: intake_creation_time,
       event_id: event_id
     )
-    dummy.decision_review_model = @decision_review_created_double
+    dummy.decision_review_created = @decision_review_created_double
   end
 
   describe "#fetch_veteran_bis_record" do
     subject { dummy.fetch_veteran_bis_record }
-    context "when decision_review_model is present" do
+    context "when decision_review_created is present" do
       context "when the BIS record is found" do
         it "fetches the veteran BIS record successfully" do
           allow(BISService).to receive(:new).and_return(double("BISService", fetch_veteran_info: bis_record))
@@ -51,7 +51,7 @@ describe DecisionReview::ModelBuilder do
       context "when the BIS record is not found" do
         let(:msg) do
           "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
-          " #{dummy.decision_review_model.file_number}"
+          " #{dummy.decision_review_created.file_number}"
         end
         let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
@@ -113,7 +113,7 @@ describe DecisionReview::ModelBuilder do
 
   describe "#fetch_person_bis_record" do
     subject { dummy.fetch_person_bis_record }
-    context "when decision_review_model is present" do
+    context "when decision_review_created is present" do
       context "when the BIS record is found" do
         it "fetches the veteran BIS record successfully" do
           allow(BISService).to receive(:new).and_return(double("BISService", fetch_person_info: bis_record))
@@ -125,7 +125,7 @@ describe DecisionReview::ModelBuilder do
       context "when the BIS record is not found" do
         let(:msg) do
           "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
-            " #{dummy.decision_review_model.claimant_participant_id}"
+            " #{dummy.decision_review_created.claimant_participant_id}"
         end
         let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
@@ -186,7 +186,7 @@ describe DecisionReview::ModelBuilder do
   end
 
   describe "#fetch_limited_poa" do
-    context "when decision_review_model is present" do
+    context "when decision_review_created is present" do
       it "fetches the limited POA successfully" do
         allow(BISService).to receive(:new).and_return(double(
                                                         "BISService",
@@ -230,9 +230,9 @@ describe DecisionReview::ModelBuilder do
       end
     end
 
-    context "when decision_review_model is nil" do
+    context "when decision_review_created is nil" do
       it "returns nil" do
-        dummy.decision_review_model = nil
+        dummy.decision_review_created = nil
         expect(dummy.fetch_limited_poa).to be_nil
       end
     end
@@ -241,7 +241,7 @@ describe DecisionReview::ModelBuilder do
   describe "#fetch_bis_rating_profiles" do
     subject { dummy.fetch_bis_rating_profiles }
 
-    context "when decision_review_model, earliest_issue_profile_date, and"\
+    context "when decision_review_created, earliest_issue_profile_date, and"\
       " latest_issue_profile_date_plus_one_day are all present" do
       let(:earliest_date) { "2017-02-07T07:21:24+00:00" }
       let(:latest_date) { "2017-02-10T07:21:24+00:00" }
@@ -283,7 +283,7 @@ describe DecisionReview::ModelBuilder do
       context "when no records are found" do
         let(:msg) do
           "BIS Rating Profiles: Rating Profile info not found for DecisionReviewCreated veteran_participant_id"\
-            " #{dummy.decision_review_model.veteran_participant_id} within the date range"\
+            " #{dummy.decision_review_created.veteran_participant_id} within the date range"\
             " #{dummy.earliest_issue_profile_date} - #{dummy.latest_issue_profile_date_plus_one_day}."
         end
         let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
@@ -353,11 +353,11 @@ describe DecisionReview::ModelBuilder do
       end
     end
 
-    context "when decision_review_model, earliest_issue_profile_date, or latest_issue_profile_date_plus_one_day"\
+    context "when decision_review_created, earliest_issue_profile_date, or latest_issue_profile_date_plus_one_day"\
       " is not present" do
-      context "when decision_review_model is not present" do
+      context "when decision_review_created is not present" do
         it "returns nil" do
-          dummy.decision_review_model = nil
+          dummy.decision_review_created = nil
           expect(subject).to be_nil
         end
       end
@@ -389,17 +389,17 @@ describe DecisionReview::ModelBuilder do
           claim_creation_time: claim_creation_time,
           intake_creation_time: intake_creation_time
         )
-        dummy.decision_review_model = @decision_review_created_double
+        dummy.decision_review_created = @decision_review_created_double
       end
 
       it "returns nil" do
-        expect(dummy.convert_to_date_logical_type(dummy.decision_review_model.claim_received_date)).to be_nil
+        expect(dummy.convert_to_date_logical_type(dummy.decision_review_created.claim_received_date)).to be_nil
       end
     end
 
     context "when the value is not nil" do
       it "returns the value converted to date logical type" do
-        claim_received_date = dummy.decision_review_model.claim_received_date
+        claim_received_date = dummy.decision_review_created.claim_received_date
         expect(dummy.convert_to_date_logical_type(claim_received_date).class).to eq(Integer)
       end
     end
@@ -416,25 +416,25 @@ describe DecisionReview::ModelBuilder do
           claim_creation_time: claim_creation_time,
           intake_creation_time: nil
         )
-        dummy.decision_review_model = @decision_review_created_double
+        dummy.decision_review_created = @decision_review_created_double
       end
 
       it "returns nil" do
-        expect(dummy.convert_to_timestamp_ms(dummy.decision_review_model.intake_creation_time)).to be_nil
+        expect(dummy.convert_to_timestamp_ms(dummy.decision_review_created.intake_creation_time)).to be_nil
       end
     end
 
     context "when the value is not nil" do
       it "returns the value converted to timestamp milliseconds" do
-        expect(dummy.convert_to_timestamp_ms(dummy.decision_review_model.intake_creation_time).class).to eq(Integer)
+        expect(dummy.convert_to_timestamp_ms(dummy.decision_review_created.intake_creation_time).class).to eq(Integer)
       end
     end
   end
 
   describe "#claim_creation_time_converted_to_timestamp_ms" do
-    context "when the decision_review_model is nil" do
+    context "when the decision_review_created is nil" do
       it "returns nil" do
-        dummy.decision_review_model = nil
+        dummy.decision_review_created = nil
         expect(dummy.claim_creation_time_converted_to_timestamp_ms).to be_nil
       end
     end
@@ -450,7 +450,7 @@ describe DecisionReview::ModelBuilder do
             claim_creation_time: nil,
             intake_creation_time: intake_creation_time
           )
-          dummy.decision_review_model = @decision_review_created_double
+          dummy.decision_review_created = @decision_review_created_double
         end
 
         it "returns nil" do
