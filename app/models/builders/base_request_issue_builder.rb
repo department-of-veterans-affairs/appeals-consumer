@@ -203,7 +203,7 @@ class Builders::BaseRequestIssueBuilder
 
   def calculate_nonrating_issue_bgs_source
     @request_issue.nonrating_issue_bgs_source =
-      if decision_review_created.ep_code_category == NONRATING_EP_CODE_CATEGORY
+      if decision_review_model.ep_code_category == NONRATING_EP_CODE_CATEGORY
         issue.prior_decision_source&.to_s
       end
   end
@@ -356,7 +356,7 @@ class Builders::BaseRequestIssueBuilder
   end
 
   def nonrating_ep_code?
-    !!(decision_review_created.ep_code_category.upcase == NONRATING_EP_CODE_CATEGORY)
+    !!(decision_review_model.ep_code_category.upcase == NONRATING_EP_CODE_CATEGORY)
   end
 
   def determine_pending_claim_review_type
