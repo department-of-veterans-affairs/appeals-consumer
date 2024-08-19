@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
+describe KafkaMessageGenerators::DecisionReviewEvents do
   let(:decision_review_created_events) { described_class.new("decision_review_created") }
   let(:decision_review_created) { build(:decision_review_created) }
   let(:rating_ep_codes) { decision_review_created_events.send(:rating_ep_codes) }
