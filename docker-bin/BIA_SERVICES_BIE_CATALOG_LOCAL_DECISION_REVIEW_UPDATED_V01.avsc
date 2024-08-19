@@ -368,7 +368,7 @@
                 "name": "decision",
                 "type": [
                   "null",
-                  "Decision"
+                  "gov.va.bip.cest.decisionreview.avro.Decision"
                 ],
                 "default": null
               }
