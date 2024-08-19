@@ -36,3 +36,6 @@ supervisord.pid
 
 # Ignore hidden files 
 coverage
+
+# Ignore byebug history
+.byebug_history
