@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This allows you to run a custom lib/kafka_message_generators file
-# for example: bundle exec rake kafka_message_generators:decision_review_created_events
+# for example: bundle exec rake kafka_message_generators:decision_review_events
 namespace :kafka_message_generators do
   Dir[File.join(Rails.root, "lib", "kafka_message_generators", "*.rb")].each do |filename|
     task_name = File.basename(filename, ".rb").intern

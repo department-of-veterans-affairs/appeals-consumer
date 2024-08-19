@@ -3,6 +3,15 @@
 FactoryBot.define do
   factory :decision_review_updated, class: "Transformers::DecisionReviewUpdated" do
     event_id { nil }
+    message_payload do
+      base_message_payload(
+         # decision_review_issues_created: [],
+         decision_review_issues_updated: [],
+         decision_review_issues_removed: [],
+         decision_review_issues_withdrawn: [],
+         decision_review_issues_not_changed: [],
+      )
+    end
 
 
     # start traits
@@ -1667,6 +1676,7 @@ def base_review_issue
   {
     decision_review_issue_id: 22,
     contention_action: "ADD_CONTENTION",
+    reason_for_contention_action: "NEWLY_ELIGIBLE",
     contention_id: 710_002_659,
     associated_caseflow_request_issue_id: nil,
     unidentified: false,
@@ -1704,17 +1714,26 @@ def review_issues_created_attributes(**args)
 end
 
 def review_issues_updated_attributes(**args)
-  base_review_issue.merge(**args, contention_action: "UPDATE_CONTENTION", )
+  base_review_issue.merge(**args,
+                          contention_action: "UPDATE_CONTENTION")
 end
 
 def review_issues_removed_attributes(**args)
-  base_review_issue.merge( **args, contention_action: "DELETE_CONTENTION", removed: true)
+  base_review_issue.merge(**args,
+                          contention_action: "DELETE_CONTENTION",
+                          reason_for_contention_action: "REMOVED_SELECTED",
+                          removed: true)
 end
 
 def review_issues_withdrawn_attributes(**args)
-  base_review_issue.merge(**args, contention_action: "DELETE_CONTENTION", withdrawn: true)
+  base_review_issue.merge(**args,
+                          contention_action: "DELETE_CONTENTION",
+                          reason_for_contention_action: "WITHDRAWN_SELECTED",
+                          withdrawn: true)
 end
 
 def review_issues_not_changed_attributes(**args)
-  base_review_issue.merge(contention_action: "NONE", **args)
+  base_review_issue.merge(**args,
+                          contention_action: "NONE",
+                          reason_for_contention_action: "NO_CHANGES")
 end

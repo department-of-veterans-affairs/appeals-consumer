@@ -2,7 +2,7 @@
 
 module KafkaMessageGenerators
   # rubocop:disable Metrics/ClassLength
-  class DecisionReviewCreatedEvents < ::KafkaMessageGenerators::Base
+  class DecisionReviewEvents < ::KafkaMessageGenerators::Base
     # clears the cache incase any records are currently stored
     # initializes variable that will hold file numbers to be removed from the cache
     # these file numbers will get a different bis response than the rest to test event audit notes and logging
@@ -21,7 +21,7 @@ module KafkaMessageGenerators
     # creates all vbms intake scenarios for every ep code
     # including scenarios that would raise an error within appeals-consumer
     def publish_messages!
-      puts "Started creating messages..."
+      puts "Started creating #{@decision_review_event_type} messages..."
       messages = create_messages
       puts "Finished creating messages!"
 
