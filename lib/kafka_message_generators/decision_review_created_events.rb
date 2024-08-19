@@ -27,7 +27,7 @@ module KafkaMessageGenerators
 
       puts "Started preparing and publishing #{messages.flatten.count} messages..."
       messages.flatten.each do |message|
-        topic = ENV["DECISION_REVIEW_CREATED_TOPIC"]
+        topic = ENV["#{@decision_review_event_type.upcase}_TOPIC"]
         formatted_message = convert_and_format_message(message)
         encoded_message = encode_message(formatted_message, topic)
         publish_message(encoded_message, topic)
@@ -716,7 +716,8 @@ module KafkaMessageGenerators
 
     # converts string dates e.g. "2026-05-03" into date logical type e.g. 19_954
     def date_string_converted_to_logical_type(key, object)
-      Date.parse(object.send(key)).to_time.to_i / (60 * 60 * 24)
+      decision_review_updated? ? object.send(key).to_time.to_i / (60 * 60 * 24) :
+        Date.parse(object.send(key)).to_time.to_i / (60 * 60 * 24)
     end
 
     # the factorybot objs used throughout this file represent a deserialized message containing timestamps as a string
