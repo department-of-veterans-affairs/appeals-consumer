@@ -22,7 +22,7 @@ describe Builders::DecisionReviewCreated::ClaimantBuilder do
 
   describe "initialization" do
     it "assigns @#decision_review_created and fetches bis record" do
-      expect(builder.decision_review_created).to eq(decision_review_created)
+      expect(builder.decision_review_model).to eq(decision_review_created)
       expect(builder.bis_record).not_to be_nil
     end
   end

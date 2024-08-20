@@ -58,7 +58,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     end
 
     it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
+      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
     context "when the BIS record is not found" do
