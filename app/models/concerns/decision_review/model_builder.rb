@@ -141,8 +141,9 @@ module DecisionReview::ModelBuilder
 
   def decision_review_model
     return @decision_review_created if @decision_review_created
+    return @decision_review_updated if @decision_review_updated
 
-    @decision_review_updated
+    @decision_review_model
   end
 end
 # rubocop:enable Metrics/ModuleLength
