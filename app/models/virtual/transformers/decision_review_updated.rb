@@ -92,6 +92,7 @@ class DecisionReviewIssueUpdated
     "decision_review_issue_id" => [Integer, NilClass],
     "contention_id" => [Integer, NilClass],
     "contention_action" => String,
+    "reason_for_contention_action" => String,
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
     "unidentified" => [TrueClass, FalseClass],
     "prior_rating_decision_id" => [Integer, NilClass],
