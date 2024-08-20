@@ -33,6 +33,9 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
       @updated_issues = build_updated_request_issues
       @removed_issues = build_removed_request_issues
       @withdrawn_issues = build_withdrawn_request_issues
+      @eligible_to_ineligible_issues = build_eligible_to_ineligible_issues
+      @ineligible_to_eligible_issues = build_ineligible_to_eligible_issues
+      @ineligible_to_ineligible_issues = build_ineligible_to_ineligible_issues
     rescue StandardError => error
       raise AppealsConsumer::Error::DtoBuildError,
             "Failed building from Builders::DecisionReviewUpdated::DtoBuilder: #{error.message}"
@@ -76,6 +79,18 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
 
   def build_withdrawn_request_issues
     Builders::DecisionReviewUpdated::WithdrawnIssueCollectionBuilder.build(@decision_review_updated)
+  end
+
+  def build_eligible_to_ineligible_issues
+    Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilder.build(@decision_review_updated)
+  end
+
+  def build_ineligible_to_eligible_issues
+    Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBuilder.build(@decision_review_updated)
+  end
+
+  def build_ineligible_to_ineligible_issues
+    Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder.build(@decision_review_updated)
   end
 
   def build_decision_review_updated_payload
