@@ -84,9 +84,9 @@ module KafkaMessageGenerators
 
     def should_skip_creating_bis_rating_profile?(message)
       rating_profile_already_in_bis?(message.veteran_participant_id) ||
-      issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
-        issues_dont_have_rating_identifier?(message.send(issue_type))
-      end
+        issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
+          issues_dont_have_rating_identifier?(message.send(issue_type))
+        end
     end
 
     def rating_profile_already_in_bis?(participant_id)
@@ -538,7 +538,6 @@ module KafkaMessageGenerators
           issue.prior_decision_text = "#{decision_type}: Service connection for tetnus denied"
         end
       end
-      
       drc
     end
 
@@ -680,7 +679,8 @@ module KafkaMessageGenerators
     end
 
     def convert_drc_timestamps(message)
-      keys_with_timestamp_value = decision_review_updated? ? %w[claim_creation_time]: %w[intake_creation_time claim_creation_time]
+      keys_with_timestamp_value = decision_review_updated? ? %w[claim_creation_time] : 
+        %w[intake_creation_time claim_creation_time]
       convert_value_to_timestamp_ms(keys_with_timestamp_value, message)
 
       message
@@ -716,8 +716,11 @@ module KafkaMessageGenerators
 
     # converts string dates e.g. "2026-05-03" into date logical type e.g. 19_954
     def date_string_converted_to_logical_type(key, object)
-      decision_review_updated? ? object.send(key).to_time.to_i / (60 * 60 * 24) :
+      if decision_review_updated? 
+        object.send(key).to_time.to_i / (60 * 60 * 24)
+      else  
         Date.parse(object.send(key)).to_time.to_i / (60 * 60 * 24)
+      end
     end
 
     # the factorybot objs used throughout this file represent a deserialized message containing timestamps as a string
