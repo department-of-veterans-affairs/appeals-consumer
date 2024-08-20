@@ -497,7 +497,7 @@ FactoryBot.define do
               prior_decision_notification_date: nil,
               prior_decision_diagnostic_code: "5008",
               prior_decision_rating_sn: "1_623_57"
-            ),
+            )
           ],
           decision_review_issues_removed:
           [
@@ -598,7 +598,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               prior_decision_rating_sn: "1_623_57",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_updated:
@@ -608,7 +608,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               prior_decision_rating_sn: "1_623_57",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_removed:
@@ -618,7 +618,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               prior_decision_rating_sn: "1_623_57",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_withdrawn:
@@ -628,7 +628,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               prior_decision_rating_sn: "1_623_57",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_not_changed:
@@ -638,7 +638,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               prior_decision_rating_sn: "1_623_57",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ]
         )
@@ -770,7 +770,7 @@ FactoryBot.define do
               prior_caseflow_decision_issue_id: 11,
               prior_rating_decision_id: 13,
               prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
+              prior_decision_diagnostic_code: "5008"
             )
           ],
           decision_review_issues_updated:
@@ -781,7 +781,7 @@ FactoryBot.define do
               prior_rating_decision_id: 13,
               prior_decision_text: "Service connection for tetnus denied (UPDATED)",
               prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
+              prior_decision_diagnostic_code: "5008"
             )
           ],
           decision_review_issues_removed:
@@ -790,7 +790,7 @@ FactoryBot.define do
               prior_caseflow_decision_issue_id: 11,
               prior_rating_decision_id: 13,
               prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
+              prior_decision_diagnostic_code: "5008"
             )
           ],
           decision_review_issues_withdrawn:
@@ -799,7 +799,7 @@ FactoryBot.define do
               prior_caseflow_decision_issue_id: 11,
               prior_rating_decision_id: 13,
               prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
+              prior_decision_diagnostic_code: "5008"
             )
           ],
           decision_review_issues_not_changed:
@@ -808,7 +808,7 @@ FactoryBot.define do
               prior_caseflow_decision_issue_id: 11,
               prior_rating_decision_id: 13,
               prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
+              prior_decision_diagnostic_code: "5008"
             )
           ]
         )
@@ -943,7 +943,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               eligibility_result: "ELIGIBLE_LEGACY",
               legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1,
+              legacy_appeal_issue_id: 1
             )
           ],
           decision_review_issues_updated:
@@ -957,7 +957,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               eligibility_result: "ELIGIBLE_LEGACY",
               legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1,
+              legacy_appeal_issue_id: 1
             )
           ],
           decision_review_issues_removed:
@@ -969,7 +969,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               eligibility_result: "ELIGIBLE_LEGACY",
               legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1,
+              legacy_appeal_issue_id: 1
             )
           ],
           decision_review_issues_withdrawn:
@@ -981,7 +981,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               eligibility_result: "ELIGIBLE_LEGACY",
               legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1,
+              legacy_appeal_issue_id: 1
             )
           ],
           decision_review_issues_not_changed:
@@ -993,7 +993,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               eligibility_result: "ELIGIBLE_LEGACY",
               legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1,
+              legacy_appeal_issue_id: 1
             )
           ]
         )
@@ -1016,7 +1016,7 @@ FactoryBot.define do
               prior_decision_type: "Disability Evaluation",
               prior_decision_diagnostic_code: "5008",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_updated:
@@ -1028,7 +1028,7 @@ FactoryBot.define do
               prior_decision_type: "Disability Evaluation",
               prior_decision_diagnostic_code: "5008",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_removed:
@@ -1039,7 +1039,7 @@ FactoryBot.define do
               prior_decision_type: "Disability Evaluation",
               prior_decision_diagnostic_code: "5008",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_withdrawn:
@@ -1050,7 +1050,7 @@ FactoryBot.define do
               prior_decision_type: "Disability Evaluation",
               prior_decision_diagnostic_code: "5008",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ],
           decision_review_issues_not_changed:
@@ -1061,7 +1061,7 @@ FactoryBot.define do
               prior_decision_type: "Disability Evaluation",
               prior_decision_diagnostic_code: "5008",
               time_override: true,
-              time_override_reason: "good cause exemption",
+              time_override_reason: "good cause exemption"
             )
           ]
         )
@@ -2356,7 +2356,7 @@ FactoryBot.define do
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          decision_review_issues_updated: 
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               eligible: false,
