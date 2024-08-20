@@ -9,7 +9,7 @@ FactoryBot.define do
         decision_review_issues_removed: [],
         decision_review_issues_withdrawn: [],
         decision_review_issues_not_changed: []
-        )
+      )
     end
 
     # start traits
@@ -99,7 +99,8 @@ FactoryBot.define do
               prior_decision_date: nil
             )
           ],
-          decision_review_issues_not_changed:[
+          decision_review_issues_not_changed:
+          [
             review_issues_not_changed_attributes(
               prior_decision_date: nil
             )
@@ -153,7 +154,8 @@ FactoryBot.define do
               legacy_appeal_issue_id: 1
             )
           ],
-          decision_review_issues_not_changed:[
+          decision_review_issues_not_changed:
+          [
             review_issues_not_changed_attributes(
               eligibility_result: "ELIGIBLE_LEGACY",
               legacy_appeal_id: "LEGACYID",
@@ -207,7 +209,8 @@ FactoryBot.define do
               prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
             )
           ],
-          decision_review_issues_not_changed:[
+          decision_review_issues_not_changed:
+          [
             review_issues_not_changed_attributes(
               prior_rating_decision_id: 13,
               time_override: true,
@@ -282,7 +285,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participantq_id,
+          participant_id: participant_id,
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -426,35 +429,34 @@ FactoryBot.define do
             review_issues_created_attributes(
               contention_id: nil,
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_updated:
           [
             review_issues_updated_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ]
         )
@@ -968,11 +970,11 @@ FactoryBot.define do
           [
             review_issues_removed_attributes(
               prior_rating_decision_id: 10,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED))",
+              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED)"
             ),
             review_issues_removed_attributes(
               prior_rating_decision_id: 9,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED AFTER)",
+              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED AFTER)"
             )
           ],
           decision_review_issues_withdrawn:
@@ -1559,7 +1561,7 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_no_soc_ssoc do
-       message_payload do
+      message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
           decision_review_issues_updated: [],
@@ -1799,12 +1801,16 @@ def base_message_payload(**args)
     actor_station: "101",
     actor_application: "PASYSACCTCREATE",
     auto_remand: false,
-    decision_review_issues_created:args[:decision_review_issues_created] || [review_issues_created_attributes],
-    decision_review_issues_updated:args[:decision_review_issues_updated] || [review_issues_updated_attributes],
-    decision_review_issues_removed:args[:decision_review_issues_removed] || [review_issues_removed_attributes],
-    decision_review_issues_withdrawn:
-    args[:decision_review_issues_withdrawn] || [review_issues_withdrawn_attributes],
-    decision_review_issues_not_changed:args[:decision_review_issues_not_changed] || [review_issues_not_changed_attributes]
+    decision_review_issues_created: args[:decision_review_issues_created] ||
+      [review_issues_created_attributes],
+    decision_review_issues_updated: args[:decision_review_issues_updated] ||
+      [review_issues_updated_attributes],
+    decision_review_issues_removed: args[:decision_review_issues_removed] ||
+      [review_issues_removed_attributes],
+    decision_review_issues_withdrawn: args[:decision_review_issues_withdrawn] ||
+      [review_issues_withdrawn_attributes],
+    decision_review_issues_not_changed: args[:decision_review_issues_not_changed] ||
+      [review_issues_not_changed_attributes]
   }
 end
 
