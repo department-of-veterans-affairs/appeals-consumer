@@ -435,7 +435,13 @@ FactoryBot.define do
           decision_review_issues_updated:
           [
             review_issues_updated_attributes(
-              prior_decision_rating_sn: "1_623_547"
+              contention_action: "DELETE_CONTENTION",
+              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
+              eligible: false,
+              eligibility_result: "TIME_RESTRICTION",
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
             )
           ],
           decision_review_issues_removed:
@@ -464,50 +470,235 @@ FactoryBot.define do
     end
 
     trait :eligible_rating_decision_hlr_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            ),
+            review_issues_updated_attributes(
+              contention_action: "DELETE_CONTENTION",
+              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
+              eligible: false,
+              eligibility_result: "TIME_RESTRICTION",
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            ),
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
           decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed: []
+          [
+            review_issues_withdrawn_attributes(
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_decision_notification_date: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ]
         )
       end
     end
 
     trait :eligible_rating_decision_hlr_legacy do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              contention_action: "DELETE_CONTENTION",
+              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
+              eligible: false,
+              eligibility_result: "TIME_RESTRICTION",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1
+            )
+          ]
         )
       end
     end
 
     trait :eligible_rating_decision_hlr_time_override do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_withdrawn_attributes(
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ]
         )
       end
     end
 
     trait :eligible_rating_decision_hlr_without_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              contention_id: nil,
+              contention_action: "DELETE_CONTENTION",
+              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
+              eligible: false,
+              eligibility_result: "TIME_RESTRICTION",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              contention_id: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              contention_id: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              contention_id: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ]
         )
       end
     end
@@ -515,23 +706,111 @@ FactoryBot.define do
     trait :eligible_rating_decision_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              prior_decision_text: "Tetnus is denied",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              contention_action: "DELETE_CONTENTION",
+              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
+              eligible: false,
+              eligibility_result: "TIME_RESTRICTION",
+              prior_decision_text: "Tetnus is denied",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_decision_text: "Tetnus is denied",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_decision_text: "Tetnus is denied",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_decision_text: "Tetnus is denied",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              prior_decision_rating_sn: "1_623_57"
+            )
+          ]
         )
       end
     end
 
     trait :eligible_decision_issue_prior_rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+            )
+          ]
         )
       end
     end
@@ -539,95 +818,417 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
+              prior_caseflow_decision_issue_id: 10,
+              prior_rating_decision_id: 13,
+              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_caseflow_decision_issue_id: 9,
+              prior_rating_decision_id: 14,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_caseflow_decision_issue_id: 8,
+              prior_rating_decision_id: 15,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ]
         )
       end
     end
 
     trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_date: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_date: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_date: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_date: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_date: nil,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ]
         )
       end
     end
 
     trait :eligible_decision_issue_prior_rating_hlr_legacy do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "ELIGIBLE_LEGACY",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1,
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "ELIGIBLE_LEGACY",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1,
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "ELIGIBLE_LEGACY",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1,
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "ELIGIBLE_LEGACY",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1,
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              eligibility_result: "ELIGIBLE_LEGACY",
+              legacy_appeal_id: "LEGACYID",
+              legacy_appeal_issue_id: 1,
+            )
+          ]
         )
       end
     end
 
+    # same_station_review_requested_true
     trait :eligible_decision_issue_prior_rating_hlr_time_override do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          same_station_review_requested: true,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              reason_for_contention_action: "SPECIAL_ISSUES_CHANGED",
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008",
+              time_override: true,
+              time_override_reason: "good cause exemption",
+            )
+          ]
         )
       end
     end
 
     trait :eligible_decision_issue_prior_rating_hlr_without_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 7,
+              prior_rating_decision_id: 16,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ]
         )
       end
     end
 
+    # informal_confrence_requested
     trait :eligible_decision_issue_prior_rating_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          informal_conference_requested: true,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              reason_for_contention_action: "SPECIAL_ISSUES_CHANGED",
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              reason_for_contention_action: "INELIGIBLE_REASON_CHANGED",
+              prior_caseflow_decision_issue_id: 11,
+              prior_rating_decision_id: 13,
+              prior_decision_type: "Disability Evaluation",
+              prior_decision_diagnostic_code: "5008"
+            )
+          ]
         )
       end
     end
 
     trait :eligible_rating_hlr_unidentified_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
-        )
-      end
-    end
-
-    trait :eligible_rating_hlr_unidentified_veteran_claimant do
-      message_payload do
-        base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          participant_id: participant_id,
+          decision_review_issues_created:
+          [
+            review_issues_created_attributes(
+              contention_id: nil,
+              unidentified: true,
+              prior_decision_type: "Disability Evaluation"
+            )
+          ],
+          decision_review_issues_updated:
+          [
+            review_issues_updated_attributes(
+              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
+              unidentified: true,
+              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
+              prior_decision_type: "Disability Evaluation"
+            )
+          ],
+          decision_review_issues_removed:
+          [
+            review_issues_removed_attributes(
+              unidentified: true,
+              prior_decision_type: "Disability Evaluation"
+            )
+          ],
+          decision_review_issues_withdrawn:
+          [
+            review_issues_withdrawn_attributes(
+              unidentified: true,
+              prior_decision_type: "Disability Evaluation"
+            )
+          ],
+          decision_review_issues_not_changed:
+          [
+            review_issues_not_changed_attributes(
+              unidentified: true,
+              prior_decision_type: "Disability Evaluation"
+            )
+          ]
         )
       end
     end
@@ -963,8 +1564,7 @@ FactoryBot.define do
               prior_decision_diagnostic_code: "5008",
               prior_decision_text: "Service connection for tetnus denied (ADDITIONAL UPDATE)",
               eligibility_result: "CONTESTED"
-            ),
-
+            )
           ],
           decision_review_issues_removed:
           [
@@ -1756,7 +2356,13 @@ FactoryBot.define do
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          decision_review_issues_updated:[review_issues_updated_attributes(eligible: false, unidentified: true)]
+          decision_review_issues_updated: 
+          [
+            review_issues_updated_attributes(
+              eligible: false,
+              unidentified: true
+            )
+          ]
         )
       end
     end
@@ -1793,8 +2399,8 @@ def base_message_payload(**args)
     limited_poa_code: nil,
     tracked_item_action: "ADD_TRACKED_ITEM",
     informal_conference_tracked_item_id: nil,
-    informal_conference_requested: false,
-    same_station_review_requested: false,
+    informal_conference_requested: args[:informal_conference_requested] || false,
+    same_station_review_requested: args[:same_station_review_requested] || false,
     update_time: "1_722_435_298_953",
     claim_creation_time: Time.zone.now.to_s,
     actor_username: "BVADWISE101",
