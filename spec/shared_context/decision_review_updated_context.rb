@@ -75,6 +75,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 123_456,
       "contention_action" => "ADD_CONTENTION",
+      "reason_for_contention_action" => "",
       "prior_decision_text" => "An unidentified issue added during the edit"
     )
   end
@@ -84,6 +85,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 123_456_791,
       "contention_action" => "Action",
+      "reason_for_contention_action" => "",
       "unidentified" => false,
       "prior_non_rating_decision_id" => 13,
       "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -99,6 +101,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 328_253,
       "contention_action" => "DELETE_CONTENTION",
+      "reason_for_contention_action" => "",
       "prior_decision_text" => "The second unidentified issue (will be removed)",
       "removed" => true
     )
@@ -109,6 +112,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 328_252,
       "contention_action" => "DELETE_CONTENTION",
+      "reason_for_contention_action" => "",
       "prior_decision_text" => "The first unidentified issue (will be withdrawn)",
       "withdrawn" => true
     )
@@ -119,6 +123,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 328_254,
       "contention_action" => "NONE",
+      "reason_for_contention_action" => "",
       "prior_decision_text" => "The third unidentified issue (not changed)"
     )
   end
