@@ -5,10 +5,10 @@ FactoryBot.define do
     event_id { nil }
     message_payload do
       base_message_payload(
-         decision_review_issues_updated:[],
-         decision_review_issues_removed:[],
-         decision_review_issues_withdrawn:[],
-         decision_review_issues_not_changed:[]
+        decision_review_issues_updated: [],
+        decision_review_issues_removed: [],
+        decision_review_issues_withdrawn: [],
+        decision_review_issues_not_changed: []
         )
     end
 
@@ -110,10 +110,10 @@ FactoryBot.define do
     trait :test do
       message_payload do
         base_message_payload(
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:[],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -286,31 +286,31 @@ FactoryBot.define do
           decision_review_issues_created:
           [
             review_issues_created_attributes(
-              contention_id: nil,
+              contention_id: nil
             )
           ],
           decision_review_issues_updated:
           [
             review_issues_updated_attributes(
-              contention_id: nil,
+              contention_id: nil
             )
           ],
           decision_review_issues_removed:
           [
             review_issues_removed_attributes(
-              contention_id: nil,
+              contention_id: nil
             )
           ],
           decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
-              contention_id: nil,
+              contention_id: nil
             )
           ],
           decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
-              contention_id: nil,
+              contention_id: nil
             )
           ]
         )
@@ -383,35 +383,35 @@ FactoryBot.define do
           [
             review_issues_created_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ],
           decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547",
+              prior_decision_rating_sn: "1_623_547"
             )
           ]
         )
@@ -465,11 +465,11 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
           decision_review_issues_withdrawn:
           [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -478,11 +478,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -491,11 +490,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -504,11 +502,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -517,11 +514,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -530,11 +526,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -543,11 +538,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -556,11 +550,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -569,11 +562,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -582,11 +574,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -595,11 +586,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -608,11 +598,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -621,11 +610,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -634,11 +622,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -647,11 +634,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -659,11 +645,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -672,11 +657,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -685,11 +669,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -698,11 +681,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -711,11 +693,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -724,11 +705,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -737,11 +717,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -750,11 +729,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -763,11 +741,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -776,11 +753,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -789,11 +765,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -802,11 +777,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -815,11 +789,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -828,11 +801,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -841,11 +813,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -854,11 +825,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -867,11 +837,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -880,11 +849,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -893,11 +861,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -906,11 +873,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -919,11 +885,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -932,11 +897,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -945,11 +909,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -958,11 +921,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1027,7 +989,7 @@ FactoryBot.define do
               eligibility_result: "CONTESTED"
             )
           ],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1036,11 +998,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1049,11 +1010,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1062,11 +1022,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1075,11 +1034,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1088,11 +1046,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1101,11 +1058,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1114,11 +1070,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1127,11 +1082,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1140,11 +1094,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1153,11 +1106,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1166,11 +1118,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1179,11 +1130,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1192,11 +1142,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1205,11 +1154,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1218,11 +1166,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1231,11 +1178,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1244,11 +1190,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1257,11 +1202,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1270,11 +1214,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1283,11 +1226,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1296,11 +1238,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1309,11 +1250,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1322,11 +1262,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1335,11 +1274,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1348,11 +1286,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1361,11 +1298,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1374,11 +1310,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1387,11 +1322,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1400,11 +1334,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1413,11 +1346,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1426,11 +1358,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1439,11 +1370,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1452,11 +1382,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1465,11 +1394,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1478,11 +1406,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1491,11 +1418,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1504,11 +1430,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1517,11 +1442,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1530,11 +1454,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1543,11 +1466,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1556,11 +1478,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1569,11 +1490,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1582,11 +1502,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1595,11 +1514,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1608,11 +1526,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1621,11 +1538,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1634,11 +1550,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1647,11 +1562,10 @@ FactoryBot.define do
        message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1660,11 +1574,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1673,11 +1586,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1686,11 +1598,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1699,11 +1610,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1712,11 +1622,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1725,11 +1634,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1738,11 +1646,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1751,11 +1658,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1764,11 +1670,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1777,11 +1682,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1790,11 +1694,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1803,11 +1706,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1816,11 +1718,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1829,11 +1730,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -1842,11 +1742,10 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           # decision_review_issues_created:[],
-          decision_review_issues_updated:[],
-          decision_review_issues_removed:[],
-          decision_review_issues_withdrawn:
-          [],
-          decision_review_issues_not_changed:[]
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end

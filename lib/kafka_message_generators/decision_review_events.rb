@@ -679,11 +679,11 @@ module KafkaMessageGenerators
     end
 
     def convert_drc_timestamps(message)
-      keys_with_timestamp_value = 
-        if decision_review_updated?  
-            %w[claim_creation_time] 
+      keys_with_timestamp_value =
+        if decision_review_updated?
+          %w[claim_creation_time]
         else
-            %w[intake_creation_time claim_creation_time]
+          %w[intake_creation_time claim_creation_time]
         end
       convert_value_to_timestamp_ms(keys_with_timestamp_value, message)
 
@@ -722,7 +722,7 @@ module KafkaMessageGenerators
     def date_string_converted_to_logical_type(key, object)
       if decision_review_updated?
         object.send(key).to_time.to_i / (60 * 60 * 24)
-      else  
+      else
         Date.parse(object.send(key)).to_time.to_i / (60 * 60 * 24)
       end
     end
