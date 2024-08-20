@@ -34,7 +34,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
 
     it "initializes a new instance variable @decision_review_created" do
-      expect(builder.instance_variable_get(:@decision_review_created))
+      expect(builder.instance_variable_get(:@decision_review_model))
         .to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
