@@ -24,11 +24,8 @@ class Builders::BaseRequestIssueCollectionBuilder
     end
   end
 
-  # valid_issues are the decision_review_issues that don't have "CONTESTED" eligibility_result
   def build_issues
-    valid_issues.map.with_index do |issue, index|
-      build_request_issue(issue, index)
-    end
+    fail NotImplementedError, "#{self.class} must implement the build_issues method"
   end
 
   # used to call BIS fetch_rating_profiles_in_range with specified date range
@@ -79,18 +76,8 @@ class Builders::BaseRequestIssueCollectionBuilder
       " removing 'CONTESTED' ineligible issues"
   end
 
-  # index is only used as an identifier if the decision_review_issue's contention_id is nil
   def build_request_issue(issue, index)
-    begin
-      # RequestIssueBuilder needs access to a few attributes within @decision_review_model
-      Builders::DecisionReviewCreated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
-    rescue StandardError => error
-      message = "Failed building from #{self.class} for "\
-      "DecisionReview Claim ID: #{@decision_review_model.claim_id} "\
-      "#{issue_identifier_message(issue, index)} - #{error.message}"
-
-      raise AppealsConsumer::Error::RequestIssueBuildError, message
-    end
+    fail NotImplementedError, "#{self.class} must implement the build__request_issue method"
   end
 
   # in cases where the decision review issue has null for contention_id, use the index of the issue as the identifier
