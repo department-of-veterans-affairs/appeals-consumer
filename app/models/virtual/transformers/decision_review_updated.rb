@@ -9,7 +9,6 @@ class Transformers::DecisionReviewUpdated
   # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
-  # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_UPDATED_ATTRIBUTES = {
     "claim_id" => Integer,
     "original_source" => String,
@@ -44,8 +43,6 @@ class Transformers::DecisionReviewUpdated
     "decision_review_issues_not_changed" => Array,
     "decision" => [Hash, NilClass]
   }.freeze
-  # rubocop:enable Style/MutableConstant
-
   # Allows read and write access for attributes
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
@@ -108,7 +105,6 @@ class DecisionReviewIssueUpdated
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
-  # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES = {
     "decision_review_issue_id" => [Integer, NilClass],
     "contention_id" => [Integer, NilClass],
@@ -143,8 +139,6 @@ class DecisionReviewIssueUpdated
     "withdrawn" => [TrueClass, FalseClass],
     "decision" => [Hash, NilClass]
   }.freeze
-  # rubocop:enable Style/MutableConstant
-
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
@@ -153,7 +147,7 @@ class DecisionReviewIssueUpdated
   def initialize(issue = {})
     validate(issue, self.class.name)
     assign(issue)
-    create_decisions(issue[:decision])
+    create_decisions(issue["decision"])
   end
 
   private
