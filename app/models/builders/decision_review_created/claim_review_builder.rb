@@ -2,7 +2,7 @@
 
 # This class is used to build out a Claim Review object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::ClaimReviewBuilder
-  include DecisionReview::ModelBuilder
+  include DecisionReview::ModelBuilderHelper
   attr_reader :claim_review, :decision_review_created
 
   FILED_BY_VA_GOV = false

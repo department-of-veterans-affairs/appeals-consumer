@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Builders::BaseRequestIssueBuilder
-  include DecisionReview::ModelBuilder
+  include DecisionReview::ModelBuilderHelper
 
   # returns the DecisionReviewCreated::RequestIssue record with all attributes assigned
   def self.build(issue, decision_review_model, bis_rating_profiles)
