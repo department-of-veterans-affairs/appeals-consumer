@@ -9,13 +9,13 @@ module KafkaMessageGenerators
     def initialize(decision_review_event_type)
       super()
       clear_cache
+      @decision_review_event_type = decision_review_event_type
       @file_numbers_to_remove_from_cache = []
       @claim_id = 710_000_000
-      @contention_id = 710_000_000
+      @contention_id = decision_review_updated? ? 720_000_000 : 710_000_000
       @veteran_participant_id = "210000000"
       @claimant_participant_id = "950000000"
       @file_number = "310000000"
-      @decision_review_event_type = decision_review_event_type
     end
 
     # creates all vbms intake scenarios for every ep code
@@ -791,12 +791,8 @@ module KafkaMessageGenerators
       veteran_claimant = object.veteran_participant_id == object.claimant_participant_id
 
       object.claim_id = @claim_id
-      # FORK - updated does not have decision_review_issues
-      if @decision_review_event_type == "decision_review_created"
-        object.decision_review_issues[0].contention_id = @contention_id
-      else
-        puts "Made it here"
-        # TODO: - iterate through each option and update contention_id
+      issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
+        object.send(issue_type)[0].contention_id = @contention_id
       end
       object.veteran_participant_id = @veteran_participant_id
       object.claimant_participant_id = veteran_claimant ? @veteran_participant_id : @claimant_participant_id

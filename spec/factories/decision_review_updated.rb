@@ -5,10 +5,10 @@ FactoryBot.define do
     event_id { nil }
     message_payload do
       base_message_payload(
-        decision_review_issues_updated: [],
-        decision_review_issues_removed: [],
-        decision_review_issues_withdrawn: [],
-        decision_review_issues_not_changed: []
+        "decision_review_issues_updated" => [],
+        "decision_review_issues_removed" => [],
+        "decision_review_issues_withdrawn" => [],
+        "decision_review_issues_not_changed" => []
       )
     end
 
@@ -20,30 +20,30 @@ FactoryBot.define do
 
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes,
             review_issues_created_attributes(
-              contention_action: "NONE",
-              reason_for_contention_action: "NO_CHANGES"
+              "contention_action" => "NONE",
+              "reason_for_contention_action" => "NO_CHANGES"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_notification_date: "2023-08-01".to_date,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_notification_date" => "2023-08-01".to_date,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_notification_date: "2023-08-01".to_date,
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_decision_notification_date" => "2023-08-01".to_date,
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ]
         )
@@ -53,20 +53,20 @@ FactoryBot.define do
     trait :eligible_rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_notification_date: "2023-08-02".to_date,
-              prior_decision_date: "2023-08-01".to_date
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_notification_date" => "2023-08-02".to_date,
+              "prior_decision_date" => "2023-08-01".to_date
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_notification_date: "2023-08-01".to_date,
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_decision_notification_date" => "2023-08-01".to_date,
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ]
         )
@@ -75,34 +75,34 @@ FactoryBot.define do
     trait :eligible_rating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_decision_date: nil
+              "prior_decision_date" => nil
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_decision_date: nil
+              "prior_decision_date" => nil
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_date: nil
+              "prior_decision_date" => nil
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_date: nil
+              "prior_decision_date" => nil
             )
           ],
-          decision_review_issues_not_changed:
+         "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_decision_date: nil
+              "prior_decision_date" => nil
             )
           ]
         )
@@ -111,10 +111,10 @@ FactoryBot.define do
     trait :test do
       message_payload do
         base_message_payload(
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -122,44 +122,44 @@ FactoryBot.define do
     trait :eligible_rating_hlr_legacy do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ]
         )
@@ -169,54 +169,54 @@ FactoryBot.define do
     trait :eligible_rating_hlr_time_override do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_rating_decision_id: 13,
-              time_override: true,
-              time_override_reason: "good cause exemption",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_rating_decision_id: 13,
-              time_override: true,
-              time_override_reason: "good cause exemption",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_rating_decision_id: 13,
-              time_override: true,
-              time_override_reason: "good cause exemption",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_rating_decision_id: 13,
-              time_override: true,
-              time_override_reason: "good cause exemption",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_rating_decision_id: 13,
-              time_override: true,
-              time_override_reason: "good cause exemption",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00"
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ]
         )
@@ -226,94 +226,94 @@ FactoryBot.define do
     trait :eligible_rating_hlr_with_two_issues do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_rating_decision_id: 12,
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_rating_decision_id" => 12,
+              "prior_decision_diagnostic_code" => "5008"
             ),
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_rating_decision_id: 11,
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_rating_decision_id" => 11,
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_rating_decision_id: 13,
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_rating_decision_id" => 13,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             ),
             review_issues_updated_attributes(
-              prior_rating_decision_id: 14,
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_rating_decision_id" => 14,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_rating_decision_id: 10,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED)"
+              "prior_rating_decision_id" => 10,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE REMOVED)"
             ),
             review_issues_removed_attributes(
-              prior_rating_decision_id: 9,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED)"
+              "prior_rating_decision_id" => 9,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE REMOVED)"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
 
           [
             review_issues_withdrawn_attributes(
-              prior_rating_decision_id: 7,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)"
+              "prior_rating_decision_id" => 7,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE WITHDRAWN)"
             ),
             review_issues_withdrawn_attributes(
-              prior_rating_decision_id: 8,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)"
+              "prior_rating_decision_id" => 8,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE WITHDRAWN)"
             )
           ]
         )
       end
     end
 
-    trait :eligible_rating_hlr_without_contention_id do
+    trait :eligible_rating_hlr_without_contention_id  do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil
+              "contention_id" => nil
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              contention_id: nil
+              "contention_id" => nil
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              contention_id: nil
+              "contention_id" => nil
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              contention_id: nil
+              "contention_id" => nil
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              contention_id: nil
+              "contention_id" => nil
             )
           ]
         )
@@ -323,54 +323,54 @@ FactoryBot.define do
     trait :eligible_rating_hlr do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             ),
             review_issues_updated_attributes(
-              contention_action: "DELETE_CONTENTION",
-              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
-              eligible: false,
-              eligibility_result: "TIME_RESTRICTION",
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_action" =>"DELETE_CONTENTION",
+              "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_rating_decision_id: 12,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_rating_decision_id" => 12,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_rating_decision_id: 11,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_rating_decision_id" => 11,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ]
         )
@@ -381,40 +381,40 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ]
         )
@@ -424,45 +424,45 @@ FactoryBot.define do
     trait :eligible_rating_decision_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "contention_id" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              contention_action: "DELETE_CONTENTION",
-              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
-              eligible: false,
-              eligibility_result: "TIME_RESTRICTION",
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_action" =>"DELETE_CONTENTION",
+              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_547"
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_547"
             )
           ]
         )
@@ -473,54 +473,54 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             ),
             review_issues_updated_attributes(
-              contention_action: "DELETE_CONTENTION",
-              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
-              eligible: false,
-              eligibility_result: "TIME_RESTRICTION",
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_action" =>"DELETE_CONTENTION",
+              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_decision_notification_date: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_notification_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ]
         )
@@ -531,55 +531,55 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "contention_id" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              contention_action: "DELETE_CONTENTION",
-              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
-              eligible: false,
-              eligibility_result: "TIME_RESTRICTION",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "contention_action" =>"DELETE_CONTENTION",
+              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ]
         )
@@ -590,55 +590,55 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ]
         )
@@ -649,54 +649,54 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_id" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              contention_id: nil,
-              contention_action: "DELETE_CONTENTION",
-              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
-              eligible: false,
-              eligibility_result: "TIME_RESTRICTION",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_id" => nil,
+              "contention_action" =>"DELETE_CONTENTION",
+              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              contention_id: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_id" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              contention_id: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_id" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              contention_id: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_id" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ]
         )
@@ -706,53 +706,53 @@ FactoryBot.define do
     trait :eligible_rating_decision_hlr do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_decision_text: "Tetnus is denied",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_text" => "Tetnus is denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              contention_action: "DELETE_CONTENTION",
-              reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE",
-              eligible: false,
-              eligibility_result: "TIME_RESTRICTION",
-              prior_decision_text: "Tetnus is denied",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "contention_action" =>"DELETE_CONTENTION",
+              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              "prior_decision_text" => "Tetnus is denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_decision_text: "Tetnus is denied",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_text" => "Tetnus is denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_decision_text: "Tetnus is denied",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_text" => "Tetnus is denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_decision_text: "Tetnus is denied",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_rating_sn: "1_623_57"
+              "prior_decision_text" => "Tetnus is denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_sn" => "1_623_57"
             )
           ]
         )
@@ -763,52 +763,52 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ]
         )
@@ -818,51 +818,51 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
-              prior_caseflow_decision_issue_id: 10,
-              prior_rating_decision_id: 13,
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "prior_caseflow_decision_issue_id" => 10,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_caseflow_decision_issue_id: 9,
-              prior_rating_decision_id: 14,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 9,
+              "prior_rating_decision_id" => 14,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_caseflow_decision_issue_id: 8,
-              prior_rating_decision_id: 15,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 8,
+              "prior_rating_decision_id" => 15,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ]
         )
@@ -873,55 +873,55 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_date: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_date" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_date: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_date" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_date: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_date" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_date: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_date" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_date: nil,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_date" => nil,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ]
         )
@@ -932,68 +932,68 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "ELIGIBLE_LEGACY",
-              legacy_appeal_id: "LEGACYID",
-              legacy_appeal_issue_id: 1
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
             )
           ]
         )
@@ -1005,63 +1005,63 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          same_station_review_requested: true,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              reason_for_contention_action: "SPECIAL_ISSUES_CHANGED",
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "reason_for_contention_action" =>"SPECIAL_ISSUES_CHANGED",
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008",
-              time_override: true,
-              time_override_reason: "good cause exemption"
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption"
             )
           ]
         )
@@ -1072,55 +1072,55 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 7,
-              prior_rating_decision_id: 16,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 7,
+              "prior_rating_decision_id" => 16,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ]
         )
@@ -1132,54 +1132,54 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
+          "participant_id" => participant_id,
           informal_conference_requested: true,
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              reason_for_contention_action: "SPECIAL_ISSUES_CHANGED",
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "reason_for_contention_action" =>"SPECIAL_ISSUES_CHANGED",
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              reason_for_contention_action: "INELIGIBLE_REASON_CHANGED",
-              prior_caseflow_decision_issue_id: 11,
-              prior_rating_decision_id: 13,
-              prior_decision_type: "Disability Evaluation",
-              prior_decision_diagnostic_code: "5008"
+              "reason_for_contention_action" =>"INELIGIBLE_REASON_CHANGED",
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008"
             )
           ]
         )
@@ -1190,43 +1190,43 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_created:
+           "participant_id" => participant_id,
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              contention_id: nil,
-              unidentified: true,
-              prior_decision_type: "Disability Evaluation"
+              "contention_id" => nil,
+              "unidentified" => true,
+              "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED",
-              unidentified: true,
-              prior_decision_text: "Service connection for tetnus denied (UPDATED)",
-              prior_decision_type: "Disability Evaluation"
+              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "unidentified" => true,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              unidentified: true,
-              prior_decision_type: "Disability Evaluation"
+              "unidentified" => true,
+              "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              unidentified: true,
-              prior_decision_type: "Disability Evaluation"
+              "unidentified" => true,
+              "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          decision_review_issues_not_changed:
+          "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              unidentified: true,
-              prior_decision_type: "Disability Evaluation"
+              "unidentified" => true,
+              "prior_decision_type" => "Disability Evaluation"
             )
           ]
         )
@@ -1236,22 +1236,22 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
     trait :eligible_rating_hlr_unidentified_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1259,11 +1259,11 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified_without_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1271,11 +1271,11 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1283,11 +1283,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1295,11 +1295,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1307,11 +1307,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1319,11 +1319,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1331,11 +1331,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_without_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1343,11 +1343,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1355,11 +1355,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1367,11 +1367,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1379,11 +1379,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1391,11 +1391,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1403,11 +1403,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_without_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1415,11 +1415,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1427,11 +1427,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1439,11 +1439,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1451,11 +1451,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1463,11 +1463,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1475,11 +1475,11 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1487,11 +1487,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1499,11 +1499,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1511,11 +1511,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_with_two_issues do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1523,11 +1523,11 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_with_decision_source do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1537,61 +1537,61 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_contested_with_additional_issue do
       message_payload do
         base_message_payload(
-          decision_review_issues_created:
+          "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              prior_rating_decision_id: 13,
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "CONTESTED"
+              "prior_rating_decision_id" => 13,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
             ),
             review_issues_created_attributes(
-              contention_action: "NONE",
-              prior_rating_decision_id: 13,
-              prior_decision_diagnostic_code: "5008",
-              eligibility_result: "CONTESTED"
+              "contention_action" =>"NONE",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
             )
           ],
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              prior_rating_decision_id: 14,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_text: "Service connection for tetnus denied (UPDATE)",
-              eligibility_result: "CONTESTED"
+              "prior_rating_decision_id" => 14,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATE)",
+              "eligibility_result" => "CONTESTED"
             ),
             review_issues_updated_attributes(
-              prior_rating_decision_id: 15,
-              prior_decision_diagnostic_code: "5008",
-              prior_decision_text: "Service connection for tetnus denied (ADDITIONAL UPDATE)",
-              eligibility_result: "CONTESTED"
+              "prior_rating_decision_id" => 15,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_text" => "Service connection for tetnus denied (ADDITIONAL UPDATE)",
+              "eligibility_result" => "CONTESTED"
             )
           ],
-          decision_review_issues_removed:
+          "decision_review_issues_removed" => 
           [
             review_issues_removed_attributes(
-              prior_rating_decision_id: 10,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED)"
+              "prior_rating_decision_id" => 10,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE REMOVED)"
             ),
             review_issues_removed_attributes(
-              prior_rating_decision_id: 9,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE REMOVED AFTER)"
+              "prior_rating_decision_id" => 9,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE REMOVED AFTER)"
             )
           ],
-          decision_review_issues_withdrawn:
+          "decision_review_issues_withdrawn" =>
 
           [
             review_issues_withdrawn_attributes(
-              prior_rating_decision_id: 7,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)",
-              eligibility_result: "CONTESTED"
+              "prior_rating_decision_id" => 7,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE WITHDRAWN)",
+              "eligibility_result" => "CONTESTED"
             ),
             review_issues_withdrawn_attributes(
-              prior_rating_decision_id: 8,
-              prior_decision_text: "Service connection for tetnus denied (WILL BE WITHDRAWN)",
-              eligibility_result: "CONTESTED"
+              "prior_rating_decision_id" => 8,
+              "prior_decision_text" => "Service connection for tetnus denied (WILL BE WITHDRAWN)",
+              "eligibility_result" => "CONTESTED"
             )
           ],
-          decision_review_issues_not_changed: []
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1599,11 +1599,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_pending_hlr_without_ri_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1611,11 +1611,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_with_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1623,11 +1623,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_contested do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1635,11 +1635,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_time_restriction_untimely do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1647,11 +1647,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_time_restriction_before_ama do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1659,11 +1659,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_no_soc_ssoc do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1671,11 +1671,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_pending_legacy_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1683,11 +1683,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1695,11 +1695,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_pending_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1707,11 +1707,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_pending_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1719,11 +1719,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_pending_supplemental do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1731,11 +1731,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_pending_hlr_without_ri_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1743,11 +1743,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_with_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1755,11 +1755,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_time_restriction_untimely do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1767,11 +1767,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_time_restriction_before_ama do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1779,11 +1779,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_no_soc_ssoc do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1791,11 +1791,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_pending_legacy_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1803,11 +1803,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1815,11 +1815,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_pending_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1827,11 +1827,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_pending_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1839,11 +1839,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_pending_supplemental do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1851,11 +1851,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr_without_ri_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1863,11 +1863,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1875,11 +1875,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1887,11 +1887,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_before_ama do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1899,11 +1899,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_no_soc_ssoc do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1911,11 +1911,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_pending_legacy_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1923,11 +1923,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1935,11 +1935,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1947,11 +1947,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1959,11 +1959,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_pending_supplemental do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1971,11 +1971,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_completed_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1983,11 +1983,11 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_completed_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -1995,11 +1995,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_completed_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2007,11 +2007,11 @@ FactoryBot.define do
     trait :ineligible_rating_decision_hlr_completed_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2019,11 +2019,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_completed_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2031,11 +2031,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_completed_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2043,11 +2043,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2055,11 +2055,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr_without_ri_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2067,11 +2067,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_with_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2079,11 +2079,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_contested do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2091,11 +2091,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_contested_with_additional_issue do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2103,11 +2103,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_pending_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2115,11 +2115,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_pending_hlr_without_ri_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2127,11 +2127,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_with_contention_id do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2139,11 +2139,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_time_restriction_untimely do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2151,11 +2151,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_time_restriction_before_ama do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2163,11 +2163,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_no_soc_ssoc do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2175,11 +2175,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_pending_legacy_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2187,11 +2187,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2199,11 +2199,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2211,11 +2211,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2223,11 +2223,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2235,11 +2235,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_legacy_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2247,11 +2247,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_pending_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2259,11 +2259,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_pending_supplemental do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2271,11 +2271,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2283,11 +2283,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_completed_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2295,11 +2295,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2307,11 +2307,11 @@ FactoryBot.define do
     trait :ineligible_nonrating_hlr_completed_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2319,11 +2319,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_supplemental do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2331,11 +2331,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_completed_hlr do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2343,11 +2343,11 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_nonrating_hlr_completed_board_appeal do
       message_payload do
         base_message_payload(
-          # decision_review_issues_created:[],
-          decision_review_issues_updated: [],
-          decision_review_issues_removed: [],
-          decision_review_issues_withdrawn: [],
-          decision_review_issues_not_changed: []
+          # "decision_review_issues_created" =>[],
+          "decision_review_issues_updated" => [],
+          "decision_review_issues_removed" => [],
+          "decision_review_issues_withdrawn" => [],
+          "decision_review_issues_not_changed" => []
         )
       end
     end
@@ -2356,11 +2356,11 @@ FactoryBot.define do
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          decision_review_issues_updated:
+          "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              eligible: false,
-              unidentified: true
+              "eligible" => false,
+              "unidentified" => true
             )
           ]
         )
@@ -2371,7 +2371,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
 
       message_payload do
-        base_message_payload(participant_id: participant_id)
+        base_message_payload( "participant_id" => participant_id)
       end
     end
 
@@ -2381,79 +2381,79 @@ end
 
 def base_message_payload(**args)
   {
-    claim_id: Faker::Number.number(digits: 7),
-    original_source: "CP",
-    decision_review_type: "HIGHER_LEVEL_REVIEW",
-    veteran_last_name: "Smith",
-    veteran_first_name: "John",
-    veteran_participant_id: args[:participant_id] || Faker::Number.number(digits: 9).to_s,
-    file_number: Faker::Number.number(digits: 9).to_s,
-    claimant_participant_id: args[:participant_id] || Faker::Number.number(digits: 9).to_s,
-    ep_code: "030HLRR",
-    ep_code_category: "rating",
-    claim_received_date: "2023-08-25",
-    claim_lifecycle_status: "Ready to Work",
-    payee_code: "00",
-    modifier: "01",
-    originated_from_vacols_issue: false,
-    limited_poa_code: nil,
-    tracked_item_action: "ADD_TRACKED_ITEM",
-    informal_conference_tracked_item_id: nil,
-    informal_conference_requested: args[:informal_conference_requested] || false,
-    same_station_review_requested: args[:same_station_review_requested] || false,
-    update_time: "1_722_435_298_953",
-    claim_creation_time: Time.zone.now.to_s,
-    actor_username: "BVADWISE101",
-    actor_station: "101",
-    actor_application: "PASYSACCTCREATE",
-    auto_remand: false,
-    decision_review_issues_created: args[:decision_review_issues_created] ||
+    "claim_id" => Faker::Number.number(digits: 7),
+    "original_source" => "CP",
+    "decision_review_type" => "HIGHER_LEVEL_REVIEW",
+    "veteran_last_name" => "Smith",
+    "veteran_first_name" => "John",
+    "veteran_participant_id" => args[:participant_id] || Faker::Number.number(digits: 9).to_s,
+    "file_number" => Faker::Number.number(digits: 9).to_s,
+    "claimant_participant_id" => args[:participant_id] || Faker::Number.number(digits: 9).to_s,
+    "ep_code" => "030HLRR",
+    "ep_code_category" => "rating",
+    "claim_received_date" => "2023-08-25",
+    "claim_lifecycle_status" => "Ready to Work",
+    "payee_code" => "00",
+    "modifier" => "01",
+    "originated_from_vacols_issue" => false,
+    "limited_poa_code" => nil,
+    "tracked_item_action" => "ADD_TRACKED_ITEM",
+    "informal_conference_tracked_item_id" => nil,
+    "informal_conference_requested" => args[:informal_conference_requested] || false,
+    "same_station_review_requested" => args[:same_station_review_requested] || false,
+    "update_time" => "1_722_435_298_953",
+    "claim_creation_time" => Time.zone.now.to_s,
+    "actor_username" => "BVADWISE101",
+    "actor_station" => "101",
+    "actor_application" => "PASYSACCTCREATE",
+    "auto_remand" => false,
+    "decision_review_issues_created" => args[:decision_review_issues_created] ||
       [review_issues_created_attributes],
-    decision_review_issues_updated: args[:decision_review_issues_updated] ||
+    "decision_review_issues_updated" => args[:decision_review_issues_updated] ||
       [review_issues_updated_attributes],
-    decision_review_issues_removed: args[:decision_review_issues_removed] ||
+    "decision_review_issues_removed" => args[:decision_review_issues_removed] ||
       [review_issues_removed_attributes],
-    decision_review_issues_withdrawn: args[:decision_review_issues_withdrawn] ||
+    "decision_review_issues_withdrawn" => args[:decision_review_issues_withdrawn] ||
       [review_issues_withdrawn_attributes],
-    decision_review_issues_not_changed: args[:decision_review_issues_not_changed] ||
+    "decision_review_issues_not_changed" => args[:decision_review_issues_not_changed] ||
       [review_issues_not_changed_attributes]
   }
 end
 
 def base_review_issue
   {
-    decision_review_issue_id: 22,
-    contention_action: "ADD_CONTENTION",
-    reason_for_contention_action: "NEWLY_ELIGIBLE",
-    contention_id: 710_002_659,
-    associated_caseflow_request_issue_id: nil,
-    unidentified: false,
-    prior_rating_decision_id: nil,
-    prior_non_rating_decision_id: nil,
-    prior_caseflow_decision_issue_id: nil,
-    prior_decision_text: "Service connection for tetnus denied",
-    prior_decision_type: "Unknown",
-    prior_decision_source: nil,
-    prior_decision_notification_date: "2023-08-01".to_date,
-    prior_decision_date: "2023-07-01".to_date,
-    prior_decision_diagnostic_code: nil,
-    prior_decision_rating_percentage: nil,
-    prior_decision_rating_sn: nil,
-    eligible: true,
-    eligibility_result: "ELIGIBLE",
-    time_override: nil,
-    time_override_reason: nil,
-    contested: nil,
-    soc_opt_in: nil,
-    legacy_appeal_id: nil,
-    legacy_appeal_issue_id: nil,
-    prior_decision_award_event_id: nil,
-    prior_decision_rating_profile_date: "2017-02-07T07:21:24+00:00",
-    source_claim_id_for_remand: nil,
-    source_contention_id_for_remand: nil,
-    removed: false,
-    withdrawn: false,
-    decision: nil
+    "decision_review_issue_id" => 22,
+    "contention_action" => "ADD_CONTENTION",
+    "reason_for_contention_action" => "NEWLY_ELIGIBLE",
+    "contention_id" => 710_002_659,
+    "associated_caseflow_request_issue_id" => nil,
+    "unidentified" => false,
+    "prior_rating_decision_id" => nil,
+    "prior_non_rating_decision_id" => nil,
+    "prior_caseflow_decision_issue_id" => nil,
+    "prior_decision_text" => "Service connection for tetnus denied",
+    "prior_decision_type" => "Unknown",
+    "prior_decision_source" => nil,
+    "prior_decision_notification_date" => "2023-08-01".to_date,
+    "prior_decision_date" => "2023-07-01".to_date,
+    "prior_decision_diagnostic_code" => nil,
+    "prior_decision_rating_percentage" => nil,
+    "prior_decision_rating_sn" => nil,
+    "eligible" => true,
+    "eligibility_result" => "ELIGIBLE",
+    "time_override" => nil,
+    "time_override_reason" => nil,
+    "contested" => nil,
+    "soc_opt_in" => nil,
+    "legacy_appeal_id" => nil,
+    "legacy_appeal_issue_id" => nil,
+    "prior_decision_award_event_id" => nil,
+    "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+    "source_claim_id_for_remand" => nil,
+    "source_contention_id_for_remand" => nil,
+    "removed" => false,
+    "withdrawn" => false,
+    "decision" => nil
   }
 end
 
@@ -2463,25 +2463,25 @@ end
 
 def review_issues_updated_attributes(**args)
   base_review_issue.merge(**args,
-                          contention_action: "UPDATE_CONTENTION")
+                          "contention_action" => "UPDATE_CONTENTION")
 end
 
 def review_issues_removed_attributes(**args)
   base_review_issue.merge(**args,
-                          contention_action: "DELETE_CONTENTION",
-                          reason_for_contention_action: "REMOVED_SELECTED",
-                          removed: true)
+                          "contention_action" => "DELETE_CONTENTION",
+                          "reason_for_contention_action" => "REMOVED_SELECTED",
+                          "removed" => true)
 end
 
 def review_issues_withdrawn_attributes(**args)
   base_review_issue.merge(**args,
-                          contention_action: "DELETE_CONTENTION",
-                          reason_for_contention_action: "WITHDRAWN_SELECTED",
-                          withdrawn: true)
+                          "contention_action" => "DELETE_CONTENTION",
+                          "reason_for_contention_action" => "WITHDRAWN_SELECTED",
+                          "withdrawn" => true)
 end
 
 def review_issues_not_changed_attributes(**args)
   base_review_issue.merge(**args,
-                          contention_action: "NONE",
-                          reason_for_contention_action: "NO_CHANGES")
+                          "contention_action" => "NONE",
+                          "reason_for_contention_action" => "NO_CHANGES")
 end

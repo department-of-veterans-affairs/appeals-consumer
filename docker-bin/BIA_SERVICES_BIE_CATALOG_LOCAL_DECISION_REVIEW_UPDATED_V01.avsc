@@ -94,41 +94,6 @@
       "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
     },
     {
-      "name": "epCode",
-      "type": "string",
-      "doc": "The type of decision review that was created"
-    },
-    {
-      "name": "epCodeCategory",
-      "type": "string",
-      "doc": "Category of EP code (rating or non-rating)"
-    },
-    {
-      "name": "claimReceivedDate",
-      "type": {
-        "type": "int",
-        "connect.version": 1,
-        "connect.name": "org.apache.kafka.connect.data.Date",
-        "logicalType": "date"
-      },
-      "doc": "The date that this decision review application was received"
-    },
-    {
-      "name": "claimLifecycleStatus",
-      "type": "string",
-      "doc": "The life cycle status of the claim"
-    },
-    {
-      "name": "payeeCode",
-      "type": "string",
-      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
-    },
-    {
-      "name": "modifier",
-      "type": "string",
-      "doc": "The third digit modifier"
-    },
-    {
       "name": "originatedFromVacolsIssue",
       "type": [
         "null",
@@ -181,16 +146,6 @@
       "doc": "Time at which the decision review was updated."
     },
     {
-      "name": "claimCreationTime",
-      "type": {
-        "type": "long",
-        "connect.version": 1,
-        "connect.name": "org.apache.kafka.connect.data.Timestamp",
-        "logicalType": "timestamp-millis"
-      },
-      "doc": "The time at which this decision review claim was created"
-    },
-    {
       "name": "actorUsername",
       "type": "string",
       "doc": "The user who update this decision review in the system"
@@ -241,6 +196,11 @@
                 "name": "contentionAction",
                 "type": "string",
                 "doc": "The action taken for the contention. Examples - ADD_CONTENTION, UPDATE_CONTENTION, DELETE_CONTENTION, NONE"
+              },
+              {
+                "name": "reasonForContentionAction",
+                "type": "string",
+                "doc": "The reason for the action taken for the contention. "
               },
               {
                 "name": "associatedCaseflowRequestIssueId",
