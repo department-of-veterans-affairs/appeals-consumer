@@ -2,7 +2,6 @@
 
 # Dummy class to include the module
 class DummyClass
-  # include DecisionReviewCreated::ModelBuilder
   include DecisionReview::ModelBuilder
   attr_accessor :decision_review_model, :bis_synced_at, :earliest_issue_profile_date,
                 :latest_issue_profile_date_plus_one_day

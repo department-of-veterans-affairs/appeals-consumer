@@ -2,7 +2,6 @@
 
 # This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
 class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder
-  # include DecisionReviewCreated::ModelBuilder
   include DecisionReview::ModelBuilder
   # issues with this eligibility_result are not included in the caseflow payload
   # caseflow does not track or have a concept of this when determining ineligible_reason
