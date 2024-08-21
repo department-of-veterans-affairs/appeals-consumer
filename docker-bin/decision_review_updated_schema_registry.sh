@@ -12,7 +12,7 @@ jq '
     schemaType: "AVRO",
     references: [
       {
-        "name": "gov.va.bip.cest.decisionreview.avro",
+        "name": "gov.va.bip.cest.decisionreview.avro.EligibilityResultEnum",
         "subject": "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01",
         "version": 1
       }
