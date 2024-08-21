@@ -5,7 +5,7 @@ require "shared_context/decision_review_updated_context"
 describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
   include_context "decision_review_updated_context"
 
-  let(:event_id) { 45458 }
+  let(:event_id) { 45_458 }
   let(:decision_review_updated_model) { Transformers::DecisionReviewUpdated.new(event_id, message_payload) }
   let(:builder) { described_class.new(decision_review_updated_model) }
 
