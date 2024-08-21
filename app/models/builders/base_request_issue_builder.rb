@@ -10,11 +10,11 @@ class Builders::BaseRequestIssueBuilder
     builder.request_issue
   end
 
-  def initialize(issue, decision_review_model, bis_rating_profiles)
+  def initialize(issue, decision_review_model, bis_rating_profiles, request_issue)
     @decision_review_model = decision_review_model
     @issue = issue
     @bis_rating_profiles = bis_rating_profiles
-    @request_issue = DecisionReviewCreated::RequestIssue.new
+    @request_issue = request_issue
   end
 
   REQUEST_ISSUE = "RequestIssue"
