@@ -97,7 +97,8 @@ class Transformers::DecisionReviewUpdated
   end
 end
 
-# DecisionReviewIssueUpdated represents an individual issue object from the message_payload's decision_review_issues_created, decision_review_issues_updated, decision_review_issues_removed,
+# DecisionReviewIssueUpdated represents an individual issue object from the message_payload's
+# decision_review_issues_created, decision_review_issues_updated, decision_review_issues_removed,
 # or decision_review_issues_withdrawn arrays
 class DecisionReviewIssueUpdated
   include MessagePayloadValidator
