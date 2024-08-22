@@ -48,7 +48,7 @@ class Transformers::DecisionReviewUpdated
 
   # When DecisionReviewUpdated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
-  # and create DecisionReviewIssueUpdated instances for each object in the message_payload's decision_review_issues array
+  # and create DecisionReviewIssueUpdated instances for each object in message_payload's decision_review_issues array
   def initialize(event_id, message_payload)
     @event_id = event_id
     validate(message_payload, self.class.name)
