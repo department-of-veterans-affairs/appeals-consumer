@@ -40,7 +40,7 @@ class Transformers::DecisionReviewUpdated
     "decision_review_issues_updated" => Array,
     "decision_review_issues_removed" => Array,
     "decision_review_issues_withdrawn" => Array,
-    "decision_review_issues_not_changed" => Array,
+    "decision_review_issues_not_changed" => Array
   }.freeze
   # Allows read and write access for attributes
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
