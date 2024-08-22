@@ -28,7 +28,7 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
     end
 
     it "assigns decision_review_updated to the DecisionReviewUpdated object passed in" do
-      expect(builder.decision_review_updated).to be_an_instance_of(Transformers::DecisionReviewUpdated)
+      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewUpdated)
     end
   end
 
