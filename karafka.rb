@@ -9,7 +9,8 @@ class KarafkaApp < Karafka::App
         'security.protocol': "SASL_SSL",
         'sasl.username': ENV["KAFKA_USERNAME"],
         'sasl.password': ENV["KAFKA_PASSWORD"],
-        'sasl.mechanisms': "SCRAM-SHA-512"
+        'sasl.mechanisms': "PLAIN",
+        'group.id': ENV["KAFKA_GROUP_ID"]
       }
     end
     config.kafka = karafka_config
@@ -39,16 +40,19 @@ class KarafkaApp < Karafka::App
   )
 
   routes.draw do
-    # Uncomment this if you use Karafka with ActiveJob
-    # You need to define the topic per each queue name you use
-    # active_job_topic :default
-    topic :example do
-      # Uncomment this if you want Karafka to manage your topics configuration
-      # Managing topics configuration via routing will allow you to ensure config consistency
-      # across multiple environments
-      #
-      # config(partitions: 2, 'cleanup.policy': 'compact')
-      consumer ExampleConsumer
+    consumer_group :decision_review_created_consumer_group do
+      # Uncomment this if you use Karafka with ActiveJob
+      # You need to define the topic per each queue name you use
+      # active_job_topic :default
+      topic ENV["DECISION_REVIEW_CREATED_TOPIC"] do
+        # Uncomment this if you want Karafka to manage your topics configuration
+        # Managing topics configuration via routing will allow you to ensure config consistency
+        # across multiple environments
+        #
+        # config(partitions: 2, 'cleanup.policy': 'compact')
+        consumer DecisionReviewCreatedConsumer
+        deserializer AvroDeserializerService.new
+      end
     end
   end
 end

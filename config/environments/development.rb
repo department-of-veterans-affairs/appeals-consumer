@@ -8,8 +8,6 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
 
-  config.logstasher.enabled = true
-
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -19,18 +17,7 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
-  # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
-    config.cache_store = :memory_store
-    config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
-    }
-  else
-    config.action_controller.perform_caching = false
-
-    config.cache_store = :null_store
-  end
+  config.action_controller.perform_caching = false
 
   # set to true to create queues and override the sqs endpiont
   config.sqs_create_queues = true
@@ -41,6 +28,8 @@ Rails.application.configure do
   # since we mock aws using localstack, provide dummy creds to the aws gem
   ENV["AWS_ACCESS_KEY_ID"] ||= "dummykeyid"
   ENV["AWS_SECRET_ACCESS_KEY"] ||= "dummysecretkey"
+
+  config.caseflow_url = ENV["CASEFLOW_URL"] ||= "http://host.docker.internal:3000"
   
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -60,6 +49,13 @@ Rails.application.configure do
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
+  # Needed to run rspec request tests
+  config.hosts << "www.example.com"
+  
+  RequestStore.store[:current_user] = {
+    css_id: ENV["CSS_ID"],
+    station_id: ENV["STATION_ID"]
+  }
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
@@ -72,4 +68,15 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Max failed errors until event is switched to "failed"
+  ENV["MAX_ERRORS_FOR_FAILURE"] ||= "3"
+
+  config.api_key = "token"
+
+  # Dynatrace variables
+  ENV["STATSD_ENV"] = "development"
+
+  # Local avro file for DecisionReviewCreated topic
+  ENV["DECISION_REVIEW_CREATED_TOPIC"] ||= "BIA_SERVICES_BIE_CATALOG_LOCAL_DECISION_REVIEW_CREATED_V01"
 end
