@@ -31,7 +31,7 @@ class Transformers::DecisionReviewUpdated
     "informal_conference_requested" => [TrueClass, FalseClass],
     "informal_conference_tracked_item_id" => [String, NilClass],
     "same_station_review_requested" => [TrueClass, FalseClass],
-    "update_time" => String,
+    "update_time" => Integer,
     "claim_creation_time" => String,
     "actor_username" => String,
     "actor_station" => String,
@@ -41,8 +41,7 @@ class Transformers::DecisionReviewUpdated
     "decision_review_issues_updated" => Array,
     "decision_review_issues_removed" => Array,
     "decision_review_issues_withdrawn" => Array,
-    "decision_review_issues_not_changed" => Array,
-    "decision" => [Hash, NilClass]
+    "decision_review_issues_not_changed" => Array
   }.freeze
   # rubocop:enable Style/MutableConstant
 

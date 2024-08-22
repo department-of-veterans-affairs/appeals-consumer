@@ -9,10 +9,11 @@ module KafkaMessageGenerators
     def initialize(decision_review_event_type)
       super()
       clear_cache
-      @decision_review_event_type = decision_review_event_type
       @file_numbers_to_remove_from_cache = []
+      @decision_review_event_type = decision_review_event_type
       @claim_id = 710_000_000
-      @contention_id = decision_review_updated? ? 720_000_000 : 710_000_000
+      @contention_id = 710_000_000
+      @new_contention_id = 720_000_000
       @veteran_participant_id = "210000000"
       @claimant_participant_id = "950000000"
       @file_number = "310000000"
@@ -792,14 +793,21 @@ module KafkaMessageGenerators
 
       object.claim_id = @claim_id
       issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
-        object.send(issue_type)[0].contention_id = @contention_id
+        next if object.send(issue_type).empty?
+        if issue_type == :decision_review_issues_created && object.send(:decision_review_issues_created)[0].contention_action == "ADD_CONTENTION"
+          object.send(issue_type)[0].contention_id = @new_contention_id 
+          @new_contention_id += 1
+        elsif issue_type == :decision_review_issues_created && object.send(:decision_review_issues_created)[0].contention_action == "NONE"
+          object.send(issue_type)[0].contention_id = nil
+        else
+          object.send(issue_type)[0].contention_id = @contention_id
+          @contention_id += 1
+        end
       end
       object.veteran_participant_id = @veteran_participant_id
       object.claimant_participant_id = veteran_claimant ? @veteran_participant_id : @claimant_participant_id
       object.file_number = @file_number
-
       @claim_id += 1
-      @contention_id += 1
       @veteran_participant_id = @veteran_participant_id.next
       @claimant_participant_id = @claimant_participant_id.next
       @file_number = @file_number.next
