@@ -33,10 +33,10 @@ DT_API_TOKEN = ENV["DT_API_TOKEN"]
 Rails.logger.info("DT_API_TOKEN is set to #{DT_API_TOKEN}")
 
 config = {
-  'OpenTelemetry::Instrumentation::Redis' => { enabled: false },
-  'OpenTelemetry::Instrumentation::PG' => { enabled: false },
-  'OpenTelemetry::Instrumentation::AwsSdk' => { enabled: false },
-  'OpenTelemetry::Instrumentation::Net::HTTP' => { enabled: false },
+  'OpenTelemetry::Instrumentation::Redis' => { },
+  'OpenTelemetry::Instrumentation::PG' => { },
+  'OpenTelemetry::Instrumentation::AwsSdk' => {  },
+  'OpenTelemetry::Instrumentation::Net::HTTP' => {  },
   'OpenTelemetry::Instrumentation::Rack' => { untraced_endpoints: ['/health-check', '/sample', '/logs'] }
 }
 
@@ -64,13 +64,13 @@ if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
     )
   end
 end
-if Rails.env.development?
+# Uncomment this line to enbale console exporting.
+ENV['OTEL_TRACES_EXPORTER'] = 'console'
+if Rails.env.development? && ENV['OTEL_TRACES_EXPORTER'] = 'console'
   OpenTelemetry::SDK.configure do |c|
     c.service_name = 'appeals-consumer'
     c.service_version = '1.0.1'
     c.use_all(config)
-    # Uncomment this line to enbale console exporting.
-    ENV['OTEL_TRACES_EXPORTER'] = 'console'
   end
 end
 # rubocop:enable Layout/LineLength
