@@ -31,6 +31,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
             [
               review_issues_updated_attributes(
+                "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+                "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
                 "prior_rating_decision_id" => 13,
                 "prior_decision_type" => "Disability Evaluation",
                 "prior_decision_notification_date" => "2023-08-01".to_date,
@@ -55,6 +57,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_notification_date" => "2023-08-02".to_date,
@@ -84,6 +87,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil
             )
@@ -137,6 +142,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "eligibility_result" => "ELIGIBLE_LEGACY",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1
@@ -186,6 +193,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 13,
               "time_override" => true,
               "time_override_reason" => "good cause exemption",
@@ -246,12 +255,14 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_rating_decision_id" => 13,
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008"
             ),
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_rating_decision_id" => 14,
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation",
@@ -299,6 +310,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "contention_id" => nil
             )
           ],
@@ -339,12 +352,14 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008"
             ),
             review_issues_updated_attributes(
-              "contention_action" =>"DELETE_CONTENTION",
+              "contention_action" => "DELETE_CONTENTION",
               "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
@@ -396,6 +411,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
             [
               review_issues_updated_attributes(
+                "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+                "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
                 "prior_decision_diagnostic_code" => "5008",
                 "prior_decision_rating_sn" => "1_623_547"
               )
@@ -439,8 +456,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "contention_action" =>"DELETE_CONTENTION",
-              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "contention_action" => "DELETE_CONTENTION",
+              "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               "prior_decision_notification_date" => nil,
@@ -489,13 +506,15 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_notification_date" => nil,
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "1_623_57"
             ),
             review_issues_updated_attributes(
-              "contention_action" =>"DELETE_CONTENTION",
-              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "contention_action" => "DELETE_CONTENTION",
+              "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               "prior_decision_notification_date" => nil,
@@ -549,8 +568,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "contention_action" =>"DELETE_CONTENTION",
-              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "contention_action" => "DELETE_CONTENTION",
+              "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               "prior_decision_diagnostic_code" => "5008",
@@ -608,6 +627,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+                "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "1_623_57",
@@ -667,8 +688,8 @@ FactoryBot.define do
           [
             review_issues_updated_attributes(
               "contention_id" => nil,
-              "contention_action" =>"DELETE_CONTENTION",
-              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "contention_action" => "DELETE_CONTENTION",
+              "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               "prior_decision_type" => "Disability Evaluation",
@@ -722,8 +743,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "contention_action" =>"DELETE_CONTENTION",
-              "reason_for_contention_action" =>"ELIGIBLE_TO_INELIGIBLE",
+              "contention_action" => "DELETE_CONTENTION",
+              "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               "prior_decision_text" => "Tetnus is denied",
@@ -780,10 +801,10 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
-              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008"
             )
@@ -834,7 +855,7 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 10,
               "prior_rating_decision_id" => 13,
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
@@ -891,6 +912,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+                "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_caseflow_decision_issue_id" => 7,
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil,
@@ -953,7 +976,7 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 7,
               "prior_rating_decision_id" => 16,
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
@@ -1026,7 +1049,7 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" =>"SPECIAL_ISSUES_CHANGED",
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 7,
               "prior_rating_decision_id" => 16,
               "prior_decision_type" => "Disability Evaluation",
@@ -1090,6 +1113,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "contention_id" => nil,
               "prior_caseflow_decision_issue_id" => 7,
               "prior_rating_decision_id" => 16,
@@ -1151,7 +1176,7 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" =>"SPECIAL_ISSUES_CHANGED",
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
@@ -1179,7 +1204,7 @@ FactoryBot.define do
           "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              "reason_for_contention_action" =>"INELIGIBLE_REASON_CHANGED",
+              "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
@@ -1208,7 +1233,7 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" =>"PRIOR_DECISION_TEXT_CHANGED",
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "unidentified" => true,
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation"
@@ -1303,6 +1328,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "unidentified" => true,
               "prior_caseflow_decision_issue_id" => 7,
               "prior_rating_decision_id" => 16,
@@ -1350,30 +1377,26 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_unidentified_without_contention_id do
       message_payload do
+        unidentified_without_contention_id_attr = {
+          "contention_id" => nil,
+          "unidentified" => true,
+          "prior_decision_type" => "Disability Evaluation"
+        }
         base_message_payload(
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes(
-              "contention_id" => nil,
-              "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
-            )
+            review_issues_created_attributes(**unidentified_without_contention_id_attr)
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes(
-              "contention_id" => nil,
-              "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
+            review_issues_updated_attributes(**unidentified_without_contention_id_attr,
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)"
             )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes(
-              "contention_id" => nil,
-              "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
-            )
+            review_issues_removed_attributes(**unidentified_without_contention_id_attr)
           ],
           "decision_review_issues_withdrawn" =>
           [
@@ -1408,6 +1431,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
@@ -1455,8 +1480,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1508,9 +1534,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1568,9 +1595,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1627,8 +1655,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "unidentified" => true,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1680,9 +1709,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "contention_id" => nil,
               "unidentified" => true,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1802,8 +1832,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1855,9 +1886,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1911,8 +1943,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "unidentified" => true,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -1961,8 +1994,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "unidentified" => true,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2014,9 +2048,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2071,6 +2106,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_caseflow_decision_issue_id" => 7,
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil,
@@ -2128,9 +2165,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
               "prior_decision_date" => nil,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2187,8 +2225,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "ELIGIBLE_LEGACY",
@@ -2326,8 +2365,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "unidentified" => true,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2448,8 +2488,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2500,8 +2541,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2552,8 +2594,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2604,8 +2647,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil
             )
@@ -2654,7 +2698,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             ),
             review_issues_created_attributes(
-              "contention_action" =>"NONE",
+              "contention_action" => "NONE",
               "prior_rating_decision_id" => 13,
               "prior_decision_diagnostic_code" => "5008",
               "eligibility_result" => "CONTESTED"
@@ -2846,6 +2890,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -2960,6 +3006,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3017,6 +3065,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3082,6 +3132,8 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3133,6 +3185,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3147,6 +3200,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3198,6 +3252,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3210,6 +3265,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 12,
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
@@ -3257,6 +3313,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3270,6 +3327,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 12,
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
@@ -3317,6 +3375,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3330,6 +3389,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 13,
               "prior_rating_decision_id" => 12,
               "prior_decision_type" => "Disability Evaluation",
@@ -3377,6 +3437,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3388,6 +3449,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "eligibility_result" => "PENDING_HLR"
@@ -3427,6 +3489,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3439,6 +3502,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -3482,6 +3546,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3494,6 +3559,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -3537,6 +3603,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3549,6 +3616,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -3592,6 +3660,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3606,6 +3675,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -3657,6 +3727,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3671,6 +3742,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -3722,6 +3794,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3736,6 +3809,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -3787,6 +3861,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3800,6 +3875,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 12,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3847,6 +3923,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3860,6 +3937,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 12,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3907,6 +3985,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3920,6 +3999,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 12,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -3967,6 +4047,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3982,6 +4063,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "Service connection for tetnus denied",
@@ -4037,6 +4119,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4051,6 +4134,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -4104,6 +4188,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4118,6 +4203,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "Service connection for tetnus denied",
@@ -4165,6 +4251,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4178,6 +4265,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "Service connection for tetnus denied",
@@ -4225,6 +4313,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4240,6 +4329,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -4292,6 +4382,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4308,6 +4399,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "Service connection for tetnus denied",
@@ -4361,6 +4453,7 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4377,6 +4470,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "Service connection for tetnus denied",
@@ -4436,6 +4530,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4452,6 +4547,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "associated_caseflow_request_issue_id" => 12,
               "prior_rating_decision_id" => 20,
@@ -4508,6 +4604,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4523,6 +4620,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -4574,6 +4672,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4588,6 +4687,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -4635,6 +4735,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4647,6 +4748,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -4689,6 +4791,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4701,6 +4804,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_rating_decision_id" => 13,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -4744,6 +4848,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4756,6 +4861,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -4799,6 +4905,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4811,6 +4918,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
                "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "20",
@@ -4854,6 +4962,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4868,6 +4977,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "Service connection for tetnus denied",
@@ -4919,6 +5029,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           "participant_id" => participant_id,
+          "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4933,6 +5044,7 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -4999,9 +5111,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_HLR"
@@ -5064,9 +5177,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_HLR"
@@ -5128,9 +5242,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "TIME_RESTRICTION"
@@ -5192,8 +5307,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "CONTESTED"
@@ -5259,15 +5375,17 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "CONTESTED"
             ),
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 14,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "ELIGIBLE"
@@ -5349,9 +5467,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "associated_caseflow_request_issue_id" => 12,
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_HLR"
@@ -5414,9 +5533,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_HLR"
@@ -5477,7 +5597,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes("prior_non_rating_decision_id" => 13,
+            review_issues_updated_attributes(
+              "prior_non_rating_decision_id" => 13,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
@@ -5487,7 +5608,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes("prior_non_rating_decision_id" => 13,
+            review_issues_removed_attributes(
+              "prior_non_rating_decision_id" => 13,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
@@ -5497,7 +5619,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes("prior_non_rating_decision_id" => 13,
+            review_issues_withdrawn_attributes(
+              "prior_non_rating_decision_id" => 13,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
@@ -5507,7 +5630,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes("prior_non_rating_decision_id" => 13,
+            review_issues_not_changed_attributes(
+              "prior_non_rating_decision_id" => 13,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
@@ -5538,8 +5662,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "TIME_RESTRICTION"
@@ -5599,8 +5724,9 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied(UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "TIME_RESTRICTION"
@@ -5662,9 +5788,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "eligibility_result" => "NO_SOC_SSOC",
               "legacy_appeal_id" => "LEGACYID",
@@ -5733,9 +5860,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_LEGACY_APPEAL",
@@ -5809,9 +5937,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_profile_date" => nil,
@@ -5885,9 +6014,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
             )
@@ -5946,9 +6076,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 20,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "TIME_RESTRICTION"
@@ -6013,9 +6144,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+            "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 20,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "NO_SOC_SSOC",
@@ -6089,9 +6221,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_LEGACY_APPEAL",
@@ -6167,10 +6300,11 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "associated_caseflow_request_issue_id" => 13,
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligible" => false,
@@ -6241,10 +6375,12 @@ FactoryBot.define do
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes("contention_id" => nil,
+            review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "contention_id" => nil,
               "associated_caseflow_request_issue_id" => 13,
               "prior_non_rating_decision_id" => 12,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligible" => false,
@@ -6253,7 +6389,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes("contention_id" => nil,
+            review_issues_removed_attributes(
+              "contention_id" => nil,
               "associated_caseflow_request_issue_id" => 13,
               "prior_non_rating_decision_id" => 12,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -6265,7 +6402,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes("contention_id" => nil,
+            review_issues_withdrawn_attributes(
+              "contention_id" => nil,
               "associated_caseflow_request_issue_id" => 13,
               "prior_non_rating_decision_id" => 12,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -6277,7 +6415,8 @@ FactoryBot.define do
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes("contention_id" => nil,
+            review_issues_not_changed_attributes(
+              "contention_id" => nil,
               "associated_caseflow_request_issue_id" => 13,
               "prior_non_rating_decision_id" => 12,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
@@ -6313,9 +6452,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "LEGACY_TIME_RESTRICTION",
@@ -6386,9 +6526,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "COMPLETED_HLR"
@@ -6452,10 +6593,11 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "associated_caseflow_request_issue_id" => 12,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_BOARD_APPEAL"
@@ -6521,9 +6663,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "contention_id" => nil,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
@@ -6587,10 +6730,11 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "associated_caseflow_request_issue_id" => 12,
               "prior_non_rating_decision_id" => 14,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
@@ -6656,9 +6800,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "COMPLETED_HLR"
@@ -6721,9 +6866,10 @@ FactoryBot.define do
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_caseflow_decision_issue_id" => 13,
               "prior_non_rating_decision_id" => 13,
-              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
               "prior_decision_type" => "DIC",
               "prior_decision_rating_profile_date" => nil,
               "eligibility_result" => "COMPLETED_BOARD_APPEAL",
@@ -6773,6 +6919,8 @@ FactoryBot.define do
           "decision_review_issues_updated" => 
           [
             review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
               "eligible" => false,
               "unidentified" => true
             )
