@@ -20,32 +20,31 @@ FactoryBot.define do
 
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
-          [
-            review_issues_created_attributes,
-            review_issues_created_attributes(
-              "contention_action" => "NONE",
-              "reason_for_contention_action" => "NO_CHANGES"
-            )
-          ],
+            [
+              review_issues_created_attributes(
+                "contention_action" => "NONE",
+                "reason_for_contention_action" => "NO_CHANGES"
+              )
+            ],
           "decision_review_issues_updated" => 
-          [
-            review_issues_updated_attributes(
-              "prior_rating_decision_id" => 13,
-              "prior_decision_type" => "Disability Evaluation",
-              "prior_decision_notification_date" => "2023-08-01".to_date,
-              "prior_decision_diagnostic_code" => "5008",
-              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
-            )
-          ],
+            [
+              review_issues_updated_attributes(
+                "prior_rating_decision_id" => 13,
+                "prior_decision_type" => "Disability Evaluation",
+                "prior_decision_notification_date" => "2023-08-01".to_date,
+                "prior_decision_diagnostic_code" => "5008",
+                "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
+              )
+            ],
           "decision_review_issues_withdrawn" =>
-          [
-            review_issues_withdrawn_attributes(
-              "prior_decision_notification_date" => "2023-08-01".to_date,
-              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
-            )
-          ]
+            [
+              review_issues_withdrawn_attributes(
+                "prior_decision_notification_date" => "2023-08-01".to_date,
+                "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
+              )
+            ]
         )
       end
     end
@@ -53,7 +52,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_updated" => 
+          "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
@@ -82,14 +81,14 @@ FactoryBot.define do
               "prior_decision_date" => nil
             )
           ],
-          "decision_review_issues_updated" => 
+          "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 16,
@@ -143,7 +142,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
@@ -194,7 +193,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -259,7 +258,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 10,
@@ -303,7 +302,7 @@ FactoryBot.define do
               "contention_id" => nil
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "contention_id" => nil
@@ -354,7 +353,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 12,
@@ -386,22 +385,22 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
-          [
-            review_issues_created_attributes(
-              "prior_decision_diagnostic_code" => "5008",
-              "prior_decision_rating_sn" => "1_623_547"
-            )
-          ],
+            [
+              review_issues_created_attributes(
+                "prior_decision_diagnostic_code" => "5008",
+                "prior_decision_rating_sn" => "1_623_547"
+              )
+            ],
           "decision_review_issues_updated" => 
-          [
-            review_issues_updated_attributes(
-              "prior_decision_diagnostic_code" => "5008",
-              "prior_decision_rating_sn" => "1_623_547"
-            )
-          ],
-          "decision_review_issues_removed" => 
+            [
+              review_issues_updated_attributes(
+                "prior_decision_diagnostic_code" => "5008",
+                "prior_decision_rating_sn" => "1_623_547"
+              )
+            ],
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -449,7 +448,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -478,7 +477,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -504,7 +503,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_decision_notification_date" => nil,
@@ -536,7 +535,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -560,7 +559,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -595,7 +594,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -616,7 +615,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -654,7 +653,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -677,7 +676,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -733,7 +732,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_decision_text" => "Tetnus is denied",
@@ -768,7 +767,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -789,7 +788,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -843,7 +842,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 9,
@@ -878,7 +877,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -899,7 +898,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -937,7 +936,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -965,7 +964,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1010,7 +1009,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "same_station_review_requested" => true,
           "decision_review_issues_created" =>
           [
@@ -1036,7 +1035,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1077,7 +1076,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -1098,7 +1097,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -1159,7 +1158,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1195,7 +1194,7 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_message_payload(
-           "participant_id" => participant_id,
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -1215,7 +1214,7 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "unidentified" => true,
@@ -1668,31 +1667,60 @@ FactoryBot.define do
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
-              "contention_id" => nil
+              "contention_action" => "NONE",
+              "reason_for_contention_action" => "NO_CHANGES",
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ],
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
-              "contention_id" => nil
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
+              
             )
           ],
           "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
-              "contention_id" => nil
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ],
           "decision_review_issues_withdrawn" =>
           [
             review_issues_withdrawn_attributes(
-              "contention_id" => nil
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ],
           "decision_review_issues_not_changed" =>
           [
             review_issues_not_changed_attributes(
-              "contention_id" => nil
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ]
         )
@@ -1704,23 +1732,48 @@ FactoryBot.define do
         base_message_payload(
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
+            )
           ]
         )
       end
@@ -1760,21 +1813,27 @@ FactoryBot.define do
           [
             review_issues_created_attributes(
               "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ],
           "decision_review_issues_updated" =>
           [
             review_issues_updated_attributes(
               "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ],
           "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ],
           "decision_review_issues_withdrawn" =>
@@ -1788,7 +1847,9 @@ FactoryBot.define do
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
-              "prior_decision_type" => "Disability Evaluation"
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil
             )
           ]
         )
@@ -2085,28 +2146,76 @@ FactoryBot.define do
       end
     end
 
+    # informal_conference_requested
     trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ]
         )
       end
@@ -2164,29 +2273,72 @@ FactoryBot.define do
       end
     end
 
+    # request for informal_conference
     trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
+          "informal_conference_requested" => true,
           "decision_review_issues_created" =>
-          [
-            review_issues_created_attributes()
-          ],
+            [
+              review_issues_created_attributes(
+                "prior_caseflow_decision_issue_id" => 20,
+                "prior_non_rating_decision_id" => 13,
+                "prior_decision_text" => "DIC: Service connection for tetnus denied",
+                "prior_decision_type" => "DIC",
+                "prior_decision_rating_profile_date" => nil,
+                "time_override" => true,
+                "time_override_reason" => "good cause exemption"
+              )
+            ],
           "decision_review_issues_updated" =>
-          [
-            review_issues_updated_attributes()
-          ],
+            [
+              review_issues_updated_attributes(
+                "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
+                "prior_caseflow_decision_issue_id" => 20,
+                "prior_non_rating_decision_id" => 13,
+                "prior_decision_text" => "DIC: Service connection for tetnus denied",
+                "prior_decision_type" => "DIC",
+                "prior_decision_rating_profile_date" => nil,
+                "time_override" => true,
+                "time_override_reason" => "good cause exemption"
+              )
+            ],
           "decision_review_issues_removed" =>
-          [
-            review_issues_removed_attributes()
-          ],
+            [
+              review_issues_removed_attributes(
+                "prior_caseflow_decision_issue_id" => 20,
+                "prior_non_rating_decision_id" => 13,
+                "prior_decision_text" => "DIC: Service connection for tetnus denied",
+                "prior_decision_type" => "DIC",
+                "prior_decision_rating_profile_date" => nil,
+                "time_override" => true,
+                "time_override_reason" => "good cause exemption"
+              )
+            ],
           "decision_review_issues_withdrawn" =>
-          [
-            review_issues_withdrawn_attributes()
-          ],
+            [
+              review_issues_withdrawn_attributes(
+                "prior_caseflow_decision_issue_id" => 20,
+                "prior_non_rating_decision_id" => 13,
+                "prior_decision_text" => "DIC: Service connection for tetnus denied",
+                "prior_decision_type" => "DIC",
+                "prior_decision_rating_profile_date" => nil,
+                "time_override" => true,
+                "time_override_reason" => "good cause exemption"
+              )
+            ],
           "decision_review_issues_not_changed" =>
-          [
-            review_issues_not_changed_attributes()
-          ]
+            [
+              review_issues_not_changed_attributes(
+                "prior_caseflow_decision_issue_id" => 20,
+                "prior_non_rating_decision_id" => 13,
+                "prior_decision_text" => "DIC: Service connection for tetnus denied",
+                "prior_decision_type" => "DIC",
+                "prior_decision_rating_profile_date" => nil,
+                "time_override" => true,
+                "time_override_reason" => "good cause exemption"
+              )
+            ]
         )
       end
     end
@@ -2433,7 +2585,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_removed" => 
+          "decision_review_issues_removed" =>
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 10,
@@ -2464,116 +2616,242 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "contention_action" => "NONE",
+              "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligible" => true,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_HLR"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_rating_hlr_with_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_rating_hlr_contested do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "CONTESTED"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_rating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "contention_action" => "NONE",
+              "reason_for_contention_action" => "NO_CHANGES",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_rating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2599,8 +2877,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2626,8 +2907,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2653,8 +2937,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2680,8 +2967,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2707,8 +2997,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2734,8 +3027,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2761,8 +3057,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2788,8 +3087,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_with_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2815,8 +3117,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2842,8 +3147,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2869,8 +3177,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2896,8 +3207,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2923,8 +3237,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2950,8 +3267,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -2977,8 +3297,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3004,8 +3327,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3031,162 +3357,399 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "TIME_RESTRICTION",
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_LEGACY_APPEAL"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_LEGACY_APPEAL"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_LEGACY_APPEAL"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_profile_date" => nil,
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_LEGACY_APPEAL"
+            )
           ]
         )
       end
@@ -3197,112 +3760,278 @@ FactoryBot.define do
         base_message_payload(
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_rating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3328,8 +4057,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3355,8 +4087,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3382,8 +4117,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_rating_decision_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3409,143 +4147,336 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "COMPLETED_HLR",
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "COMPLETED_HLR",
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "COMPLETED_HLR",
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "COMPLETED_HLR",
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "Service connection for tetnus denied",
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "COMPLETED_HLR",
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR",
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_HLR"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 12,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_with_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_nonrating_hlr_contested do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3571,8 +4502,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_contested_with_additional_issue do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3598,8 +4532,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3625,8 +4562,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3652,8 +4592,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_with_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3679,8 +4622,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3706,8 +4652,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3733,8 +4682,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3760,8 +4712,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3787,8 +4742,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3814,62 +4772,136 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 20,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 20,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 20,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 20,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 20,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "TIME_RESTRICTION"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3895,35 +4927,90 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ]
         )
       end
     end
 
     trait :ineligible_nonrating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3949,8 +5036,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -3976,35 +5066,86 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1
+            )
           ]
         )
       end
     end
 
     trait :ineligible_nonrating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -4030,35 +5171,81 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_BOARD_APPEAL"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_nonrating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes()
@@ -4084,81 +5271,200 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 14,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 14,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 14,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 14,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_non_rating_decision_id" => 14,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_HLR"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_HLR"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_HLR"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_HLR"
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_HLR"
+            )
           ]
         )
       end
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
       message_payload do
         base_message_payload(
+          "participant_id" => participant_id,
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes()
+            review_issues_created_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes()
+            review_issues_updated_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes()
+            review_issues_removed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
-            review_issues_withdrawn_attributes()
+            review_issues_withdrawn_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+            )
           ],
           "decision_review_issues_not_changed" =>
           [
-            review_issues_not_changed_attributes()
+            review_issues_not_changed_attributes(
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_non_rating_decision_id" => 13,
+              "prior_decision_text" => "DIC: Service connection for tetnus denied",
+              "prior_decision_type" => "DIC",
+              "prior_decision_rating_profile_date" => nil,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+            )
           ]
         )
       end

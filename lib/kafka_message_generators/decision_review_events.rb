@@ -794,11 +794,14 @@ module KafkaMessageGenerators
       object.claim_id = @claim_id
       issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
         next if object.send(issue_type).empty?
-        if issue_type == :decision_review_issues_created && object.send(:decision_review_issues_created)[0].contention_action == "ADD_CONTENTION"
-          object.send(issue_type)[0].contention_id = @new_contention_id 
-          @new_contention_id += 1
-        elsif issue_type == :decision_review_issues_created && object.send(:decision_review_issues_created)[0].contention_action == "NONE"
-          object.send(issue_type)[0].contention_id = nil
+
+        if issue_type == :decision_review_issues_created &&
+          object.send(:decision_review_issues_created)[0].contention_action == "ADD_CONTENTION"
+            object.send(issue_type)[0].contention_id = @new_contention_id
+            @new_contention_id += 1
+        elsif issue_type == :decision_review_issues_created &&
+          object.send(:decision_review_issues_created)[0].contention_action == "NONE"
+            object.send(issue_type)[0].contention_id = nil
         else
           object.send(issue_type)[0].contention_id = @contention_id
           @contention_id += 1
