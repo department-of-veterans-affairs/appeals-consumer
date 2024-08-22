@@ -24,9 +24,64 @@
       "doc": "The type of decision review (higher level review, supplemental). This field is not updatable and is only for reference."
     },
     {
+      "name": "veteranFirstName",
+      "type": "string",
+      "doc": "The first name of the Veteran"
+    },
+    {
+      "name": "veteranLastName",
+      "type": "string",
+      "doc": "The last name of the Veteran"
+    },
+    {
       "name": "veteranParticipantId",
       "type": "string",
       "doc": "The Participant ID of the Veteran. This field is not updatable and is only for reference."
+    },
+     {
+      "name": "epCode",
+      "type": "string",
+      "doc": "The type of decision review that was created"
+    },
+    {
+      "name": "epCodeCategory",
+      "type": "string",
+      "doc": "Category of EP code (rating or non-rating)"
+    },
+    {
+      "name": "claimReceivedDate",
+      "type": {
+        "type": "int",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Date",
+        "logicalType": "date"
+      },
+      "doc": "The date that this decision review application was received"
+    },
+    {
+      "name": "claimLifecycleStatus",
+      "type": "string",
+      "doc": "The life cycle status of the claim"
+    },
+    {
+      "name": "payeeCode",
+      "type": "string",
+      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
+    },
+    {
+      "name": "modifier",
+      "type": "string",
+      "doc": "The third digit modifier"
+    },
+    {
+      "name": "claimCreationTime",
+      "type": {
+        "type": "long",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Timestamp",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "The time at which this decision review claim was created"
     },
     {
       "name": "fileNumber",
@@ -368,7 +423,67 @@
                 "name": "decision",
                 "type": [
                   "null",
-                  "Decision"
+                  {
+                    "name": "Decision",
+                    "type": "record",
+                    "fields": [
+                      {
+                        "name": "contentionId",
+                        "type": "long",
+                        "doc": "The identifier of the contention that was created for this draft decision."
+                      },
+                      {
+                        "name": "disposition",
+                        "type": "string",
+                        "doc": "The disposition."
+                      },
+                      {
+                        "name": "dtaErrorExplanation",
+                        "type": "string",
+                        "doc": "In the case of a Duty To Assist (DTA) Error disposition, the explanation given by the user as to why a DTA Error disposition was appropriate for the associated contention."
+                      },
+                      {
+                        "name": "decisionSource",
+                        "type": "string",
+                        "doc": "The source of the decision if it made changes to the corporate record."
+                      },
+                      {
+                        "name": "category",
+                        "type": "string",
+                        "doc": "The category of the decision based on whether the issue is a Rating or Non-Rating issue. May be blank (unidentified). Can be RATING or NON_RATING"
+                      },
+                      {
+                        "name": "decisionId",
+                        "type": "long",
+                        "doc": "ID of the decision from the source system. (Rating = rbaIssueId from VBMS-R, Non-Rating = decisionId from VBMS-A; null if unidentified or not provided.)"
+                      },
+                      {
+                        "name": "decisionText",
+                        "type": "string",
+                        "doc": "If the decision originated from VBMS-Ratings, then this is the decision text associated with the issue rated (Ex. Service connection for Burns is granted with an evaluation of 10 percent effective July 3, 2023). If the decision originated from VBMS-Awards, then this is the decision selected for the specific awards benefit type."
+                      },
+                      {
+                        "name": "awardEventId",
+                        "type": "long",
+                        "doc": "The identifier of the contention that was created for this draft decision."
+                      },
+                      {
+                        "name": "ratingProfileDate",
+                        "type": "string",
+                        "doc": "The profile date of the rating profile from VBMS-R that this decision was made on, for Rating decisions."
+                      },
+                      {
+                        "name": "decisionRecordedTime",
+                        "type": "string",
+                        "doc": "Time at which the issue was decided (not finalized)."
+                      },
+                      {
+                        "name": "decisionFinalizedTime",
+                        "type": "string",
+                        "doc": "Time at which the issue was finalized. Only set when issue is authorized with a non-deferred disposition."
+                      }
+                    ]
+                  }
                 ],
                 "default": null
               }
