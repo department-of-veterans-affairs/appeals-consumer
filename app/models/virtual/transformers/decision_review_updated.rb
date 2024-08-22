@@ -9,8 +9,39 @@ class Transformers::DecisionReviewUpdated
   # Lists the attributes and corresponding data types
   # Data types are listed in an array when the value isn't limited to one data type
   # For example, originated_from_vacols_issue could be a boolean OR nil
-  # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_UPDATED_ATTRIBUTES = {
+    "claim_id" => Integer,
+    "original_source" => String,
+    "decision_review_type" => [String, NilClass],
+    "veteran_first_name" => String,
+    "veteran_last_name" => String,
+    "veteran_participant_id" => String,
+    "file_number" => String,
+    "claimant_participant_id" => String,
+    "ep_code" => String,
+    "ep_code_category" => String,
+    "claim_received_date" => String,
+    "claim_lifecycle_status" => String,
+    "payee_code" => String,
+    "modifier" => String,
+    "originated_from_vacols_issue" => [TrueClass, FalseClass, NilClass],
+    "limited_poa_code" => [String, NilClass],
+    "tracked_item_action" => String,
+    "informal_conference_requested" => [TrueClass, FalseClass],
+    "informal_conference_tracked_item_id" => [String, NilClass],
+    "same_station_review_requested" => [TrueClass, FalseClass],
+    "update_time" => String,
+    "claim_creation_time" => String,
+    "actor_username" => String,
+    "actor_station" => String,
+    "actor_application" => String,
+    "auto_remand" => [TrueClass, FalseClass],
+    "decision_review_issues_created" => Array,
+    "decision_review_issues_updated" => Array,
+    "decision_review_issues_removed" => Array,
+    "decision_review_issues_withdrawn" => Array,
+    "decision_review_issues_not_changed" => Array,
+    "decision" => [Hash, NilClass]
     "claim_id" => Integer,
     "original_source" => String,
     "decision_review_type" => [String, NilClass],
@@ -43,14 +74,12 @@ class Transformers::DecisionReviewUpdated
     "decision_review_issues_withdrawn" => Array,
     "decision_review_issues_not_changed" => Array
   }.freeze
-  # rubocop:enable Style/MutableConstant
-
   # Allows read and write access for attributes
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
   # When DecisionReviewUpdated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
-  # and create DecisionReviewIssueUpdated instances for each object in the message_payload's decision_review_issues array
+  # and create DecisionReviewIssueUpdated instances for each object in message_payload's decision_review_issues array
   def initialize(event_id, message_payload)
     @event_id = event_id
     validate(message_payload, self.class.name)
@@ -99,7 +128,8 @@ class Transformers::DecisionReviewUpdated
   end
 end
 
-# DecisionReviewIssueUpdated represents an individual issue object from the message_payload's decision_review_issues_created, decision_review_issues_updated, decision_review_issues_removed,
+# DecisionReviewIssueUpdated represents an individual issue object from the message_payload's
+# decision_review_issues_created, decision_review_issues_updated, decision_review_issues_removed,
 # or decision_review_issues_withdrawn arrays
 class DecisionReviewIssueUpdated
   include MessagePayloadValidator
@@ -107,7 +137,6 @@ class DecisionReviewIssueUpdated
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
-  # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES = {
     "decision_review_issue_id" => [Integer, NilClass],
     "contention_id" => [Integer, NilClass],
@@ -142,8 +171,6 @@ class DecisionReviewIssueUpdated
     "withdrawn" => [TrueClass, FalseClass],
     "decision" => [Hash, NilClass]
   }.freeze
-  # rubocop:enable Style/MutableConstant
-
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
@@ -152,7 +179,7 @@ class DecisionReviewIssueUpdated
   def initialize(issue = {})
     validate(issue, self.class.name)
     assign(issue)
-    create_decisions(issue[:decision])
+    create_decisions(issue["decision"])
   end
 
   private
