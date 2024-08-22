@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+# DecisionReviewUpdated represents the message_payload from an individual DecisionReviewUpdatedEvent
 class Transformers::DecisionReviewUpdated
   include MessagePayloadValidator
 
   attr_reader :event_id
 
+  # Lists the attributes and corresponding data types
+  # Data types are listed in an array when the value isn't limited to one data type
+  # For example, originated_from_vacols_issue could be a boolean OR nil
   DECISION_REVIEW_UPDATED_ATTRIBUTES = {
     "claim_id" => Integer,
     "original_source" => String,
@@ -39,9 +43,12 @@ class Transformers::DecisionReviewUpdated
     "decision_review_issues_not_changed" => Array,
     "decision" => [Hash, NilClass]
   }.freeze
-
+  # Allows read and write access for attributes
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
+  # When DecisionReviewUpdated.new(message_payload) is called, this method will validate message_payload
+  # presence, attribute names and data types, assign the incoming attributes to defined keys,
+  # and create DecisionReviewIssueUpdated instances for each object in the message_payload's decision_review_issues array
   def initialize(event_id, message_payload)
     @event_id = event_id
     validate(message_payload, self.class.name)
@@ -49,16 +56,21 @@ class Transformers::DecisionReviewUpdated
     create_decision_review_issues(message_payload)
   end
 
+  # Lists the attributes and corresponding data types
   def attribute_types
     DECISION_REVIEW_UPDATED_ATTRIBUTES
   end
 
+  # Assigns attributes from the message_payload to defined keys
   def assign(message_payload)
     DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", message_payload[attr])
     end
   end
 
+  # Creates instances of DecisionReviewIssueUpdated, validates attributes, and assigns attributes
+  # for each object in the decision_review_issues array
+  # Fails out of workflow if decision_review_issues is an empty array
   def create_decision_review_issues(payload)
     if payload_invalid?(payload)
       fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue updated"
@@ -85,9 +97,14 @@ class Transformers::DecisionReviewUpdated
   end
 end
 
+# DecisionReviewIssueUpdated represents an individual issue object from the message_payload's decision_review_issues_created, decision_review_issues_updated, decision_review_issues_removed,
+# or decision_review_issues_withdrawn arrays
 class DecisionReviewIssueUpdated
   include MessagePayloadValidator
 
+  # Lists the attributes and corresponding data types
+  # Data types are stored in an array when the value isn't limited to one data type
+  # For example, time_override could be a boolean OR nil
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES = {
     "decision_review_issue_id" => [Integer, NilClass],
     "contention_id" => [Integer, NilClass],
@@ -122,9 +139,11 @@ class DecisionReviewIssueUpdated
     "withdrawn" => [TrueClass, FalseClass],
     "decision" => [Hash, NilClass]
   }.freeze
-
+  # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
+  # When DecisionReviewIssueUpdated.new(issue_attrs) is called, this method will validate message_payload
+  # presence, attribute names and data types and assign the incoming attributes to defined keys
   def initialize(issue = {})
     validate(issue, self.class.name)
     assign(issue)
@@ -133,10 +152,12 @@ class DecisionReviewIssueUpdated
 
   private
 
+  # Lists the attributes and corresponding data types
   def attribute_types
     DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES
   end
 
+  # Assigns attributes from issue_attrs to defined keys
   def assign(issue)
     DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", issue[attr])
