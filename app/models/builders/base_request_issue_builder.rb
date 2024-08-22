@@ -3,7 +3,7 @@
 class Builders::BaseRequestIssueBuilder
   include DecisionReview::ModelBuilderHelper
 
-  # returns the DecisionReviewCreated::RequestIssue record with all attributes assigned
+  # returns the DecisionReview model's RequestIssue record with all attributes assigned
   def self.build(issue, decision_review_model, bis_rating_profiles)
     builder = new(issue, decision_review_model, bis_rating_profiles)
     builder.assign_attributes
