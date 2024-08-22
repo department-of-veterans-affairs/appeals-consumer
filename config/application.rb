@@ -31,9 +31,6 @@ module AppealsConsumer
     # setup the deploy env environment variable
     ENV['DEPLOY_ENV'] ||= Rails.env
 
-    config.eager_load_paths << Rails.root.join('lib')
-    config.eager_load_paths << Rails.root.join('app/models/virtual')
-
     # set Shoryuken as the job queue adapter
     config.active_job.queue_adapter = :shoryuken
 
@@ -43,15 +40,6 @@ module AppealsConsumer
 
     # sqs details
     config.active_job.queue_name_prefix = "appeals_consumer_" + ENV['DEPLOY_ENV']
-
-
-    config.bgs_environment = ENV["BGS_ENVIRONMENT"] || "beplinktest"
-
-    config.redis_url = ENV["REDIS_URL_CACHE"]
-    config.caseflow_url = ENV["CASEFLOW_URL"]
-    config.caseflow_key = ENV["CASEFLOW_KEY"]
-
-    config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL_CACHE"], expires_in: 24.hours }
 
     # it's a safe assumption we're running on us-gov-west-1
     ENV["AWS_REGION"] ||= "us-gov-west-1"
@@ -67,7 +55,6 @@ module AppealsConsumer
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
-    config.api_key = ENV["CONSUMER_API_KEY"]
     config.api_only = true
   end
 end

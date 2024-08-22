@@ -26,8 +26,9 @@ Running `make build` will build the initial docker containers. This will:
 - Copy all necessary files into the docker container.
 - Install required dependencies.
 - Create the database if it has not already been created.
-- Run any pending migrations.
-- Upload the `/docker-bin/DecisionReviewCreated.avsc` avro to the schema-registry docker instance.
+- Run any pending migrations
+
+Additionally, run `make registry` to upload the schema to the registry server.
 
 Starting the containers
 ---
