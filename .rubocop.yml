@@ -4,12 +4,9 @@ require:
 
 AllCops:
   Exclude:
-    - 'bin/*'
     - 'db/migrate/*'
     - 'db/schema.rb'
-    - 'db/seeds/*'
     - 'config/**/*'
-    - 'vendor/**/*'
   TargetRailsVersion: 5.1
   TargetRubyVersion: 2.5
   UseCache: true

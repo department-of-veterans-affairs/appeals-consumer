@@ -1,7 +1,7 @@
 ARG RUBY_VERSION=3.2.2
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim
 
-RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev supervisor jq curl git
+RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev supervisor jq curl
 
 WORKDIR /appeals-consumer
 
