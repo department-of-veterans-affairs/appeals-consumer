@@ -55,6 +55,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       subject
     end
   end
+
   # test decision_review_updated?
   describe "#convert_drc_timestamp(message)" do
   end
@@ -66,15 +67,22 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
   describe "#convert_dates_and_timestamps_to_int(message)" do
   end
 
-  # test @decision_review_event_type.to_sym = :decision_review_updated
   describe "#create_drc_message(trait, ep_code)" do
     subject { decision_review_updated_events }
     let(:contention_action) { "contentionAction" }
     let(:contention_id) { "contentionId" }
     let(:decision_review_type) { "decisionReviewType" }
-    let(:ep_code_category){ "epCodeCategory" }
+    let(:ep_code_category) { "epCodeCategory" }
     let(:reason_for_contention_action) { "reasonForContentionAction" }
     let(:prior_decision_rating_profile_date) { "priorDecisionRatingProfileDate" }
+    let(:veteran_participant_id) { "veteranParticipantId" }
+    let(:claimant_participant_id) { "claimantParticipantId" }
+
+    # Test for the following scnearios in message_payload
+    # veteran_claimant
+    ## rating
+    ### eligible & ineligible
+    ### higher_level_rating
     context "creates eligible_rating_hlr_veteran_claimant message" do
       let(:trait) { "eligible_rating_hlr_veteran_claimant" }
       let(:ep_code) { "030HLRR" }
@@ -88,6 +96,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         fm_issues_withdrawn = formatted_message[decision_review_issues_withdrawn][0]
         fm_issues_not_changed = formatted_message[decision_review_issues_not_changed][0]
         expect(subject.instance_variable_get(:@decision_review_event_type)).to eq("decision_review_updated")
+        expect(formatted_message[veteran_participant_id]).to eq(formatted_message[claimant_participant_id])
         expect(formatted_message[decision_review_type]).to eq("HIGHER_LEVEL_REVIEW")
         expect(formatted_message[ep_code_category]).to eq("rating")
         expect(fm_issues_created[prior_decision_rating_profile_date]).not_to be_nil
@@ -109,34 +118,6 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       end
     end
   end
-
-  # Test for the following scnearios in message_payload
-  # veteran_claimant
-  ## rating
-  ### eligible & ineligible
-  ### higher_level_rating
-
-  # contention_action: "NONE" reason_for_contention_action: "NO_CHANGES" contention_id: nil
-
-  # _updated
-  # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED" contention_id starts with 710_000_000
-
-  # informal_conference_requested: true
-  # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "SPECIAL_ISSUES_CHANGED"   contention_id starts with 710_000_000
-
-  # same_station_review_requested: true
-  # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "SPECIAL_ISSUES_CHANGED"   contention_id starts with 710_000_000
-
-  # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE" contention_id starts with 710_000_000
-
-  # _removed
-  # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "REMOVED_SELECTED" removed: true contention_id starts with 710_000_000
-
-  # _withdrawn
-  # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "WITHDRAWN_SELECTED" withdrawn: true contention_id starts with 710_000_000
-
-  #  _no_changes
-  # contention_action: "NONE" reason_for_contention_action: "NO_CHANGES" contention_id starts with 710_000_000
 
   ### supplemental_claims
   #### decision_review_issues
