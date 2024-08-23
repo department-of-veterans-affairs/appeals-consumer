@@ -8,7 +8,7 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder < Builders:
       build_request_issue(issue, index)
     end
   end
-  
+
   # index is only used as an identifier if the decision_review_issue's contention_id is nil
   def build_request_issue(issue, index)
     begin
