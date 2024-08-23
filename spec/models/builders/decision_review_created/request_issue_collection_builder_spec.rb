@@ -159,8 +159,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_contested) }
       let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
       let(:error_msg) do
-        "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-        "DecisionReviewCreated Claim ID: #{decision_review_model.claim_id} does not contain any "\
+        "Failed building from #{described_class} for "\
+        "DecisionReview Claim ID: #{decision_review_model.claim_id} does not contain any "\
         "valid issues after removing 'CONTESTED' ineligible issues"
       end
 
@@ -246,8 +246,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     subject { builder.send(:handle_no_issues_after_removing_contested) }
     let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
     let(:error_msg) do
-      "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-      "DecisionReviewCreated Claim ID: #{claim_id} does not contain any valid issues after "\
+      "Failed building from #{described_class} for "\
+      "DecisionReview Claim ID: #{claim_id} does not contain any valid issues after "\
       "removing 'CONTESTED' ineligible issues"
     end
 
@@ -291,8 +291,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         end
 
         let(:ri_collection_builder_error_msg) do
-          "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-          "DecisionReviewCreated Claim ID: #{claim_id} Issue Index: #{index} - Issue is eligible but "\
+          "Failed building from #{described_class} for "\
+          "DecisionReview Claim ID: #{claim_id} Issue Index: #{index} - Issue is eligible but "\
           "has null for contention_id"
         end
 
@@ -308,8 +308,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         end
 
         let(:ri_collection_builder_error_msg) do
-          "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-          "DecisionReviewCreated Claim ID: #{claim_id} Issue Contention ID: #{issue.contention_id} - "\
+          "Failed building from #{described_class} for "\
+          "DecisionReview Claim ID: #{claim_id} Issue Contention ID: #{issue.contention_id} - "\
           "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
         end
 
@@ -416,8 +416,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       let(:decision_review_model) { build(:decision_review_created, :ineligible_rating_hlr_contested) }
       let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
       let(:error_msg) do
-        "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-        "DecisionReviewCreated Claim ID: #{claim_id} does not contain any valid issues after "\
+        "Failed building from #{described_class} for "\
+        "DecisionReview Claim ID: #{claim_id} does not contain any valid issues after "\
         "removing 'CONTESTED' ineligible issues"
       end
 
