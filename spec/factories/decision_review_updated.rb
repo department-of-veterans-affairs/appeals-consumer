@@ -1377,25 +1377,29 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_unidentified_without_contention_id do
       message_payload do
-        unidentified_without_contention_id_attr = {
-          "contention_id" => nil,
-          "unidentified" => true,
-          "prior_decision_type" => "Disability Evaluation"
-        }
         base_message_payload(
           "decision_review_issues_created" =>
           [
-            review_issues_created_attributes(**unidentified_without_contention_id_attr)
+            review_issues_created_attributes(
+              "contention_id" => nil,
+              "unidentified" => true,
+              "prior_decision_type" => "Disability Evaluation"
+            )
           ],
           "decision_review_issues_updated" =>
           [
-            review_issues_updated_attributes(**unidentified_without_contention_id_attr,
+            review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
-              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)")
+              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)"
+            )
           ],
           "decision_review_issues_removed" =>
           [
-            review_issues_removed_attributes(**unidentified_without_contention_id_attr)
+            review_issues_removed_attributes(
+              "contention_id" => nil,
+              "unidentified" => true,
+              "prior_decision_type" => "Disability Evaluation"
+            )
           ],
           "decision_review_issues_withdrawn" =>
           [
