@@ -3,22 +3,22 @@
 describe Builders::DecisionReviewCreated::VeteranBuilder do
   before do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
-    Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+    Fakes::VeteranStore.new.store_veteran_record(decision_review_model.file_number, veteran_bis_record)
   end
 
-  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
   let!(:event_id) { event.id }
-  let!(:decision_review_created) { build(:decision_review_created) }
-  let(:builder) { described_class.new(decision_review_created) }
+  let!(:decision_review_model) { build(:decision_review_created) }
+  let(:builder) { described_class.new(decision_review_model) }
   let(:bis_record) { builder.bis_record }
   let(:veteran_bis_record) do
     {
-      file_number: decision_review_created.file_number,
-      ptcpnt_id: decision_review_created.veteran_participant_id,
+      file_number: decision_review_model.file_number,
+      ptcpnt_id: decision_review_model.veteran_participant_id,
       sex: "M",
-      first_name: decision_review_created.veteran_first_name,
+      first_name: decision_review_model.veteran_first_name,
       middle_name: "Russell",
-      last_name: decision_review_created.veteran_last_name,
+      last_name: decision_review_model.veteran_last_name,
       name_suffix: "II",
       ssn: "987654321",
       address_line1: "122 Mullberry St.",
@@ -37,18 +37,18 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
   end
 
   before do
-    decision_review_created.instance_variable_set(:@event_id, event_id)
+    decision_review_model.instance_variable_set(:@event_id, event_id)
   end
 
   describe "#build" do
-    subject { described_class.build(decision_review_created) }
+    subject { described_class.build(decision_review_model) }
     it "returns a DecisionReviewCreated::Veteran object" do
       expect(subject).to be_an_instance_of(DecisionReviewCreated::Veteran)
     end
   end
 
-  describe "#initialize(decision_review_created)" do
-    let(:veteran) { described_class.new(decision_review_created).veteran }
+  describe "#initialize(decision_review_model)" do
+    let(:veteran) { described_class.new(decision_review_model).veteran }
 
     it "initializes a new VeteranBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
@@ -58,8 +58,8 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
       expect(veteran).to be_an_instance_of(DecisionReviewCreated::Veteran)
     end
 
-    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
+    it "assigns decision_review_model to the DecisionReviewCreated object passed in" do
+      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
     it "assigns bis_record to the veteran record fetched from BIS" do
@@ -85,8 +85,8 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
 
   describe "#assign_participant_id" do
     subject { builder.send(:assign_participant_id) }
-    it "assigns the veteran's participant_id to decision_review_created.veteran_participant_id" do
-      expect(subject).to eq(decision_review_created.veteran_participant_id)
+    it "assigns the veteran's participant_id to decision_review_model.veteran_participant_id" do
+      expect(subject).to eq(decision_review_model.veteran_participant_id)
     end
   end
 
@@ -101,28 +101,28 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
 
   describe "#assign_file_number" do
     subject { builder.send(:assign_file_number) }
-    it "assigns the veteran's file_number to decision_review_created.file_number" do
-      expect(subject).to eq(decision_review_created.file_number)
+    it "assigns the veteran's file_number to decision_review_model.file_number" do
+      expect(subject).to eq(decision_review_model.file_number)
     end
   end
 
   describe "#assign_first_name" do
     subject { builder.send(:assign_first_name) }
-    it "assigns the veteran's first_name to decision_review_created.veteran_first_name" do
-      expect(subject).to eq(decision_review_created.veteran_first_name)
+    it "assigns the veteran's first_name to decision_review_model.veteran_first_name" do
+      expect(subject).to eq(decision_review_model.veteran_first_name)
     end
   end
 
   describe "#assign_last_name" do
     subject { builder.send(:assign_last_name) }
-    it "assigns the veteran's first_name to decision_review_created.veteran_first_name" do
-      expect(subject).to eq(decision_review_created.veteran_last_name)
+    it "assigns the veteran's first_name to decision_review_model.veteran_first_name" do
+      expect(subject).to eq(decision_review_model.veteran_last_name)
     end
   end
 
   describe "#calculate_date_of_death" do
     subject { builder.send(:calculate_date_of_death) }
-    let(:epoch_date) { DecisionReviewCreated::ModelBuilder::EPOCH_DATE }
+    let(:epoch_date) { DecisionReview::ModelBuilderHelper::EPOCH_DATE }
     let(:date_of_death) { bis_record[:date_of_death] }
     let(:target_date) { Date.strptime(date_of_death, "%m/%d/%Y") }
     let(:date_of_death_logical_type) { (target_date - epoch_date).to_i }
@@ -154,11 +154,11 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
   end
 
   describe "fetching BIS record" do
-    subject { described_class.build(decision_review_created) }
+    subject { described_class.build(decision_review_model) }
     context "when the BIS record is not found" do
       let(:msg) do
         "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
-        " #{decision_review_created.file_number}"
+        " #{decision_review_model.file_number}"
       end
       let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
