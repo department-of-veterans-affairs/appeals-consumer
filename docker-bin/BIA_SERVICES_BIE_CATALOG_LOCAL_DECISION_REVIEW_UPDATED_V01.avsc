@@ -38,7 +38,17 @@
       "type": "string",
       "doc": "The Participant ID of the Veteran. This field is not updatable and is only for reference."
     },
-     {
+    {
+      "name": "fileNumber",
+      "type": "string",
+      "doc": "The File Number of the Veteran. This field is not updatable and is only for reference."
+    },
+    {
+      "name": "claimantParticipantId",
+      "type": "string",
+      "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
+    },
+    {
       "name": "epCode",
       "type": "string",
       "doc": "The type of decision review that was created"
@@ -82,16 +92,6 @@
         "logicalType": "timestamp-millis"
       },
       "doc": "The time at which this decision review claim was created"
-    },
-    {
-      "name": "fileNumber",
-      "type": "string",
-      "doc": "The File Number of the Veteran. This field is not updatable and is only for reference."
-    },
-    {
-      "name": "claimantParticipantId",
-      "type": "string",
-      "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
     },
     {
       "name": "originatedFromVacolsIssue",
@@ -498,8 +498,7 @@
                       }
                     ]
                   }
-                ],
-                "default": null
+                ]
               }
             ]
           }

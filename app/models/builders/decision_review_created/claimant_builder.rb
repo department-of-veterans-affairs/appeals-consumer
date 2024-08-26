@@ -2,20 +2,20 @@
 
 # This class is used to build out a DecisionReviewCreated::Claimant object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::ClaimantBuilder
-  include DecisionReviewCreated::ModelBuilder
-  attr_reader :claimant, :decision_review_created, :bis_record
+  include DecisionReview::ModelBuilderHelper
+  attr_reader :claimant, :decision_review_model, :bis_record
 
   VETERAN_TYPE = "VeteranClaimant"
   DEPENDENT_TYPE = "DependentClaimant"
 
-  def self.build(decision_review_created)
-    builder = new(decision_review_created)
+  def self.build(decision_review_model)
+    builder = new(decision_review_model)
     builder.assign_attributes
     builder.claimant
   end
 
-  def initialize(decision_review_created)
-    @decision_review_created = decision_review_created
+  def initialize(decision_review_model)
+    @decision_review_model = decision_review_model
     @claimant = DecisionReviewCreated::Claimant.new
     @bis_record = fetch_person_bis_record
   end
@@ -36,15 +36,15 @@ class Builders::DecisionReviewCreated::ClaimantBuilder
   private
 
   def assign_payee_code
-    claimant.payee_code = decision_review_created.payee_code
+    claimant.payee_code = decision_review_model.payee_code
   end
 
   def calculate_type
-    claimant.type = (decision_review_created.payee_code == "00") ? VETERAN_TYPE : DEPENDENT_TYPE
+    claimant.type = (decision_review_model.payee_code == "00") ? VETERAN_TYPE : DEPENDENT_TYPE
   end
 
   def assign_participant_id
-    claimant.participant_id = decision_review_created.claimant_participant_id
+    claimant.participant_id = decision_review_model.claimant_participant_id
   end
 
   def calculate_name_suffix
