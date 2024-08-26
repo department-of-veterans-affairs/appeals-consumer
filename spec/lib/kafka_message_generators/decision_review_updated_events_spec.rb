@@ -67,7 +67,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#create_drc_message(trait, ep_code)" do
+  describe "#create_dr_message(trait, ep_code)" do
     subject { decision_review_updated_events }
     let(:claimant_participant_id) { "claimantParticipantId" }
     let(:contention_action) { "contentionAction" }
@@ -93,7 +93,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "030HLRR" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -129,7 +129,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "040SCR" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario: UPDATE_CONTENTION & ELIGIBLE_TO_INELIGIBLE" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -166,7 +166,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "030HLRRPMC" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Same Station Requested" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -204,7 +204,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "040SCRPMC" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Informal Conference Requested" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -249,7 +249,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "030HLRNR" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario: UPDATE_CONTENTION & PRIOR_DECISION_TEXT_CHANGED" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -285,7 +285,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "040SCRPMC" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Informal Conference Requested" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -325,7 +325,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "930AMAHDENCL" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Same Station Requested" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -355,12 +355,12 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       end
     end
 
-    context "creates Decision Review Updated eligible_decision_issue_prior_nonrating_hlr_without_contention_id message" do
+    context "creates DecisionReviewUpdated eligible_decision_issue_prior_nonrating_hlr_without_contention_id message" do
       let(:trait) { "eligible_decision_issue_prior_nonrating_hlr_without_contention_id" }
       let(:ep_code) { "930AHCNRNPMC" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario: NONE & NO_CHANGES" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -389,8 +389,6 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       end
     end
 
-
-
     #### supplemental_claims
     ##### decision_review_issues
     context "creates DecisionReviewUpdated ineligible_nonrating_sc_contested SupplementalClaim Message" do
@@ -398,7 +396,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "040ADONRPMC" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario: PRIOR_DECISION_TEXT_CHANGED & (UPDATED)" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -435,7 +433,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
       let(:ep_code) { "930AMARNRC" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
       it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Same Station Requested" do
-        message = subject.send(:create_drc_message, trait, ep_code)
+        message = subject.send(:create_dr_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
         fm_issues_updated = formatted_message[decision_review_issues_updated][0]
@@ -470,7 +468,6 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
 
   # informal_conference_requested: true
   # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "SPECIAL_ISSUES_CHANGED"   contention_id starts with 710_000_000
-
 
   # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE" contention_id starts with 710_000_000
 

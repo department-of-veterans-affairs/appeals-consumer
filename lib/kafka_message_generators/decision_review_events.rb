@@ -177,12 +177,12 @@ module KafkaMessageGenerators
 
     # scenarios that exist for every issue type regardless of ep_code
     def create_unidentified_messages(issue_type, code)
-      veteran_claimant = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
-      non_veteran_claimant = create_drc_message("eligible_#{issue_type}_non_veteran_claimant", code)
-      no_decision_date = create_drc_message("eligible_#{issue_type}_without_prior_decision_date", code)
-      with_poa_access = create_drc_message_with_poa_access("eligible_#{issue_type}_veteran_claimant", code)
-      without_poa_access = create_drc_message_without_poa_access("eligible_#{issue_type}_veteran_claimant", code)
-      nil_poa_access = create_drc_message_with_nil_poa_access("eligible_#{issue_type}_veteran_claimant", code)
+      veteran_claimant = create_dr_message("eligible_#{issue_type}_veteran_claimant", code)
+      non_veteran_claimant = create_dr_message("eligible_#{issue_type}_non_veteran_claimant", code)
+      no_decision_date = create_dr_message("eligible_#{issue_type}_without_prior_decision_date", code)
+      with_poa_access = create_dr_message_with_poa_access("eligible_#{issue_type}_veteran_claimant", code)
+      without_poa_access = create_dr_message_without_poa_access("eligible_#{issue_type}_veteran_claimant", code)
+      nil_poa_access = create_dr_message_with_nil_poa_access("eligible_#{issue_type}_veteran_claimant", code)
 
       [
         veteran_claimant,
@@ -196,43 +196,43 @@ module KafkaMessageGenerators
 
     # odd claim ids will have these poa values for the end product establishment record:
     # limited_poa_code: "OU3", limited_poa_access: "Y"
-    def create_drc_message_with_poa_access(issue_trait, code)
+    def create_dr_message_with_poa_access(issue_trait, code)
       @with_poa_access_claim_id ||= 1
-      drc = create_drc_message(issue_trait, code)
-      set_claim_id(drc, @with_poa_access_claim_id)
+      dr = create_dr_message(issue_trait, code)
+      set_claim_id(dr, @with_poa_access_claim_id)
       @with_poa_access_claim_id += 2
 
-      drc
+      dr
     end
 
     # even claim ids will have these poa values for the end product establishment record:
     # limited_poa_code: "007", limited_poa_access: "N"
-    def create_drc_message_without_poa_access(issue_trait, code)
+    def create_dr_message_without_poa_access(issue_trait, code)
       @without_poa_access_claim_id ||= 2
-      drc = create_drc_message(issue_trait, code)
-      set_claim_id(drc, @without_poa_access_claim_id)
+      dr = create_dr_message(issue_trait, code)
+      set_claim_id(dr, @without_poa_access_claim_id)
       @without_poa_access_claim_id += 2
 
-      drc
+      dr
     end
 
     # claim id value of 0 will return nil for the limited poa BIS call
-    def create_drc_message_with_nil_poa_access(issue_trait, code)
+    def create_dr_message_with_nil_poa_access(issue_trait, code)
       @nil_poa_access_claim_id ||= 0
-      drc = create_drc_message(issue_trait, code)
-      set_claim_id(drc, @nil_poa_access_claim_id)
+      dr = create_dr_message(issue_trait, code)
+      set_claim_id(dr, @nil_poa_access_claim_id)
 
-      drc
+      dr
     end
 
-    def set_claim_id(drc, claim_id_int)
-      drc.claim_id = claim_id_int
+    def set_claim_id(dr, claim_id_int)
+      dr.claim_id = claim_id_int
     end
 
     # scenarios that are applicable to rating decision messages
     def create_identified_messages(issue_type, code, valid_unidentified_messages)
-      eligible_legacy = create_drc_message("eligible_#{issue_type}_legacy", code)
-      time_override = create_drc_message("eligible_#{issue_type}_time_override", code)
+      eligible_legacy = create_dr_message("eligible_#{issue_type}_legacy", code)
+      time_override = create_dr_message("eligible_#{issue_type}_time_override", code)
 
       [eligible_legacy, time_override] + valid_unidentified_messages
     end
@@ -267,9 +267,9 @@ module KafkaMessageGenerators
     end
 
     def create_with_ramp_claim_id(issue_type, code)
-      drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
-      store_bis_rating_profiles_with_ramp_id(drc)
-      drc
+      dr = create_dr_message("eligible_#{issue_type}_veteran_claimant", code)
+      store_bis_rating_profiles_with_ramp_id(dr)
+      dr
     end
 
     def store_bis_rating_profiles_with_ramp_id(message)
@@ -281,9 +281,9 @@ module KafkaMessageGenerators
     end
 
     def create_with_no_data_found(issue_type, code)
-      drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
-      store_bis_rating_profiles(drc, bis_rating_profile_no_data)
-      drc
+      dr = create_dr_message("eligible_#{issue_type}_veteran_claimant", code)
+      store_bis_rating_profiles(dr, bis_rating_profile_no_data)
+      dr
     end
 
     # scenarios that are applicable to rating issues with or without an associated caseflow decision id
@@ -313,17 +313,17 @@ module KafkaMessageGenerators
     end
 
     def create_contested_issue(issue_type, code)
-      drc = create_drc_message("ineligible_#{issue_type}_contested", code)
+      dr = create_dr_message("ineligible_#{issue_type}_contested", code)
 
-      [drc]
+      [dr]
     end
 
     # scenarios that pertain to unidentified issues
     def create_invalid_unidentified_messages(issue_type, code)
-      eligible_without_contention_id = create_drc_message("eligible_#{issue_type}_without_contention_id", code)
-      bis_veteran_not_found = create_drc_message_and_track_file_number("eligible_#{issue_type}", code)
+      eligible_without_contention_id = create_dr_message("eligible_#{issue_type}_without_contention_id", code)
+      bis_veteran_not_found = create_dr_message_and_track_file_number("eligible_#{issue_type}", code)
       bis_person_not_found =
-        create_drc_message_without_bis_person("eligible_#{issue_type}_veteran_claimant", code)
+        create_dr_message_without_bis_person("eligible_#{issue_type}_veteran_claimant", code)
 
       [
         eligible_without_contention_id,
@@ -335,8 +335,8 @@ module KafkaMessageGenerators
     # message scenarios that pertain to identified rating decisions and rating issues
     # with or without an associated caseflow decision id
     def create_invalid_identified_messages(issue_type, code, invalid_unidentified_messages)
-      pending_hlr_without_ri_id = create_drc_message("ineligible_#{issue_type}_pending_hlr_without_ri_id", code)
-      ineligible_with_contention_id = create_drc_message("ineligible_#{issue_type}_with_contention_id", code)
+      pending_hlr_without_ri_id = create_dr_message("ineligible_#{issue_type}_pending_hlr_without_ri_id", code)
+      ineligible_with_contention_id = create_dr_message("ineligible_#{issue_type}_with_contention_id", code)
 
       [pending_hlr_without_ri_id, ineligible_with_contention_id] + invalid_unidentified_messages
     end
@@ -351,16 +351,16 @@ module KafkaMessageGenerators
     end
 
     def create_ineligible_supp_messages(issue_type, code)
-      untimely = create_drc_message("ineligible_#{issue_type}_time_restriction_untimely", code)
-      before_ama = create_drc_message("ineligible_#{issue_type}_time_restriction_before_ama", code)
-      no_soc_ssoc = create_drc_message("ineligible_#{issue_type}_no_soc_ssoc", code)
+      untimely = create_dr_message("ineligible_#{issue_type}_time_restriction_untimely", code)
+      before_ama = create_dr_message("ineligible_#{issue_type}_time_restriction_before_ama", code)
+      no_soc_ssoc = create_dr_message("ineligible_#{issue_type}_no_soc_ssoc", code)
       pending_legacy_appeal =
-        create_drc_message("ineligible_#{issue_type}_pending_legacy_appeal", code)
+        create_dr_message("ineligible_#{issue_type}_pending_legacy_appeal", code)
       legacy_time_restriction =
-        create_drc_message("ineligible_#{issue_type}_legacy_time_restriction", code)
-      pending_hlr = create_drc_message("ineligible_#{issue_type}_pending_hlr", code)
-      pending_board = create_drc_message("ineligible_#{issue_type}_pending_board_appeal", code)
-      pending_supplemental = create_drc_message("ineligible_#{issue_type}_pending_supplemental", code)
+        create_dr_message("ineligible_#{issue_type}_legacy_time_restriction", code)
+      pending_hlr = create_dr_message("ineligible_#{issue_type}_pending_hlr", code)
+      pending_board = create_dr_message("ineligible_#{issue_type}_pending_board_appeal", code)
+      pending_supplemental = create_dr_message("ineligible_#{issue_type}_pending_supplemental", code)
 
       [
         untimely,
@@ -375,35 +375,35 @@ module KafkaMessageGenerators
     end
 
     def create_ineligible_hlr_messages(issue_type, code, ineligible_supp_messages)
-      completed_hlr = create_drc_message("ineligible_#{issue_type}_completed_hlr", code)
-      completed_board = create_drc_message("ineligible_#{issue_type}_completed_board_appeal", code)
+      completed_hlr = create_dr_message("ineligible_#{issue_type}_completed_hlr", code)
+      completed_board = create_dr_message("ineligible_#{issue_type}_completed_board_appeal", code)
 
       [completed_hlr, completed_board] + ineligible_supp_messages
     end
 
     # create the message, increment the file number, and add it to array that will test
     # logging and event audit notes column
-    def create_drc_message_and_track_file_number(issue_trait, code)
-      drc = create_drc_message(issue_trait, code)
-      @file_numbers_to_remove_from_cache << drc.file_number
-      drc
+    def create_dr_message_and_track_file_number(issue_trait, code)
+      dr = create_dr_message(issue_trait, code)
+      @file_numbers_to_remove_from_cache << dr.file_number
+      dr
     end
 
     # if a claimant_participant_id is "", the fake BIS call with return an empty obj
     # tests logging and event audit notes column
-    def create_drc_message_without_bis_person(issue_trait, code)
-      drc = create_drc_message(issue_trait, code)
-      drc.claimant_participant_id = ""
-      drc
+    def create_dr_message_without_bis_person(issue_trait, code)
+      dr = create_dr_message(issue_trait, code)
+      dr.claimant_participant_id = ""
+      dr
     end
 
     # represents a message post-consumption and post-deserialization
     # some fields must be changed to accurately reflect a message prior to consumption
-    def create_drc_message(trait, ep_code)
-      drc = FactoryBot.build(@decision_review_event_type.to_sym, trait.to_sym, ep_code: ep_code)
-      update_claim_id(drc)
-      store_veteran_in_cache(drc)
-      drc
+    def create_dr_message(trait, ep_code)
+      dr = FactoryBot.build(@decision_review_event_type.to_sym, trait.to_sym, ep_code: ep_code)
+      update_claim_id(dr)
+      store_veteran_in_cache(dr)
+      dr
     end
 
     # creates all scenarios for HLR rating ep codes, including when the issue is unidentified
@@ -480,21 +480,21 @@ module KafkaMessageGenerators
     end
 
     def create_eligible_with_two_issues(issue_type, code)
-      drc = create_drc_message("eligible_#{issue_type}_with_two_issues", code)
+      dr = create_dr_message("eligible_#{issue_type}_with_two_issues", code)
 
-      [drc]
+      [dr]
     end
 
     def create_contested_with_additional_issue(issue_type, code)
-      drc = create_drc_message("ineligible_#{issue_type}_contested_with_additional_issue", code)
+      dr = create_dr_message("ineligible_#{issue_type}_contested_with_additional_issue", code)
 
-      [drc]
+      [dr]
     end
 
     def create_decision_source_message(issue_type, code)
-      drc = create_drc_message("eligible_#{issue_type}_with_decision_source", code)
+      dr = create_dr_message("eligible_#{issue_type}_with_decision_source", code)
 
-      [drc]
+      [dr]
     end
 
     def store_issue_bis_rating_profile_without_ramp_id(message)
@@ -526,38 +526,38 @@ module KafkaMessageGenerators
 
     def create_decision_type_messages(issue_type, code)
       NONRATING_DECISION_TYPES.map do |decision_type|
-        drc = create_drc_message("eligible_#{issue_type}_veteran_claimant", code)
-        change_issue_decision_type_and_decision_text(drc, decision_type)
-        drc
+        dr = create_dr_message("eligible_#{issue_type}_veteran_claimant", code)
+        change_issue_decision_type_and_decision_text(dr, decision_type)
+        dr
       end
     end
 
-    def change_issue_decision_type_and_decision_text(drc, decision_type)
+    def change_issue_decision_type_and_decision_text(dr, decision_type)
       issue_types.fetch(@decision_review_event_type.to_sym, []).each do |issue_type|
-        drc.send(issue_type).each do |issue|
+        dr.send(issue_type).each do |issue|
           issue.prior_decision_type = decision_type
           issue.prior_decision_text = "#{decision_type}: Service connection for tetnus denied"
         end
       end
-      drc
+      dr
     end
 
     # set claim_id to a incremented value
-    def update_claim_id(drc)
-      drc.claim_id = update_value("claim_id", drc)
+    def update_claim_id(dr)
+      dr.claim_id = update_value("claim_id", dr)
     end
 
     # store veteran record in Fakes::VeteranStore for all messages
     # rubocop:disable Metrics/MethodLength
-    def store_veteran_in_cache(drc)
+    def store_veteran_in_cache(dr)
       veteran_bis_record =
         {
-          file_number: drc.file_number,
-          ptcpnt_id: drc.veteran_participant_id,
+          file_number: dr.file_number,
+          ptcpnt_id: dr.veteran_participant_id,
           sex: "M",
-          first_name: drc.veteran_first_name,
+          first_name: dr.veteran_first_name,
           middle_name: "Russell",
-          last_name: drc.veteran_last_name,
+          last_name: dr.veteran_last_name,
           name_suffix: "II",
           ssn: Faker::IDNumber.valid.delete("-"),
           address_line1: "122 Mullberry St.",
@@ -574,7 +574,7 @@ module KafkaMessageGenerators
           service: [{ branch_of_service: "army", pay_grade: "E4" }]
         }
 
-      Fakes::VeteranStore.new.store_veteran_record(drc.file_number, veteran_bis_record)
+      Fakes::VeteranStore.new.store_veteran_record(dr.file_number, veteran_bis_record)
     end
     # rubocop:enable Metrics/MethodLength
 
@@ -668,18 +668,18 @@ module KafkaMessageGenerators
     # keys in the arrays contain dates and timestamps as strings
     # to be encoded, they must be converted to date logical type and milliseconds
     def convert_decision_review_created_attrs(message)
-      convert_drc_dates(message)
-      convert_drc_timestamps(message)
+      convert_dr_dates(message)
+      convert_dr_timestamps(message)
     end
 
-    def convert_drc_dates(message)
+    def convert_dr_dates(message)
       key_with_date_value = %w[claim_received_date]
       convert_value_to_date_logical_type(key_with_date_value, message)
 
       message
     end
 
-    def convert_drc_timestamps(message)
+    def convert_dr_timestamps(message)
       keys_with_timestamp_value =
         if decision_review_updated?
           %w[claim_creation_time]
