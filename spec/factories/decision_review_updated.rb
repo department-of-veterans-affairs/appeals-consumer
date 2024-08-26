@@ -1033,7 +1033,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requeste: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -1162,7 +1162,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -2281,7 +2281,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -2409,7 +2409,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
             [
               review_issues_created_attributes(
@@ -3187,7 +3187,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3254,7 +3254,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3315,7 +3315,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3377,7 +3377,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3439,7 +3439,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3491,7 +3491,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3548,7 +3548,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3605,7 +3605,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3662,7 +3662,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3729,7 +3729,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3796,7 +3796,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3863,7 +3863,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3925,7 +3925,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -3987,7 +3987,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4049,7 +4049,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4121,7 +4121,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4190,7 +4190,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4252,7 +4252,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4314,7 +4314,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4383,7 +4383,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4454,7 +4454,7 @@ FactoryBot.define do
     trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
       message_payload do
         base_message_payload(
-          "informal_conference_requested" => true,
+          informal_conference_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4531,7 +4531,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4605,7 +4605,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4673,7 +4673,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4736,7 +4736,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4791,7 +4791,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4848,7 +4848,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4905,7 +4905,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -4962,7 +4962,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
@@ -5029,7 +5029,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "same_station_review_requested" => true,
+          same_station_review_requested: true,
           "decision_review_issues_created" =>
           [
             review_issues_created_attributes(
