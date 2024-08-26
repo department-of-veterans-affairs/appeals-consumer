@@ -1471,6 +1471,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1524,6 +1525,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1585,6 +1587,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1646,6 +1649,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1699,6 +1703,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_without_contention_id do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1757,6 +1762,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1822,6 +1828,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1875,6 +1882,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1933,6 +1941,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_non_veteran_claimant do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -1984,6 +1993,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2037,6 +2047,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_without_contention_id do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2095,6 +2106,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2154,6 +2166,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2212,6 +2225,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2281,6 +2295,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           informal_conference_requested: true,
           decision_review_issues_created:
           [
@@ -2355,6 +2370,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2409,6 +2425,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           informal_conference_requested: true,
           decision_review_issues_created:
             [
@@ -2478,6 +2495,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2531,6 +2549,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2584,6 +2603,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_with_two_issues do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -2637,6 +2657,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_with_decision_source do
       message_payload do
         base_message_payload(
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5096,6 +5117,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5163,6 +5185,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5228,6 +5251,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5294,6 +5318,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5355,6 +5380,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5453,6 +5479,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5519,6 +5546,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5585,6 +5613,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5645,6 +5674,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5706,6 +5736,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5767,6 +5798,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5838,6 +5870,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5914,6 +5947,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -5995,6 +6029,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6056,6 +6091,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6122,6 +6158,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6198,6 +6235,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6278,6 +6316,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6354,6 +6393,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6430,6 +6470,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6506,6 +6547,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6570,6 +6612,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6641,6 +6684,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6707,6 +6751,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6778,6 +6823,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6844,6 +6890,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          ep_code_category: "NON_RATING",
           decision_review_issues_created:
           [
             review_issues_created_attributes(
@@ -6944,7 +6991,7 @@ def base_message_payload(**args)
     "file_number" => Faker::Number.number(digits: 9).to_s,
     "claimant_participant_id" => args[:participant_id] || Faker::Number.number(digits: 9).to_s,
     "ep_code" => "030HLRR",
-    "ep_code_category" => "rating",
+    "ep_code_category" => args[:ep_code_category] || "rating",
     "claim_received_date" => "2023-08-25",
     "claim_lifecycle_status" => "Ready to Work",
     "payee_code" => "00",
