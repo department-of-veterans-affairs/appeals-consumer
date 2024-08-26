@@ -40,8 +40,7 @@ class Transformers::DecisionReviewUpdated
     "decision_review_issues_updated" => Array,
     "decision_review_issues_removed" => Array,
     "decision_review_issues_withdrawn" => Array,
-    "decision_review_issues_not_changed" => Array,
-    "decision" => [Hash, NilClass]
+    "decision_review_issues_not_changed" => Array
   }.freeze
   # Allows read and write access for attributes
   DECISION_REVIEW_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -110,7 +109,7 @@ class DecisionReviewIssueUpdated
     "decision_review_issue_id" => [Integer, NilClass],
     "contention_id" => [Integer, NilClass],
     "contention_action" => String,
-    "reason_for_contention_action" => String,
+    "reason_for_contention_action" => [String, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
     "unidentified" => [TrueClass, FalseClass],
     "prior_rating_decision_id" => [Integer, NilClass],
@@ -119,8 +118,8 @@ class DecisionReviewIssueUpdated
     "prior_decision_text" => [String, NilClass],
     "prior_decision_type" => [String, NilClass],
     "prior_decision_source" => [String, NilClass],
-    "prior_decision_notification_date" => [Date, NilClass],
-    "prior_decision_date" => [Date, NilClass],
+    "prior_decision_notification_date" => [String, NilClass],
+    "prior_decision_date" => [String, NilClass],
     "prior_decision_diagnostic_code" => [String, NilClass],
     "prior_decision_rating_percentage" => [String, NilClass],
     "prior_decision_rating_sn" => [String, NilClass],
@@ -130,7 +129,7 @@ class DecisionReviewIssueUpdated
     "time_override_reason" => [String, NilClass],
     "contested" => [TrueClass, FalseClass, NilClass],
     "soc_opt_in" => [TrueClass, FalseClass, NilClass],
-    "legacy_appeal_id" => [Integer, NilClass],
+    "legacy_appeal_id" => [String, NilClass],
     "legacy_appeal_issue_id" => [Integer, NilClass],
     "prior_decision_award_event_id" => [Integer, NilClass],
     "prior_decision_rating_profile_date" => [String, NilClass],
@@ -138,7 +137,7 @@ class DecisionReviewIssueUpdated
     "source_contention_id_for_remand" => [Integer, NilClass],
     "removed" => [TrueClass, FalseClass],
     "withdrawn" => [TrueClass, FalseClass],
-    "decision" => [Hash, NilClass]
+    "decision" => [Array, NilClass]
   }.freeze
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -168,7 +167,7 @@ class DecisionReviewIssueUpdated
   def create_decisions(decision)
     return if decision.blank?
 
-    @decision = Decision.new(decision)
+    @decision = [Decision.new(decision.first)]
   end
 end
 

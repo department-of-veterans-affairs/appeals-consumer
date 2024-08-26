@@ -38,7 +38,17 @@
       "type": "string",
       "doc": "The Participant ID of the Veteran. This field is not updatable and is only for reference."
     },
-     {
+    {
+      "name": "fileNumber",
+      "type": "string",
+      "doc": "The File Number of the Veteran. This field is not updatable and is only for reference."
+    },
+    {
+      "name": "claimantParticipantId",
+      "type": "string",
+      "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
+    },
+    {
       "name": "epCode",
       "type": "string",
       "doc": "The type of decision review that was created"
@@ -84,16 +94,6 @@
       "doc": "The time at which this decision review claim was created"
     },
     {
-      "name": "fileNumber",
-      "type": "string",
-      "doc": "The File Number of the Veteran. This field is not updatable and is only for reference."
-    },
-    {
-      "name": "claimantParticipantId",
-      "type": "string",
-      "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
-    },
-    {
       "name": "originatedFromVacolsIssue",
       "type": [
         "null",
@@ -101,6 +101,15 @@
       ],
       "default": null,
       "doc": "Whether a decision review originated from vacols"
+    },
+    {
+      "name": "limitedPoaCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The code of the limited POA for the claim created to work this decision review"
     },
     {
       "name": "trackedItemAction",
@@ -187,6 +196,11 @@
                 "name": "contentionAction",
                 "type": "string",
                 "doc": "The action taken for the contention. Examples - ADD_CONTENTION, UPDATE_CONTENTION, DELETE_CONTENTION, NONE"
+              },
+              {
+                "name": "reasonForContentionAction",
+                "type": "string",
+                "doc": "The reason for the action taken for the contention. "
               },
               {
                 "name": "associatedCaseflowRequestIssueId",
@@ -484,8 +498,7 @@
                       }
                     ]
                   }
-                ],
-                "default": null
+                ]
               }
             ]
           }

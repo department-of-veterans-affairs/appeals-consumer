@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
-  let(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
   let(:event_id) { event.id }
   let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
-  let(:decision_review_created) { build(:decision_review_created) }
-  let(:decision_review_issues) { decision_review_created.decision_review_issues }
-  let(:request_issues) { described_class.build(decision_review_created) }
-  let(:builder) { described_class.new(decision_review_created) }
+  let(:decision_review_model) { build(:decision_review_created) }
+  let(:decision_review_issues) { decision_review_model.decision_review_issues }
+  let(:request_issues) { described_class.build(decision_review_model) }
+  let(:builder) { described_class.new(decision_review_model) }
   let(:index) { decision_review_issues.index(issue) }
   let(:issue) { decision_review_issues.first }
-  let(:claim_id) { decision_review_created.claim_id }
+  let(:claim_id) { decision_review_model.claim_id }
 
   before do
-    decision_review_created.instance_variable_set(:@event_id, event_id)
+    decision_review_model.instance_variable_set(:@event_id, event_id)
   end
 
-  describe "#self.build(decision_review_created)" do
+  describe "#self.build(decision_review_model)" do
     it "initializes an instance of Builders::DecisionReviewCreated::RequestIssueCollectionBuilder" do
       expect(builder).to be_an_instance_of(Builders::DecisionReviewCreated::RequestIssueCollectionBuilder)
     end
@@ -28,13 +28,13 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
   end
 
-  describe "#initialize(decision_review_created)" do
+  describe "#initialize(decision_review_model)" do
     it "initializes a new instance of Builders::DecisionReviewCreated::RequestIssueCollectionBuilder" do
       expect(builder).to be_an_instance_of(described_class)
     end
 
-    it "initializes a new instance variable @decision_review_created" do
-      expect(builder.instance_variable_get(:@decision_review_created))
+    it "initializes a new instance variable @decision_review_model" do
+      expect(builder.instance_variable_get(:@decision_review_model))
         .to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
@@ -43,8 +43,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         .to eq(nil)
     end
 
-    context "when @decision_review_created.ep_code_category isn't 'rating' or doesn't contain rating issues" do
-      context "@decision_review_created.ep_code_category is 'nonrating'" do
+    context "when @decision_review_model.ep_code_category isn't 'rating' or doesn't contain rating issues" do
+      context "@decision_review_model.ep_code_category is 'nonrating'" do
         it "does not initialize a new instance variable @earliest_issue_profile_date" do
           expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(false)
         end
@@ -58,8 +58,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         end
       end
 
-      context "@decision_review_created doesn't contain rating issues" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
+      context "@decision_review_model doesn't contain rating issues" do
+        let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
         it "does not initialize a new instance variable @earliest_issue_profile_date" do
           expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(false)
@@ -75,8 +75,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       end
     end
 
-    context "when @decision_review_created.ep_code_category equals 'rating' and contains rating issue(s)" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    context "when @decision_review_model.ep_code_category equals 'rating' and contains rating issue(s)" do
+      let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
 
       it "initializes a new instance variable @earliest_issue_profile_date" do
         expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(true)
@@ -107,7 +107,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   end
 
   describe "#initialize_issue_profile_dates" do
-    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
 
     it "initializes a new instance variable @earliest_issue_profile_date" do
       expect(builder.instance_variable_defined?(:@earliest_issue_profile_date)).to eq(true)
@@ -119,7 +119,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   end
 
   describe "#fetch_and_set_bis_rating_profiles" do
-    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
     subject { builder.fetch_and_set_bis_rating_profiles }
     context "when @earliest_issue_profile_date or @latest_issue_profile_date_plus_one_day return nil" do
       before do
@@ -142,7 +142,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
   describe "#build_issues" do
     subject { builder.build_issues }
-    let(:decision_review_created) do
+    let(:decision_review_model) do
       build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
     end
 
@@ -156,11 +156,11 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     subject { builder.send(:valid_issues) }
 
     context "when there aren't any issues after removing 'CONTESTED' issues" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_nonrating_hlr_contested) }
+      let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_contested) }
       let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
       let(:error_msg) do
-        "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-        "DecisionReviewCreated Claim ID: #{decision_review_created.claim_id} does not contain any "\
+        "Failed building from #{described_class} for "\
+        "DecisionReview Claim ID: #{decision_review_model.claim_id} does not contain any "\
         "valid issues after removing 'CONTESTED' ineligible issues"
       end
 
@@ -170,7 +170,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
 
     context "when there are still issues after removing 'CONTESTED' issues" do
-      let(:decision_review_created) do
+      let(:decision_review_model) do
         build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
       end
 
@@ -183,21 +183,21 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
   describe "#message_has_rating_issues?" do
     subject { builder.send(:message_has_rating_issues?) }
-    context "when @decision_review_created.ep_code_category isn't 'rating' or doesn't contain rating issues" do
-      context "@decision_review_created.ep_code_category is 'nonrating'" do
+    context "when @decision_review_model.ep_code_category isn't 'rating' or doesn't contain rating issues" do
+      context "@decision_review_model.ep_code_category is 'nonrating'" do
         it "returns false" do
           expect(subject).to eq(false)
         end
       end
 
-      context "@decision_review_created doesn't contain rating issues" do
+      context "@decision_review_model doesn't contain rating issues" do
         it "returns false" do
           expect(subject).to eq(false)
         end
       end
 
-      context "when @decision_review_created.ep_code_category equals 'rating' and contains rating issue(s)" do
-        let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+      context "when @decision_review_model.ep_code_category equals 'rating' and contains rating issue(s)" do
+        let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
 
         it "returns true" do
           expect(subject).to eq(true)
@@ -208,14 +208,14 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
   describe "#rating_ep_code_category?" do
     subject { builder.send(:rating_ep_code_category?) }
-    context "when @decision_review_created.ep_code_category isn't 'rating'" do
+    context "when @decision_review_model.ep_code_category isn't 'rating'" do
       it "returns false" do
         expect(subject).to eq(false)
       end
     end
 
-    context "when @decision_review_created.ep_code_category equals 'rating'" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    context "when @decision_review_model.ep_code_category equals 'rating'" do
+      let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
 
       it "returns true" do
         expect(subject).to eq(true)
@@ -225,16 +225,16 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
   describe "#at_least_one_valid_bis_issue?" do
     subject { builder.send(:at_least_one_valid_bis_issue?) }
-    context "@decision_review_created has at least one issue containing prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr) }
+    context "@decision_review_model has at least one issue containing prior_rating_decision_id" do
+      let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr) }
 
       it "returns true" do
         expect(subject).to eq(true)
       end
     end
 
-    context "@decision_review_created has 0 issues containing prior_rating_decision_id" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
+    context "@decision_review_model has 0 issues containing prior_rating_decision_id" do
+      let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_unidentified) }
 
       it "returns false" do
         expect(subject).to eq(false)
@@ -246,8 +246,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     subject { builder.send(:handle_no_issues_after_removing_contested) }
     let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
     let(:error_msg) do
-      "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-      "DecisionReviewCreated Claim ID: #{claim_id} does not contain any valid issues after "\
+      "Failed building from #{described_class} for "\
+      "DecisionReview Claim ID: #{claim_id} does not contain any valid issues after "\
       "removing 'CONTESTED' ineligible issues"
     end
 
@@ -258,7 +258,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
   describe "#remove_ineligible_contested_issues" do
     subject { builder.send(:remove_ineligible_contested_issues) }
-    let(:decision_review_created) do
+    let(:decision_review_model) do
       build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
     end
     let(:contested) { described_class::CONTESTED }
@@ -291,8 +291,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         end
 
         let(:ri_collection_builder_error_msg) do
-          "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-          "DecisionReviewCreated Claim ID: #{claim_id} Issue Index: #{index} - Issue is eligible but "\
+          "Failed building from #{described_class} for "\
+          "DecisionReview Claim ID: #{claim_id} Issue Index: #{index} - Issue is eligible but "\
           "has null for contention_id"
         end
 
@@ -308,8 +308,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         end
 
         let(:ri_collection_builder_error_msg) do
-          "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-          "DecisionReviewCreated Claim ID: #{claim_id} Issue Contention ID: #{issue.contention_id} - "\
+          "Failed building from #{described_class} for "\
+          "DecisionReview Claim ID: #{claim_id} Issue Contention ID: #{issue.contention_id} - "\
           "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
         end
 
@@ -342,7 +342,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   end
 
   describe "#earliest_issue_profile_date" do
-    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
     subject { builder.send(:earliest_issue_profile_date) }
 
     context "when valid_issue_profile_dates returns nil" do
@@ -365,7 +365,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   end
 
   describe "#latest_issue_profile_date" do
-    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
     subject { builder.send(:latest_issue_profile_date) }
 
     context "when valid_issue_profile_dates returns nil" do
@@ -388,7 +388,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   end
 
   describe "#latest_issue_profile_date_plus_one_day" do
-    let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+    let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
     subject { builder.send(:latest_issue_profile_date_plus_one_day) }
 
     context "when latest_issue_profile_date returns nil" do
@@ -413,11 +413,11 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   describe "valid_issue_profile_dates" do
     subject { builder.send(:valid_issue_profile_dates) }
     context "when valid_issues is nil" do
-      let(:decision_review_created) { build(:decision_review_created, :ineligible_rating_hlr_contested) }
+      let(:decision_review_model) { build(:decision_review_created, :ineligible_rating_hlr_contested) }
       let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
       let(:error_msg) do
-        "Failed building from Builders::DecisionReviewCreated::RequestIssueCollectionBuilder for "\
-        "DecisionReviewCreated Claim ID: #{claim_id} does not contain any valid issues after "\
+        "Failed building from #{described_class} for "\
+        "DecisionReview Claim ID: #{claim_id} does not contain any valid issues after "\
         "removing 'CONTESTED' ineligible issues"
       end
 
@@ -427,7 +427,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
 
     context "when valid_issues is not nil" do
-      let(:decision_review_created) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
+      let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
       context "when all valid_issues have nil for prior_decision_rating_profile_date" do
         before do
           decision_review_issues.each do |issue|

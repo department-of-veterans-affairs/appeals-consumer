@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::IntakeBuilder do
-  let(:decision_review_created) { build(:decision_review_created) }
-  let(:builder) { described_class.new(decision_review_created) }
+  let(:decision_review_model) { build(:decision_review_created) }
+  let(:builder) { described_class.new(decision_review_model) }
   let(:intake_creation_time_converted_to_timestamp_ms) do
-    builder.convert_to_timestamp_ms(decision_review_created.intake_creation_time)
+    builder.convert_to_timestamp_ms(decision_review_model.intake_creation_time)
   end
   let(:claim_creation_time_converted_to_timestamp_ms) do
     builder.claim_creation_time_converted_to_timestamp_ms
   end
 
   describe "#build" do
-    subject { described_class.build(decision_review_created) }
+    subject { described_class.build(decision_review_model) }
     it "returns an DecisionReviewCreated::Intake object" do
       expect(subject).to be_an_instance_of(DecisionReviewCreated::Intake)
     end
   end
 
-  describe "#initialize(decision_review_created)" do
-    let(:intake) { described_class.new(decision_review_created).intake }
+  describe "#initialize(decision_review_model)" do
+    let(:intake) { described_class.new(decision_review_model).intake }
     it "initializes a new IntakeBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
     end
@@ -27,8 +27,8 @@ describe Builders::DecisionReviewCreated::IntakeBuilder do
       expect(intake).to be_an_instance_of(DecisionReviewCreated::Intake)
     end
 
-    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
+    it "assigns decision_review_model to the DecisionReviewCreated object passed in" do
+      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
   end
 
@@ -45,8 +45,8 @@ describe Builders::DecisionReviewCreated::IntakeBuilder do
   end
 
   describe "private methods" do
-    let(:decision_review_created) { build(:decision_review_created) }
-    let(:builder) { described_class.new(decision_review_created) }
+    let(:decision_review_model) { build(:decision_review_created) }
+    let(:builder) { described_class.new(decision_review_model) }
 
     describe "#_calculate_started_at" do
       it "should assign @intake.started_at" do
@@ -82,8 +82,8 @@ describe Builders::DecisionReviewCreated::IntakeBuilder do
       it "should assign @type" do
         builder.send(:calculate_type)
         expect(builder.instance_variable_get(:@intake).type).to eq "HigherLevelReviewIntake"
-        decision_review_created.instance_variable_set(:@decision_review_type, "SUPPLEMENTAL_CLAIM")
-        builder.instance_variable_set(:@decision_review_created, decision_review_created)
+        decision_review_model.instance_variable_set(:@decision_review_type, "SUPPLEMENTAL_CLAIM")
+        builder.instance_variable_set(:@decision_review_model, decision_review_model)
         builder.send(:calculate_type)
         expect(builder.instance_variable_get(:@intake).type).to eq "SupplementalClaimIntake"
       end
@@ -93,8 +93,8 @@ describe Builders::DecisionReviewCreated::IntakeBuilder do
       it "should assign @detail_type" do
         builder.send(:calculate_detail_type)
         expect(builder.instance_variable_get(:@intake).detail_type).to eq "HigherLevelReview"
-        decision_review_created.instance_variable_set(:@decision_review_type, "SUPPLEMENTAL_CLAIM")
-        builder.instance_variable_set(:@decision_review_created, decision_review_created)
+        decision_review_model.instance_variable_set(:@decision_review_type, "SUPPLEMENTAL_CLAIM")
+        builder.instance_variable_set(:@decision_review_model, decision_review_model)
         builder.send(:calculate_detail_type)
         expect(builder.instance_variable_get(:@intake).detail_type).to eq "SupplementalClaim"
       end

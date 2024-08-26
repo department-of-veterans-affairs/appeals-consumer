@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
-  let(:decision_review_created) { build(:decision_review_created) }
-  let(:builder) { described_class.new(decision_review_created) }
-  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
+  let(:decision_review_model) { build(:decision_review_created) }
+  let(:builder) { described_class.new(decision_review_model) }
+  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
   let!(:event_id) { event.id }
   let(:ready_to_work_status) { "RW" }
   let(:pending_status) { "PEND" }
   let(:ready_for_decision_status) { "RFD" }
   let(:veteran_bis_record) do
     {
-      file_number: decision_review_created.file_number,
-      ptcpnt_id: decision_review_created.veteran_participant_id,
+      file_number: decision_review_model.file_number,
+      ptcpnt_id: decision_review_model.veteran_participant_id,
       sex: "M",
-      first_name: decision_review_created.veteran_first_name,
+      first_name: decision_review_model.veteran_first_name,
       middle_name: "Russell",
-      last_name: decision_review_created.veteran_last_name,
+      last_name: decision_review_model.veteran_last_name,
       name_suffix: "II",
       ssn: "987654321",
       address_line1: "122 Mullberry St.",
@@ -35,19 +35,19 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   let(:claim_creation_time_converted_to_timestamp) { builder.claim_creation_time_converted_to_timestamp_ms }
 
   before do
-    decision_review_created.instance_variable_set(:@event_id, event_id)
-    Fakes::VeteranStore.new.store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+    decision_review_model.instance_variable_set(:@event_id, event_id)
+    Fakes::VeteranStore.new.store_veteran_record(decision_review_model.file_number, veteran_bis_record)
   end
 
   describe "#build" do
-    subject { described_class.build(decision_review_created) }
+    subject { described_class.build(decision_review_model) }
     it "returns an DecisionReviewCreated::EndProductEstablishment object" do
       expect(subject).to be_an_instance_of(DecisionReviewCreated::EndProductEstablishment)
     end
   end
 
-  describe "#initialize(decision_review_created)" do
-    let(:epe) { described_class.new(decision_review_created).end_product_establishment }
+  describe "#initialize(decision_review_model)" do
+    let(:epe) { described_class.new(decision_review_model).end_product_establishment }
 
     it "initializes a new EndProductEstablishmentBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
@@ -57,20 +57,20 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       expect(epe).to be_an_instance_of(DecisionReviewCreated::EndProductEstablishment)
     end
 
-    it "assigns decision_review_created to the DecisionReviewCreated object passed in" do
-      expect(builder.decision_review_created).to be_an_instance_of(Transformers::DecisionReviewCreated)
+    it "assigns decision_review_model to the DecisionReviewCreated object passed in" do
+      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewCreated)
     end
 
     context "when the BIS record is not found" do
       let(:msg) do
         "BIS Veteran: Veteran record not found for DecisionReviewCreated file_number:"\
-       " #{decision_review_created.file_number}"
+       " #{decision_review_model.file_number}"
       end
       let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
-      subject { described_class.build(decision_review_created) }
+      subject { described_class.build(decision_review_model) }
 
       before do
-        decision_review_created.instance_variable_set(:@event_id, event_id)
+        decision_review_model.instance_variable_set(:@event_id, event_id)
         allow_any_instance_of(BISService).to receive(:fetch_veteran_info).and_return({ ptcpnt_id: nil })
         allow(Rails.logger).to receive(:info)
       end
@@ -121,8 +121,8 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   end
 
   describe "private methods" do
-    let(:decision_review_created) { build(:decision_review_created) }
-    let!(:builder) { described_class.new(decision_review_created).assign_attributes }
+    let(:decision_review_model) { build(:decision_review_created) }
+    let!(:builder) { described_class.new(decision_review_model).assign_attributes }
 
     describe "#_calculate_benefit_type_code" do
       before do
@@ -134,7 +134,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
 
         before do
           Fakes::VeteranStore.new
-            .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+            .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
         end
 
         it "sets benefit_type_code to nil" do
@@ -147,14 +147,14 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
           context "date_of_death has not-nil value" do
             let(:veteran_bis_record) do
               {
-                file_number: decision_review_created.file_number,
+                file_number: decision_review_model.file_number,
                 date_of_death: "12/31/2019"
               }
             end
 
             before do
               Fakes::VeteranStore.new
-                .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+                .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
             end
 
             it "should set benefit_type_code to '2'" do
@@ -165,14 +165,14 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
           context "date_of_death has nil value" do
             let(:veteran_bis_record) do
               {
-                file_number: decision_review_created.file_number,
+                file_number: decision_review_model.file_number,
                 date_of_death: nil
               }
             end
 
             before do
               Fakes::VeteranStore.new
-                .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+                .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
             end
 
             it "should set benefit_type_code to '1'" do
@@ -184,13 +184,13 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
         context "date_of_death is not valid key" do
           let(:veteran_bis_record) do
             {
-              file_number: decision_review_created.file_number
+              file_number: decision_review_model.file_number
             }
           end
 
           before do
             Fakes::VeteranStore.new
-              .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+              .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
           end
 
           it "sets benefit_type_code to nil" do
@@ -202,7 +202,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
 
     describe "#_calculate_claim_date" do
       let(:converted_claim_date) do
-        builder.convert_to_date_logical_type(decision_review_created.claim_received_date)
+        builder.convert_to_date_logical_type(decision_review_model.claim_received_date)
       end
       it "should assign a claim date to the epe instance" do
         expect(builder.end_product_establishment.claim_date).to eq converted_claim_date
@@ -211,24 +211,24 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
 
     describe "#_assign_code" do
       it "should assign a code to the epe instance" do
-        expect(builder.end_product_establishment.code).to eq decision_review_created.ep_code
+        expect(builder.end_product_establishment.code).to eq decision_review_model.ep_code
       end
     end
 
     describe "#_assign_modifier" do
       it "should assign a modifier to the epe instance" do
-        expect(builder.end_product_establishment.modifier).to eq decision_review_created.modifier
+        expect(builder.end_product_establishment.modifier).to eq decision_review_model.modifier
       end
     end
 
     describe "#_assign_payee_code" do
       it "should assign a payee code to the epe instance" do
-        expect(builder.end_product_establishment.payee_code).to eq decision_review_created.payee_code
+        expect(builder.end_product_establishment.payee_code).to eq decision_review_model.payee_code
       end
     end
 
     describe "#_calculate_limited_poa_access" do
-      let(:decision_review_created) { build(:decision_review_created, claim_id: 1) }
+      let(:decision_review_model) { build(:decision_review_created, claim_id: 1) }
       subject { builder.end_product_establishment.limited_poa_access }
 
       context "the limited_poa_access result returns 'Y'" do
@@ -238,7 +238,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       end
 
       context "the limited_poa_access result returns 'N'" do
-        let(:decision_review_created) { build(:decision_review_created, claim_id: 2) }
+        let(:decision_review_model) { build(:decision_review_created, claim_id: 2) }
 
         it "should calculate the limited poa access and assign to the epe instance" do
           expect(subject).to eq false
@@ -246,7 +246,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       end
 
       context "the limited_poa_access result returns nil" do
-        let(:decision_review_created) { build(:decision_review_created, claim_id: 0) }
+        let(:decision_review_model) { build(:decision_review_created, claim_id: 0) }
 
         it "should calculate the limited poa access and assign to the epe instance" do
           expect(subject).to eq nil
@@ -280,21 +280,21 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     end
 
     describe "#_calculate_synced_status" do
-      context "decision_review_created has 'Open' for claim_lifecycle_status" do
-        let(:decision_review_created) { build(:decision_review_created, claim_lifecycle_status: "Open") }
+      context "decision_review_model has 'Open' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Open") }
         it "should assign a synced status of 'PEND' to the epe instance" do
           expect(builder.end_product_establishment.synced_status).to eq(pending_status)
         end
       end
 
-      context "decision_review_created has 'Ready to Work' for claim_lifecycle_status" do
+      context "decision_review_model has 'Ready to Work' for claim_lifecycle_status" do
         it "should assign a synced status of 'RW' to the epe instance" do
           expect(builder.end_product_establishment.synced_status).to eq(ready_to_work_status)
         end
       end
 
-      context "decision_review_created has 'Ready for Decision' for claim_lifecycle_status" do
-        let(:decision_review_created) { build(:decision_review_created, claim_lifecycle_status: "Ready for Decision") }
+      context "decision_review_model has 'Ready for Decision' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Ready for Decision") }
         it "should assign a synced status of 'RFD' to the epe instance" do
           expect(builder.end_product_establishment.synced_status).to eq(ready_for_decision_status)
         end
@@ -304,13 +304,13 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
     describe "#_assign_development_item_reference_id" do
       subject { builder.end_product_establishment.development_item_reference_id }
       it "should assign a development item referecne id to the epe instance" do
-        expect(subject).to eq decision_review_created.informal_conference_tracked_item_id
+        expect(subject).to eq decision_review_model.informal_conference_tracked_item_id
       end
     end
 
     describe "#_assign_reference_id" do
       it "should assign a reference id to the epe instance" do
-        expect(builder.end_product_establishment.reference_id).to eq decision_review_created.claim_id.to_s
+        expect(builder.end_product_establishment.reference_id).to eq decision_review_model.claim_id.to_s
       end
     end
   end
@@ -336,7 +336,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
 
       before do
         Fakes::VeteranStore.new
-          .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+          .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
       end
 
       it "returns nil" do
@@ -348,14 +348,14 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       context "date_of_death has not-nil value" do
         let(:veteran_bis_record) do
           {
-            file_number: decision_review_created.file_number,
+            file_number: decision_review_model.file_number,
             date_of_death: "12/31/2019"
           }
         end
 
         before do
           Fakes::VeteranStore.new
-            .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+            .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
         end
 
         it "returns '2'" do
@@ -366,14 +366,14 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       context "date_of_death has nil value" do
         let(:veteran_bis_record) do
           {
-            file_number: decision_review_created.file_number,
+            file_number: decision_review_model.file_number,
             date_of_death: nil
           }
         end
 
         before do
           Fakes::VeteranStore.new
-            .store_veteran_record(decision_review_created.file_number, veteran_bis_record)
+            .store_veteran_record(decision_review_model.file_number, veteran_bis_record)
         end
 
         it "returns '1'" do
