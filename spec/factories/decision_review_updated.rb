@@ -5,10 +5,10 @@ FactoryBot.define do
     event_id { nil }
     message_payload do
       base_message_payload(
-        "decision_review_issues_updated" => [],
-        "decision_review_issues_removed" => [],
-        "decision_review_issues_withdrawn" => [],
-        "decision_review_issues_not_changed" => []
+        decision_review_issues_updated: [],
+        decision_review_issues_removed: [],
+        decision_review_issues_withdrawn: [],
+        decision_review_issues_not_changed: []
       )
     end
 
@@ -21,14 +21,14 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
             [
               review_issues_created_attributes(
                 "contention_action" => "NONE",
                 "reason_for_contention_action" => "NO_CHANGES"
               )
             ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
             [
               review_issues_updated_attributes(
                 "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -40,7 +40,7 @@ FactoryBot.define do
                 "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
               )
             ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
             [
               review_issues_withdrawn_attributes(
                 "prior_decision_notification_date" => "2023-08-01".to_date,
@@ -54,7 +54,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -64,7 +64,7 @@ FactoryBot.define do
               "prior_decision_date" => "2023-08-01".to_date
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_notification_date" => "2023-08-01".to_date,
@@ -77,14 +77,14 @@ FactoryBot.define do
     trait :eligible_rating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -93,21 +93,21 @@ FactoryBot.define do
               "prior_decision_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 16,
               "prior_decision_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 16,
@@ -120,10 +120,10 @@ FactoryBot.define do
     trait :test do
       message_payload do
         base_message_payload(
-          "decision_review_issues_updated" => [],
-          "decision_review_issues_removed" => [],
-          "decision_review_issues_withdrawn" => [],
-          "decision_review_issues_not_changed" => []
+          decision_review_issues_updated: [],
+          decision_review_issues_removed: [],
+          decision_review_issues_withdrawn: [],
+          decision_review_issues_not_changed: []
         )
       end
     end
@@ -131,7 +131,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_legacy do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
@@ -139,7 +139,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -149,7 +149,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
@@ -157,7 +157,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
@@ -165,7 +165,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
@@ -180,7 +180,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_time_override do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -190,7 +190,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -202,7 +202,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -212,7 +212,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -222,7 +222,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -239,7 +239,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_with_two_issues do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -252,7 +252,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -269,7 +269,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 10,
@@ -280,7 +280,7 @@ FactoryBot.define do
               "prior_decision_text" => "Service connection for tetnus denied (WILL BE REMOVED)"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
 
           [
             review_issues_withdrawn_attributes(
@@ -301,13 +301,13 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -315,19 +315,19 @@ FactoryBot.define do
               "contention_id" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil
@@ -340,7 +340,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -349,7 +349,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -368,7 +368,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 12,
@@ -376,7 +376,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 11,
@@ -384,7 +384,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -401,14 +401,14 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
             [
               review_issues_created_attributes(
                 "prior_decision_diagnostic_code" => "5008",
                 "prior_decision_rating_sn" => "1_623_547"
               )
             ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
             [
               review_issues_updated_attributes(
                 "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -417,21 +417,21 @@ FactoryBot.define do
                 "prior_decision_rating_sn" => "1_623_547"
               )
             ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -445,7 +445,7 @@ FactoryBot.define do
     trait :eligible_rating_decision_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -453,7 +453,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "contention_action" => "DELETE_CONTENTION",
@@ -465,21 +465,21 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_diagnostic_code" => "5008",
               "prior_decision_rating_sn" => "1_623_547"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -495,7 +495,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_notification_date" => nil,
@@ -503,7 +503,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -522,7 +522,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_notification_date" => nil,
@@ -530,7 +530,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_notification_date" => nil,
@@ -538,7 +538,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_notification_date" => nil,
@@ -555,7 +555,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -565,7 +565,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "contention_action" => "DELETE_CONTENTION",
@@ -578,7 +578,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -587,7 +587,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -596,7 +596,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_diagnostic_code" => "5008",
@@ -614,7 +614,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -624,7 +624,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -636,7 +636,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -646,7 +646,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -656,7 +656,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -675,7 +675,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -684,7 +684,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "contention_id" => nil,
@@ -697,7 +697,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -706,7 +706,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -715,7 +715,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -731,7 +731,7 @@ FactoryBot.define do
     trait :eligible_rating_decision_hlr do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_text" => "Tetnus is denied",
@@ -740,7 +740,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "contention_action" => "DELETE_CONTENTION",
@@ -753,7 +753,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_text" => "Tetnus is denied",
@@ -762,7 +762,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_text" => "Tetnus is denied",
@@ -771,7 +771,7 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "1_623_57"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_text" => "Tetnus is denied",
@@ -789,7 +789,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -798,7 +798,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -809,7 +809,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -818,7 +818,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -827,7 +827,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -843,7 +843,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -852,7 +852,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -863,7 +863,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 9,
@@ -872,7 +872,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 8,
@@ -881,7 +881,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -899,7 +899,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -909,7 +909,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -921,7 +921,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -931,7 +931,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -941,7 +941,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -960,7 +960,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -973,7 +973,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -987,7 +987,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -999,7 +999,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1011,7 +1011,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1034,7 +1034,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requeste: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -1046,7 +1046,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -1058,7 +1058,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1069,7 +1069,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1080,7 +1080,7 @@ FactoryBot.define do
               "time_override_reason" => "good cause exemption"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -1100,7 +1100,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -1110,7 +1110,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1122,7 +1122,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -1132,7 +1132,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -1142,7 +1142,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -1163,7 +1163,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -1173,7 +1173,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -1183,7 +1183,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1192,7 +1192,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1201,7 +1201,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
@@ -1220,7 +1220,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_action" => "NONE",
@@ -1230,7 +1230,7 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1239,21 +1239,21 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -1267,7 +1267,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_action" => "NONE",
@@ -1276,7 +1276,7 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "contention_action" => "DELETE_CONTENTION",
@@ -1287,21 +1287,21 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -1314,7 +1314,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "unidentified" => true,
@@ -1325,7 +1325,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1338,7 +1338,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
@@ -1349,7 +1349,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
@@ -1360,7 +1360,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -1378,7 +1378,7 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified_without_contention_id do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -1386,14 +1386,14 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
               "prior_decision_text" => "Service connection for tetnus denied (UPDATED)"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -1401,7 +1401,7 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -1409,7 +1409,7 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -1424,14 +1424,14 @@ FactoryBot.define do
     trait :eligible_rating_hlr_unidentified do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1440,21 +1440,21 @@ FactoryBot.define do
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -1471,7 +1471,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -1480,7 +1480,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1490,7 +1490,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -1499,7 +1499,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -1508,7 +1508,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -1524,7 +1524,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1534,7 +1534,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1545,7 +1545,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1555,7 +1555,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1565,7 +1565,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1585,7 +1585,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1595,7 +1595,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1606,7 +1606,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1616,7 +1616,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1626,7 +1626,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1646,7 +1646,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "unidentified" => true,
@@ -1655,7 +1655,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1665,7 +1665,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
@@ -1674,7 +1674,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
@@ -1683,7 +1683,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -1699,7 +1699,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_without_contention_id do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -1709,7 +1709,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1720,7 +1720,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -1730,7 +1730,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -1740,7 +1740,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -1757,7 +1757,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_action" => "NONE",
@@ -1770,7 +1770,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1782,7 +1782,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -1793,7 +1793,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -1804,7 +1804,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -1822,7 +1822,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -1831,7 +1831,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1841,7 +1841,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -1850,7 +1850,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -1859,7 +1859,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -1875,7 +1875,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1885,7 +1885,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1896,7 +1896,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1906,7 +1906,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1916,7 +1916,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
@@ -1933,7 +1933,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "unidentified" => true,
@@ -1942,7 +1942,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -1952,7 +1952,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
@@ -1961,14 +1961,14 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -1984,7 +1984,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "unidentified" => true,
@@ -1993,7 +1993,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2003,7 +2003,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
@@ -2012,7 +2012,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
@@ -2021,7 +2021,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -2037,7 +2037,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_without_contention_id do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -2047,7 +2047,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2058,7 +2058,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -2068,7 +2068,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -2078,7 +2078,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -2095,7 +2095,7 @@ FactoryBot.define do
     trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -2105,7 +2105,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2117,7 +2117,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -2127,7 +2127,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -2137,7 +2137,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 7,
@@ -2154,7 +2154,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2164,7 +2164,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2175,7 +2175,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2185,7 +2185,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2195,7 +2195,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2212,7 +2212,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_legacy do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2224,7 +2224,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2237,7 +2237,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2249,7 +2249,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2261,7 +2261,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2282,7 +2282,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -2295,7 +2295,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -2309,7 +2309,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -2322,7 +2322,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -2335,7 +2335,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -2355,7 +2355,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "unidentified" => true,
@@ -2364,7 +2364,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2374,7 +2374,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "unidentified" => true,
@@ -2383,7 +2383,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "unidentified" => true,
@@ -2392,7 +2392,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "unidentified" => true,
@@ -2410,7 +2410,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
             [
               review_issues_created_attributes(
                 "prior_caseflow_decision_issue_id" => 20,
@@ -2422,7 +2422,7 @@ FactoryBot.define do
                 "time_override_reason" => "good cause exemption"
               )
             ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
             [
               review_issues_updated_attributes(
                 "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -2435,7 +2435,7 @@ FactoryBot.define do
                 "time_override_reason" => "good cause exemption"
               )
             ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
             [
               review_issues_removed_attributes(
                 "prior_caseflow_decision_issue_id" => 20,
@@ -2447,7 +2447,7 @@ FactoryBot.define do
                 "time_override_reason" => "good cause exemption"
               )
             ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
             [
               review_issues_withdrawn_attributes(
                 "prior_caseflow_decision_issue_id" => 20,
@@ -2459,7 +2459,7 @@ FactoryBot.define do
                 "time_override_reason" => "good cause exemption"
               )
             ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
             [
               review_issues_not_changed_attributes(
                 "prior_caseflow_decision_issue_id" => 20,
@@ -2478,7 +2478,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2487,7 +2487,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2497,7 +2497,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2506,7 +2506,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2515,7 +2515,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2531,7 +2531,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_time_override do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2540,7 +2540,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2550,7 +2550,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2559,7 +2559,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2568,7 +2568,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2584,7 +2584,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_with_two_issues do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2593,7 +2593,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2603,7 +2603,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2612,7 +2612,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2621,7 +2621,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2637,7 +2637,7 @@ FactoryBot.define do
     trait :eligible_nonrating_hlr_with_decision_source do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2646,7 +2646,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2656,7 +2656,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2665,7 +2665,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2674,7 +2674,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -2692,7 +2692,7 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_contested_with_additional_issue do
       message_payload do
         base_message_payload(
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -2706,7 +2706,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "prior_rating_decision_id" => 14,
@@ -2721,7 +2721,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 10,
@@ -2732,7 +2732,7 @@ FactoryBot.define do
               "prior_decision_text" => "Service connection for tetnus denied (WILL BE REMOVED AFTER)"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
 
           [
             review_issues_withdrawn_attributes(
@@ -2746,7 +2746,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_not_changed" => [
+          decision_review_issues_not_changed: [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 8,
               "prior_decision_text" => "Service connection for tetnus denied (WILL BE WITHDRAWN)",
@@ -2763,7 +2763,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_action" => "NONE",
@@ -2775,7 +2775,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2786,7 +2786,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2795,7 +2795,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -2804,7 +2804,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2823,7 +2823,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -2832,7 +2832,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2843,7 +2843,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2852,7 +2852,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -2861,7 +2861,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2880,7 +2880,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -2889,7 +2889,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2900,7 +2900,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2909,7 +2909,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -2918,7 +2918,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2937,7 +2937,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_action" => "NONE",
@@ -2948,7 +2948,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -2959,7 +2959,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2968,7 +2968,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -2977,7 +2977,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -2996,7 +2996,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -3005,7 +3005,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -3016,7 +3016,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3025,7 +3025,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -3034,7 +3034,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3053,7 +3053,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -3064,7 +3064,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -3077,7 +3077,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3088,7 +3088,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -3099,7 +3099,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3120,7 +3120,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -3131,7 +3131,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -3144,7 +3144,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3155,7 +3155,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -3166,7 +3166,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3188,7 +3188,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -3199,7 +3199,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3211,7 +3211,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3222,7 +3222,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -3233,7 +3233,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -3255,7 +3255,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3264,7 +3264,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3275,7 +3275,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3285,7 +3285,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3295,7 +3295,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3316,7 +3316,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3326,7 +3326,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3337,7 +3337,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3347,7 +3347,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3357,7 +3357,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3378,7 +3378,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 13,
@@ -3388,7 +3388,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3399,7 +3399,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 13,
@@ -3409,7 +3409,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 13,
@@ -3419,7 +3419,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 13,
@@ -3440,7 +3440,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3448,7 +3448,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3457,7 +3457,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3465,7 +3465,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3473,7 +3473,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3492,7 +3492,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3501,7 +3501,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3511,7 +3511,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3520,7 +3520,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3529,7 +3529,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3549,7 +3549,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3558,7 +3558,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3568,7 +3568,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3577,7 +3577,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3586,7 +3586,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3606,7 +3606,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3615,7 +3615,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3625,7 +3625,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3634,7 +3634,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3643,7 +3643,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3663,7 +3663,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3674,7 +3674,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3686,7 +3686,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3697,7 +3697,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3708,7 +3708,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3730,7 +3730,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3741,7 +3741,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3753,7 +3753,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3764,7 +3764,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3775,7 +3775,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3797,7 +3797,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3808,7 +3808,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3820,7 +3820,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3831,7 +3831,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3842,7 +3842,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -3864,7 +3864,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3874,7 +3874,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3885,7 +3885,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3895,7 +3895,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3905,7 +3905,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3926,7 +3926,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3936,7 +3936,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -3947,7 +3947,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3957,7 +3957,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3967,7 +3967,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3988,7 +3988,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -3998,7 +3998,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4009,7 +4009,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -4019,7 +4019,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -4029,7 +4029,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -4050,7 +4050,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4062,7 +4062,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4075,7 +4075,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4087,7 +4087,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4099,7 +4099,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4122,7 +4122,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4133,7 +4133,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4146,7 +4146,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4158,7 +4158,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4169,7 +4169,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4191,7 +4191,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4201,7 +4201,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4212,7 +4212,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4222,7 +4222,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4232,7 +4232,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4253,7 +4253,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4263,7 +4263,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4274,7 +4274,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4284,7 +4284,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4294,7 +4294,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4315,7 +4315,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4327,7 +4327,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4340,7 +4340,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4352,7 +4352,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4361,7 +4361,7 @@ FactoryBot.define do
               "prior_decision_type" => "DIC"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4384,7 +4384,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4397,7 +4397,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4408,7 +4408,7 @@ FactoryBot.define do
               "prior_decision_diagnostic_code" => "5008"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4421,7 +4421,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4434,7 +4434,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4455,7 +4455,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           informal_conference_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4468,7 +4468,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4482,7 +4482,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4495,7 +4495,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4508,7 +4508,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4532,7 +4532,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4545,7 +4545,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4559,7 +4559,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4569,7 +4569,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4582,7 +4582,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4606,7 +4606,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4618,7 +4618,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4630,7 +4630,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4641,7 +4641,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4652,7 +4652,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4674,7 +4674,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4685,7 +4685,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4696,7 +4696,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4706,7 +4706,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4716,7 +4716,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4737,7 +4737,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -4746,7 +4746,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4756,7 +4756,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -4765,14 +4765,14 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes("prior_rating_decision_id" => 13,
                                                "prior_decision_type" => "Disability Evaluation",
                                                "prior_decision_diagnostic_code" => "5008",
                                                "eligibility_result" => "COMPLETED_HLR")
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -4792,7 +4792,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_rating_decision_id" => 13,
@@ -4801,7 +4801,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4811,7 +4811,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_rating_decision_id" => 13,
@@ -4820,7 +4820,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_rating_decision_id" => 13,
@@ -4829,7 +4829,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_rating_decision_id" => 13,
@@ -4849,7 +4849,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4858,7 +4858,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4868,7 +4868,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4877,7 +4877,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4886,7 +4886,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4906,7 +4906,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4915,7 +4915,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4925,7 +4925,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4934,7 +4934,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4943,7 +4943,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_decision_type" => "Disability Evaluation",
@@ -4963,7 +4963,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4974,7 +4974,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -4986,7 +4986,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -4997,7 +4997,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5008,7 +5008,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5030,7 +5030,7 @@ FactoryBot.define do
         base_message_payload(
           participant_id: participant_id,
           same_station_review_requested: true,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5041,7 +5041,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
@@ -5053,7 +5053,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5064,7 +5064,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5075,7 +5075,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5096,7 +5096,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5108,7 +5108,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5120,7 +5120,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5131,7 +5131,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5142,7 +5142,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5163,7 +5163,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5174,7 +5174,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5186,7 +5186,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5197,7 +5197,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5208,7 +5208,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5228,7 +5228,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5239,7 +5239,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5251,7 +5251,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5262,7 +5262,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5273,7 +5273,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -5294,7 +5294,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5304,7 +5304,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5315,7 +5315,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5325,7 +5325,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5335,7 +5335,7 @@ FactoryBot.define do
               "eligibility_result" => "CONTESTED"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5355,7 +5355,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5372,7 +5372,7 @@ FactoryBot.define do
               "eligibility_result" => "ELIGIBLE"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5391,7 +5391,7 @@ FactoryBot.define do
               "eligibility_result" => "ELIGIBLE"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5409,7 +5409,7 @@ FactoryBot.define do
             )
 
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5426,7 +5426,7 @@ FactoryBot.define do
               "eligibility_result" => "ELIGIBLE"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5453,7 +5453,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -5464,7 +5464,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5476,7 +5476,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -5487,7 +5487,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -5498,7 +5498,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "associated_caseflow_request_issue_id" => 12,
@@ -5519,7 +5519,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -5530,7 +5530,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5542,7 +5542,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -5553,7 +5553,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -5564,7 +5564,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -5585,7 +5585,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5595,7 +5595,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5605,7 +5605,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5615,7 +5615,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5625,7 +5625,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5645,7 +5645,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -5655,7 +5655,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5666,7 +5666,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -5676,7 +5676,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -5686,7 +5686,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 12,
@@ -5706,7 +5706,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5716,7 +5716,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5727,7 +5727,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5737,7 +5737,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5747,7 +5747,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_non_rating_decision_id" => 13,
@@ -5767,7 +5767,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -5779,7 +5779,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5792,7 +5792,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -5804,7 +5804,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -5816,7 +5816,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -5838,7 +5838,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -5851,7 +5851,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5865,7 +5865,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -5878,7 +5878,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -5891,7 +5891,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -5914,7 +5914,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -5928,7 +5928,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -5943,7 +5943,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -5957,7 +5957,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -5971,7 +5971,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -5995,7 +5995,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6005,7 +6005,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6016,7 +6016,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6026,7 +6026,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6036,7 +6036,7 @@ FactoryBot.define do
               "prior_decision_rating_profile_date" => nil
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6056,7 +6056,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6067,7 +6067,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6079,7 +6079,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6090,7 +6090,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6101,7 +6101,7 @@ FactoryBot.define do
               "eligibility_result" => "TIME_RESTRICTION"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6122,7 +6122,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6135,7 +6135,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6149,7 +6149,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6162,7 +6162,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6175,7 +6175,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 20,
@@ -6198,7 +6198,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6212,7 +6212,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6227,7 +6227,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6241,7 +6241,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6254,7 +6254,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6278,7 +6278,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -6291,7 +6291,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6305,7 +6305,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -6318,7 +6318,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -6331,7 +6331,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -6354,7 +6354,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -6367,7 +6367,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6381,7 +6381,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -6394,7 +6394,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -6407,7 +6407,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -6430,7 +6430,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6443,7 +6443,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6457,7 +6457,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6470,7 +6470,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6483,7 +6483,7 @@ FactoryBot.define do
               "legacy_appeal_issue_id" => 1
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6506,7 +6506,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -6517,7 +6517,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6529,7 +6529,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes("contention_id" => nil,
                                              "prior_non_rating_decision_id" => 13,
@@ -6538,7 +6538,7 @@ FactoryBot.define do
                                              "prior_decision_rating_profile_date" => nil,
                                              "eligibility_result" => "COMPLETED_HLR")
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -6549,7 +6549,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -6570,7 +6570,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6582,7 +6582,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6595,7 +6595,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6607,7 +6607,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6619,7 +6619,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6641,7 +6641,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "contention_id" => nil,
@@ -6652,7 +6652,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6664,7 +6664,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "contention_id" => nil,
@@ -6675,7 +6675,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "contention_id" => nil,
@@ -6686,7 +6686,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "contention_id" => nil,
@@ -6707,7 +6707,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6719,7 +6719,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6732,7 +6732,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6744,7 +6744,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6756,7 +6756,7 @@ FactoryBot.define do
               "eligibility_result" => "PENDING_SUPPLEMENTAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6778,7 +6778,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6789,7 +6789,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6801,7 +6801,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6812,7 +6812,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6823,7 +6823,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_HLR"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6844,7 +6844,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
-          "decision_review_issues_created" =>
+          decision_review_issues_created:
           [
             review_issues_created_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6855,7 +6855,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -6867,7 +6867,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_removed" =>
+          decision_review_issues_removed:
           [
             review_issues_removed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6878,7 +6878,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_withdrawn" =>
+          decision_review_issues_withdrawn:
           [
             review_issues_withdrawn_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6889,7 +6889,7 @@ FactoryBot.define do
               "eligibility_result" => "COMPLETED_BOARD_APPEAL"
             )
           ],
-          "decision_review_issues_not_changed" =>
+          decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
               "prior_caseflow_decision_issue_id" => 13,
@@ -6908,7 +6908,7 @@ FactoryBot.define do
     trait :rating_hlr_non_veteran_claimant do
       message_payload do
         base_message_payload(
-          "decision_review_issues_updated" =>
+          decision_review_issues_updated:
           [
             review_issues_updated_attributes(
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
