@@ -69,19 +69,24 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
 
   describe "#create_drc_message(trait, ep_code)" do
     subject { decision_review_updated_events }
+    let(:claimant_participant_id) { "claimantParticipantId" }
     let(:contention_action) { "contentionAction" }
     let(:contention_id) { "contentionId" }
     let(:decision_review_type) { "decisionReviewType" }
     let(:ep_code_category) { "epCodeCategory" }
-    let(:reason_for_contention_action) { "reasonForContentionAction" }
+    let(:informal_conference_requested) { "informalConferenceRequested" }
+    let(:legacy_appeal_id) { "legacyAppealId" }
+    let(:prior_non_rating_decision_id) { "priorNonRatingDecisionId" }
     let(:prior_decision_rating_profile_date) { "priorDecisionRatingProfileDate" }
+    let(:prior_decision_text) { "priorDecisionText" }
+    let(:reason_for_contention_action) { "reasonForContentionAction" }
+    let(:same_station_review_requested) { "sameStationReviewRequested" }
     let(:veteran_participant_id) { "veteranParticipantId" }
-    let(:claimant_participant_id) { "claimantParticipantId" }
 
     # Test for the following scnearios in message_payload
     # veteran_claimant
     ## rating
-    ### eligible & ineligible
+    ### eligible
     ### higher_level_rating
     context "creates Decision Review Updated eligible_rating_hlr_veteran_claimant message" do
       let(:trait) { "eligible_rating_hlr_veteran_claimant" }
@@ -119,13 +124,11 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
 
     ### supplemental_claims
-    #### decision_review_issues 
-    ##### decision_review_issues_updated => eligible_to_inelgible
-    context "creates DecisionReviewUpdated eligible rating decision legacy veteranClaimant SupplementalClaim Message" do
+    context "creates DecisionReviewUpdated eligible_rating_decision_hlr_legacy SupplementalClaim Message" do
       let(:trait) { "eligible_rating_decision_hlr_legacy" }
       let(:ep_code) { "040SCR" }
       let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
-      it "correct data points for scenario" do
+      it "correct data points for scenario: UPDATE_CONTENTION & ELIGIBLE_TO_INELIGIBLE" do
         message = subject.send(:create_drc_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
@@ -156,38 +159,127 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_not_changed[reason_for_contention_action]).to eq("NO_CHANGES")
       end
     end
+
+    # Same Station Requested
+    context "creates DecisionReviewUpdated ineligible_rating_decision_hlr_with_contention_id  message" do
+      let(:trait) { "ineligible_rating_decision_hlr_with_contention_id" }
+      let(:ep_code) { "030HLRRPMC" }
+      let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
+      it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Same Station Requested" do
+        message = subject.send(:create_drc_message, trait, ep_code)
+        formatted_message = subject.send(:convert_and_format_message, message)
+        fm_issues_created = formatted_message[decision_review_issues_created][0]
+        fm_issues_updated = formatted_message[decision_review_issues_updated][0]
+        fm_issues_removed = formatted_message[decision_review_issues_removed][0]
+        fm_issues_withdrawn = formatted_message[decision_review_issues_withdrawn][0]
+        fm_issues_not_changed = formatted_message[decision_review_issues_not_changed][0]
+        expect(subject.instance_variable_get(:@decision_review_event_type)).to eq("decision_review_updated")
+        expect(formatted_message[veteran_participant_id]).to eq(formatted_message[claimant_participant_id])
+        expect(formatted_message[decision_review_type]).to eq("HIGHER_LEVEL_REVIEW")
+        expect(formatted_message[ep_code_category]).to eq("rating")
+        expect(fm_issues_created[prior_decision_rating_profile_date]).not_to be_nil
+        expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
+        expect(fm_issues_created[contention_id]).to eq(720_000_000)
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE")
+        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[contention_id]).to eq(710_000_002)
+        expect(fm_issues_updated[reason_for_contention_action]).to eq("SPECIAL_ISSUES_CHANGED")
+        expect(formatted_message[same_station_review_requested]).to eq(true)
+        expect(fm_issues_updated[prior_decision_rating_profile_date]).not_to be_nil
+        expect(fm_issues_removed[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_removed[contention_id]).to eq(710_000_001)
+        expect(fm_issues_removed[reason_for_contention_action]).to eq("REMOVED_SELECTED")
+        expect(fm_issues_withdrawn[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_withdrawn[contention_id]).to eq(710_000_003)
+        expect(fm_issues_withdrawn[reason_for_contention_action]).to eq("WITHDRAWN_SELECTED")
+        expect(fm_issues_not_changed[contention_action]).to eq("NONE")
+        expect(fm_issues_not_changed[contention_id]).to eq(710_000_000)
+        expect(fm_issues_not_changed[reason_for_contention_action]).to eq("NO_CHANGES")
+      end
+    end
+
+    # informal conference requested
+    context "creates DecisionReviewUpdated eligible_decision_issue_prior_nonrating_sc_legacy message" do
+      let(:trait) { "eligible_decision_issue_prior_nonrating_hlr_legacy" }
+      let(:ep_code) { "040SCRPMC" }
+      let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
+      it "correct data points for scenario:  SPECIAL_ISSUES_CHANGED & Informal Conference Requested" do
+        message = subject.send(:create_drc_message, trait, ep_code)
+        formatted_message = subject.send(:convert_and_format_message, message)
+        fm_issues_created = formatted_message[decision_review_issues_created][0]
+        fm_issues_updated = formatted_message[decision_review_issues_updated][0]
+        fm_issues_removed = formatted_message[decision_review_issues_removed][0]
+        fm_issues_withdrawn = formatted_message[decision_review_issues_withdrawn][0]
+        fm_issues_not_changed = formatted_message[decision_review_issues_not_changed][0]
+        expect(subject.instance_variable_get(:@decision_review_event_type)).to eq("decision_review_updated")
+        expect(formatted_message[decision_review_type]).to eq("SUPPLEMENTAL_CLAIM")
+        expect(formatted_message[ep_code_category]).to eq("rating")
+        expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
+        expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
+        expect(fm_issues_created[contention_id]).to eq(720_000_000)
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE")
+        expect(fm_issues_created[legacy_appeal_id]).to eq("LEGACYID")
+        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[contention_id]).to eq(710_000_002)
+        expect(fm_issues_updated[reason_for_contention_action]).to eq("SPECIAL_ISSUES_CHANGED")
+        expect(fm_issues_updated[legacy_appeal_id]).to eq("LEGACYID")
+        expect(formatted_message[informal_conference_requested]).to eq(true)
+        expect(fm_issues_updated[prior_decision_rating_profile_date]).to be_nil
+        expect(fm_issues_removed[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_removed[contention_id]).to eq(710_000_001)
+        expect(fm_issues_removed[reason_for_contention_action]).to eq("REMOVED_SELECTED")
+        expect(fm_issues_removed[legacy_appeal_id]).to eq("LEGACYID")
+        expect(fm_issues_withdrawn[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_withdrawn[contention_id]).to eq(710_000_003)
+        expect(fm_issues_withdrawn[reason_for_contention_action]).to eq("WITHDRAWN_SELECTED")
+        expect(fm_issues_withdrawn[legacy_appeal_id]).to eq("LEGACYID")
+        expect(fm_issues_not_changed[contention_action]).to eq("NONE")
+        expect(fm_issues_not_changed[contention_id]).to eq(710_000_000)
+        expect(fm_issues_not_changed[reason_for_contention_action]).to eq("NO_CHANGES")
+        expect(fm_issues_not_changed[legacy_appeal_id]).to eq("LEGACYID")
+      end
+    end
+
+    ## non_rating
+    ### eligible & ineligible
+    #### higher_level_rating
+    ##### decision_review_issues
+    context "creates Decision Review Updated eligible_decision_issue_prior_nonrating_hlr_veteran_claimant message" do
+      let(:trait) { "eligible_decision_issue_prior_nonrating_hlr_veteran_claimant" }
+      let(:ep_code) { "030HLRNR" }
+      let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
+      it "correct data points for scenario" do
+        message = subject.send(:create_drc_message, trait, ep_code)
+        formatted_message = subject.send(:convert_and_format_message, message)
+        fm_issues_created = formatted_message[decision_review_issues_created][0]
+        fm_issues_updated = formatted_message[decision_review_issues_updated][0]
+        fm_issues_removed = formatted_message[decision_review_issues_removed][0]
+        fm_issues_withdrawn = formatted_message[decision_review_issues_withdrawn][0]
+        fm_issues_not_changed = formatted_message[decision_review_issues_not_changed][0]
+        expect(subject.instance_variable_get(:@decision_review_event_type)).to eq("decision_review_updated")
+        expect(formatted_message[veteran_participant_id]).to eq(formatted_message[claimant_participant_id])
+        expect(formatted_message[decision_review_type]).to eq("HIGHER_LEVEL_REVIEW")
+        expect(formatted_message[ep_code_category]).to eq("NON_RATING")
+        expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
+        expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
+        expect(fm_issues_created[contention_id]).to eq(720_000_000)
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE")
+        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[contention_id]).to eq(710_000_002)
+        expect(fm_issues_updated[reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
+        expect(fm_issues_updated[prior_decision_text]).to eq("Service connection for tetnus denied (UPDATED)")
+        expect(fm_issues_removed[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_removed[contention_id]).to eq(710_000_001)
+        expect(fm_issues_removed[reason_for_contention_action]).to eq("REMOVED_SELECTED")
+        expect(fm_issues_withdrawn[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_withdrawn[contention_id]).to eq(710_000_003)
+        expect(fm_issues_withdrawn[reason_for_contention_action]).to eq("WITHDRAWN_SELECTED")
+        expect(fm_issues_not_changed[contention_action]).to eq("NONE")
+        expect(fm_issues_not_changed[contention_id]).to eq(710_000_000)
+        expect(fm_issues_not_changed[reason_for_contention_action]).to eq("NO_CHANGES")
+      end
+    end
   end
-
-
-
-  # _created
-  # contention_action: "ADD_CONTENTION" reason_for_contention_action: "NEWLY_ELIGIBLE" contention_id starts with 720_000_000
-  # contention_action: "NONE" reason_for_contention_action: "NO_CHANGES" contention_id: nil
-
-  # _updated
-  # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "PRIOR_DECISION_TEXT_CHANGED" contention_id starts with 710_000_000
-
-  # informal_conference_requested: true
-  # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "SPECIAL_ISSUES_CHANGED"   contention_id starts with 710_000_000
-
-  # same_station_review_requested: true
-  # contention_action: "UPDATE_CONTENTION" reason_for_contention_action: "SPECIAL_ISSUES_CHANGED"   contention_id starts with 710_000_000
-
-  # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "ELIGIBLE_TO_INELIGIBLE" contention_id starts with 710_000_000
-
-  # _removed
-  # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "REMOVED_SELECTED" removed: true contention_id starts with 710_000_000
-
-  # _withdrawn
-  # contention_action: "DELETE_CONTENTION" reason_for_contention_action: "WITHDRAWN_SELECTED" withdrawn: true contention_id starts with 710_000_000
-
-  #  _no_changes
-  # contention_action: "NONE" reason_for_contention_action: "NO_CHANGES" contention_id starts with 710_000_000
-
-  ## non_rating
-  ### eligible & ineligible
-  #### higher_level_rating
-  ##### decision_review_issues
   # _created
   # contention_action: "ADD_CONTENTION" reason_for_contention_action: "NEWLY_ELIGIBLE" contention_id starts with 720_000_000
   # contention_action: "NONE" reason_for_contention_action: "NO_CHANGES" contention_id: nil
