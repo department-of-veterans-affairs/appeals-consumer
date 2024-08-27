@@ -484,8 +484,8 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#create_dr_message_with_poa_access(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_dr_message_with_poa_access, issue_trait, code) }
+  describe "#create_dre_message_with_poa_access(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_with_poa_access, issue_trait, code) }
 
     it "creates a message with odd claim_id" do
       expect(subject.claim_id.odd?).to be true
@@ -497,8 +497,8 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#create_dr_message_without_poa_access(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_dr_message_without_poa_access, issue_trait, code) }
+  describe "#create_dre_message_without_poa_access(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_without_poa_access, issue_trait, code) }
 
     it "creates a message with even claim_id" do
       expect(subject.claim_id.even?).to be true
@@ -510,8 +510,8 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#create_dr_message_with_nil_poa_access(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_dr_message_with_nil_poa_access, issue_trait, code) }
+  describe "#create_dre_message_with_nil_poa_access(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_with_nil_poa_access, issue_trait, code) }
 
     it "creates a message with claim_id 0" do
       expect(subject.claim_id).to eq(0)
@@ -657,8 +657,8 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#create_dr_message_and_track_file_number(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_dr_message_and_track_file_number, issue_trait, code) }
+  describe "#create_dre_message_and_track_file_number(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_and_track_file_number, issue_trait, code) }
     let(:file_numbers_to_remove_from_cache) do
       decision_review_created_events.instance_variable_get(:@file_numbers_to_remove_from_cache)
     end
@@ -668,16 +668,16 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#create_dr_message_without_bis_person(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_dr_message_without_bis_person, issue_trait, code) }
+  describe "#create_dre_message_without_bis_person(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_without_bis_person, issue_trait, code) }
 
     it "changes the claimant_participant_id to an empty string" do
       expect(subject.claimant_participant_id).to eq("")
     end
   end
 
-  describe "#create_dr_message(trait, ep_code)" do
-    subject { decision_review_created_events.send(:create_dr_message, trait, ep_code) }
+  describe "#create_dre_message(trait, ep_code)" do
+    subject { decision_review_created_events.send(:create_dre_message, trait, ep_code) }
     let(:trait) { "eligible_rating_hlr_veteran_claimant" }
     let(:ep_code) { code }
     let(:initial_vet_claimant) { build(:decision_review_created, trait) }
@@ -1230,8 +1230,8 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#convert_dr_dates(message)" do
-    subject { decision_review_created_events.send(:convert_dr_dates, message) }
+  describe "#convert_dre_dates(message)" do
+    subject { decision_review_created_events.send(:convert_dre_dates, message) }
     let(:message) { decision_review_created }
 
     it "converts dr dates a string to an integer" do
@@ -1239,8 +1239,8 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
-  describe "#convert_dr_timestamps(message)" do
-    subject { decision_review_created_events.send(:convert_dr_timestamps, message) }
+  describe "#convert_dre_timestamps(message)" do
+    subject { decision_review_created_events.send(:convert_dre_timestamps, message) }
     let(:message) { decision_review_created }
 
     it "converts dr timestamps from a string to an integer" do
