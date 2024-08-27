@@ -6978,6 +6978,8 @@ FactoryBot.define do
   end
 end
 
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
 def base_message_payload(**args)
   {
     "claim_id" => Faker::Number.number(digits: 7),
@@ -7018,6 +7020,8 @@ def base_message_payload(**args)
       [review_issues_not_changed_attributes]
   }
 end
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
 
 def base_review_issue
   {
