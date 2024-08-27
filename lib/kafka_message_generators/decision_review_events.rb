@@ -790,6 +790,10 @@ module KafkaMessageGenerators
       issue_type.include?("decision_issue_prior")
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
     def update_value(key, object)
       veteran_claimant = object.veteran_participant_id == object.claimant_participant_id
 
@@ -819,6 +823,10 @@ module KafkaMessageGenerators
 
       object.send(key)
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
   end
   # rubocop:enable Metrics/ClassLength
 end
