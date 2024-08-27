@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class KafkaMessageGenerators::Base
+  # boolean check if the decision_review_event_type is decision_review_updated
   def decision_review_updated?
     @decision_review_event_type == "decision_review_updated"
   end
@@ -32,6 +33,8 @@ class KafkaMessageGenerators::Base
     @published_messages_count += 1
   end
 
+  # key value pair to help iterate through the different decision review issue arrays
+  # for each event type. Used in the Decision Review Events class
   def issue_types
     @issue_types ||= {
       decision_review_created: [:decision_review_issues],
