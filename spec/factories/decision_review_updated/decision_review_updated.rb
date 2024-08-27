@@ -1300,6 +1300,7 @@ FactoryBot.define do
           decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
+              "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
               "unidentified" => true,
               "prior_decision_type" => "Disability Evaluation"
             )
@@ -1535,8 +1536,7 @@ FactoryBot.define do
           decision_review_issues_updated:
           [
             review_issues_updated_attributes(
-              "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
-              "prior_decision_text" => "Service connection for tetnus denied (UPDATED)",
+              "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
               "prior_caseflow_decision_issue_id" => 11,
               "prior_non_rating_decision_id" => 13,
               "prior_decision_type" => "DIC",
@@ -1865,6 +1865,7 @@ FactoryBot.define do
           decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
+              "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
               "prior_non_rating_decision_id" => 12,
               "prior_decision_text" => "DIC: Service connection for tetnus denied",
               "prior_decision_type" => "DIC",
@@ -7080,6 +7081,6 @@ end
 
 def review_issues_not_changed_attributes(**args)
   base_review_issue.merge(**args,
-                          "contention_action" => "NONE",
-                          "reason_for_contention_action" => "NO_CHANGES")
+    "reason_for_contention_action" => "NO_CHANGES",
+    "contention_action" => "NONE")
 end

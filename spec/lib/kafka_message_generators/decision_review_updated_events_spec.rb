@@ -639,5 +639,41 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_not_changed[reason_for_contention_action]).to eq("NO_CHANGES")
       end
     end
+
+    context "creates Decision Review Updated eligible_decision_issue_prior_nonrating_hlr message" do
+      let(:trait) { "eligible_decision_issue_prior_nonrating_hlr" }
+      let(:ep_code) { "930AMAHDERCL" }
+      let(:topic) { ENV["DECISION_REVIEW_UPDATED_TOPIC"] }
+      it "correct data points for scenario: INELIGIBLE_REASON_CHANGED" do
+        message = subject.send(:create_dre_message, trait, ep_code)
+        formatted_message = subject.send(:convert_and_format_message, message)
+        fm_issues_created = formatted_message[decision_review_issues_created][0]
+        fm_issues_updated = formatted_message[decision_review_issues_updated][0]
+        fm_issues_removed = formatted_message[decision_review_issues_removed][0]
+        fm_issues_withdrawn = formatted_message[decision_review_issues_withdrawn][0]
+        fm_issues_not_changed = formatted_message[decision_review_issues_not_changed][0]
+        expect(subject.instance_variable_get(:@decision_review_event_type)).to eq("decision_review_updated")
+        expect(formatted_message[veteran_participant_id]).not_to eq(formatted_message[claimant_participant_id])
+        expect(formatted_message[decision_review_type]).to eq("HIGHER_LEVEL_REVIEW")
+        expect(formatted_message[ep_code_category]).to eq("NON_RATING")
+        expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
+        expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
+        expect(fm_issues_created[contention_id]).to eq(720_000_000)
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE")
+        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[contention_id]).to eq(710_000_002)
+        expect(fm_issues_updated[reason_for_contention_action]).to eq("INELIGIBLE_REASON_CHANGED")
+        expect(fm_issues_updated[prior_decision_text]).to eq("Service connection for tetnus denied")
+        expect(fm_issues_removed[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_removed[contention_id]).to eq(710_000_001)
+        expect(fm_issues_removed[reason_for_contention_action]).to eq("REMOVED_SELECTED")
+        expect(fm_issues_withdrawn[contention_action]).to eq("DELETE_CONTENTION")
+        expect(fm_issues_withdrawn[contention_id]).to eq(710_000_003)
+        expect(fm_issues_withdrawn[reason_for_contention_action]).to eq("WITHDRAWN_SELECTED")
+        expect(fm_issues_not_changed[contention_action]).to eq("NONE")
+        expect(fm_issues_not_changed[contention_id]).to eq(710_000_000)
+        expect(fm_issues_not_changed[reason_for_contention_action]).to eq("NO_CHANGES")
+      end
+    end
   end
 end
