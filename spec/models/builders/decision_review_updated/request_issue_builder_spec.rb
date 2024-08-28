@@ -6,7 +6,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
   include_context "decision_review_updated_context"
   let(:event_id) { 34_459 }
   let(:decision_review_updated_model) { Transformers::DecisionReviewUpdated.new(event_id, message_payload) }
-  let(:issue) { decision_review_updated_model.decision_review_issues_created[0] }
+  let(:issue) { decision_review_updated_model.decision_review_issues_created.first }
   let(:builder) { described_class.new(issue, decision_review_updated_model, bis_rating_profiles) }
   let(:bis_rating_profiles) { nil }
 
