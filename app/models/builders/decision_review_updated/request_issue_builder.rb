@@ -5,7 +5,16 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
   attr_reader :decision_review_model, :issue, :request_issue
 
   def initialize(issue, decision_review_model, bis_rating_profiles)
-    @request_issue = DecisionReviewCreated::RequestIssue.new
+    @request_issue = DecisionReviewUpdated::RequestIssue.new
     super(issue, decision_review_model, bis_rating_profiles, @request_issue)
+  end
+
+  def assign_methods
+    assign_decision_review_issue_id
+    super
+  end
+
+  def assign_decision_review_issue_id
+    @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
 end

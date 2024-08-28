@@ -44,10 +44,11 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       expect(subject.instance_variable_defined?(:@type)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_source)).to be_truthy
+      expect(subject.instance_variable_defined?(:@decision_review_issue_id)).to be_truthy
     end
 
     it "returns the Request Issue" do
-      expect(subject).to be_an_instance_of(DecisionReviewCreated::RequestIssue)
+      expect(subject).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
     end
   end
 
@@ -61,11 +62,35 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
     end
 
     it "initializes a new Request Issue instance" do
-      expect(builder.request_issue).to be_an_instance_of(DecisionReviewCreated::RequestIssue)
+      expect(builder.request_issue).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
     end
 
     it "initializes an instance variable @bis_rating_profile" do
       expect(builder.instance_variable_defined?(:@bis_rating_profiles)).to eq(true)
+    end
+  end
+
+  describe "#assign_methods" do
+    it "calls assign_decision_review_issue_id" do
+      expect(builder).to receive(:assign_decision_review_issue_id)
+      builder.send(:assign_methods)
+    end
+  end
+
+  describe "#assign_decision_review_issue_id" do
+    subject { builder.send(:assign_decision_review_issue_id) }
+
+    context "when the issue has a decision_review_issue_id value" do
+      it "assigns the issue's decision_review_issue_id to that value" do
+        issue.decision_review_issue_id = 2100
+        expect(subject).to eq(issue.decision_review_issue_id)
+      end
+    end
+
+    context "when the issue does not have a decision_review_issue_id value" do
+      it "assigns the issue's decision_review_issue_id to nil" do
+        expect(subject).to eq(nil)
+      end
     end
   end
 end
