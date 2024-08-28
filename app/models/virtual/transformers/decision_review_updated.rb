@@ -30,7 +30,7 @@ class Transformers::DecisionReviewUpdated
     "informal_conference_requested" => [TrueClass, FalseClass],
     "informal_conference_tracked_item_id" => [String, NilClass],
     "same_station_review_requested" => [TrueClass, FalseClass],
-    "update_time" => String,
+    "update_time" => Integer,
     "claim_creation_time" => String,
     "actor_username" => String,
     "actor_station" => String,
