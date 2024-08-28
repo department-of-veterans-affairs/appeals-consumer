@@ -94,6 +94,16 @@ class Transformers::DecisionReviewUpdated
       payload["decision_review_issues_removed"].blank? &&
       payload["decision_review_issues_withdrawn"].blank?
   end
+
+  def decision_review_issues
+    [
+      decision_review_issues_created,
+      decision_review_issues_updated,
+      decision_review_issues_removed,
+      decision_review_issues_withdrawn,
+      decision_review_issues_not_changed
+    ].flatten
+  end
 end
 
 # DecisionReviewIssueUpdated represents an individual issue object from the message_payload's

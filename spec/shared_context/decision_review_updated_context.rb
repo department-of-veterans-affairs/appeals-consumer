@@ -75,7 +75,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 123_456,
       "contention_action" => "ADD_CONTENTION",
-      "reason_for_contention_action" => "",
+      "reason_for_contention_action" => "NEWLY_ELIGIBLE_ISSUE",
       "prior_decision_text" => "An unidentified issue added during the edit"
     )
   end
