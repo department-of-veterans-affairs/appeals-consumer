@@ -23,7 +23,7 @@ shared_context "decision_review_updated_context" do
       "informal_conference_requested" => false,
       "informal_conference_tracked_item_id" => "1",
       "same_station_review_requested" => false,
-      "update_time" => "string",
+      "update_time" => 198_29,
       "claim_creation_time" => "",
       "actor_username" => "BVADWISE101",
       "actor_station" => "101",

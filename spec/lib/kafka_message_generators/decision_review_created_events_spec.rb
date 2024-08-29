@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
-  let(:decision_review_created_events) { described_class.new }
+describe KafkaMessageGenerators::DecisionReviewEvents do
+  let(:decision_review_created_events) { described_class.new("decision_review_created") }
   let(:decision_review_created) { build(:decision_review_created) }
   let(:rating_ep_codes) { decision_review_created_events.send(:rating_ep_codes) }
   let(:nonrating_ep_codes) { decision_review_created_events.send(:nonrating_ep_codes) }
@@ -484,8 +484,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#create_drc_message_with_poa_access(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_drc_message_with_poa_access, issue_trait, code) }
+  describe "#create_dre_message_with_poa_access(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_with_poa_access, issue_trait, code) }
 
     it "creates a message with odd claim_id" do
       expect(subject.claim_id.odd?).to be true
@@ -497,8 +497,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#create_drc_message_without_poa_access(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_drc_message_without_poa_access, issue_trait, code) }
+  describe "#create_dre_message_without_poa_access(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_without_poa_access, issue_trait, code) }
 
     it "creates a message with even claim_id" do
       expect(subject.claim_id.even?).to be true
@@ -510,8 +510,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#create_drc_message_with_nil_poa_access(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_drc_message_with_nil_poa_access, issue_trait, code) }
+  describe "#create_dre_message_with_nil_poa_access(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_with_nil_poa_access, issue_trait, code) }
 
     it "creates a message with claim_id 0" do
       expect(subject.claim_id).to eq(0)
@@ -523,9 +523,9 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#set_claim_id(drc, claim_id_int)" do
-    subject { decision_review_created_events.send(:set_claim_id, drc, claim_id_int) }
-    let(:drc) { decision_review_created }
+  describe "#set_claim_id(dr, claim_id_int)" do
+    subject { decision_review_created_events.send(:set_claim_id, dr, claim_id_int) }
+    let(:dr) { decision_review_created }
     let(:claim_id_int) { 4 }
 
     it "sets the DecisionReviewCreated's claim id to the integer passed in" do
@@ -657,8 +657,8 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#create_drc_message_and_track_file_number(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_drc_message_and_track_file_number, issue_trait, code) }
+  describe "#create_dre_message_and_track_file_number(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_and_track_file_number, issue_trait, code) }
     let(:file_numbers_to_remove_from_cache) do
       decision_review_created_events.instance_variable_get(:@file_numbers_to_remove_from_cache)
     end
@@ -668,16 +668,16 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#create_drc_message_without_bis_person(issue_trait, code)" do
-    subject { decision_review_created_events.send(:create_drc_message_without_bis_person, issue_trait, code) }
+  describe "#create_dre_message_without_bis_person(issue_trait, code)" do
+    subject { decision_review_created_events.send(:create_dre_message_without_bis_person, issue_trait, code) }
 
     it "changes the claimant_participant_id to an empty string" do
       expect(subject.claimant_participant_id).to eq("")
     end
   end
 
-  describe "#create_drc_message(trait, ep_code)" do
-    subject { decision_review_created_events.send(:create_drc_message, trait, ep_code) }
+  describe "#create_dre_message(trait, ep_code)" do
+    subject { decision_review_created_events.send(:create_dre_message, trait, ep_code) }
     let(:trait) { "eligible_rating_hlr_veteran_claimant" }
     let(:ep_code) { code }
     let(:initial_vet_claimant) { build(:decision_review_created, trait) }
@@ -938,19 +938,19 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
 
     it "changes each message's prior_decision_type to include the decision type being mapped over" do
-      expect(subject.all? { |drc| drc.decision_review_issues.first.prior_decision_type })
+      expect(subject.all? { |dr| dr.decision_review_issues.first.prior_decision_type })
         .not_to eq(original_dri_prior_decision_type)
     end
 
     it "changes each message's prior_decision_text to include the decision text being mapped over" do
-      expect(subject.all? { |drc| drc.decision_review_issues.first.prior_decision_text })
+      expect(subject.all? { |dr| dr.decision_review_issues.first.prior_decision_text })
         .not_to eq(original_dri_prior_decision_text)
     end
   end
 
-  describe "#change_issue_decision_type_and_decision_text(drc, decision_type)" do
-    subject { decision_review_created_events.send(:change_issue_decision_type_and_decision_text, drc, decision_type) }
-    let(:drc) { decision_review_created }
+  describe "#change_issue_decision_type_and_decision_text(dr, decision_type)" do
+    subject { decision_review_created_events.send(:change_issue_decision_type_and_decision_text, dr, decision_type) }
+    let(:dr) { decision_review_created }
     let(:decision_type) { "Accrued" }
     let(:all_decision_review_issues) { subject.decision_review_issues.all? }
 
@@ -963,26 +963,26 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     end
   end
 
-  describe "#update_claim_id(drc)" do
-    subject { decision_review_created_events.send(:update_claim_id, drc) }
-    let(:drc) { decision_review_created }
+  describe "#update_claim_id(dr)" do
+    subject { decision_review_created_events.send(:update_claim_id, dr) }
+    let(:dr) { decision_review_created }
 
     it "updates the message's claim_id" do
       subject
-      expect(drc.claim_id).to eq(710_000_000)
+      expect(dr.claim_id).to eq(710_000_000)
     end
   end
 
-  describe "#store_veteran_in_cache(drc)" do
-    subject { decision_review_created_events.send(:store_veteran_in_cache, drc) }
-    let(:drc) { decision_review_created }
+  describe "#store_veteran_in_cache(dr)" do
+    subject { decision_review_created_events.send(:store_veteran_in_cache, dr) }
+    let(:dr) { decision_review_created }
 
     before do
       subject
     end
 
-    it "stores a veteran record in the cache using the drc's file_number" do
-      expect(Fakes::VeteranStore.new.all_veteran_file_numbers.include?(drc.file_number)).to eq true
+    it "stores a veteran record in the cache using the dr's file_number" do
+      expect(Fakes::VeteranStore.new.all_veteran_file_numbers.include?(dr.file_number)).to eq true
     end
   end
 
@@ -1223,27 +1223,27 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
     subject { decision_review_created_events.send(:convert_decision_review_created_attrs, message) }
     let(:message) { decision_review_created }
 
-    it "converts drc dates and timestamps from a string to an integer" do
+    it "converts dr dates and timestamps from a string to an integer" do
       expect(subject.claim_received_date.class).to eq(Integer)
       expect(subject.intake_creation_time.class).to eq(Integer)
       expect(subject.claim_creation_time.class).to eq(Integer)
     end
   end
 
-  describe "#convert_drc_dates(message)" do
-    subject { decision_review_created_events.send(:convert_drc_dates, message) }
+  describe "#convert_dre_dates(message)" do
+    subject { decision_review_created_events.send(:convert_dre_dates, message) }
     let(:message) { decision_review_created }
 
-    it "converts drc dates a string to an integer" do
+    it "converts dr dates a string to an integer" do
       expect(subject.claim_received_date.class).to eq(Integer)
     end
   end
 
-  describe "#convert_drc_timestamps(message)" do
-    subject { decision_review_created_events.send(:convert_drc_timestamps, message) }
+  describe "#convert_dre_timestamps(message)" do
+    subject { decision_review_created_events.send(:convert_dre_timestamps, message) }
     let(:message) { decision_review_created }
 
-    it "converts drc timestamps from a string to an integer" do
+    it "converts dr timestamps from a string to an integer" do
       expect(subject.intake_creation_time.class).to eq(Integer)
       expect(subject.claim_creation_time.class).to eq(Integer)
     end
@@ -1560,7 +1560,7 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # WIP
   # rubocop:disable Layout/LineLength
   describe "#encode_message(message)" do
-    subject { decision_review_created_events.send(:encode_message, message) }
+    subject { decision_review_created_events.encode_message(message, schema_name) }
     let(:avro_service) { double(AvroService.new) }
     let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
@@ -1568,9 +1568,6 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
 
     before do
       allow(AvroService).to receive(:new).and_return(avro_service)
-      allow(avro_service.instance_variable_get(:@avro)).to receive(:encode)
-        .with(message, subject: schema_name, version: ENV["SCHEMA_VERSION"], validate: true)
-        .and_return(sample_encoded_message)
     end
 
     it "encodes the message and returns the encoded message" do
@@ -1582,9 +1579,10 @@ describe KafkaMessageGenerators::DecisionReviewCreatedEvents do
   # rubocop:enable Layout/LineLength
 
   describe "#publish_message(message)" do
-    subject { decision_review_created_events.send(:publish_message, message) }
+    subject { decision_review_created_events.publish_message(message, schema_name) }
+    let(:schema_name) { ENV["DECISION_REVIEW_CREATED_TOPIC"] }
     let(:prepared_message) { decision_review_created_events.send(:convert_and_format_message, decision_review_created) }
-    let(:message) { decision_review_created_events.send(:encode_message, prepared_message) }
+    let(:message) { decision_review_created_events.encode_message(prepared_message, schema_name) }
 
     before do
       allow(Karafka.producer).to receive(:produce_sync)

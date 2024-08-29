@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-describe DecisionReviewCreated::RequestIssue do
-  let(:event_id) { 44_349 }
-  let(:decision_review_created_model) { FactoryBot.build(:decision_review_created) }
-  let(:issue) { decision_review_created_model.decision_review_issues.first }
+require "shared_context/decision_review_updated_context"
+
+describe DecisionReviewUpdated::RequestIssue do
+  include_context "decision_review_updated_context"
+  let(:event_id) { 11_917 }
+  let(:decision_review_updated_model) { Transformers::DecisionReviewUpdated.new(event_id, message_payload) }
+  let(:issue) { decision_review_updated_model.decision_review_issues_created.first }
   let(:bis_rating_profiles) { nil }
   let(:request_issue) do
-    Builders::DecisionReviewCreated::RequestIssueBuilder.build(
+    Builders::DecisionReviewUpdated::RequestIssueBuilder.build(
       issue,
-      decision_review_created_model,
+      decision_review_updated_model,
       bis_rating_profiles
     )
   end
@@ -40,5 +43,6 @@ describe DecisionReviewCreated::RequestIssue do
     expect(request_issue).to respond_to(:type)
     expect(request_issue).to respond_to(:nonrating_issue_bgs_id)
     expect(request_issue).to respond_to(:nonrating_issue_bgs_source)
+    expect(request_issue).to respond_to(:decision_review_issue_id)
   end
 end
