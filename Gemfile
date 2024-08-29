@@ -80,24 +80,28 @@ gem "strong_migrations"
 
 gem "next_rails"
 
-gem "opentelemetry-instrumentation-all", require: false
 gem "opentelemetry-sdk", require: false
 gem "opentelemetry-exporter-otlp", require: false
+
 gem "opentelemetry-instrumentation-rack", require: false
 gem "opentelemetry-instrumentation-rails", require: false
 gem "opentelemetry-instrumentation-active_job", require: false
 gem "opentelemetry-instrumentation-action_pack", require: false
 gem "opentelemetry-instrumentation-active_record", require: false
+gem "opentelemetry-instrumentation-active_support", require: false
+gem "opentelemetry-instrumentation-rdkafka", require: false
+gem "opentelemetry-instrumentation-rake", require: false
+gem "opentelemetry-instrumentation-concurrent_ruby", require: false
+gem "opentelemetry-instrumentation-excon", require: false
 gem "opentelemetry-instrumentation-action_view", require: false
-gem "opentelemetry-instrumentation-active_model_serializers", require: false
 gem "opentelemetry-instrumentation-aws_sdk", require: false
 gem "opentelemetry-instrumentation-concurrent_ruby", require: false
 gem "opentelemetry-instrumentation-faraday", require: false
 gem "opentelemetry-instrumentation-http", require: false
 gem "opentelemetry-instrumentation-http_client", require: false
 gem "opentelemetry-instrumentation-net_http", require: false
-# gem "opentelemetry-instrumentation-pg", require: false
-# gem "opentelemetry-instrumentation-redis", require: false
+gem "opentelemetry-instrumentation-pg", require: false
+gem "opentelemetry-instrumentation-redis", require: false
 
 gem "vcr"
 
