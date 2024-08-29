@@ -7027,7 +7027,7 @@ def base_review_issue
   {
     "decision_review_issue_id" => 22,
     "contention_action" => "ADD_CONTENTION",
-    "reason_for_contention_action" => "NEWLY_ELIGIBLE_ISSUE",
+    "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE",
     "contention_id" => 710_002_659,
     "associated_caseflow_request_issue_id" => nil,
     "unidentified" => false,

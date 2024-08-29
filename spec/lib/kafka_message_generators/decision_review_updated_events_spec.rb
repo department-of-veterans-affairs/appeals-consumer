@@ -164,7 +164,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).not_to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("ELIGIBLE_TO_INELIGIBLE")
@@ -201,7 +201,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).not_to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("SPECIAL_ISSUES_CHANGED")
@@ -238,7 +238,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_created[legacy_appeal_id]).to eq("LEGACYID")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
@@ -284,7 +284,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
@@ -319,7 +319,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_created[legacy_appeal_id]).to eq("LEGACYID")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
@@ -359,7 +359,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("SPECIAL_ISSUES_CHANGED")
@@ -431,7 +431,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
@@ -468,7 +468,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("SPECIAL_ISSUES_CHANGED")
@@ -505,7 +505,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_created[legacy_appeal_id]).to eq("LEGACYID")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
@@ -584,7 +584,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
@@ -622,7 +622,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
@@ -659,7 +659,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[prior_decision_rating_profile_date]).to be_nil
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
-        expect(fm_issues_created[reason_for_contention_action]).to eq("NEWLY_ELIGIBLE_ISSUE")
+        expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
         expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("INELIGIBLE_REASON_CHANGED")

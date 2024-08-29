@@ -11,6 +11,24 @@ RSpec.describe Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder, typ
   let(:issue) { decision_review_updated.decision_review_issues_created.first }
   let(:index) { 1 }
 
+  before do
+    message_payload["decision_review_issues_created"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "NO_CHANGES"
+      )
+    )
+
+    message_payload["decision_review_issues_created"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "",
+        "reason_for_contention_action" => ""
+      )
+    )
+  end
+
   describe "#build_issues" do
     context "when successful" do
       it "creates added_issues successfully" do
@@ -45,13 +63,13 @@ RSpec.describe Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder, typ
 
   describe "#newly_added_eligible_issues" do
     context "when decision review created issues are present" do
-      it "returns newly_added_eligible_issues" do
-        expect(subject.newly_added_eligible_issues).to eq(decision_review_updated.decision_review_issues_created)
+      it "returns correct numbder of newly_added_eligible_issues" do
+        expect(subject.newly_added_eligible_issues.count).to eq(1)
       end
 
       it "has the correct issues" do
         subject.newly_added_eligible_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("NEWLY_ELIGIBLE_ISSUE")
+          expect(issue.reason_for_contention_action).to eq("NEW_ELIGIBLE_ISSUE")
           expect(issue.contention_action).to eq("ADD_CONTENTION")
         end
       end
@@ -68,25 +86,15 @@ RSpec.describe Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder, typ
     end
   end
 
-  describe "#newly_added_inligible_issues" do
-    let(:decision_review_issues_created) do
-      base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "NO_CHANGES",
-        "prior_decision_text" => "An unidentified issue added during the edit"
-      )
-    end
-
+  describe "#newly_added_ineligible_issues" do
     context "when decision review created issues are present" do
-      it "returns newly_added_eligible_issues" do
-        expect(subject.newly_added_ineligible_issues).to eq(decision_review_updated.decision_review_issues_created)
+      it "returns correct number of newly_added_eligible_issues" do
+        expect(subject.newly_added_ineligible_issues.count).to eq(1)
       end
 
       it "has the correct issues" do
-        subject.newly_added_eligible_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("No Changes")
+        subject.newly_added_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).to eq("NO_CHANGES")
           expect(issue.contention_action).to eq("NONE")
         end
       end
