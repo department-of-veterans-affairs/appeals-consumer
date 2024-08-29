@@ -5,9 +5,6 @@ require 'bundler/setup'
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
 
-# require "opentelemetry-instrumentation-action_view"
-# require "opentelemetry-instrumentation-pg"
-# require "opentelemetry-instrumentation-redis"
 require "opentelemetry-instrumentation-action_pack"
 require "opentelemetry-instrumentation-active_job"
 require "opentelemetry-instrumentation-active_model_serializers"
@@ -31,8 +28,6 @@ DT_API_TOKEN = ENV["DT_API_TOKEN"]
 
 Rails.logger.info("DT_API_TOKEN is set to #{DT_API_TOKEN}")
 
-
-
 if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
   OpenTelemetry::SDK.configure do |c|
     c.service_name = 'appeals-consumer'
@@ -41,10 +36,6 @@ if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
     c.use 'OpenTelemetry::Instrumentation::ActiveRecord'
     c.use 'OpenTelemetry::Instrumentation::Rack', { untraced_endpoints: ['/health-check', '/sample', '/logs'] }
     c.use 'OpenTelemetry::Instrumentation::Rails'
-
-    # c.use 'OpenTelemetry::Instrumentation::PG'
-    # c.use 'OpenTelemetry::Instrumentation::ActionView'
-    # c.use 'OpenTelemetry::Instrumentation::Redis'
 
     c.use 'OpenTelemetry::Instrumentation::Excon'
     c.use 'OpenTelemetry::Instrumentation::ActionPack'
