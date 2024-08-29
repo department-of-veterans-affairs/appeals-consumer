@@ -28,7 +28,7 @@ class Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder < Builders::B
 
   def newly_added_ineligible_issues
     @decision_review_model.decision_review_issues_created.select do |issue|
-      issue.reason_for_contention_action == "INELIGIBLE_TO_ELIGIBLE" && issue.contention_action == "NONE"
+      issue.reason_for_contention_action == "NO_CHANGES" && issue.contention_action == "NONE"
     end
   end
 end

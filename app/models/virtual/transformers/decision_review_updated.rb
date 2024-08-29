@@ -30,7 +30,7 @@ class Transformers::DecisionReviewUpdated
     "informal_conference_requested" => [TrueClass, FalseClass],
     "informal_conference_tracked_item_id" => [String, NilClass],
     "same_station_review_requested" => [TrueClass, FalseClass],
-    "update_time" => Integer,
+    "update_time" => String,
     "claim_creation_time" => String,
     "actor_username" => String,
     "actor_station" => String,
@@ -147,7 +147,7 @@ class DecisionReviewIssueUpdated
     "source_contention_id_for_remand" => [Integer, NilClass],
     "removed" => [TrueClass, FalseClass],
     "withdrawn" => [TrueClass, FalseClass],
-    "decision" => [Array, NilClass]
+    "decision" => [Hash, NilClass]
   }.freeze
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
@@ -177,7 +177,7 @@ class DecisionReviewIssueUpdated
   def create_decisions(decision)
     return if decision.blank?
 
-    @decision = [Decision.new(decision.first)]
+    @decision = Decision.new(decision)
   end
 end
 

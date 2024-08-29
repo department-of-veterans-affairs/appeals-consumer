@@ -66,7 +66,7 @@ RSpec.describe Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder, typ
         "decision_review_issue_id" => nil,
         "contention_id" => 123_456,
         "contention_action" => "NONE",
-        "reason_for_contention_action" => "No Changes",
+        "reason_for_contention_action" => "NO_CHANGES",
         "prior_decision_text" => "An unidentified issue added during the edit"
       )
     end
