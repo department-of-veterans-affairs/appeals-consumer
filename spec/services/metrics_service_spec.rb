@@ -33,7 +33,8 @@ describe MetricsService do
             app_name: "appeals-consumer",
             attrs: {
               service: service,
-              endpoint: name
+              endpoint: name,
+              uuid: anything
             }
           )
         )

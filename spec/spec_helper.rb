@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "simplecov"
-require "simplecov_lcov_formatter"
+require "simplecov-lcov"
 
 require "karafka/testing/rspec/helpers"
 formatters = [
