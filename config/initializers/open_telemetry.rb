@@ -5,27 +5,24 @@ require 'bundler/setup'
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
 
+# require "opentelemetry-instrumentation-action_view"
+# require "opentelemetry-instrumentation-pg"
+# require "opentelemetry-instrumentation-redis"
 require "opentelemetry-instrumentation-action_pack"
-require "opentelemetry-instrumentation-action_view"
 require "opentelemetry-instrumentation-active_job"
+require "opentelemetry-instrumentation-active_model_serializers"
 require "opentelemetry-instrumentation-active_record"
 require "opentelemetry-instrumentation-active_support"
-require "opentelemetry-instrumentation-active_model_serializers"
 require "opentelemetry-instrumentation-aws_sdk"
 require "opentelemetry-instrumentation-concurrent_ruby"
 require "opentelemetry-instrumentation-excon"
 require "opentelemetry-instrumentation-faraday"
-require 'opentelemetry/instrumentation/http'
 require "opentelemetry-instrumentation-http_client"
 require "opentelemetry-instrumentation-net_http"
-require "opentelemetry-instrumentation-pg"
 require "opentelemetry-instrumentation-rack"
 require "opentelemetry-instrumentation-rails"
 require "opentelemetry-instrumentation-rake"
-require "opentelemetry-instrumentation-redis"
 require "opentelemetry-instrumentation-rdkafka"
-require "opentelemetry-instrumentation-pg"
-require "opentelemetry-instrumentation-redis"
 
 # rubocop:disable Layout/LineLength
 
@@ -59,7 +56,7 @@ if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
     c.use 'OpenTelemetry::Instrumentation::HttpClient'
     c.use 'OpenTelemetry::Instrumentation::Net::HTTP'
     c.use 'OpenTelemetry::Instrumentation::Rake'
-    
+
     c.use 'OpenTelemetry::Instrumentation::Rdkafka'
     c.use 'OpenTelemetry::Instrumentation::ActiveModelSerializers'
 
