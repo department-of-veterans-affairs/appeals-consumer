@@ -80,6 +80,7 @@ class MetricsService
         app_name: app,
         attrs: {
           service: service ||= app,
+          uuid: SecureRandom.uuid,
           endpoint: name
         }
       }
