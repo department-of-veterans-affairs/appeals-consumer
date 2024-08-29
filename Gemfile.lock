@@ -193,7 +193,13 @@ GEM
       rchardet (~> 1.8)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.27.3-aarch64-linux)
+    google-protobuf (4.28.0-aarch64-linux)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.28.0-arm64-darwin)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.28.0-x86_64-darwin)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos-types (1.15.0)
@@ -275,8 +281,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.2-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.2-x86_64-linux)
-      racc (~> 1.4)
     nori (2.6.0)
     octokit (8.0.0)
       faraday (>= 1, < 3)
@@ -292,8 +296,6 @@ GEM
       opentelemetry-common (~> 0.20)
       opentelemetry-sdk (~> 1.2)
       opentelemetry-semantic_conventions
-    opentelemetry-helpers-sql-obfuscation (0.1.1)
-      opentelemetry-common (~> 0.21)
     opentelemetry-instrumentation-action_mailer (0.1.0)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-active_support (~> 0.1)
@@ -334,18 +336,11 @@ GEM
     opentelemetry-instrumentation-faraday (0.24.6)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.22.1)
-    opentelemetry-instrumentation-http (0.23.4)
-      opentelemetry-api (~> 1.0)
-      opentelemetry-instrumentation-base (~> 0.22.1)
     opentelemetry-instrumentation-http_client (0.22.7)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.22.1)
     opentelemetry-instrumentation-net_http (0.22.7)
       opentelemetry-api (~> 1.0)
-      opentelemetry-instrumentation-base (~> 0.22.1)
-    opentelemetry-instrumentation-pg (0.28.0)
-      opentelemetry-api (~> 1.0)
-      opentelemetry-helpers-sql-obfuscation
       opentelemetry-instrumentation-base (~> 0.22.1)
     opentelemetry-instrumentation-rack (0.24.6)
       opentelemetry-api (~> 1.0)
@@ -363,9 +358,6 @@ GEM
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.22.1)
     opentelemetry-instrumentation-rdkafka (0.4.8)
-      opentelemetry-api (~> 1.0)
-      opentelemetry-instrumentation-base (~> 0.22.1)
-    opentelemetry-instrumentation-redis (0.25.7)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.22.1)
     opentelemetry-registry (0.3.1)
@@ -575,9 +567,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-22
-  arm64-darwin-23
   x86_64-darwin-23
-  x86_64-linux
 
 DEPENDENCIES
   avro_turf
@@ -608,7 +598,6 @@ DEPENDENCIES
   next_rails
   opentelemetry-exporter-otlp
   opentelemetry-instrumentation-action_pack
-  opentelemetry-instrumentation-action_view
   opentelemetry-instrumentation-active_job
   opentelemetry-instrumentation-active_model_serializers
   opentelemetry-instrumentation-active_record
@@ -617,15 +606,12 @@ DEPENDENCIES
   opentelemetry-instrumentation-concurrent_ruby
   opentelemetry-instrumentation-excon
   opentelemetry-instrumentation-faraday
-  opentelemetry-instrumentation-http
   opentelemetry-instrumentation-http_client
   opentelemetry-instrumentation-net_http
-  opentelemetry-instrumentation-pg
   opentelemetry-instrumentation-rack
   opentelemetry-instrumentation-rails
   opentelemetry-instrumentation-rake
   opentelemetry-instrumentation-rdkafka
-  opentelemetry-instrumentation-redis
   opentelemetry-sdk
   pg (~> 1.1)
   pry-byebug (~> 3.10)
