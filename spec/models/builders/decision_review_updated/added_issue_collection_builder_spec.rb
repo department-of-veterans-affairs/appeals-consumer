@@ -11,6 +11,14 @@ RSpec.describe Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder, typ
   let(:issue) { decision_review_updated.decision_review_issues_created.first }
   let(:index) { 1 }
 
+  describe "#build_issues" do
+    context "when successful" do
+      it "creates added_issues successfully" do
+        expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
+      end
+    end
+  end
+
   describe "#build_request_issue" do
     before do
       allow(Builders::DecisionReviewUpdated::RequestIssueBuilder).to receive(:build).and_return(true)
