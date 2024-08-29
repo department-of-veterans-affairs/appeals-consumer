@@ -660,9 +660,6 @@ module KafkaMessageGenerators
           convert_decision_review_issue_attrs(issue)
         end
       end
-      # message.decision_review_issues.each do |issue|
-      #   convert_decision_review_issue_attrs(issue)
-      # end
 
       message
     end
@@ -684,7 +681,7 @@ module KafkaMessageGenerators
     def convert_dre_timestamps(message)
       keys_with_timestamp_value =
         if decision_review_updated?
-          %w[claim_creation_time]
+          %w[claim_creation_time update_time]
         else
           %w[intake_creation_time claim_creation_time]
         end

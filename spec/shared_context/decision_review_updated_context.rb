@@ -23,7 +23,7 @@ shared_context "decision_review_updated_context" do
       "informal_conference_requested" => false,
       "informal_conference_tracked_item_id" => "1",
       "same_station_review_requested" => false,
-      "update_time" => 198_29,
+      "update_time" => "6",
       "claim_creation_time" => "",
       "actor_username" => "BVADWISE101",
       "actor_station" => "101",
@@ -75,7 +75,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 123_456,
       "contention_action" => "ADD_CONTENTION",
-      "reason_for_contention_action" => "",
+      "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE",
       "prior_decision_text" => "An unidentified issue added during the edit"
     )
   end
