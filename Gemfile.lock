@@ -202,6 +202,9 @@ GEM
     google-protobuf (4.28.0-x86_64-darwin)
       bigdecimal
       rake (>= 13)
+    google-protobuf (4.28.0-x86_64-linux)
+      bigdecimal
+      rake (>= 13)
     googleapis-common-protos-types (1.15.0)
       google-protobuf (>= 3.18, < 5.a)
     gyoku (1.4.0)
@@ -280,6 +283,8 @@ GEM
     nokogiri (1.16.2-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.16.2-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
     octokit (8.0.0)
@@ -568,6 +573,7 @@ PLATFORMS
   aarch64-linux
   arm64-darwin-22
   x86_64-darwin-23
+  x86_64-linux
 
 DEPENDENCIES
   avro_turf
