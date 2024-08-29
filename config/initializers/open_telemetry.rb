@@ -10,6 +10,7 @@ require "opentelemetry-instrumentation-action_view"
 require "opentelemetry-instrumentation-active_job"
 require "opentelemetry-instrumentation-active_record"
 require "opentelemetry-instrumentation-active_support"
+require "opentelemetry-instrumentation-active_model_serializers"
 require "opentelemetry-instrumentation-aws_sdk"
 require "opentelemetry-instrumentation-concurrent_ruby"
 require "opentelemetry-instrumentation-excon"
@@ -58,7 +59,9 @@ if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
     c.use 'OpenTelemetry::Instrumentation::HttpClient'
     c.use 'OpenTelemetry::Instrumentation::Net::HTTP'
     c.use 'OpenTelemetry::Instrumentation::Rake'
+    
     c.use 'OpenTelemetry::Instrumentation::Rdkafka'
+    c.use 'OpenTelemetry::Instrumentation::ActiveModelSerializers'
 
 
     %w[dt_metadata_e617c525669e072eebe3d0f08212e8f2.properties /var/lib/dynatrace/enrichment/dt_host_metadata.properties].each { |name|

@@ -89,6 +89,7 @@ gem "opentelemetry-instrumentation-active_job", require: false
 gem "opentelemetry-instrumentation-action_pack", require: false
 gem "opentelemetry-instrumentation-active_record", require: false
 gem "opentelemetry-instrumentation-active_support", require: false
+gem "opentelemetry-instrumentation-active_model_serializers", require: false
 gem "opentelemetry-instrumentation-rdkafka", require: false
 gem "opentelemetry-instrumentation-rake", require: false
 gem "opentelemetry-instrumentation-concurrent_ruby", require: false
