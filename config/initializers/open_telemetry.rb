@@ -47,7 +47,7 @@ if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
     # c.use 'OpenTelemetry::Instrumentation::PG'
     # c.use 'OpenTelemetry::Instrumentation::ActionView'
     # c.use 'OpenTelemetry::Instrumentation::Redis'
-    
+
     c.use 'OpenTelemetry::Instrumentation::Excon'
     c.use 'OpenTelemetry::Instrumentation::ActionPack'
     c.use 'OpenTelemetry::Instrumentation::ActiveSupport'
@@ -79,13 +79,5 @@ if !Rails.env.development? && !Rails.env.test? && !Rails.env.demo?
     )
   end
 end
-# Uncomment this line to enbale console exporting.
-ENV['OTEL_TRACES_EXPORTER'] = 'console'
-if Rails.env.development? && ENV['OTEL_TRACES_EXPORTER'] = 'console'
-  OpenTelemetry::SDK.configure do |c|
-    c.service_name = 'appeals-consumer'
-    c.service_version = '1.0.1'
-    c.use_all(config)
-  end
-end
+
 # rubocop:enable Layout/LineLength
