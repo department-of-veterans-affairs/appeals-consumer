@@ -735,8 +735,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
       end
 
-      it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
-        expect { subject }.to raise_error(error, error_msg)
+      it "returns nil" do
+        expect(subject).to eq(nil)
       end
     end
   end
@@ -1424,7 +1424,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
 
       it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
-        expect { subject }.to raise_error(error, error_msg)
+        expect(subject).to eq(nil)
       end
     end
   end
@@ -2020,22 +2020,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       it "returns 'higher_level_review_to_higher_level_review'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:higher_level_review_to_higher_level_review])
       end
-    end
-  end
-
-  describe "#handle_unrecognized_eligibility_result" do
-    before do
-      issue.eligibility_result = "UNKNOWN"
-    end
-
-    subject { builder.send(:handle_unrecognized_eligibility_result) }
-    let(:error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
-    let(:error_msg) do
-      "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
-    end
-
-    it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
-      expect { subject }.to raise_error(error, error_msg)
     end
   end
 

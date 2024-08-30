@@ -279,8 +279,6 @@ class Builders::BaseRequestIssueBuilder
       legacy_issue_not_withdrawn
     elsif legacy_time_restriction_or_no_soc_ssoc?
       legacy_appeal_not_eligible
-    else
-      handle_unrecognized_eligibility_result
     end
   end
 
@@ -490,11 +488,6 @@ class Builders::BaseRequestIssueBuilder
   def handle_contention_id_present
     fail AppealsConsumer::Error::NotNullContentionIdError,
          "Issue is ineligible but has a not-null contention_id value"
-  end
-
-  def handle_unrecognized_eligibility_result
-    fail AppealsConsumer::Error::IssueEligibilityResultNotRecognized, "Issue has an unrecognized eligibility_result:"\
-      " #{issue.eligibility_result}"
   end
 
   def handle_missing_contention_id

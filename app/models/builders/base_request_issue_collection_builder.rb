@@ -45,12 +45,8 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   private
 
-  # exception thrown if there aren't any issues after removing issues with "CONTESTED" eligibility_result
-  def valid_issues
-    valid_issues = remove_ineligible_contested_issues
-    handle_no_issues_after_removing_contested if valid_issues.empty?
-
-    valid_issues
+  def issues
+    @issues ||= @decision_review_model.decision_review_issues
   end
 
   def message_has_rating_issues?
@@ -62,11 +58,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def at_least_one_valid_bis_issue?
-    valid_issues.any?(&:prior_rating_decision_id)
-  end
-
-  def remove_ineligible_contested_issues
-    @decision_review_model.decision_review_issues.reject { |issue| issue.eligibility_result == CONTESTED }
+    issues.any?(&:prior_rating_decision_id)
   end
 
   def handle_no_issues_after_removing_contested
@@ -99,7 +91,7 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   def valid_issue_profile_dates
     # no need to include invalid issue profile dates since they won't be included in the caseflow payload
-    profile_dates = valid_issues.map(&:prior_decision_rating_profile_date)
+    profile_dates = issues.map(&:prior_decision_rating_profile_date)
     return nil if profile_dates.all?(&:nil?)
 
     # unidentified issues can have nil for this field, so remove nil values before mapping

@@ -21,8 +21,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       expect(builder).to be_an_instance_of(Builders::DecisionReviewCreated::RequestIssueCollectionBuilder)
     end
 
-    it "returns an array of DecisionReviewCreated::RequestIssue(s) for every non-'CONTESTED' issue in the "\
-    "decision_review_issues array" do
+    it "returns an array of DecisionReviewCreated::RequestIssue(s) issue in the decision_review_issues array" do
       expect(request_issues.count).to eq(decision_review_issues.count)
       expect(request_issues).to all(be_an_instance_of(DecisionReviewCreated::RequestIssue))
     end
@@ -152,32 +151,16 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
   end
 
-  describe "#valid_issues" do
-    subject { builder.send(:valid_issues) }
+  describe "#issues" do
+    subject { builder.send(:issues) }
 
-    context "when there aren't any issues after removing 'CONTESTED' issues" do
-      let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_contested) }
-      let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
-      let(:error_msg) do
-        "Failed building from #{described_class} for "\
-        "DecisionReview Claim ID: #{decision_review_model.claim_id} does not contain any "\
-        "valid issues after removing 'CONTESTED' ineligible issues"
-      end
-
-      it "raises AppealsConsumer::Error::RequestIssueCollectionBuildError with message" do
-        expect { subject }.to raise_error(error, error_msg)
-      end
+    let(:decision_review_model) do
+      build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
     end
 
-    context "when there are still issues after removing 'CONTESTED' issues" do
-      let(:decision_review_model) do
-        build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
-      end
-
-      it "returns an array of valid DecisionReviewIssue(s)" do
-        expect(subject).to all(be_an_instance_of(DecisionReviewIssue))
-        expect(subject.count).to eq(decision_review_issues.count - 1)
-      end
+    it "returns an array of DecisionReviewIssue(s)" do
+      expect(subject).to all(be_an_instance_of(DecisionReviewIssue))
+      expect(subject.count).to eq(decision_review_issues.count)
     end
   end
 
@@ -256,19 +239,6 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
   end
 
-  describe "#remove_ineligible_contested_issues" do
-    subject { builder.send(:remove_ineligible_contested_issues) }
-    let(:decision_review_model) do
-      build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
-    end
-    let(:contested) { described_class::CONTESTED }
-
-    it "removes decision_review_issues that contains an eligibility_result of 'CONTESTED'" do
-      expect(subject.count).to eq(decision_review_issues.count - 1)
-      expect(subject.any? { |issue| issue.eligibility_result == contested }).to eq false
-    end
-  end
-
   describe "#build_request_issue(issue, index)" do
     subject { builder.send(:build_request_issue, issue, index) }
 
@@ -298,23 +268,6 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
         it "catches the error and raises AppealsConsumer::Error::RequestIssueBuildError with message using index as"\
           " the issue's identifier" do
-          expect { subject }.to raise_error(ri_collection_builder_error, ri_collection_builder_error_msg)
-        end
-      end
-
-      context "when the issue has a NOT-NIL contention_id value" do
-        before do
-          issue.eligibility_result = "UNKNOWN"
-        end
-
-        let(:ri_collection_builder_error_msg) do
-          "Failed building from #{described_class} for "\
-          "DecisionReview Claim ID: #{claim_id} Issue Contention ID: #{issue.contention_id} - "\
-          "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
-        end
-
-        it "catches the error and raises AppealsConsumer::Error::RequestIssueBuildError with message using"\
-          " contention_id as the issue's identifier" do
           expect { subject }.to raise_error(ri_collection_builder_error, ri_collection_builder_error_msg)
         end
       end
@@ -412,19 +365,6 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
   describe "valid_issue_profile_dates" do
     subject { builder.send(:valid_issue_profile_dates) }
-    context "when valid_issues is nil" do
-      let(:decision_review_model) { build(:decision_review_created, :ineligible_rating_hlr_contested) }
-      let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
-      let(:error_msg) do
-        "Failed building from #{described_class} for "\
-        "DecisionReview Claim ID: #{claim_id} does not contain any valid issues after "\
-        "removing 'CONTESTED' ineligible issues"
-      end
-
-      it "raises AppealsConsumer::Error::RequestIssueCollectionBuildError with message" do
-        expect { subject }.to raise_error(error, error_msg)
-      end
-    end
 
     context "when valid_issues is not nil" do
       let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
