@@ -5,7 +5,7 @@ class Builders::DecisionReviewCreated::ClaimReviewBuilder
   include DecisionReview::ModelBuilderHelper
   attr_reader :claim_review, :decision_review_model
 
-  FILED_BY_VA_GOV = false
+  FILED_BY_VA_GOV = nil
 
   def self.build(decision_review_model)
     builder = new(decision_review_model)

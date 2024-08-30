@@ -121,16 +121,16 @@ describe Transformers::DecisionReviewUpdated do
 
   context "when a decision exist" do
     before do
-      message_payload["decision_review_issues_updated"][0]["decision"] = [decision]
+      message_payload["decision_review_issues_updated"][0]["decision"] = decision
     end
 
     it "creates decision" do
       decision = subject.decision_review_issues_updated[0].decision
-      expect(decision).to be_an_instance_of(Array)
+      expect(decision).to be_an_instance_of(Decision)
     end
 
     it "creates decision attributes" do
-      created_decision = subject.decision_review_issues_updated[0].decision.first
+      created_decision = subject.decision_review_issues_updated[0].decision
 
       expect(created_decision.contention_id).to eq(decision["contention_id"])
       expect(created_decision.disposition).to eq(decision["disposition"])

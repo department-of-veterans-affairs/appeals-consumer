@@ -65,8 +65,9 @@ describe Builders::DecisionReviewCreated::ClaimReviewBuilder do
 
   describe "#assign_filed_by_va_gov" do
     subject { builder.send(:assign_filed_by_va_gov) }
-    it "always assigns claim_review's filed_by_va_gov to false" do
+    it "always assigns claim_review's filed_by_va_gov to nil" do
       expect(subject).to eq(Builders::DecisionReviewCreated::ClaimReviewBuilder::FILED_BY_VA_GOV)
+      expect(subject).to eq(nil)
     end
   end
 

@@ -7002,7 +7002,7 @@ def base_message_payload(**args)
     "informal_conference_tracked_item_id" => nil,
     "informal_conference_requested" => args[:informal_conference_requested] || false,
     "same_station_review_requested" => args[:same_station_review_requested] || false,
-    "update_time" => 198_29,
+    "update_time" => Time.zone.now.to_s,
     "claim_creation_time" => Time.zone.now.to_s,
     "actor_username" => "BVADWISE101",
     "actor_station" => "101",
@@ -7027,7 +7027,7 @@ def base_review_issue
   {
     "decision_review_issue_id" => 22,
     "contention_action" => "ADD_CONTENTION",
-    "reason_for_contention_action" => "NEWLY_ELIGIBLE",
+    "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE",
     "contention_id" => 710_002_659,
     "associated_caseflow_request_issue_id" => nil,
     "unidentified" => false,
