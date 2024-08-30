@@ -6974,6 +6974,24 @@ FactoryBot.define do
       end
     end
 
+    trait :invalid_removed_issue_rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+
+      message_payload do
+        base_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_removed:
+          [
+            base_review_issue.merge(
+              "contention_action" => "DELETE_CONTENTION",
+              "reason_for_contention_action" => "WITHDRAWN_SELECTED"
+            )
+          ]
+        )
+      end
+    end
+
+
     initialize_with { new(event_id, message_payload) }
   end
 end
