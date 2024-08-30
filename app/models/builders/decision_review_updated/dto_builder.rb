@@ -50,7 +50,7 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   end
 
   def assign_decision_review_updated_payload
-    @decision_review_updated_payload = validate_no_pii(build_decision_review_updated_payload)
+    @payload = validate_no_pii(build_decision_review_updated_payload)
   end
 
   def build_decision_review_updated(message_payload)
