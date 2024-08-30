@@ -16,7 +16,7 @@ class Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder < Builders:
       # RequestIssueBuilder needs access to a few attributes within @decision_review_model
       Builders::DecisionReviewUpdated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
-      message = "Failed building from #{self.class} for "\
+      message = "Failed building removed_issues from #{self.class} for "\
       "DecisionReview Claim ID: #{@decision_review_model.claim_id} "\
       "#{issue_identifier_message(issue, index)} - #{error.message}"
 
