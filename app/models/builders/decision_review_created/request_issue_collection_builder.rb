@@ -2,16 +2,6 @@
 
 # This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
 class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
-  def initialize(decision_review_model)
-    super
-
-    # only fetch and set BIS rating profiles if the message is rating and contains an identified BIS rating issue
-    if message_has_rating_issues?
-      initialize_issue_profile_dates
-      fetch_and_set_bis_rating_profiles
-    end
-  end
-
   # valid_issues are the decision_review_issues that don't have "CONTESTED" eligibility_result
   def build_issues
     valid_issues.map.with_index do |issue, index|

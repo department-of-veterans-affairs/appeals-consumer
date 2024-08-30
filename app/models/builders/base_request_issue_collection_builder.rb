@@ -16,6 +16,12 @@ class Builders::BaseRequestIssueCollectionBuilder
   def initialize(decision_review_model)
     @decision_review_model = decision_review_model
     @bis_rating_profiles = nil
+
+    # only fetch and set BIS rating profiles if the message is rating and contains an identified BIS rating issue
+    if message_has_rating_issues?
+      initialize_issue_profile_dates
+      fetch_and_set_bis_rating_profiles
+    end
   end
 
   def build_issues
