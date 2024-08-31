@@ -22,6 +22,9 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     allow(Builders::DecisionReviewUpdated::WithdrawnIssueCollectionBuilder)
       .to receive(:build)
       .and_return("withdrawn_issues")
+    allow(Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder)
+      .to receive(:build)
+      .and_return("ineligible_to_ineligible_issues")
   end
 
   let(:decision_review_updated_event) do
@@ -56,6 +59,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@updated_issues)).to eq("updated_issues")
       expect(dto_builder.instance_variable_get(:@removed_issues)).to eq("removed_issues")
       expect(dto_builder.instance_variable_get(:@withdrawn_issues)).to eq("withdrawn_issues")
+      expect(dto_builder.instance_variable_get(:@ineligible_to_ineligible_issues)).to eq("ineligible_to_ineligible_issues")
     end
   end
 
@@ -97,6 +101,8 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@updated_issues, "cleaned_updated_issues")
       dto_builder.instance_variable_set(:@removed_issues, "cleaned_removed_issues")
       dto_builder.instance_variable_set(:@withdrawn_issues, "cleaned_withdrawn_issues")
+      dto_builder.instance_variable_set(:@ineligible_to_ineligible_issues, "cleaned_ineligible_to_ineligible_issues")
+
 
       allow(dto_builder).to receive(:clean_pii).and_return("cleaned")
 
@@ -112,10 +118,10 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "end_product_establishment" => "cleaned",
         "added_issues" => "cleaned",
         "updated_issues" => "cleaned",
+        "ineligible_to_ineligible_issues" => "cleaned",
         "removed_issues" => "cleaned",
         "withdrawn_issues" => "cleaned"
       }.as_json
-
       expect(payload).to eq(expected_payload)
     end
   end
