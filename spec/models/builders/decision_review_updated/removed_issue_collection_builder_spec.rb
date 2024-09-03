@@ -65,6 +65,20 @@ describe Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder do
         expect(subject.length).not_to eq(decision_review_issues_removed.length)
       end
     end
+
+    describe "with no removed issues" do
+      subject { builder.build_issues }
+      let(:decision_review_model) do
+        build(:decision_review_updated, :test)
+      end
+      let(:decision_review_issues_removed) { decision_review_model.decision_review_issues_removed }
+
+      it "returns an empty array" do
+        expect(subject).to all(be_an_instance_of(DecisionReviewUpdated::RequestIssue))
+        expect(subject).to be_an_instance_of(Array)
+        expect(subject.length).to eq(0)
+      end
+    end
   end
 
   describe "#build_request_issue(issue, index)" do
