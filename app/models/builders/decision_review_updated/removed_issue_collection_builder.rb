@@ -13,7 +13,6 @@ class Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder < Builders:
 
   def build_request_issue(issue, index)
     begin
-      # RequestIssueBuilder needs access to a few attributes within @decision_review_model
       Builders::DecisionReviewUpdated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
       message = "Failed building removed_issues from #{self.class} for "\
