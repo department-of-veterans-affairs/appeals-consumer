@@ -55,7 +55,7 @@ describe Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder do
     describe "with invalid removed issues" do
       subject { builder.build_issues }
       let(:decision_review_model) do
-        build(:decision_review_updated, :invalid_removed_issue_rating_hlr_veteran_claimant)
+        build(:decision_review_updated, :rating_hlr_with_an_invalid_removed_issue)
       end
       let(:decision_review_issues_removed) { decision_review_model.decision_review_issues_removed }
 

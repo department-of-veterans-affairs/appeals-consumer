@@ -6974,7 +6974,7 @@ FactoryBot.define do
       end
     end
 
-    trait :invalid_removed_issue_rating_hlr_veteran_claimant do
+    trait :rating_hlr_with_an_invalid_removed_issue do
       participant_id = Faker::Number.number(digits: 9).to_s
 
       message_payload do
