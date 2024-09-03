@@ -271,6 +271,23 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
           expect { subject }.to raise_error(ri_collection_builder_error, ri_collection_builder_error_msg)
         end
       end
+
+      context "when the issue has a NOT-NIL contention_id value" do
+        before do
+          issue.eligibility_result = "UNKNOWN"
+        end
+
+        let(:ri_collection_builder_error_msg) do
+          "Failed building from #{described_class} for "\
+          "DecisionReview Claim ID: #{claim_id} Issue Contention ID: #{issue.contention_id} - "\
+          "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
+        end
+
+        it "catches the error and raises AppealsConsumer::Error::RequestIssueBuildError with message using"\
+          " contention_id as the issue's identifier" do
+          expect { subject }.to raise_error(ri_collection_builder_error, ri_collection_builder_error_msg)
+        end
+      end
     end
   end
 

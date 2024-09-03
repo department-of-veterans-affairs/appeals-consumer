@@ -723,6 +723,17 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           expect(subject).to eq(hlr_to_hlr)
         end
       end
+
+      context "due to being contested" do
+        let(:contested) do
+          described_class::INELIGIBLE_REASONS[:contested]
+        end
+        let(:decision_review_model) { build(:decision_review_created, :ineligible_contested) }
+
+        it "sets the Request Issue's ineligible_reason to 'contested'" do
+          expect(subject).to eq(contested)
+        end
+      end
     end
 
     context "when issue has an unrecognized eligibility_result" do
@@ -735,8 +746,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
       end
 
-      it "returns nil" do
-        expect(subject).to eq(nil)
+      it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
+        expect { subject }.to raise_error(error, error_msg)
       end
     end
   end
@@ -1424,7 +1435,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       end
 
       it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
-        expect(subject).to eq(nil)
+        expect { subject }.to raise_error(error, error_msg)
       end
     end
   end
@@ -1689,6 +1700,24 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
     context "when the issue's eligibility_result is NOT 'LEGACY_TIME_RESTRICTION' or 'NO_SOC_SSOC" do
       it "retuns false" do
+        expect(subject).to eq false
+      end
+    end
+  end
+
+  describe "#contested?" do
+    subject { builder.send(:contested?) }
+    context "when the issue's eligibility_result is 'CONTESTED'" do
+      let(:decision_review_model) do
+        build(:decision_review_created, :ineligible_contested)
+      end
+      it "retuns true" do
+        expect(subject).to eq true
+      end
+    end
+
+    context "when the issue's eligibility_result is NOT 'CONTESTED'" do
+      it "retuns true" do
         expect(subject).to eq false
       end
     end
@@ -2020,6 +2049,22 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       it "returns 'higher_level_review_to_higher_level_review'" do
         expect(subject).to eq(described_class::INELIGIBLE_REASONS[:higher_level_review_to_higher_level_review])
       end
+    end
+  end
+
+  describe "#handle_unrecognized_eligibility_result" do
+    before do
+      issue.eligibility_result = "UNKNOWN"
+    end
+
+    subject { builder.send(:handle_unrecognized_eligibility_result) }
+    let(:error) { AppealsConsumer::Error::IssueEligibilityResultNotRecognized }
+    let(:error_msg) do
+      "Issue has an unrecognized eligibility_result: #{issue.eligibility_result}"
+    end
+
+    it "raises AppealsConsumer::Error::IssueEligibilityResultNotRecognized with message" do
+      expect { subject }.to raise_error(error, error_msg)
     end
   end
 

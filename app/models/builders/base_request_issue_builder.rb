@@ -29,6 +29,7 @@ class Builders::BaseRequestIssueBuilder
   COMPLETED_HLR = "COMPLETED_HLR"
   COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
   PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
+  CONTESTED = "CONTESTED"
 
   # eligibility_result values grouped by Request Issue ineligible_reason
   COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
@@ -51,7 +52,8 @@ class Builders::BaseRequestIssueBuilder
     appeal_to_higher_level_review: "appeal_to_higher_level_review",
     before_ama: "before_ama",
     legacy_issue_not_withdrawn: "legacy_issue_not_withdrawn",
-    legacy_appeal_not_eligible: "legacy_appeal_not_eligible"
+    legacy_appeal_not_eligible: "legacy_appeal_not_eligible",
+    contested: "contested"
   }.freeze
 
   # used to determine ramp_claim_id
@@ -279,6 +281,10 @@ class Builders::BaseRequestIssueBuilder
       legacy_issue_not_withdrawn
     elsif legacy_time_restriction_or_no_soc_ssoc?
       legacy_appeal_not_eligible
+    elsif contested?
+      contested
+    else
+      handle_unrecognized_eligibility_result
     end
   end
 
@@ -312,6 +318,10 @@ class Builders::BaseRequestIssueBuilder
 
   def legacy_appeal_not_eligible
     INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
+  end
+
+  def contested
+    INELIGIBLE_REASONS[:contested]
   end
 
   def handle_associated_request_issue_not_present
@@ -354,6 +364,10 @@ class Builders::BaseRequestIssueBuilder
 
   def legacy_time_restriction_or_no_soc_ssoc?
     LEGACY_APPEAL_NOT_ELIGIBLE.include?(issue.eligibility_result)
+  end
+
+  def contested?
+    issue.eligibility_result == CONTESTED
   end
 
   def completed_board_appeal?
@@ -488,6 +502,11 @@ class Builders::BaseRequestIssueBuilder
   def handle_contention_id_present
     fail AppealsConsumer::Error::NotNullContentionIdError,
          "Issue is ineligible but has a not-null contention_id value"
+  end
+
+  def handle_unrecognized_eligibility_result
+    fail AppealsConsumer::Error::IssueEligibilityResultNotRecognized, "Issue has an unrecognized eligibility_result:"\
+      " #{issue.eligibility_result}"
   end
 
   def handle_missing_contention_id
