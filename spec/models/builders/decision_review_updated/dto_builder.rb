@@ -85,6 +85,10 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   end
 
   describe "#build_decision_review_updated_payload" do
+    PII_FIELDS = %w[ssn filenumber file_number first_name middle_name last_name date_of_birth email]
+    let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
+    let(:cleaned_removed_issues) { removed_issues.select { |key| !PII_FIELDS.include?(key.to_s) } }
+
     it "returns the correct payload JSON object" do
       dto_builder.instance_variable_set(:@event_id, "event_123")
       dto_builder.instance_variable_set(:@claim_id, "claim_123")
@@ -95,7 +99,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@end_product_establishment, FactoryBot.build(:decision_review_updated_end_product_establishment))
       dto_builder.instance_variable_set(:@added_issues, "cleaned_added_issues")
       dto_builder.instance_variable_set(:@updated_issues, "cleaned_updated_issues")
-      dto_builder.instance_variable_set(:@removed_issues, "cleaned_removed_issues")
+      dto_builder.instance_variable_set(:@removed_issues, removed_issues)
       dto_builder.instance_variable_set(:@withdrawn_issues, "cleaned_withdrawn_issues")
 
       payload = dto_builder.send(:build_decision_review_updated_payload)
@@ -110,7 +114,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "end_product_establishment" => { development_item_reference_id: "123456", reference_id: "123456789" },
         "added_issues" => "cleaned",
         "updated_issues" => "cleaned",
-        "removed_issues" => "cleaned",
+        "removed_issues" => cleaned_removed_issues,
         "withdrawn_issues" => "cleaned"
       }.as_json
 
