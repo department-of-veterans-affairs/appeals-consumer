@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
+class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder <
+   Builders::BaseRequestIssueCollectionBuilder
   def build_issues
     ineligible_to_ineligible_issues.map.with_index do |issue, index|
       build_request_issue(issue, index)
