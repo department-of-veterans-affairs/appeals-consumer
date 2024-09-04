@@ -101,7 +101,7 @@ shared_context "decision_review_updated_context" do
       "decision_review_issue_id" => nil,
       "contention_id" => 328_253,
       "contention_action" => "DELETE_CONTENTION",
-      "reason_for_contention_action" => "",
+      "reason_for_contention_action" => "REMOVED_SELECTED",
       "prior_decision_text" => "The second unidentified issue (will be removed)",
       "removed" => true
     )
