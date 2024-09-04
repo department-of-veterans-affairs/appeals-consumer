@@ -7065,8 +7065,7 @@ def review_issues_created_attributes(**args)
 end
 
 def review_issues_updated_attributes(**args)
-  base_review_issue.merge(**args,
-                          "contention_action" => "UPDATE_CONTENTION")
+  base_review_issue.merge("contention_action" => "UPDATE_CONTENTION", **args)
 end
 
 def review_issues_removed_attributes(**args)

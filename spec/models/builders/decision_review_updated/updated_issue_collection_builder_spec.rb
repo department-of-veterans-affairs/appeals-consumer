@@ -73,7 +73,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
 
   describe "#updated_issues" do
     context "when decision review updated issues are present" do
-      it "returns correct number of update_contention_issues" do
+      it "returns correct number of updated_issues" do
         expect(subject.updated_issues.count).to eq(2)
       end
 
