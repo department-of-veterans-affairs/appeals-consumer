@@ -7,6 +7,14 @@ class Builders::BaseRequestIssueCollectionBuilder
   CONTESTED = "CONTESTED"
   RATING = "RATING"
 
+  REASON_FOR_CONTENTION_ACTIONS = {
+    ISSUE_REMOVED: "REMOVED_SELECTED"
+  }.freeze
+
+  CONTENTION_ACTIONS = {
+    DELETE_CONTENTION: "DELETE_CONTENTION"
+  }.freeze
+
   def self.build(decision_review_model)
     builder = new(decision_review_model)
     builder.build_issues
@@ -104,5 +112,13 @@ class Builders::BaseRequestIssueCollectionBuilder
 
     # unidentified issues can have nil for this field, so remove nil values before mapping
     profile_dates.compact.map(&:to_date)
+  end
+
+  def removed
+    REASON_FOR_CONTENTION_ACTIONS[:ISSUE_REMOVED]
+  end
+
+  def contention_deleted
+    CONTENTION_ACTIONS[:DELETE_CONTENTION]
   end
 end

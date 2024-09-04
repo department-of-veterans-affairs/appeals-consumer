@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
-
-  REMOVED_SELECTED = 'REMOVED_SELECTED'
-  DELETE_CONTENTION = 'DELETE_CONTENTION'
-
   def build_issues
     removed_issues.map.with_index do |issue, index|
       build_request_issue(issue, index)
@@ -28,7 +24,7 @@ class Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder < Builders:
   def removed_issues
     @decision_review_model.decision_review_issues_removed
     .select { 
-      |issue| issue.reason_for_contention_action == REMOVED_SELECTED && issue.contention_action == DELETE_CONTENTION 
+      |issue| issue.reason_for_contention_action == removed && issue.contention_action == contention_deleted
     }
   end
 end
