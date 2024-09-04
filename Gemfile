@@ -17,13 +17,15 @@ gem "aws-sdk-sqs"
 
 # BGS
 gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git",
-           ref: "0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e"
+           ref: "927ca6341342b1f1f0f7202e3e4817c1a00801b5"
 
 gem "benchmark"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+gem "ddtrace", "0.34.1"
+gem "dogstatsd-ruby"
 gem "dotenv-rails"
 gem "faraday-retry"
 gem "hashie"
