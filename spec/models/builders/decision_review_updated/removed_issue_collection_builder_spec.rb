@@ -59,7 +59,7 @@ describe Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder do
       end
       let(:decision_review_issues_removed) { decision_review_model.decision_review_issues_removed }
 
-      it "DOES NOT map INVALID decision_review_issues_removed into an array of DecisionReviewUpdated::RequestIssue(s)" do
+      it "DOES NOT map INVALID decision_review_issues_removed into array of DecisionReviewUpdated::RequestIssue(s)" do
         expect(subject).to all(be_an_instance_of(DecisionReviewUpdated::RequestIssue))
         expect(subject).to be_an_instance_of(Array)
         expect(subject.length).not_to eq(decision_review_issues_removed.length)

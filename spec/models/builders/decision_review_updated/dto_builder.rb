@@ -85,10 +85,13 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   end
 
   describe "#build_decision_review_updated_payload" do
-    PII_FIELDS = %w[ssn filenumber file_number first_name middle_name last_name date_of_birth email]
+    PII_FIELDS = %w[
+      ssn filenumber file_number first_name middle_name last_name date_of_birth email
+    ].freeze
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
-    let(:cleaned_removed_issues) { removed_issues.select { |key| !PII_FIELDS.include?(key.to_s) } }
+    let(:cleaned_removed_issues) { removed_issues.reject { |key| PII_FIELDS.include?(key.to_s) } }
 
+    # rubocop:disable Layout/LineLength
     it "returns the correct payload JSON object" do
       dto_builder.instance_variable_set(:@event_id, "event_123")
       dto_builder.instance_variable_set(:@claim_id, "claim_123")
