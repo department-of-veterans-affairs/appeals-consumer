@@ -4,9 +4,6 @@ require "shared_context/decision_review_updated_context"
 
 RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   subject(:dto_builder) { described_class.new(decision_review_updated_event) }
-  PII_FIELDS = %w[
-    ssn filenumber file_number first_name middle_name last_name date_of_birth email
-  ].freeze
 
   include_context "decision_review_updated_context"
 
@@ -88,8 +85,13 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   end
 
   describe "#build_decision_review_updated_payload" do
+    let(:pii_fields) do
+      %w[
+        ssn filenumber file_number first_name middle_name last_name date_of_birth email
+      ]
+    end
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
-    let(:cleaned_removed_issues) { removed_issues.reject { |key| PII_FIELDS.include?(key.to_s) } }
+    let(:cleaned_removed_issues) { removed_issues.reject { |key| pii_fields.include?(key.to_s) } }
 
     # rubocop:disable Layout/LineLength
     it "returns the correct payload JSON object" do
