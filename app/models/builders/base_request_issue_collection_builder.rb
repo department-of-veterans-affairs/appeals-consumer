@@ -12,7 +12,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   }.freeze
 
   CONTENTION_ACTIONS = {
-    DELETE_CONTENTION: "DELETE_CONTENTION"
+    CONTENTION_DELETED: "DELETE_CONTENTION"
   }.freeze
 
   def self.build(decision_review_model)
@@ -119,6 +119,6 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def contention_deleted
-    CONTENTION_ACTIONS[:DELETE_CONTENTION]
+    CONTENTION_ACTIONS[:CONTENTION_DELETED]
   end
 end
