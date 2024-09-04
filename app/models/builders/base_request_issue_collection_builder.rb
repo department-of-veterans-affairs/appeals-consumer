@@ -8,7 +8,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   RATING = "RATING"
 
   REASON_FOR_CONTENTION_ACTIONS = {
-    INELIGIBLE_ISSUE_CHANGED: "INELIGIBLE_REASON_CHANGED",
+    INELIGIBLE_REASON_CHANGED: "INELIGIBLE_REASON_CHANGED",
     ISSUE_REMOVED: "REMOVED_SELECTED"
   }.freeze
 
@@ -128,7 +128,7 @@ class Builders::BaseRequestIssueCollectionBuilder
     CONTENTION_ACTIONS[:CONTENTION_NONE]
   end
 
-  def ineligible_issue_changed
-    REASON_FOR_CONTENTION_ACTIONS[:INELIGIBLE_ISSUE_CHANGED]
+  def ineligible_reason_changed
+    REASON_FOR_CONTENTION_ACTIONS[:INELIGIBLE_REASON_CHANGED]
   end
 end

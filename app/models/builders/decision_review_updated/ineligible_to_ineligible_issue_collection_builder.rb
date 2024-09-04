@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# a Request Issue Collection Builder specifically for ineligible to ineligible issues
+# by using the reason_for_contention_action and the contention_action from the event message_payload
+# this collects the issue and assigns it to the ineligible_to_ineligibles_issues payload for the dto builder.
 class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder <
    Builders::BaseRequestIssueCollectionBuilder
   def build_issues
@@ -19,9 +22,11 @@ class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuil
     end
   end
 
+  # selects issues inside the decision_review_issues_updated message_payload
+  # ENUMs ineligible_reason_changed & contention_none are defined in the base_request_issue_collection_builder
   def ineligible_to_ineligible_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == ineligible_issue_changed && issue.contention_action == contention_none
+      issue.reason_for_contention_action == ineligible_reason_changed && issue.contention_action == contention_none
     end
   end
 end
