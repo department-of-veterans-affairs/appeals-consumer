@@ -5,7 +5,7 @@ require "shared_context/decision_review_updated_context"
 RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   subject(:dto_builder) { described_class.new(decision_review_updated_event) }
   PII_FIELDS = %w[
-      ssn filenumber file_number first_name middle_name last_name date_of_birth email
+    ssn filenumber file_number first_name middle_name last_name date_of_birth email
   ].freeze
 
   include_context "decision_review_updated_context"
