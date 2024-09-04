@@ -21,7 +21,7 @@ class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuil
 
   def ineligible_to_ineligible_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == "INELIGIBLE_REASON_CHANGED" && issue.contention_action == "NONE"
+      issue.reason_for_contention_action == ineligible_issue_changed && issue.contention_action == contention_none
     end
   end
 end
