@@ -6991,7 +6991,6 @@ FactoryBot.define do
       end
     end
 
-
     initialize_with { new(event_id, message_payload) }
   end
 end
