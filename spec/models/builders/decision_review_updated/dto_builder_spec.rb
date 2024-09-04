@@ -92,7 +92,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     let(:ineligible_to_ineligible_issues) do
       [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_ineligible_request_issue)]
     end
-    let(:cleaned_ineligible_to_ineligible_issue) do
+    let(:cleaned_ineligible_to_ineligible_issues) do
       dto_builder.send(:clean_pii, ineligible_to_ineligible_issues)
     end
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
@@ -126,7 +126,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "end_product_establishment" => { development_item_reference_id: "123456", reference_id: "123456789" },
         "added_issues" => "cleaned_added_issues",
         "updated_issues" => "cleaned_updated_issues",
-        "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issue,
+        "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issues,
         "removed_issues" => cleaned_removed_issues,
         "withdrawn_issues" => "cleaned_withdrawn_issues"
       }.as_json
