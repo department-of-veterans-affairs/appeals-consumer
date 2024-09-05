@@ -8,7 +8,8 @@ class Builders::BaseRequestIssueCollectionBuilder
   RATING = "RATING"
 
   REASON_FOR_CONTENTION_ACTIONS = {
-    ISSUE_REMOVED: "REMOVED_SELECTED"
+    ISSUE_REMOVED: "REMOVED_SELECTED",
+    ISSUE_WITHDRAWN: "WITHDRAWN_SELECTED"
   }.freeze
 
   CONTENTION_ACTIONS = {
@@ -116,6 +117,10 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   def removed
     REASON_FOR_CONTENTION_ACTIONS[:ISSUE_REMOVED]
+  end
+
+  def withdrawn
+    REASON_FOR_CONTENTION_ACTIONS[:ISSUE_WITHDRAWN]
   end
 
   def contention_deleted
