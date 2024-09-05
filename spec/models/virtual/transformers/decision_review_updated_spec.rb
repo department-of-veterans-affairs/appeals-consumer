@@ -56,7 +56,9 @@ describe Transformers::DecisionReviewUpdated do
             decision_review_issues_updated[index]["associated_caseflow_request_issue_id"]
           )
           expect(issue.unidentified).to eq(decision_review_issues_updated[index]["unidentified"])
-          expect(issue.prior_rating_decision_id).to eq(decision_review_issues_updated[index]["prior_rating_decision_id"])
+          expect(issue.prior_rating_decision_id).to eq(
+            decision_review_issues_updated[index]["prior_rating_decision_id"]
+          )
           expect(issue.prior_non_rating_decision_id).to eq(
             decision_review_issues_updated[index]["prior_non_rating_decision_id"]
           )
@@ -76,7 +78,9 @@ describe Transformers::DecisionReviewUpdated do
           expect(issue.prior_decision_rating_percentage).to eq(
             decision_review_issues_updated[index]["prior_decision_rating_percentage"]
           )
-          expect(issue.prior_decision_rating_sn).to eq(decision_review_issues_updated[index]["prior_decision_rating_sn"])
+          expect(issue.prior_decision_rating_sn).to eq(
+            decision_review_issues_updated[index]["prior_decision_rating_sn"]
+          )
           expect(issue.eligible).to eq(decision_review_issues_updated[index]["eligible"])
           expect(issue.eligibility_result).to eq(decision_review_issues_updated[index]["eligibility_result"])
           expect(issue.time_override).to eq(decision_review_issues_updated[index]["time_override"])
