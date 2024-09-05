@@ -69,8 +69,8 @@ RSpec.describe Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder, t
 
       it "has the correct issues" do
         subject.removed_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("REMOVED_SELECTED")
-          expect(issue.contention_action).to eq("DELETE_CONTENTION")
+          expect(issue.reason_for_contention_action).to eq(subject.send(:removed))
+          expect(issue.contention_action).to eq(subject.send(:contention_deleted))
         end
       end
     end

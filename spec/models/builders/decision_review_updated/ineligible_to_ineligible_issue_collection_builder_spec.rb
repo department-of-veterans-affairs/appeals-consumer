@@ -37,6 +37,13 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
         expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
       end
     end
+    context "raises error when not using proper build_issues or build_request_issue method" do
+      subject { Builders::BaseRequestIssueCollectionBuilder.new(decision_review_updated) }
+      it "raises NotImplementedError" do
+        expect { subject.build_issues }.to raise_error(NotImplementedError)
+        expect { subject.send(:build_request_issue, issue, index) }.to raise_error(NotImplementedError)
+      end
+    end
   end
 
   describe "#build_request_issue" do
@@ -71,8 +78,8 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
 
       it "has the correct issues" do
         subject.ineligible_to_ineligible_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("INELIGIBLE_REASON_CHANGED")
-          expect(issue.contention_action).to eq("NONE")
+          expect(issue.reason_for_contention_action).to eq(subject.send(:ineligible_reason_changed))
+          expect(issue.contention_action).to eq(subject.send(:contention_none))
         end
       end
     end
