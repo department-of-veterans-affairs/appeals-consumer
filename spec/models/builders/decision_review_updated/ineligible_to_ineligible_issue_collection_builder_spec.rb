@@ -7,18 +7,17 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
 
   include_context "decision_review_updated_context"
 
-  let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
+  let(:decision_review_updated) do
+    Transformers::DecisionReviewUpdated.new(decision_review_updated_event.id,
+                                            decision_review_updated_event.message_payload)
+  end
   let(:issue) { decision_review_updated.decision_review_issues_updated.first }
   let(:index) { 1 }
+  let(:decision_review_updated_event) do
+    FactoryBot.create(:event, type: "Events::DecisionReviewUpdatedEvent", message_payload: message_payload)
+  end
 
   before do
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
-      )
-    )
     # Negative Test: This issue does not fulfill conditions for ineligible to ineligible issues and
     # should be ignored by IneligibleToIneligibleIssueCollectionBuilder
     message_payload["decision_review_issues_updated"].push(
@@ -112,7 +111,8 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
         decision_review_updated.decision_review_issues_updated = []
       end
 
-      it "returns an empty array" do
+      it "returns an empty array even if ineligigble_reason_changed and no_contention_action is
+      in created, removed, withdrawn, not_changed" do
         expect(subject.ineligible_to_ineligible_issues).to eq([])
       end
     end

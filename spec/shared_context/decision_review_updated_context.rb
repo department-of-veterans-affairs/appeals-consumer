@@ -24,16 +24,16 @@ shared_context "decision_review_updated_context" do
       "informal_conference_tracked_item_id" => "1",
       "same_station_review_requested" => false,
       "update_time" => "6",
-      "claim_creation_time" => "",
+      "claim_creation_time" => Date.new(2022, 1, 1).to_time.to_s,
       "actor_username" => "BVADWISE101",
       "actor_station" => "101",
       "actor_application" => "PASYSACCTCREATE",
       "auto_remand" => false,
-      "decision_review_issues_created" => [decision_review_issues_created],
-      "decision_review_issues_updated" => [decision_review_issues_updated],
-      "decision_review_issues_removed" => [decision_review_issues_removed],
-      "decision_review_issues_withdrawn" => [decision_review_issues_withdrawn],
-      "decision_review_issues_not_changed" => [decision_review_issues_not_changed]
+      "decision_review_issues_created" => decision_review_issues_created,
+      "decision_review_issues_updated" => decision_review_issues_updated,
+      "decision_review_issues_removed" => decision_review_issues_removed,
+      "decision_review_issues_withdrawn" => decision_review_issues_withdrawn,
+      "decision_review_issues_not_changed" => decision_review_issues_not_changed
     }
   end
 
@@ -48,7 +48,7 @@ shared_context "decision_review_updated_context" do
       "prior_decision_type" => "Unknown",
       "prior_decision_source" => nil,
       "prior_decision_notification_date" => nil,
-      "prior_decision_date" => nil,
+      "prior_decision_date" => Date.new(2022, 1, 1).to_time.to_s,
       "prior_decision_diagnostic_code" => nil,
       "prior_decision_rating_percentage" => nil,
       "prior_decision_rating_sn" => nil,
@@ -71,61 +71,133 @@ shared_context "decision_review_updated_context" do
   end
 
   let(:decision_review_issues_created) do
-    base_decision_review_issue.merge(
-      "decision_review_issue_id" => nil,
-      "contention_id" => 123_456,
-      "contention_action" => "ADD_CONTENTION",
-      "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE",
-      "prior_decision_text" => "An unidentified issue added during the edit"
-    )
+    [
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 123_456,
+        "contention_action" => "ADD_CONTENTION",
+        "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE",
+        "prior_decision_text" => "An unidentified issue added during the edit"
+      ),
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 123_456,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "NO_CHANGES",
+        "prior_decision_text" => "An unidentified issue added during the edit"
+      )
+    ]
   end
 
   let(:decision_review_issues_updated) do
-    base_decision_review_issue.merge(
-      "decision_review_issue_id" => nil,
-      "contention_id" => 123_456_791,
-      "contention_action" => "Action",
-      "reason_for_contention_action" => "",
-      "unidentified" => false,
-      "prior_non_rating_decision_id" => 13,
-      "prior_decision_text" => "DIC: Service connection for tetnus denied",
-      "prior_decision_type" => "DIC:",
-      "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
-      "time_override" => true,
-      "time_override_reason" => "good cause exemption"
-    )
+    [
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 123_456_791,
+        "contention_action" => "UPDATE_CONTENTION",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+        "unidentified" => false,
+        "prior_non_rating_decision_id" => 13,
+        "prior_decision_text" => "DIC: Service connection for tetnus denied",
+        "prior_decision_type" => "DIC:",
+        "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+        "time_override" => true,
+        "time_override_reason" => "good cause exemption"
+      ),
+      base_decision_review_issue.merge(
+        "eligible" => true,
+        "eligibility_result" => "TIME_RESTRICTION",
+        "decision_review_issue_id" => nil,
+        "contention_id" => 123_456_791,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
+        "unidentified" => false,
+        "prior_non_rating_decision_id" => 13,
+        "prior_decision_text" => "DIC: Service connection for tetnus denied",
+        "prior_decision_type" => "DIC:",
+        "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+        "time_override" => false
+      ),
+      base_decision_review_issue.merge(
+        "eligible" => false,
+        "eligibility_result" => "TIME_RESTRICTION",
+        "decision_review_issue_id" => nil,
+        "contention_id" => nil,
+        "contention_action" => "DELETE_CONTENTION",
+        "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
+        "unidentified" => false,
+        "prior_non_rating_decision_id" => 13,
+        "prior_decision_text" => "DIC: Service connection for tetnus denied",
+        "prior_decision_type" => "DIC:",
+        "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+        "time_override" => false
+      ),
+      base_decision_review_issue.merge(
+        "eligible" => false,
+        "eligibility_result" => "TIME_RESTRICTION",
+        "decision_review_issue_id" => nil,
+        "contention_id" => nil,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
+        "unidentified" => false,
+        "prior_non_rating_decision_id" => 13,
+        "prior_decision_text" => "DIC: Service connection for tetnus denied",
+        "prior_decision_type" => "DIC:",
+        "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+        "time_override" => false
+      ),
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 123_456_791,
+        "contention_action" => "ADD_CONTENTION",
+        "reason_for_contention_action" => "INELIGIBLE_TO_ELIGIBLE",
+        "unidentified" => false,
+        "prior_non_rating_decision_id" => 13,
+        "prior_decision_text" => "DIC: Service connection for tetnus denied",
+        "prior_decision_type" => "DIC:",
+        "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+        "time_override" => true,
+        "time_override_reason" => "good cause exemption"
+      )
+    ]
   end
 
   let(:decision_review_issues_removed) do
-    base_decision_review_issue.merge(
-      "decision_review_issue_id" => nil,
-      "contention_id" => 328_253,
-      "contention_action" => "DELETE_CONTENTION",
-      "reason_for_contention_action" => "REMOVED_SELECTED",
-      "prior_decision_text" => "The second unidentified issue (will be removed)",
-      "removed" => true
-    )
+    [
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 328_253,
+        "contention_action" => "DELETE_CONTENTION",
+        "reason_for_contention_action" => "REMOVED_SELECTED",
+        "prior_decision_text" => "The second unidentified issue (will be removed)",
+        "removed" => true
+      )
+    ]
   end
 
   let(:decision_review_issues_withdrawn) do
-    base_decision_review_issue.merge(
-      "decision_review_issue_id" => nil,
-      "contention_id" => 328_252,
-      "contention_action" => "DELETE_CONTENTION",
-      "reason_for_contention_action" => "",
-      "prior_decision_text" => "The first unidentified issue (will be withdrawn)",
-      "withdrawn" => true
-    )
+    [
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 328_252,
+        "contention_action" => "DELETE_CONTENTION",
+        "reason_for_contention_action" => "WITHDRAWN_SELECTED",
+        "prior_decision_text" => "The first unidentified issue (will be withdrawn)",
+        "withdrawn" => true
+      )
+    ]
   end
 
   let(:decision_review_issues_not_changed) do
-    base_decision_review_issue.merge(
-      "decision_review_issue_id" => nil,
-      "contention_id" => 328_254,
-      "contention_action" => "NONE",
-      "reason_for_contention_action" => "",
-      "prior_decision_text" => "The third unidentified issue (not changed)"
-    )
+    [
+      base_decision_review_issue.merge(
+        "decision_review_issue_id" => nil,
+        "contention_id" => 328_254,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "",
+        "prior_decision_text" => "The third unidentified issue (not changed)"
+      )
+    ]
   end
 
   let(:decision) do

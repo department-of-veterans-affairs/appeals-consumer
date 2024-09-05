@@ -15,14 +15,6 @@ RSpec.describe Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder, typ
     message_payload["decision_review_issues_created"].push(
       base_decision_review_issue.merge(
         "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "NO_CHANGES"
-      )
-    )
-
-    message_payload["decision_review_issues_created"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
         "contention_action" => "",
         "reason_for_contention_action" => ""
       )

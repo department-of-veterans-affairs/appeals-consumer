@@ -16,7 +16,7 @@ class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuil
       Builders::DecisionReviewUpdated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
       message = "Failed building ineligible_to_ineligible issue from #{self.class} for DecisionReview Claim ID:" \
-      "#{@decision_review_model.claim_id} #{issue_identifier_message(issue, index)} - #{error.message}"
+       "#{@decision_review_model.claim_id} #{issue_identifier_message(issue, index)} - #{error.message}"
 
       raise AppealsConsumer::Error::RequestIssueBuildError, message
     end
