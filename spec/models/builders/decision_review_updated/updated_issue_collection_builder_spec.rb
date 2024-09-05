@@ -31,13 +31,44 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       )
     )
 
-    # This issue does not fulfill requirements for updated issues and
+    # Negative Test: This issue does not fulfill requirements for updated issues and
     # should be ignored by UpdatedIssueCollectionBuilder
     message_payload["decision_review_issues_updated"].push(
       base_decision_review_issue.merge(
         "contention_id" => 123_456,
         "contention_action" => "NONE",
-        "reason_for_contention_action" => "NO_CHANGES"
+        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
+      )
+    )
+
+    # Negative Tests: correct contention_action & reason_for_contention_action
+    # but incorrect array
+    message_payload["decision_review_issues_created"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "UPDATE_CONTENTION",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
+      )
+    )
+    message_payload["decision_review_issues_removed"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "UPDATE_CONTENTION",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
+      )
+    )
+    message_payload["decision_review_issues_withdrawn"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "UPDATE_CONTENTION",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
+      )
+    )
+    message_payload["decision_review_issues_not_changed"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "UPDATE_CONTENTION",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
       )
     )
   end
@@ -86,6 +117,12 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
           expect(issue.contention_action).to be_in([contention_updated, contention_action_none])
         end
       end
+
+      it "does not retrieve issues that do not match the required criteria" do
+        subject.updated_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq("INELIGIBLE_REASON_CHANGED")
+        end
+      end
     end
 
     context "when decision review updated issues are empty" do
@@ -111,6 +148,13 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
           expect(issue.contention_action).to eq(contention_updated)
         end
       end
+
+      it "does not retrieve issues with values other than contention_action of UPDATE_CONTENTION"\
+      " and reason_for_contention_action of PRIOR_DECISION_TEXT_CHANGED" do
+        subject.update_contention_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq("INELIGIBLE_REASON_CHANGED")
+        end
+      end
     end
 
     context "when decision review updated issues are empty" do
@@ -134,6 +178,13 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
         subject.contention_action_none_issues.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
           expect(issue.contention_action).to eq(contention_action_none)
+        end
+      end
+
+      it "does not retrieve issues with values other than contention_action of NONE"\
+      " and reason_for_contention_action of PRIOR_DECISION_TEXT_CHANGED" do
+        subject.contention_action_none_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq("INELIGIBLE_REASON_CHANGED")
         end
       end
     end
