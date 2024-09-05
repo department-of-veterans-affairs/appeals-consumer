@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBuilder < BaseRequestIssueCollectionBuilder
+class Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
   def build_issues
     ineligible_to_eligible_issues.map.with_index do |issue, index|
       build_request_issue(issue, index)
@@ -17,8 +17,6 @@ class Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBuilde
       raise AppealsConsumer::Error::RequestIssueBuildError, message
     end
   end
-
-  private
 
   def ineligible_to_eligible_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
