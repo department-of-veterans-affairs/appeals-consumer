@@ -19,14 +19,43 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
         "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
       )
     )
-
-    # This issue does not fulfill conditions for ineligible to ineligible issues and
+    # Negative Test: This issue does not fulfill conditions for ineligible to ineligible issues and
     # should be ignored by IneligibleToIneligibleIssueCollectionBuilder
     message_payload["decision_review_issues_updated"].push(
       base_decision_review_issue.merge(
         "contention_id" => 123_456,
-        "contention_action" => "DELETE_CONTENTION",
-        "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE"
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
+      )
+    )
+    # Negative Tests: correct contention_action & reason_for_contention_action
+    # but incorrect array
+    message_payload["decision_review_issues_created"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
+      )
+    )
+    message_payload["decision_review_issues_removed"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
+      )
+    )
+    message_payload["decision_review_issues_withdrawn"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
+      )
+    )
+    message_payload["decision_review_issues_not_changed"].push(
+      base_decision_review_issue.merge(
+        "contention_id" => 123_456,
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
       )
     )
   end
@@ -35,13 +64,6 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
     context "when successful" do
       it "creates updated_issues successfully" do
         expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
-      end
-    end
-    context "raises error when not using proper build_issues or build_request_issue method" do
-      subject { Builders::BaseRequestIssueCollectionBuilder.new(decision_review_updated) }
-      it "raises NotImplementedError" do
-        expect { subject.build_issues }.to raise_error(NotImplementedError)
-        expect { subject.send(:build_request_issue, issue, index) }.to raise_error(NotImplementedError)
       end
     end
   end
@@ -78,6 +100,7 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
 
       it "has the correct issues" do
         subject.ineligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq("PRIOR_DECISION_TEXT_CHANGED")
           expect(issue.reason_for_contention_action).to eq(subject.send(:ineligible_reason_changed))
           expect(issue.contention_action).to eq(subject.send(:contention_none))
         end
