@@ -36,11 +36,8 @@ FactoryBot.define do
     end
 
     trait :ineligible_to_ineligible_request_issue do
-      contested_rating_issue_profile_date { nil }
-      decision_date { nil }
-      is_unidentified { true }
-      ramp_claim_id { nil }
-      rating_issue_associated_at { nil }
+      removed_request_issue
+      ineligible_reason { "untimely" }
     end
   end
 end

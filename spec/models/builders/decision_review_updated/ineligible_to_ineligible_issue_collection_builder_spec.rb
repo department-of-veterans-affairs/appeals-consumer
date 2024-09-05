@@ -102,12 +102,12 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
         subject.ineligible_to_ineligible_issues.each do |issue|
           expect(issue.reason_for_contention_action).not_to eq("PRIOR_DECISION_TEXT_CHANGED")
           expect(issue.reason_for_contention_action).to eq(subject.send(:ineligible_reason_changed))
-          expect(issue.contention_action).to eq(subject.send(:contention_none))
+          expect(issue.contention_action).to eq(subject.send(:no_contention_action))
         end
       end
     end
 
-    context "when decision review updated issues are empty" do
+    context "when decision_review_updated_issues are empty" do
       before do
         decision_review_updated.decision_review_issues_updated = []
       end

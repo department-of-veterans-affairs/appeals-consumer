@@ -14,7 +14,7 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   CONTENTION_ACTIONS = {
     CONTENTION_DELETED: "DELETE_CONTENTION",
-    CONTENTION_NONE: "NONE"
+    NO_CONTENTION_ACTION: "NONE"
   }.freeze
 
   def self.build(decision_review_model)
@@ -124,8 +124,8 @@ class Builders::BaseRequestIssueCollectionBuilder
     CONTENTION_ACTIONS[:CONTENTION_DELETED]
   end
 
-  def contention_none
-    CONTENTION_ACTIONS[:CONTENTION_NONE]
+  def no_contention_action
+    CONTENTION_ACTIONS[:NO_CONTENTION_ACTION]
   end
 
   def ineligible_reason_changed

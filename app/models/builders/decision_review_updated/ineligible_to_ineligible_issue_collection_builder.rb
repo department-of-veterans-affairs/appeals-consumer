@@ -15,8 +15,8 @@ class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuil
     begin
       Builders::DecisionReviewUpdated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
-      message = "Failed building from #{self.class} for DecisionReview Claim ID: #{@decision_review_model.claim_id} " \
-      "#{issue_identifier_message(issue, index)} - #{error.message}"
+      message = "Failed building ineligible_to_ineligible issue from #{self.class} for DecisionReview Claim ID:" \
+      "#{@decision_review_model.claim_id} #{issue_identifier_message(issue, index)} - #{error.message}"
 
       raise AppealsConsumer::Error::RequestIssueBuildError, message
     end
@@ -26,7 +26,7 @@ class Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuil
   # ENUMs ineligible_reason_changed & contention_none are defined in the base_request_issue_collection_builder
   def ineligible_to_ineligible_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == ineligible_reason_changed && issue.contention_action == contention_none
+      issue.reason_for_contention_action == ineligible_reason_changed && issue.contention_action == no_contention_action
     end
   end
 end
