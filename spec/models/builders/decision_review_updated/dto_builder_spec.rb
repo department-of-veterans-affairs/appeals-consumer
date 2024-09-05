@@ -59,7 +59,18 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@updated_issues)).to eq("updated_issues")
       expect(dto_builder.instance_variable_get(:@removed_issues)).to eq("removed_issues")
       expect(dto_builder.instance_variable_get(:@withdrawn_issues)).to eq("withdrawn_issues")
-      expect(dto_builder.instance_variable_get(:@ineligible_to_ineligible_issues)).to eq("ineligible_to_ineligible_issues")
+      expect(dto_builder.instance_variable_get(:@ineligible_to_ineligible_issues))
+        .to eq("ineligible_to_ineligible_issues")
+    end
+
+    describe "should rasie error if error in builder methods" do
+      before do
+        allow(dto_builder).to receive(:build_decision_review_updated_claim_review)
+          .and_raise(AppealsConsumer::Error::DtoBuildError, "Some error")
+      end
+      it "should raise an error" do
+        expect { subject.send(:assign_from_builders) }.to raise_error(AppealsConsumer::Error::DtoBuildError)
+      end
     end
   end
 
