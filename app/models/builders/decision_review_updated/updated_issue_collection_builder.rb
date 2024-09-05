@@ -22,10 +22,10 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
   end
 
   # selects issues inside the decision_review_issues_updated message_payload
-  # ENUMs text_changed & contention_updated and contention_action_none
+  # ENUMs text_changed & contention_updated and contention_none
   # are defined in the base_request_issue_collection_builder
   def updated_issues
-    update_contention_issues + contention_action_none_issues
+    update_contention_issues + contention_none_issues
   end
 
   def update_contention_issues
@@ -34,9 +34,9 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
     end
   end
 
-  def contention_action_none_issues
+  def contention_none_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == text_changed && issue.contention_action == contention_action_none
+      issue.reason_for_contention_action == text_changed && issue.contention_action == contention_none
     end
   end
 end

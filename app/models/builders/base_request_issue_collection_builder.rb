@@ -129,7 +129,7 @@ class Builders::BaseRequestIssueCollectionBuilder
     CONTENTION_ACTIONS[:CONTENTION_DELETED]
   end
 
-  def contention_action_none
+  def contention_none
     CONTENTION_ACTIONS[:NONE]
   end
 

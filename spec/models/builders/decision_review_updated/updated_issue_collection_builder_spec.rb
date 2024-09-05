@@ -12,7 +12,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
   let(:index) { 1 }
   let(:text_changed) { subject.send(:text_changed) }
   let(:contention_updated) { subject.send(:contention_updated) }
-  let(:contention_action_none) { subject.send(:contention_action_none) }
+  let(:contention_none) { subject.send(:contention_none) }
 
   before do
     message_payload["decision_review_issues_updated"].push(
@@ -114,7 +114,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       it "has the correct issues" do
         subject.updated_issues.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
-          expect(issue.contention_action).to be_in([contention_updated, contention_action_none])
+          expect(issue.contention_action).to be_in([contention_updated, contention_none])
         end
       end
 
@@ -168,22 +168,22 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
     end
   end
 
-  describe "#contention_action_none_issues" do
+  describe "#contention_none_issues" do
     context "when decision review updated issues are present" do
-      it "returns correct number of contention_action_none_issues" do
-        expect(subject.contention_action_none_issues.count).to eq(1)
+      it "returns correct number of contention_none_issues" do
+        expect(subject.contention_none_issues.count).to eq(1)
       end
 
       it "has the correct issues" do
-        subject.contention_action_none_issues.each do |issue|
+        subject.contention_none_issues.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
-          expect(issue.contention_action).to eq(contention_action_none)
+          expect(issue.contention_action).to eq(contention_none)
         end
       end
 
       it "does not retrieve issues with values other than contention_action of NONE"\
       " and reason_for_contention_action of PRIOR_DECISION_TEXT_CHANGED" do
-        subject.contention_action_none_issues.each do |issue|
+        subject.contention_none_issues.each do |issue|
           expect(issue.reason_for_contention_action).not_to eq("INELIGIBLE_REASON_CHANGED")
         end
       end
@@ -195,7 +195,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       end
 
       it "returns an empty array" do
-        expect(subject.contention_action_none_issues).to eq([])
+        expect(subject.contention_none_issues).to eq([])
       end
     end
   end
