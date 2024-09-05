@@ -8,11 +8,14 @@ class Builders::BaseRequestIssueCollectionBuilder
   RATING = "RATING"
 
   REASON_FOR_CONTENTION_ACTIONS = {
-    ISSUE_REMOVED: "REMOVED_SELECTED"
+    ISSUE_REMOVED: "REMOVED_SELECTED",
+    PRIOR_DECISION_TEXT_CHANGED: "PRIOR_DECISION_TEXT_CHANGED"
   }.freeze
 
   CONTENTION_ACTIONS = {
-    CONTENTION_DELETED: "DELETE_CONTENTION"
+    CONTENTION_DELETED: "DELETE_CONTENTION",
+    NONE: "NONE",
+    CONTENTION_UPDATED: "UPDATE_CONTENTION"
   }.freeze
 
   def self.build(decision_review_model)
@@ -118,7 +121,19 @@ class Builders::BaseRequestIssueCollectionBuilder
     REASON_FOR_CONTENTION_ACTIONS[:ISSUE_REMOVED]
   end
 
+  def text_changed
+    REASON_FOR_CONTENTION_ACTIONS[:PRIOR_DECISION_TEXT_CHANGED]
+  end
+
   def contention_deleted
     CONTENTION_ACTIONS[:CONTENTION_DELETED]
+  end
+
+  def contention_action_none
+    CONTENTION_ACTIONS[:NONE]
+  end
+
+  def contention_updated
+    CONTENTION_ACTIONS[:CONTENTION_UPDATED]
   end
 end

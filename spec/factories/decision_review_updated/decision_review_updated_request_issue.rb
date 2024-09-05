@@ -34,5 +34,13 @@ FactoryBot.define do
       closed_at { DateTime.new(2022, 2, 1) }
       closed_status { true }
     end
+
+    trait :updated_request_issue do
+      contested_rating_issue_profile_date { nil }
+      decision_date { nil }
+      is_unidentified { true }
+      ramp_claim_id { nil }
+      rating_issue_associated_at { nil }
+    end
   end
 end

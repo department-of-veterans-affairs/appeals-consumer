@@ -10,6 +10,9 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
   let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
   let(:issue) { decision_review_updated.decision_review_issues_updated.first }
   let(:index) { 1 }
+  let(:text_changed) { subject.send(:text_changed) }
+  let(:contention_updated) { subject.send(:contention_updated) }
+  let(:contention_action_none) { subject.send(:contention_action_none) }
 
   before do
     message_payload["decision_review_issues_updated"].push(
@@ -79,8 +82,8 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
 
       it "has the correct issues" do
         subject.updated_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("PRIOR_DECISION_TEXT_CHANGED")
-          expect(issue.contention_action).to be_in(%w[UPDATE_CONTENTION NONE])
+          expect(issue.reason_for_contention_action).to eq(text_changed)
+          expect(issue.contention_action).to be_in([contention_updated, contention_action_none])
         end
       end
     end
@@ -104,8 +107,8 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
 
       it "has the correct issues" do
         subject.update_contention_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("PRIOR_DECISION_TEXT_CHANGED")
-          expect(issue.contention_action).to eq("UPDATE_CONTENTION")
+          expect(issue.reason_for_contention_action).to eq(text_changed)
+          expect(issue.contention_action).to eq(contention_updated)
         end
       end
     end
@@ -129,8 +132,8 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
 
       it "has the correct issues" do
         subject.contention_action_none_issues.each do |issue|
-          expect(issue.reason_for_contention_action).to eq("PRIOR_DECISION_TEXT_CHANGED")
-          expect(issue.contention_action).to eq("NONE")
+          expect(issue.reason_for_contention_action).to eq(text_changed)
+          expect(issue.contention_action).to eq(contention_action_none)
         end
       end
     end

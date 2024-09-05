@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# a Request Issue Collection Builder specifically for updated issues
+# by using the reason_for_contention_action and the contention_action from the event message_payload
+# this collects the issue and assigns it to the updated_issues payload for the dto builder.
 class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
   def build_issues
     updated_issues.map.with_index do |issue, index|
@@ -18,21 +21,22 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
     end
   end
 
+  # selects issues inside the decision_review_issues_updated message_payload
+  # ENUMs text_changed & contention_updated and contention_action_none
+  # are defined in the base_request_issue_collection_builder
   def updated_issues
     update_contention_issues + contention_action_none_issues
   end
 
-  # rubocop:disable Layout/LineLength
   def update_contention_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == "PRIOR_DECISION_TEXT_CHANGED" && issue.contention_action == "UPDATE_CONTENTION"
+      issue.reason_for_contention_action == text_changed && issue.contention_action == contention_updated
     end
   end
-  # rubocop:enable Layout/LineLength
 
   def contention_action_none_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == "PRIOR_DECISION_TEXT_CHANGED" && issue.contention_action == "NONE"
+      issue.reason_for_contention_action == text_changed && issue.contention_action == contention_action_none
     end
   end
 end
