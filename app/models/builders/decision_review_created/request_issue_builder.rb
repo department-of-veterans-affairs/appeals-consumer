@@ -8,4 +8,9 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
     @request_issue = DecisionReviewCreated::RequestIssue.new
     super(issue, decision_review_model, bis_rating_profiles, @request_issue)
   end
+
+  # ineligible issues are closed upon creation
+  def calculate_closed_at
+    @request_issue.closed_at = ineligible? ? claim_creation_time_converted_to_timestamp_ms : nil
+  end
 end

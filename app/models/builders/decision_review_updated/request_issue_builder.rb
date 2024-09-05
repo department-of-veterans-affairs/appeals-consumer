@@ -17,4 +17,8 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
   def assign_decision_review_issue_id
     @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
+
+  def calculate_closed_at
+    @request_issue.closed_at = ineligible? ? update_time_converted_to_timestamp_ms : nil
+  end
 end

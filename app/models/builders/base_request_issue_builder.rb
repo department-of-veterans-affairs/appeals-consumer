@@ -223,9 +223,9 @@ class Builders::BaseRequestIssueBuilder
     @request_issue.type = REQUEST_ISSUE
   end
 
-  # ineligible issues are closed upon creation
+  # must override method in child class
   def calculate_closed_at
-    @request_issue.closed_at = ineligible? ? claim_creation_time_converted_to_timestamp_ms : nil
+    fail NotImplementedError, "#{self.class} must implement the build_issues method"
   end
 
   # default state of ineligible issues - "ineligible"

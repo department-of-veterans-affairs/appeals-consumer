@@ -67,7 +67,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def build_request_issue(issue, index)
-    fail NotImplementedError, "#{self.class} must implement the build__request_issue method"
+    fail NotImplementedError, "#{self.class} must implement the build_request_issue method"
   end
 
   # in cases where the decision review issue has null for contention_id, use the index of the issue as the identifier
