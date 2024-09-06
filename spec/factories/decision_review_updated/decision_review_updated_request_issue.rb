@@ -36,13 +36,15 @@ FactoryBot.define do
     end
 
     trait :eligible_to_ineligible_request_issues do
-      contention_reference_id { "123456" }
-      contested_rating_issue_profile_date { nil }
-      contested_rating_issue_reference_id { nil }
-      decision_review_issue_id { 22 }
-      is_unidentified { true }
-      untimely_exemption { false }
-      unidentified_issue_text { "An unidentified issue added during the edit" }
+      closed_at { DateTime.new(2022, 2, 1) }
+      closed_status { "ineligible" }
+      ineligible_reason { "untimely" }
+    end
+
+    trait :ineligible_to_ineligible_request_issue do
+      closed_at { DateTime.new(2022, 2, 1) }
+      closed_status { "ineligible" }
+      ineligible_reason { "untimely" }
     end
   end
 end
