@@ -21,4 +21,12 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
   def calculate_closed_at
     @request_issue.closed_at = ineligible? ? update_time_converted_to_timestamp_ms : nil
   end
+
+  # only populated for eligible rating issues
+  def calculate_rating_issue_associated_at
+    @request_issue.rating_issue_associated_at =
+      if rating? && eligible?
+        update_time_converted_to_timestamp_ms
+      end
+  end
 end

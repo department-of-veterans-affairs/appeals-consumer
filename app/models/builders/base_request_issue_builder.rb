@@ -43,7 +43,12 @@ class Builders::BaseRequestIssueBuilder
     PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
   ].freeze
 
-  INELIGIBLE_CLOSED_STATUS = "ineligible"
+  CLOSED_STATUSES = {
+    ineligible_closed_status: "ineligible",
+    removed_closed_status: "removed",
+    withdrawn_closed_status: "withdrawn"
+  }
+
   INELIGIBLE_REASONS = {
     duplicate_of_nonrating_issue_in_active_review: "duplicate_of_nonrating_issue_in_active_review",
     duplicate_of_rating_issue_in_active_review: "duplicate_of_rating_issue_in_active_review",
@@ -229,8 +234,17 @@ class Builders::BaseRequestIssueBuilder
   end
 
   # default state of ineligible issues - "ineligible"
+  # DecisionReviewCreated events cannot have 'removed' or 'withdrawn' closed statuses
   def calculate_closed_status
-    @request_issue.closed_status = ineligible? ? INELIGIBLE_CLOSED_STATUS : nil
+    if ineligible?
+      @request_issue.closed_status = ineligible_closed_status
+    elsif removed?
+      @request_issue.closed_status = removed_closed_status
+    elsif withdrawn?
+      @request_issue.closed_status = withdrawn_closed_status
+    else
+      @request_issue.closed_status = nil
+    end
   end
 
   # only populated for rating and rating decision issues
@@ -249,10 +263,7 @@ class Builders::BaseRequestIssueBuilder
 
   # only populated for eligible rating issues
   def calculate_rating_issue_associated_at
-    @request_issue.rating_issue_associated_at =
-      if rating? && eligible?
-        claim_creation_time_converted_to_timestamp_ms
-      end
+    fail NotImplementedError, "#{self.class} must implement the build_issues method"
   end
 
   def assign_nonrating_issue_bgs_id
@@ -286,6 +297,18 @@ class Builders::BaseRequestIssueBuilder
     else
       handle_unrecognized_eligibility_result
     end
+  end
+
+  def ineligible_closed_status
+    CLOSED_STATUSES[:ineligible_closed_status]
+  end
+
+  def removed_closed_status
+    CLOSED_STATUSES[:removed_closed_status]
+  end
+
+  def withdrawn_closed_status
+    CLOSED_STATUSES[:withdrawn_closed_status]
   end
 
   def duplicate_of_nonrating_issue_in_active_review
@@ -393,6 +416,18 @@ class Builders::BaseRequestIssueBuilder
 
   def ineligible?
     INELIGIBLE.include?(issue.eligibility_result)
+  end
+
+  # Checks if issue has been removed on a Decision Review event
+  # DecisionReviewCreated events do not have a 'removed' attribute
+  def removed?
+    issue.try(:removed) == true
+  end
+
+  # Checks if issue has been removed on a Decision Review event
+  # DecisionReviewCreated events do not have a 'withdrawn' attribute
+  def withdrawn?
+    issue.try(:withdrawn) == true
   end
 
   def eligible?

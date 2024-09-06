@@ -1024,7 +1024,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     subject { builder.send(:calculate_closed_status) }
     context "when issue is ineligible" do
       let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
-      let(:ineligible_closed_status) { described_class::INELIGIBLE_CLOSED_STATUS }
+      let(:ineligible_closed_status) { described_class::CLOSED_STATUSES[:ineligible_closed_status] }
       it "sets the Request Issue's closed_status to 'ineligible'" do
         expect(subject).to eq(ineligible_closed_status)
       end
