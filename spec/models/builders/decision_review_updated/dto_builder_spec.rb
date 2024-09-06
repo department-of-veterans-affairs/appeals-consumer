@@ -108,7 +108,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     end
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
     let(:cleaned_removed_issues) { dto_builder.send(:clean_pii, removed_issues) }
-    let(:withdrawn_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)]}
+    let(:withdrawn_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)] }
     let(:cleaned_withdrawn_issues) { dto_builder.send(:clean_pii, withdrawn_issues) }
 
     # rubocop:disable Layout/LineLength
