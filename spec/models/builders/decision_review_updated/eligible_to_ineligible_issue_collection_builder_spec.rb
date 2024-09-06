@@ -12,20 +12,13 @@ RSpec.describe Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollect
   let(:index) { 1 }
 
   before do
+    # Negative Test: This issue does not fulfill conditions for ineligible to ineligible issues and
+    # should be ignored by IneligibleToIneligibleIssueCollectionBuilder
     message_payload["decision_review_issues_updated"].push(
       base_decision_review_issue.merge(
         "contention_id" => 123_456,
-        "contention_action" => "DELETE_CONTENTION",
-        "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE"
-      )
-    )
-
-    # This is added to make sure only DELETE_CONTENTION and ELIGIBLE_TO_INELIGIBLE are added
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "ADD_CONTENTION",
-        "reason_for_contention_action" => "INELIGIBLE_TO_ELIGIBLE"
+        "contention_action" => "NONE",
+        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
       )
     )
   end
@@ -70,6 +63,7 @@ RSpec.describe Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollect
 
       it "has the correct issues" do
         subject.eligible_to_ineligible_issue.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq("PRIOR_DECISION_TEXT_CHANGED")
           expect(issue.reason_for_contention_action).to eq("ELIGIBLE_TO_INELIGIBLE")
           expect(issue.contention_action).to eq("DELETE_CONTENTION")
         end
