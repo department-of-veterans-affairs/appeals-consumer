@@ -118,6 +118,8 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     end
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
     let(:cleaned_removed_issues) { dto_builder.send(:clean_pii, removed_issues) }
+    let(:updated_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :updated_request_issue)] }
+    let(:cleaned_updated_issues) { dto_builder.send(:clean_pii, updated_issues) }
     let(:withdrawn_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)] }
     let(:cleaned_withdrawn_issues) { dto_builder.send(:clean_pii, withdrawn_issues) }
 
@@ -131,7 +133,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@claim_review, FactoryBot.build(:decision_review_updated_claim_review))
       dto_builder.instance_variable_set(:@end_product_establishment, FactoryBot.build(:decision_review_updated_end_product_establishment))
       dto_builder.instance_variable_set(:@added_issues, "cleaned_added_issues")
-      dto_builder.instance_variable_set(:@updated_issues, "cleaned_updated_issues")
+      dto_builder.instance_variable_set(:@updated_issues, updated_issues)
       dto_builder.instance_variable_set(:@removed_issues, removed_issues)
       dto_builder.instance_variable_set(:@eligible_to_ineligible_issues, eligible_to_ineligible_issues)
       dto_builder.instance_variable_set(:@withdrawn_issues, withdrawn_issues)
@@ -149,7 +151,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "claim_review" => { legacy_opt_in_approved: false, informal_conference: false, same_office: false },
         "end_product_establishment" => { development_item_reference_id: "123456", reference_id: "123456789" },
         "added_issues" => "cleaned_added_issues",
-        "updated_issues" => "cleaned_updated_issues",
+        "updated_issues" => cleaned_updated_issues,
         "eligible_to_ineligible_issues" => cleaned_eligible_to_ineligible_issues,
         "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issues,
         "removed_issues" => cleaned_removed_issues,
