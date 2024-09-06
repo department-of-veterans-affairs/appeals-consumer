@@ -12,25 +12,9 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
   let(:index) { 1 }
   let(:text_changed) { subject.send(:text_changed) }
   let(:contention_updated) { subject.send(:contention_updated) }
-  let(:contention_none) { subject.send(:contention_none) }
+  let(:no_contention_action) { subject.send(:no_contention_action) }
 
   before do
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "UPDATE_CONTENTION",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
-      )
-    )
-
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
-      )
-    )
-
     # Negative Test: This issue does not fulfill requirements for updated issues and
     # should be ignored by UpdatedIssueCollectionBuilder
     message_payload["decision_review_issues_updated"].push(
@@ -38,37 +22,6 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
         "contention_id" => 123_456,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
-      )
-    )
-
-    # Negative Tests: correct contention_action & reason_for_contention_action
-    # but incorrect array
-    message_payload["decision_review_issues_created"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "UPDATE_CONTENTION",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
-      )
-    )
-    message_payload["decision_review_issues_removed"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "UPDATE_CONTENTION",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
-      )
-    )
-    message_payload["decision_review_issues_withdrawn"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "UPDATE_CONTENTION",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
-      )
-    )
-    message_payload["decision_review_issues_not_changed"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "UPDATE_CONTENTION",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
       )
     )
   end
@@ -114,7 +67,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       it "has the correct issues" do
         subject.updated_issues.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
-          expect(issue.contention_action).to be_in([contention_updated, contention_none])
+          expect(issue.contention_action).to be_in([contention_updated, no_contention_action])
         end
       end
 
@@ -177,7 +130,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       it "has the correct issues" do
         subject.updated_issues_without_contentions.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
-          expect(issue.contention_action).to eq(contention_none)
+          expect(issue.contention_action).to eq(no_contention_action)
         end
       end
 

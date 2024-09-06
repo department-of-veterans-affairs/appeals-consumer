@@ -28,7 +28,7 @@ class Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder < Builders::B
 
   def newly_added_ineligible_issues
     @decision_review_model.decision_review_issues_created.select do |issue|
-      issue.reason_for_contention_action == no_changes && issue.contention_action == contention_none
+      issue.reason_for_contention_action == no_changes && issue.contention_action == no_contention_action
     end
   end
 end

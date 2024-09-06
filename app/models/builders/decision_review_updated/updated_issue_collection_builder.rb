@@ -36,7 +36,7 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
 
   def updated_issues_without_contentions
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == text_changed && issue.contention_action == contention_none
+      issue.reason_for_contention_action == text_changed && issue.contention_action == no_contention_action
     end
   end
 end

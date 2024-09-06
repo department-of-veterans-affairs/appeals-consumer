@@ -8,6 +8,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   RATING = "RATING"
 
   REASON_FOR_CONTENTION_ACTIONS = {
+    INELIGIBLE_REASON_CHANGED: "INELIGIBLE_REASON_CHANGED",
     ISSUE_REMOVED: "REMOVED_SELECTED",
     TEXT_CHANGED: "PRIOR_DECISION_TEXT_CHANGED",
     NEW_ELIGIBLE_ISSUE: "NEW_ELIGIBLE_ISSUE",
@@ -140,15 +141,19 @@ class Builders::BaseRequestIssueCollectionBuilder
     CONTENTION_ACTIONS[:CONTENTION_DELETED]
   end
 
-  def contention_none
-    CONTENTION_ACTIONS[:NO_CONTENTION_ACTION]
-  end
-
   def contention_updated
     CONTENTION_ACTIONS[:CONTENTION_UPDATED]
   end
 
   def contention_added
     CONTENTION_ACTIONS[:CONTENTION_ADDED]
+  end
+
+  def no_contention_action
+    CONTENTION_ACTIONS[:NO_CONTENTION_ACTION]
+  end
+
+  def ineligible_reason_changed
+    REASON_FOR_CONTENTION_ACTIONS[:INELIGIBLE_REASON_CHANGED]
   end
 end

@@ -22,6 +22,9 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     allow(Builders::DecisionReviewUpdated::WithdrawnIssueCollectionBuilder)
       .to receive(:build)
       .and_return("withdrawn_issues")
+    allow(Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder)
+      .to receive(:build)
+      .and_return("ineligible_to_ineligible_issues")
   end
 
   let(:decision_review_updated_event) do
@@ -56,6 +59,18 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@updated_issues)).to eq("updated_issues")
       expect(dto_builder.instance_variable_get(:@removed_issues)).to eq("removed_issues")
       expect(dto_builder.instance_variable_get(:@withdrawn_issues)).to eq("withdrawn_issues")
+      expect(dto_builder.instance_variable_get(:@ineligible_to_ineligible_issues))
+        .to eq("ineligible_to_ineligible_issues")
+    end
+
+    describe "should rasie error if error in builder methods" do
+      before do
+        allow(dto_builder).to receive(:build_decision_review_updated_claim_review)
+          .and_raise(AppealsConsumer::Error::DtoBuildError, "Some error")
+      end
+      it "should raise an error" do
+        expect { subject.send(:assign_from_builders) }.to raise_error(AppealsConsumer::Error::DtoBuildError)
+      end
     end
   end
 
@@ -85,6 +100,12 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   end
 
   describe "#build_decision_review_updated_payload" do
+    let(:ineligible_to_ineligible_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_ineligible_request_issue)]
+    end
+    let(:cleaned_ineligible_to_ineligible_issues) do
+      dto_builder.send(:clean_pii, ineligible_to_ineligible_issues)
+    end
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
     let(:cleaned_removed_issues) { dto_builder.send(:clean_pii, removed_issues) }
     let(:updated_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :updated_request_issue)] }
@@ -103,10 +124,11 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@updated_issues, updated_issues)
       dto_builder.instance_variable_set(:@removed_issues, removed_issues)
       dto_builder.instance_variable_set(:@withdrawn_issues, "cleaned_withdrawn_issues")
+      dto_builder.instance_variable_set(:@ineligible_to_ineligible_issues, ineligible_to_ineligible_issues)
+
       # rubocop:enable Layout/LineLength
 
       payload = dto_builder.send(:build_decision_review_updated_payload)
-
       expected_payload = {
         "event_id" => "event_123",
         "claim_id" => "claim_123",
@@ -117,10 +139,10 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "end_product_establishment" => { development_item_reference_id: "123456", reference_id: "123456789" },
         "added_issues" => "cleaned_added_issues",
         "updated_issues" => cleaned_updated_issues,
+        "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issues,
         "removed_issues" => cleaned_removed_issues,
         "withdrawn_issues" => "cleaned_withdrawn_issues"
       }.as_json
-
       expect(payload).to eq(expected_payload)
     end
   end
