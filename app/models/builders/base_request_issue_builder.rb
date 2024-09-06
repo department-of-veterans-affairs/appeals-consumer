@@ -47,7 +47,7 @@ class Builders::BaseRequestIssueBuilder
     ineligible_closed_status: "ineligible",
     removed_closed_status: "removed",
     withdrawn_closed_status: "withdrawn"
-  }
+  }.freeze
 
   INELIGIBLE_REASONS = {
     duplicate_of_nonrating_issue_in_active_review: "duplicate_of_nonrating_issue_in_active_review",
@@ -122,6 +122,7 @@ class Builders::BaseRequestIssueBuilder
 
   # eligible issues should always have a not-nil contention_id
   # ineligible issues should never have a nil contention_id
+  # rubocop:disable Style/ConditionalAssignment
   def calculate_contention_reference_id
     @request_issue.contention_reference_id =
       if eligible?
@@ -134,6 +135,7 @@ class Builders::BaseRequestIssueBuilder
         nil
       end
   end
+  # rubocop:enable Style/ConditionalAssignment
 
   # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
   def assign_contested_rating_decision_reference_id
@@ -279,6 +281,7 @@ class Builders::BaseRequestIssueBuilder
 
   # exception thrown if an unrecognized eligibility_result is passed in
   # eligible issues always have NIL for ineligible_reason
+  # rubocop:disable Metrics/CyclomaticComplexity
   def determine_ineligible_reason
     if eligible?
       nil
@@ -298,6 +301,8 @@ class Builders::BaseRequestIssueBuilder
       handle_unrecognized_eligibility_result
     end
   end
+
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def ineligible_closed_status
     CLOSED_STATUSES[:ineligible_closed_status]

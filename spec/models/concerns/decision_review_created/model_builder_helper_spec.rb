@@ -297,7 +297,8 @@ describe DecisionReview::ModelBuilderHelper do
         let(:msg) do
           "BIS Rating Profiles: Rating Profile info not found for DecisionReviewCreated veteran_participant_id"\
             " #{decision_review_created_dummy.decision_review_model.veteran_participant_id} within the date range"\
-            " #{decision_review_created_dummy.earliest_issue_profile_date} - #{decision_review_created_dummy.latest_issue_profile_date_plus_one_day}."
+            " #{decision_review_created_dummy.earliest_issue_profile_date} -"\
+            " #{decision_review_created_dummy.latest_issue_profile_date_plus_one_day}."
         end
         let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 
@@ -406,7 +407,9 @@ describe DecisionReview::ModelBuilderHelper do
       end
 
       it "returns nil" do
-        expect(decision_review_created_dummy.convert_to_date_logical_type(decision_review_created_dummy.decision_review_model.claim_received_date)).to be_nil
+        expect(decision_review_created_dummy
+          .convert_to_date_logical_type(decision_review_created_dummy.decision_review_model.claim_received_date))
+          .to be_nil
       end
     end
 
@@ -433,13 +436,17 @@ describe DecisionReview::ModelBuilderHelper do
       end
 
       it "returns nil" do
-        expect(decision_review_created_dummy.convert_to_timestamp_ms(decision_review_created_dummy.decision_review_model.intake_creation_time)).to be_nil
+        expect(decision_review_created_dummy
+          .convert_to_timestamp_ms(decision_review_created_dummy.decision_review_model.intake_creation_time))
+          .to be_nil
       end
     end
 
     context "when the value is not nil" do
       it "returns the value converted to timestamp milliseconds" do
-        expect(decision_review_created_dummy.convert_to_timestamp_ms(decision_review_created_dummy.decision_review_model.intake_creation_time).class).to eq(Integer)
+        expect(decision_review_created_dummy
+          .convert_to_timestamp_ms(decision_review_created_dummy.decision_review_model.intake_creation_time).class)
+          .to eq(Integer)
       end
     end
   end
