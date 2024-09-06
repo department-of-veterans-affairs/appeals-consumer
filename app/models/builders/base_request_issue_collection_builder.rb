@@ -9,13 +9,16 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   REASON_FOR_CONTENTION_ACTIONS = {
     ISSUE_REMOVED: "REMOVED_SELECTED",
-    PRIOR_DECISION_TEXT_CHANGED: "PRIOR_DECISION_TEXT_CHANGED"
+    TEXT_CHANGED: "PRIOR_DECISION_TEXT_CHANGED",
+    NEW_ELIGIBLE_ISSUE: "NEW_ELIGIBLE_ISSUE",
+    NO_CHANGES: "NO_CHANGES"
   }.freeze
 
   CONTENTION_ACTIONS = {
     CONTENTION_DELETED: "DELETE_CONTENTION",
-    NONE: "NONE",
-    CONTENTION_UPDATED: "UPDATE_CONTENTION"
+    NO_CONTENTION_ACTION: "NONE",
+    CONTENTION_UPDATED: "UPDATE_CONTENTION",
+    CONTENTION_ADDED: "ADD_CONTENTION"
   }.freeze
 
   def self.build(decision_review_model)
@@ -122,7 +125,15 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def text_changed
-    REASON_FOR_CONTENTION_ACTIONS[:PRIOR_DECISION_TEXT_CHANGED]
+    REASON_FOR_CONTENTION_ACTIONS[:TEXT_CHANGED]
+  end
+
+  def new_eligible_issue
+    REASON_FOR_CONTENTION_ACTIONS[:NEW_ELIGIBLE_ISSUE]
+  end
+
+  def no_changes
+    REASON_FOR_CONTENTION_ACTIONS[:NO_CHANGES]
   end
 
   def contention_deleted
@@ -130,10 +141,14 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def contention_none
-    CONTENTION_ACTIONS[:NONE]
+    CONTENTION_ACTIONS[:NO_CONTENTION_ACTION]
   end
 
   def contention_updated
     CONTENTION_ACTIONS[:CONTENTION_UPDATED]
+  end
+
+  def contention_added
+    CONTENTION_ACTIONS[:CONTENTION_ADDED]
   end
 end
