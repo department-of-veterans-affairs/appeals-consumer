@@ -42,8 +42,7 @@ FactoryBot.define do
     end
 
     trait :updated_request_issue do
-      contested_issue_description { "UPDATED" }
-      contested_rating_issue_diagnostic_code { 5008 }
+      edited_description { "Description was edited" }
     end
   end
 end
