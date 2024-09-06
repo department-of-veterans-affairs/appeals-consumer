@@ -8,6 +8,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   RATING = "RATING"
 
   REASON_FOR_CONTENTION_ACTIONS = {
+    ELIGIBLE_TO_INELIGIBLE: "ELIGIBLE_TO_INELIGIBLE",
     INELIGIBLE_REASON_CHANGED: "INELIGIBLE_REASON_CHANGED",
     ISSUE_REMOVED: "REMOVED_SELECTED",
     ISSUE_WITHDRAWN: "WITHDRAWN_SELECTED"
@@ -115,6 +116,10 @@ class Builders::BaseRequestIssueCollectionBuilder
 
     # unidentified issues can have nil for this field, so remove nil values before mapping
     profile_dates.compact.map(&:to_date)
+  end
+
+  def eligible_to_ineligible
+    REASON_FOR_CONTENTION_ACTIONS[:ELIGIBLE_TO_INELIGIBLE]
   end
 
   def removed
