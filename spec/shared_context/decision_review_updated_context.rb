@@ -40,6 +40,7 @@ shared_context "decision_review_updated_context" do
   let(:base_decision_review_issue) do
     {
       "associated_caseflow_request_issue_id" => nil,
+      "decision_review_issue_id" => 1,
       "unidentified" => true,
       "prior_rating_decision_id" => nil,
       "prior_non_rating_decision_id" => nil,
@@ -73,14 +74,12 @@ shared_context "decision_review_updated_context" do
   let(:decision_review_issues_created) do
     [
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 123_456,
         "contention_action" => "ADD_CONTENTION",
         "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE",
         "prior_decision_text" => "An unidentified issue added during the edit"
       ),
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 123_456,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "NO_CHANGES",
@@ -92,7 +91,6 @@ shared_context "decision_review_updated_context" do
   let(:decision_review_issues_updated) do
     [
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 123_456_791,
         "contention_action" => "UPDATE_CONTENTION",
         "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -105,7 +103,7 @@ shared_context "decision_review_updated_context" do
         "time_override_reason" => "good cause exemption"
       ),
       base_decision_review_issue.merge(
-        "eligible" => true,
+        "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
         "decision_review_issue_id" => nil,
         "contention_id" => 123_456_791,
@@ -147,7 +145,6 @@ shared_context "decision_review_updated_context" do
         "time_override" => false
       ),
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 123_456_791,
         "contention_action" => "ADD_CONTENTION",
         "reason_for_contention_action" => "INELIGIBLE_TO_ELIGIBLE",
@@ -165,7 +162,6 @@ shared_context "decision_review_updated_context" do
   let(:decision_review_issues_removed) do
     [
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 328_253,
         "contention_action" => "DELETE_CONTENTION",
         "reason_for_contention_action" => "REMOVED_SELECTED",
@@ -178,7 +174,6 @@ shared_context "decision_review_updated_context" do
   let(:decision_review_issues_withdrawn) do
     [
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 328_252,
         "contention_action" => "DELETE_CONTENTION",
         "reason_for_contention_action" => "WITHDRAWN_SELECTED",
@@ -191,7 +186,6 @@ shared_context "decision_review_updated_context" do
   let(:decision_review_issues_not_changed) do
     [
       base_decision_review_issue.merge(
-        "decision_review_issue_id" => nil,
         "contention_id" => 328_254,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "",

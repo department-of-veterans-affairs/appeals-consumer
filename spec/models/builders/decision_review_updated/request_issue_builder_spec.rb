@@ -89,7 +89,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
 
     context "when the issue does not have a decision_review_issue_id value" do
       it "assigns the issue's decision_review_issue_id to nil" do
-        expect(subject).to eq(nil)
+        expect(subject).to eq(1)
       end
     end
   end

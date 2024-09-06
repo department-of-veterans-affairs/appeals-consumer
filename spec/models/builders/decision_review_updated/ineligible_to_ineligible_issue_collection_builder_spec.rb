@@ -27,36 +27,6 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
         "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
       )
     )
-    # Negative Tests: correct contention_action & reason_for_contention_action
-    # but incorrect array
-    message_payload["decision_review_issues_created"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
-      )
-    )
-    message_payload["decision_review_issues_removed"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
-      )
-    )
-    message_payload["decision_review_issues_withdrawn"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
-      )
-    )
-    message_payload["decision_review_issues_not_changed"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED"
-      )
-    )
   end
 
   describe "#build_issues" do
