@@ -105,8 +105,9 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
       added_issues: clean_pii(@added_issues),
       updated_issues: clean_pii(@updated_issues),
       removed_issues: clean_pii(@removed_issues),
-      ineligible_to_ineligible_issues: clean_pii(@ineligible_to_ineligible_issues),
-      withdrawn_issues: clean_pii(@withdrawn_issues)
+      withdrawn_issues: clean_pii(@withdrawn_issues),
+      eligible_to_ineligible_issues: clean_pii(@eligible_to_ineligible_issues),
+      ineligible_to_ineligible_issues: clean_pii(@ineligible_to_ineligible_issues)
     }.as_json
   end
 end

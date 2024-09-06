@@ -22,6 +22,9 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     allow(Builders::DecisionReviewUpdated::WithdrawnIssueCollectionBuilder)
       .to receive(:build)
       .and_return("withdrawn_issues")
+    allow(Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilder)
+      .to receive(:build)
+      .and_return("eligible_to_ineligible_issues")
     allow(Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder)
       .to receive(:build)
       .and_return("ineligible_to_ineligible_issues")
@@ -59,6 +62,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@updated_issues)).to eq("updated_issues")
       expect(dto_builder.instance_variable_get(:@removed_issues)).to eq("removed_issues")
       expect(dto_builder.instance_variable_get(:@withdrawn_issues)).to eq("withdrawn_issues")
+      expect(dto_builder.instance_variable_get(:@eligible_to_ineligible_issues)).to eq("eligible_to_ineligible_issues")
       expect(dto_builder.instance_variable_get(:@ineligible_to_ineligible_issues))
         .to eq("ineligible_to_ineligible_issues")
     end
@@ -100,6 +104,12 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
   end
 
   describe "#build_decision_review_updated_payload" do
+    let(:eligible_to_ineligible_issues) do
+      FactoryBot.build(:decision_review_updated_request_issue, :eligible_to_ineligible_request_issues)
+    end
+    let(:cleaned_eligible_to_ineligible_issues) do
+      dto_builder.send(:clean_pii, eligible_to_ineligible_issues)
+    end
     let(:ineligible_to_ineligible_issues) do
       [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_ineligible_request_issue)]
     end
@@ -125,6 +135,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@added_issues, "cleaned_added_issues")
       dto_builder.instance_variable_set(:@updated_issues, updated_issues)
       dto_builder.instance_variable_set(:@removed_issues, removed_issues)
+      dto_builder.instance_variable_set(:@eligible_to_ineligible_issues, eligible_to_ineligible_issues)
       dto_builder.instance_variable_set(:@withdrawn_issues, withdrawn_issues)
       dto_builder.instance_variable_set(:@ineligible_to_ineligible_issues, ineligible_to_ineligible_issues)
 
@@ -141,6 +152,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "end_product_establishment" => { development_item_reference_id: "123456", reference_id: "123456789" },
         "added_issues" => "cleaned_added_issues",
         "updated_issues" => cleaned_updated_issues,
+        "eligible_to_ineligible_issues" => cleaned_eligible_to_ineligible_issues,
         "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issues,
         "removed_issues" => cleaned_removed_issues,
         "withdrawn_issues" => cleaned_withdrawn_issues
