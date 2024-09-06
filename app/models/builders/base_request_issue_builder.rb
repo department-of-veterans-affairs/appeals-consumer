@@ -415,6 +415,18 @@ class Builders::BaseRequestIssueBuilder
     !!(decision_review_model.ep_code_category.upcase == NONRATING_EP_CODE_CATEGORY)
   end
 
+  def edited_description?
+    prior_decision_text_changed? && updated_contention?
+  end
+
+  def prior_decision_text_changed?
+    issue.try(:reason_for_contention_action) == "PRIOR_DECISION_TEXT_CHANGED"
+  end
+
+  def updated_contention?
+    issue.try(:contention_action) == "UPDATE_CONTENTION"
+  end
+
   def determine_pending_claim_review_type
     rating? ? duplicate_of_rating_issue_in_active_review : duplicate_of_nonrating_issue_in_active_review
   end
