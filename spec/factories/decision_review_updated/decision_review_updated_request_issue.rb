@@ -35,6 +35,11 @@ FactoryBot.define do
       closed_status { "removed" }
     end
 
+    trait :withdrawn_request_issue do
+      closed_at { DateTime.new(2022, 2, 1) }
+      closed_status { "withdrawn" }
+    end
+
     trait :ineligible_to_ineligible_request_issue do
       closed_at { DateTime.new(2022, 2, 1) }
       closed_status { "ineligible" }

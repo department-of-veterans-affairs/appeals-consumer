@@ -108,6 +108,8 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     end
     let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
     let(:cleaned_removed_issues) { dto_builder.send(:clean_pii, removed_issues) }
+    let(:withdrawn_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)]}
+    let(:cleaned_withdrawn_issues) { dto_builder.send(:clean_pii, withdrawn_issues) }
 
     # rubocop:disable Layout/LineLength
     it "returns the correct payload JSON object" do
@@ -121,7 +123,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@added_issues, "cleaned_added_issues")
       dto_builder.instance_variable_set(:@updated_issues, "cleaned_updated_issues")
       dto_builder.instance_variable_set(:@removed_issues, removed_issues)
-      dto_builder.instance_variable_set(:@withdrawn_issues, "cleaned_withdrawn_issues")
+      dto_builder.instance_variable_set(:@withdrawn_issues, withdrawn_issues)
       dto_builder.instance_variable_set(:@ineligible_to_ineligible_issues, ineligible_to_ineligible_issues)
 
       # rubocop:enable Layout/LineLength
@@ -139,7 +141,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "updated_issues" => "cleaned_updated_issues",
         "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issues,
         "removed_issues" => cleaned_removed_issues,
-        "withdrawn_issues" => "cleaned_withdrawn_issues"
+        "withdrawn_issues" => cleaned_withdrawn_issues
       }.as_json
       expect(payload).to eq(expected_payload)
     end
