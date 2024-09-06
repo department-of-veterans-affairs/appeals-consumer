@@ -14,8 +14,8 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
     begin
       Builders::DecisionReviewUpdated::RequestIssueBuilder.build(issue, @decision_review_model, @bis_rating_profiles)
     rescue StandardError => error
-      message = "Failed building from #{self.class} for DecisionReview Claim ID: #{@decision_review_model.claim_id} " \
-      "#{issue_identifier_message(issue, index)} - #{error.message}"
+      message = "Failed building updated_issues from #{self.class} for DecisionReview " \
+      "Claim ID: #{@decision_review_model.claim_id} #{issue_identifier_message(issue, index)} - #{error.message}"
 
       raise AppealsConsumer::Error::RequestIssueBuildError, message
     end
@@ -25,16 +25,16 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
   # ENUMs text_changed & contention_updated and contention_none
   # are defined in the base_request_issue_collection_builder
   def updated_issues
-    update_contention_issues + contention_none_issues
+    updated_issues_with_contentions + updated_issues_without_contentions
   end
 
-  def update_contention_issues
+  def updated_issues_with_contentions
     @decision_review_model.decision_review_issues_updated.select do |issue|
       issue.reason_for_contention_action == text_changed && issue.contention_action == contention_updated
     end
   end
 
-  def contention_none_issues
+  def updated_issues_without_contentions
     @decision_review_model.decision_review_issues_updated.select do |issue|
       issue.reason_for_contention_action == text_changed && issue.contention_action == contention_none
     end

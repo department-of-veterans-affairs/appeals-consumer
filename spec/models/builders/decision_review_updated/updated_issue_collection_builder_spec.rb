@@ -136,14 +136,14 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
     end
   end
 
-  describe "#update_contention_issues" do
+  describe "#updated_issues_with_contentions" do
     context "when decision review updated issues are present" do
-      it "returns correct number of update_contention_issues" do
-        expect(subject.update_contention_issues.count).to eq(1)
+      it "returns correct number of updated_issues_with_contentions" do
+        expect(subject.updated_issues_with_contentions.count).to eq(1)
       end
 
       it "has the correct issues" do
-        subject.update_contention_issues.each do |issue|
+        subject.updated_issues_with_contentions.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
           expect(issue.contention_action).to eq(contention_updated)
         end
@@ -151,7 +151,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
 
       it "does not retrieve issues with values other than contention_action of UPDATE_CONTENTION"\
       " and reason_for_contention_action of PRIOR_DECISION_TEXT_CHANGED" do
-        subject.update_contention_issues.each do |issue|
+        subject.updated_issues_with_contentions.each do |issue|
           expect(issue.reason_for_contention_action).not_to eq("INELIGIBLE_REASON_CHANGED")
         end
       end
@@ -163,19 +163,19 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       end
 
       it "returns an empty array" do
-        expect(subject.update_contention_issues).to eq([])
+        expect(subject.updated_issues_with_contentions).to eq([])
       end
     end
   end
 
-  describe "#contention_none_issues" do
+  describe "#updated_issues_without_contentions" do
     context "when decision review updated issues are present" do
-      it "returns correct number of contention_none_issues" do
-        expect(subject.contention_none_issues.count).to eq(1)
+      it "returns correct number of updated_issues_without_contentions" do
+        expect(subject.updated_issues_without_contentions.count).to eq(1)
       end
 
       it "has the correct issues" do
-        subject.contention_none_issues.each do |issue|
+        subject.updated_issues_without_contentions.each do |issue|
           expect(issue.reason_for_contention_action).to eq(text_changed)
           expect(issue.contention_action).to eq(contention_none)
         end
@@ -183,7 +183,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
 
       it "does not retrieve issues with values other than contention_action of NONE"\
       " and reason_for_contention_action of PRIOR_DECISION_TEXT_CHANGED" do
-        subject.contention_none_issues.each do |issue|
+        subject.updated_issues_without_contentions.each do |issue|
           expect(issue.reason_for_contention_action).not_to eq("INELIGIBLE_REASON_CHANGED")
         end
       end
@@ -195,7 +195,7 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
       end
 
       it "returns an empty array" do
-        expect(subject.contention_none_issues).to eq([])
+        expect(subject.updated_issues_without_contentions).to eq([])
       end
     end
   end
