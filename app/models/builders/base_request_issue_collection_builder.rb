@@ -12,7 +12,7 @@ class Builders::BaseRequestIssueCollectionBuilder
     ISSUE_REMOVED: "REMOVED_SELECTED",
     ISSUE_WITHDRAWN: "WITHDRAWN_SELECTED",
     TEXT_CHANGED: "PRIOR_DECISION_TEXT_CHANGED",
-    NEW_ELIGIBLE_ISSUE: "NEW_ELIGIBLE_ISSUE",
+    ISSUE_ADDED: "NEW_ELIGIBLE_ISSUE",
     NO_CHANGES: "NO_CHANGES"
   }.freeze
 
@@ -130,8 +130,8 @@ class Builders::BaseRequestIssueCollectionBuilder
     REASON_FOR_CONTENTION_ACTIONS[:TEXT_CHANGED]
   end
 
-  def new_eligible_issue
-    REASON_FOR_CONTENTION_ACTIONS[:NEW_ELIGIBLE_ISSUE]
+  def issue_added
+    REASON_FOR_CONTENTION_ACTIONS[:ISSUE_ADDED]
   end
 
   def no_changes

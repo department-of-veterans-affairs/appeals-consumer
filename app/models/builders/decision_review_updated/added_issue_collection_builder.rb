@@ -22,7 +22,7 @@ class Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder < Builders::B
 
   def newly_added_eligible_issues
     @decision_review_model.decision_review_issues_created.select do |issue|
-      issue.reason_for_contention_action == new_eligible_issue && issue.contention_action == contention_added
+      issue.reason_for_contention_action == issue_added && issue.contention_action == contention_added
     end
   end
 
