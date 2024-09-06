@@ -1717,7 +1717,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
 
     context "when the issue's eligibility_result is NOT 'CONTESTED'" do
-      it "retuns true" do
+      it "retuns false" do
         expect(subject).to eq false
       end
     end
