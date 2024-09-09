@@ -1,17 +1,9 @@
 # frozen_string_literal: true
 
 # This class is used to build out an End Product Establishment object from an instance of DecisionReviewUpdated
-class Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder
-  attr_reader :end_product_establishment, :decision_review_model
-
-  def self.build(decision_review_model)
-    builder = new(decision_review_model)
-    builder.assign_attributes
-    builder.end_product_establishment
-  end
-
+class Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder < Builders::BaseEndProductEstablishmentBuilder
   def initialize(decision_review_model)
-    @decision_review_model = decision_review_model
+    super
     @end_product_establishment = DecisionReviewUpdated::EndProductEstablishment.new
   end
 
