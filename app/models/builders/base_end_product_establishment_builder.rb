@@ -74,16 +74,8 @@ class Builders::BaseEndProductEstablishmentBuilder
     @end_product_establishment.limited_poa_code = poa_code.nil? ? nil : poa_code[0]
   end
 
-  def calculate_committed_at
-    @end_product_establishment.committed_at = claim_creation_time_converted_to_timestamp_ms
-  end
-
-  def calculate_established_at
-    @end_product_establishment.established_at = claim_creation_time_converted_to_timestamp_ms
-  end
-
   def calculate_last_synced_at
-    @end_product_establishment.last_synced_at = claim_creation_time_converted_to_timestamp_ms
+    fail NotImplementedError, "#{self.class} must implement the calculate_last_synced_at method"
   end
 
   def calculate_synced_status
