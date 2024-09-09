@@ -96,16 +96,9 @@ class Builders::BaseEndProductEstablishmentBuilder
   end
 
   def determine_synced_status
-    status = ""
-    case @decision_review_model.claim_lifecycle_status
-    when "Open"
-      status = CODES[:OPEN]
-    when "Ready to Work"
-      status = CODES[:READY_TO_WORK]
-    when "Ready for Decision"
-      status = CODES[:READY_FOR_DECISION]
-    end
-    status
+    status = @decision_review_model.claim_lifecycle_status.upcase.gsub ' ', '_'
+    code = CODES[status.to_sym]
+    code ? code : ''
   end
 
   def assign_development_item_reference_id
