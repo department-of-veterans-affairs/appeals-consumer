@@ -4,9 +4,22 @@ class Builders::BaseEndProductEstablishmentBuilder
   include DecisionReview::ModelBuilderHelper
   attr_reader :end_product_establishment, :decision_review_model
 
-  PEND_STATUS = "PEND"
-  RW_STATUS = "RW"
-  RFD_STATUS = "RFD"
+  CODES = {
+    OPEN: "PEND",
+    READY_TO_WORK: "RW",
+    READY_FOR_DECISION: "RFD",
+    SECONDARY_READY_FOR_DECISION: "SRFD",
+    RATING_CORRECTION: "RC",
+    RATING_INCOMPLETE: "RI",
+    RATING_DECISION_COMPLETE: "RDC",
+    RETURNED_BY_OTHER_USER: "RETOTH",
+    SELF_RETURNED: "SELFRET",
+    PENDING_AUTHORIZATION: "PENDAUTH",
+    PENDING_CONCUR: "PENDCONC",
+    AUTHORIZED: "AUTH",
+    CANCELLED: "CAN",
+    CLOSED: "CLOSED"
+  }.freeze
 
   def self.build(decision_review_model)
     builder = new(decision_review_model)
@@ -86,11 +99,11 @@ class Builders::BaseEndProductEstablishmentBuilder
     status = ""
     case @decision_review_model.claim_lifecycle_status
     when "Open"
-      status = PEND_STATUS
+      status = CODES[:OPEN]
     when "Ready to Work"
-      status = RW_STATUS
+      status = CODES[:READY_TO_WORK]
     when "Ready for Decision"
-      status = RFD_STATUS
+      status = CODES[:READY_FOR_DECISION]
     end
     status
   end
