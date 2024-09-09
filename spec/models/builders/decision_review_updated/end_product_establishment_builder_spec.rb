@@ -33,28 +33,24 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
   end
 
   describe "#assign_attributes" do
-    it "calls private methods" do
-      expect(builder).to receive(:assign_decision_review_updated_development_item_reference_id)
-      expect(builder).to receive(:assign_decision_review_updated_reference_id)
+    let(:builder) { described_class.new(decision_review_updated_model).assign_attributes }
+    let(:epe) { builder.end_product_establishment }
+    let(:claim_update_time_converted_to_timestamp) { builder.claim_creation_time_converted_to_timestamp_ms }
 
-      builder.assign_attributes
-    end
-  end
-
-  describe "private methods" do
-    let!(:builder) { described_class.new(decision_review_updated_model).assign_attributes }
-
-    describe "#assign_decision_review_updated_development_item_reference_id" do
-      subject { builder.end_product_establishment.development_item_reference_id }
-      it "should assign a development item referecne id to the EndProductEstablishment instance" do
-        expect(subject).to eq decision_review_updated_model.informal_conference_tracked_item_id
-      end
+    it "assigns development_item_reference_id" do
+      expect(epe.development_item_reference_id).to eq decision_review_updated_model.informal_conference_tracked_item_id
     end
 
-    describe "#assign_decision_review_updated_reference_id" do
-      it "should assign a reference id to the EndProductEstablishment instance" do
-        expect(builder.end_product_establishment.reference_id).to eq decision_review_updated_model.claim_id.to_s
-      end
+    it "assigns reference_id" do
+      expect(epe.reference_id).to eq decision_review_updated_model.claim_id.to_s
+    end
+
+    it 'calculates synced_status' do
+      expect(epe.synced_status).to eq('RFD')
+    end
+
+    it 'calculates last_synced_at' do
+      expect(epe.last_synced_at). to eq claim_update_time_converted_to_timestamp
     end
   end
 end
