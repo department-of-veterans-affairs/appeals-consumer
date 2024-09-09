@@ -2,5 +2,16 @@
 
 # A subclass of Event, representing the DecisionReviewUpdated Kafka topic event.
 class Events::DecisionReviewUpdatedEvent < Event
-  def process!; end
+  def process!
+    dto = Builders::DecisionReviewUpdated::DtoBuilder.new(self)
+    response = ExternalApi::CaseflowService.edit_records_from_decision_review_updated_event!(dto)
+
+    handle_response(response)
+  rescue AppealsConsumer::Error::ClientRequestError => error
+    logger.error(error, { error: error })
+    raise error
+  rescue StandardError => error
+    logger.error(error, { error: error })
+    raise error
+  end
 end
