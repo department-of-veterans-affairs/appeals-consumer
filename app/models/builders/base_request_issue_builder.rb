@@ -230,7 +230,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   # must override method in child class
   def calculate_closed_at
-    fail NotImplementedError, "#{self.class} must implement the build_issues method"
+    fail NotImplementedError, "#{self.class} must implement the #calculate_closed_at method"
   end
 
   # default state of ineligible issues - "ineligible"
@@ -263,7 +263,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   # only populated for eligible rating issues
   def calculate_rating_issue_associated_at
-    fail NotImplementedError, "#{self.class} must implement the build_issues method"
+    fail NotImplementedError, "#{self.class} must implement the #calculate_rating_issue_associated_at method"
   end
 
   def assign_nonrating_issue_bgs_id
