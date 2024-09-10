@@ -98,7 +98,7 @@ module DecisionReview::ModelBuilderHelper
     convert_to_timestamp_ms(@decision_review_model.claim_creation_time)
   end
 
-  def claim_update_time_converted_to_timestamp_ms
+  def update_time_converted_to_timestamp_ms
     return unless @decision_review_model
 
     convert_to_timestamp_ms(@decision_review_model.update_time)

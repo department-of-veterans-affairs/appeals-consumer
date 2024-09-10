@@ -18,6 +18,6 @@ class Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder < Builders
   private
 
   def calculate_last_synced_at
-    @end_product_establishment.last_synced_at = claim_update_time_converted_to_timestamp_ms
+    @end_product_establishment.last_synced_at = update_time_converted_to_timestamp_ms
   end
 end

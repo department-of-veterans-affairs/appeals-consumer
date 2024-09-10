@@ -465,11 +465,11 @@ describe DecisionReview::ModelBuilderHelper do
     end
   end
 
-  describe "#claim_update_time_converted_to_timestamp_ms" do
+  describe "#update_time_converted_to_timestamp_ms" do
     context "when the decision_review_model is nil" do
       it "returns nil" do
         dummy.decision_review_model = nil
-        expect(dummy.claim_update_time_converted_to_timestamp_ms).to be_nil
+        expect(dummy.update_time_converted_to_timestamp_ms).to be_nil
       end
     end
 
@@ -487,7 +487,7 @@ describe DecisionReview::ModelBuilderHelper do
         end
 
         it "returns nil" do
-          expect(dummy.claim_update_time_converted_to_timestamp_ms).to be_nil
+          expect(dummy.update_time_converted_to_timestamp_ms).to be_nil
         end
       end
 
@@ -504,7 +504,7 @@ describe DecisionReview::ModelBuilderHelper do
         end
 
         it "returns update_time converted to timestamp ms" do
-          expect(dummy.claim_update_time_converted_to_timestamp_ms).not_to be_nil
+          expect(dummy.update_time_converted_to_timestamp_ms).not_to be_nil
         end
       end
     end
