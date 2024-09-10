@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class Builders::BaseRequestIssueBuilder
-  # rubocop:disable Metrics/ClassLength
+class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   include DecisionReview::ModelBuilderHelper
 
   # returns the DecisionReview model's RequestIssue record with all attributes assigned
@@ -237,15 +236,13 @@ class Builders::BaseRequestIssueBuilder
   # default state of ineligible issues - "ineligible"
   # DecisionReviewCreated events cannot have 'removed' or 'withdrawn' closed statuses
   def calculate_closed_status
-    if ineligible?
-      @request_issue.closed_status = ineligible_closed_status
-    elsif removed?
-      @request_issue.closed_status = removed_closed_status
-    elsif withdrawn?
-      @request_issue.closed_status = withdrawn_closed_status
-    else
-      @request_issue.closed_status = nil
-    end
+    @request_issue.closed_status = if ineligible?
+                                     ineligible_closed_status
+                                   elsif removed?
+                                     removed_closed_status
+                                   elsif withdrawn?
+                                     withdrawn_closed_status
+                                   end
   end
 
   # only populated for rating and rating decision issues
@@ -281,6 +278,7 @@ class Builders::BaseRequestIssueBuilder
   # exception thrown if an unrecognized eligibility_result is passed in
   # eligible issues always have NIL for ineligible_reason
   # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def determine_ineligible_reason
     if eligible?
       ineligible_reason_value = nil
@@ -302,6 +300,7 @@ class Builders::BaseRequestIssueBuilder
     ineligible_reason_value
   end
   # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def ineligible_closed_status
     CLOSED_STATUSES[:ineligible_closed_status]
@@ -582,5 +581,4 @@ class Builders::BaseRequestIssueBuilder
   def determine_benefit_type
     decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
-  # rubocop:enable Metrics/ClassLength
 end
