@@ -5,9 +5,6 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
   let(:builder) { described_class.new(decision_review_model) }
   let!(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
   let!(:event_id) { event.id }
-  let(:ready_to_work_status) { "RW" }
-  let(:pending_status) { "PEND" }
-  let(:ready_for_decision_status) { "RFD" }
   let(:veteran_bis_record) do
     {
       file_number: decision_review_model.file_number,
@@ -283,20 +280,97 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       context "decision_review_model has 'Open' for claim_lifecycle_status" do
         let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Open") }
         it "should assign a synced status of 'PEND' to the epe instance" do
-          expect(builder.end_product_establishment.synced_status).to eq(pending_status)
+          expect(builder.end_product_establishment.synced_status).to eq("PEND")
         end
       end
 
       context "decision_review_model has 'Ready to Work' for claim_lifecycle_status" do
         it "should assign a synced status of 'RW' to the epe instance" do
-          expect(builder.end_product_establishment.synced_status).to eq(ready_to_work_status)
+          expect(builder.end_product_establishment.synced_status).to eq("RW")
         end
       end
 
       context "decision_review_model has 'Ready for Decision' for claim_lifecycle_status" do
         let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Ready for Decision") }
         it "should assign a synced status of 'RFD' to the epe instance" do
-          expect(builder.end_product_establishment.synced_status).to eq(ready_for_decision_status)
+          expect(builder.end_product_establishment.synced_status).to eq("RFD")
+        end
+      end
+
+      context "decision_review_model has 'Secondary Ready for Decision' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Secondary Ready for Decision") }
+        it "should assign a synced status of 'SRFD' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("SRFD")
+        end
+      end
+
+      context "decision_review_model has 'Rating Correction' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Rating Correction") }
+        it "should assign a synced status of 'RC' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("RC")
+        end
+      end
+
+      context "decision_review_model has 'Rating Incomplete' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Rating Incomplete") }
+        it "should assign a synced status of 'RI' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("RI")
+        end
+      end
+
+      context "decision_review_model has 'Rating Decision Complete' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Rating Decision Complete") }
+        it "should assign a synced status of 'RDC' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("RDC")
+        end
+      end
+
+      context "decision_review_model has 'Returned by Other User' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Returned by Other User") }
+        it "should assign a synced status of 'RETOTH' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("RETOTH")
+        end
+      end
+
+      context "decision_review_model has 'Self Returned' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Self Returned") }
+        it "should assign a synced status of 'SELFRET' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("SELFRET")
+        end
+      end
+
+      context "decision_review_model has 'Pending Authorization' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Pending Authorization") }
+        it "should assign a synced status of 'PENDAUTH' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("PENDAUTH")
+        end
+      end
+
+      context "decision_review_model has 'Pending Concur' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Pending Concur") }
+        it "should assign a synced status of 'PENDCONC' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("PENDCONC")
+        end
+      end
+
+      context "decision_review_model has 'Authorized' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Authorized") }
+        it "should assign a synced status of 'AUTH' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("AUTH")
+        end
+      end
+
+      context "decision_review_model has 'Cancelled' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Cancelled") }
+        it "should assign a synced status of 'CAN' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("CAN")
+        end
+      end
+
+      context "decision_review_model has 'Closed' for claim_lifecycle_status" do
+        let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Closed") }
+        it "should assign a synced status of 'CLOSED' to the epe instance" do
+          expect(builder.end_product_establishment.synced_status).to eq("CLOSED")
         end
       end
     end
