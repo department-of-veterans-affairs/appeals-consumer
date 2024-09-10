@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe Builders::BaseRequestIssueCollectionBuilder, type: :model do
-  let(:fake_child_class) { Class.new(Builders::BaseRequestIssueBuilder).new(issue, decision_review_model, bis_rating_profiles, request_issue) }
+  let(:fake_child_class) do 
+    Class.new(Builders::BaseRequestIssueBuilder)
+      .new(issue, decision_review_model, bis_rating_profiles, request_issue)
+  end
   let(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
   let(:event_id) { event.id }
   let(:decision_review_model) { build(:decision_review_created) }
