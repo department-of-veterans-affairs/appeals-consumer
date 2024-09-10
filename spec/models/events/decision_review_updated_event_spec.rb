@@ -60,6 +60,11 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
           .to receive(:edit_records_from_decision_review_updated_event!)
           .and_raise(standard_error)
       end
+
+      it "logs and raises the error" do
+        expect { subject }.to raise_error(StandardError, "Unexpected error")
+        expect(Rails.logger).to have_received(:error).with(/#{error_message}/)
+      end
     end
   end
 end
