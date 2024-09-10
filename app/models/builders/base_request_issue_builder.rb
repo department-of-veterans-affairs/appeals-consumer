@@ -123,7 +123,6 @@ class Builders::BaseRequestIssueBuilder
 
   # eligible issues should always have a not-nil contention_id
   # ineligible issues should never have a nil contention_id
-  # rubocop:disable Style/ConditionalAssignment
   def calculate_contention_reference_id
     @request_issue.contention_reference_id =
       if eligible?
@@ -136,7 +135,6 @@ class Builders::BaseRequestIssueBuilder
         nil
       end
   end
-  # rubocop:enable Style/ConditionalAssignment
 
   # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
   def assign_contested_rating_decision_reference_id
@@ -285,24 +283,24 @@ class Builders::BaseRequestIssueBuilder
   # rubocop:disable Metrics/CyclomaticComplexity
   def determine_ineligible_reason
     if eligible?
-      nil
+      ineligible_reason_value = nil
     elsif pending_claim_review?
-      determine_pending_claim_review_type
+      ineligible_reason_value = determine_pending_claim_review_type
     elsif time_restriction?
-      determine_time_restriction_type
+      ineligible_reason_value = determine_time_restriction_type
     elsif completed_claim_review?
-      determine_completed_claim_review_type
+      ineligible_reason_value = determine_completed_claim_review_type
     elsif pending_legacy_appeal?
-      legacy_issue_not_withdrawn
+      ineligible_reason_value = legacy_issue_not_withdrawn
     elsif legacy_time_restriction_or_no_soc_ssoc?
-      legacy_appeal_not_eligible
+      ineligible_reason_value = legacy_appeal_not_eligible
     elsif contested?
-      contested
+      ineligible_reason_value = contested
     else
       handle_unrecognized_eligibility_result
     end
+    ineligible_reason_value
   end
-
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def ineligible_closed_status
