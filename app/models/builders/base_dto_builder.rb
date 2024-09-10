@@ -44,14 +44,6 @@ class Builders::BaseDtoBuilder
     @claimant_email = assign_claimant_email
   end
 
-  def build_veteran
-    Builders::DecisionReviewCreated::VeteranBuilder.build(@decision_review_model)
-  end
-
-  def build_claimant
-    Builders::DecisionReviewCreated::ClaimantBuilder.build(@decision_review_model)
-  end
-
   def assign_vet_ssn
     @veteran.ssn
   end
