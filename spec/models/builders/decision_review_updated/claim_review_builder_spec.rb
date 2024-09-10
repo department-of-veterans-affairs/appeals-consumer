@@ -61,14 +61,16 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
 
     context "when decision_review_updated contains a decision_review_issue with soc_opt_in: true" do
       let(:decision_review_issues_created) do
-        base_decision_review_issue.merge(
-          "soc_opt_in" => true,
-          "decision_review_issue_id" => nil,
-          "contention_id" => 123_456,
-          "contention_action" => "ADD_CONTENTION",
-          "reason_for_contention_action" => "",
-          "prior_decision_text" => "An unidentified issue added during the edit"
-        )
+        [
+          base_decision_review_issue.merge(
+            "soc_opt_in" => true,
+            "decision_review_issue_id" => nil,
+            "contention_id" => 123_456,
+            "contention_action" => "ADD_CONTENTION",
+            "reason_for_contention_action" => "",
+            "prior_decision_text" => "An unidentified issue added during the edit"
+          )
+        ]
       end
 
       it "assigns claim_review's legacy_opt_in_approved to true" do

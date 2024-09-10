@@ -165,7 +165,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
         expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
-        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[contention_action]).to eq("DELETE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("ELIGIBLE_TO_INELIGIBLE")
         expect(fm_issues_updated[prior_decision_rating_profile_date]).not_to be_nil
@@ -548,7 +548,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[contention_action]).to eq("NONE")
         expect(fm_issues_created[contention_id]).to eq(nil)
         expect(fm_issues_created[reason_for_contention_action]).to eq("NO_CHANGES")
-        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[contention_action]).to eq("DELETE_CONTENTION")
         expect(fm_issues_updated[contention_id]).to eq(710_000_002)
         expect(fm_issues_updated[reason_for_contention_action]).to eq("ELIGIBLE_TO_INELIGIBLE")
         expect(fm_issues_updated[unidentified]).to eq(true)
@@ -573,7 +573,7 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         message = subject.send(:create_dre_message, trait, ep_code)
         formatted_message = subject.send(:convert_and_format_message, message)
         fm_issues_created = formatted_message[decision_review_issues_created][0]
-        fm_issues_updated = formatted_message[decision_review_issues_updated][0]
+        fm_issues_updated = formatted_message[decision_review_issues_updated]
         fm_issues_removed = formatted_message[decision_review_issues_removed][0]
         fm_issues_withdrawn = formatted_message[decision_review_issues_withdrawn][0]
         fm_issues_not_changed = formatted_message[decision_review_issues_not_changed][0]
@@ -585,11 +585,16 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
         expect(fm_issues_created[contention_action]).to eq("ADD_CONTENTION")
         expect(fm_issues_created[contention_id]).to eq(720_000_000)
         expect(fm_issues_created[reason_for_contention_action]).to eq("NEW_ELIGIBLE_ISSUE")
-        expect(fm_issues_updated[contention_action]).to eq("UPDATE_CONTENTION")
-        expect(fm_issues_updated[contention_id]).to eq(710_000_002)
-        expect(fm_issues_updated[reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
-        expect(fm_issues_updated[prior_decision_text]).to eq("Service connection for tetnus denied (UPDATED)")
-        expect(fm_issues_updated[unidentified]).to eq(true)
+        expect(fm_issues_updated[0][contention_action]).to eq("UPDATE_CONTENTION")
+        expect(fm_issues_updated[0][contention_id]).to eq(710_000_002)
+        expect(fm_issues_updated[0][reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
+        expect(fm_issues_updated[0][prior_decision_text]).to eq("Service connection for tetnus denied (UPDATED)")
+        expect(fm_issues_updated[0][unidentified]).to eq(true)
+        expect(fm_issues_updated[1][contention_action]).to eq("NONE")
+        expect(fm_issues_updated[1][contention_id].to_s).to start_with("71")
+        expect(fm_issues_updated[1][reason_for_contention_action]).to eq("PRIOR_DECISION_TEXT_CHANGED")
+        expect(fm_issues_updated[1][prior_decision_text]).to eq("Service connection for tetnus denied (UPDATED)")
+        expect(fm_issues_updated[1][unidentified]).to eq(true)
         expect(fm_issues_removed[contention_action]).to eq("DELETE_CONTENTION")
         expect(fm_issues_removed[contention_id]).to eq(710_000_001)
         expect(fm_issues_removed[reason_for_contention_action]).to eq("REMOVED_SELECTED")
