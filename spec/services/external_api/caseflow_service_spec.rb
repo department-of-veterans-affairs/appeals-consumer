@@ -139,7 +139,7 @@ describe ExternalApi::CaseflowService do
     context "when the request is successful" do
       before do
         stub_request(:post, endpoint)
-          .with(body: decision_review_updated_dto_builder.payload.to_json)
+          .with(body: decision_review_updated_dto_builder.payload.to_json, headers: headers)
           .to_return(status: 200, body: '{"success": true}', headers: {})
       end
 
@@ -157,7 +157,7 @@ describe ExternalApi::CaseflowService do
     context "when the request fails with an error code" do
       before do
         stub_request(:post, endpoint)
-          .with(body: decision_review_updated_dto_builder.payload.to_json)
+          .with(body: decision_review_updated_dto_builder.payload.to_json, headers: headers)
           .to_return(status: 500, body: '{"error": "Internal Server Error"}', headers: {})
       end
 
