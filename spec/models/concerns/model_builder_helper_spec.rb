@@ -481,7 +481,7 @@ describe DecisionReview::ModelBuilderHelper do
             file_number: file_number,
             claim_id: claim_id,
             claim_received_date: claim_received_date,
-            update_time: nil,
+            update_time: nil
           )
           dummy.decision_review_model = decision_review_model_double
         end
@@ -498,7 +498,7 @@ describe DecisionReview::ModelBuilderHelper do
             file_number: file_number,
             claim_id: claim_id,
             claim_received_date: claim_received_date,
-            update_time: Time.now.utc.to_s,
+            update_time: Time.now.utc.to_s
           )
           dummy.decision_review_model = decision_review_model_double
         end

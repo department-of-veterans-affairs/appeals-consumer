@@ -276,6 +276,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       end
     end
 
+    # rubocop:disable Layout/LineLength
     describe "#_calculate_synced_status" do
       context "decision_review_model has 'Open' for claim_lifecycle_status" do
         let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Open") }
@@ -374,6 +375,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
         end
       end
     end
+    # rubocop:enable Layout/LineLength
 
     describe "#_assign_development_item_reference_id" do
       subject { builder.end_product_establishment.development_item_reference_id }

@@ -49,7 +49,9 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
 
     describe "#assign_development_item_reference_id" do
       it "assigns a development_item_reference_id to the epe" do
+        # rubocop:disable Layout/LineLength
         expect(epe.development_item_reference_id).to eq decision_review_updated_model.informal_conference_tracked_item_id
+        # rubocop:enable Layout/LineLength
       end
     end
 
@@ -65,8 +67,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Open"
         end
 
-        it 'assigns a PEND synced_status to the epe' do
-          expect(epe.synced_status).to eq('PEND')
+        it "assigns a PEND synced_status to the epe" do
+          expect(epe.synced_status).to eq("PEND")
         end
       end
 
@@ -75,8 +77,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Ready to Work"
         end
 
-        it 'assigns a RW synced_status to the epe' do
-          expect(epe.synced_status).to eq('RW')
+        it "assigns a RW synced_status to the epe" do
+          expect(epe.synced_status).to eq("RW")
         end
       end
 
@@ -85,8 +87,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Ready for Decision"
         end
 
-        it 'assigns a RFD synced_status to the epe' do
-          expect(epe.synced_status).to eq('RFD')
+        it "assigns a RFD synced_status to the epe" do
+          expect(epe.synced_status).to eq("RFD")
         end
       end
 
@@ -95,8 +97,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Secondary Ready for Decision"
         end
 
-        it 'assigns a SRFD synced_status to the epe' do
-          expect(epe.synced_status).to eq('SRFD')
+        it "assigns a SRFD synced_status to the epe" do
+          expect(epe.synced_status).to eq("SRFD")
         end
       end
 
@@ -105,8 +107,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Rating Correction"
         end
 
-        it 'assigns a RC synced_status to the epe' do
-          expect(epe.synced_status).to eq('RC')
+        it "assigns a RC synced_status to the epe" do
+          expect(epe.synced_status).to eq("RC")
         end
       end
 
@@ -115,8 +117,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Rating Incomplete"
         end
 
-        it 'assigns a RI synced_status to the epe' do
-          expect(epe.synced_status).to eq('RI')
+        it "assigns a RI synced_status to the epe" do
+          expect(epe.synced_status).to eq("RI")
         end
       end
 
@@ -125,8 +127,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Rating Decision Complete"
         end
 
-        it 'assigns a RDC synced_status to the epe' do
-          expect(epe.synced_status).to eq('RDC')
+        it "assigns a RDC synced_status to the epe" do
+          expect(epe.synced_status).to eq("RDC")
         end
       end
 
@@ -135,8 +137,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Returned by Other User"
         end
 
-        it 'assigns a RETOTH synced_status to the epe' do
-          expect(epe.synced_status).to eq('RETOTH')
+        it "assigns a RETOTH synced_status to the epe" do
+          expect(epe.synced_status).to eq("RETOTH")
         end
       end
 
@@ -145,8 +147,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Self Returned"
         end
 
-        it 'assigns a SELFRET synced_status to the epe' do
-          expect(epe.synced_status).to eq('SELFRET')
+        it "assigns a SELFRET synced_status to the epe" do
+          expect(epe.synced_status).to eq("SELFRET")
         end
       end
 
@@ -155,8 +157,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Pending Authorization"
         end
 
-        it 'assigns a PENDAUTH synced_status to the epe' do
-          expect(epe.synced_status).to eq('PENDAUTH')
+        it "assigns a PENDAUTH synced_status to the epe" do
+          expect(epe.synced_status).to eq("PENDAUTH")
         end
       end
 
@@ -165,8 +167,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Pending Concur"
         end
 
-        it 'assigns a PENDCONC synced_status to the epe' do
-          expect(epe.synced_status).to eq('PENDCONC')
+        it "assigns a PENDCONC synced_status to the epe" do
+          expect(epe.synced_status).to eq("PENDCONC")
         end
       end
 
@@ -175,8 +177,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Authorized"
         end
 
-        it 'assigns a AUTH synced_status to the epe' do
-          expect(epe.synced_status).to eq('AUTH')
+        it "assigns a AUTH synced_status to the epe" do
+          expect(epe.synced_status).to eq("AUTH")
         end
       end
 
@@ -185,8 +187,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Cancelled"
         end
 
-        it 'assigns a CAN synced_status to the epe' do
-          expect(epe.synced_status).to eq('CAN')
+        it "assigns a CAN synced_status to the epe" do
+          expect(epe.synced_status).to eq("CAN")
         end
       end
 
@@ -195,8 +197,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
           message_payload["claim_lifecycle_status"] = "Closed"
         end
 
-        it 'assigns a CLOSED synced_status to the epe' do
-          expect(epe.synced_status).to eq('CLOSED')
+        it "assigns a CLOSED synced_status to the epe" do
+          expect(epe.synced_status).to eq("CLOSED")
         end
       end
     end
@@ -204,8 +206,8 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
     describe"#calculate_last_synced_at" do
       let(:claim_update_time_converted_to_timestamp) { builder.claim_creation_time_converted_to_timestamp_ms }
 
-      it 'assigns a last_synced_at to the epe' do
-        expect(epe.last_synced_at). to eq claim_update_time_converted_to_timestamp
+      it "assigns a last_synced_at to the epe" do
+        expect(epe.last_synced_at).to eq claim_update_time_converted_to_timestamp
       end
     end
   end
