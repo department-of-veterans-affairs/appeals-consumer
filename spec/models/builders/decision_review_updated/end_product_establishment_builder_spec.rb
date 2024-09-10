@@ -203,7 +203,7 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
       end
     end
 
-    describe"#calculate_last_synced_at" do
+    describe "#calculate_last_synced_at" do
       let(:claim_update_time_converted_to_timestamp) { builder.claim_creation_time_converted_to_timestamp_ms }
 
       it "assigns a last_synced_at to the epe" do

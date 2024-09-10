@@ -97,8 +97,7 @@ class Builders::BaseEndProductEstablishmentBuilder
 
   def determine_synced_status
     status = @decision_review_model.claim_lifecycle_status.upcase.tr(" ", "_")
-    code = CODES[status.to_sym]
-    code || ""
+    CODES[status.to_sym] || ""
   end
 
   def assign_development_item_reference_id
