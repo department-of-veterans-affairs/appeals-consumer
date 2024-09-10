@@ -24,7 +24,11 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
   end
 
   def calculate_closed_at
-    @request_issue.closed_at = ineligible? ? update_time_converted_to_timestamp_ms : nil
+    closed_at_value = nil
+    if ineligible? || withdrawn? || removed?
+      closed_at_value = update_time_converted_to_timestamp_ms
+    end
+    @request_issue.closed_at = closed_at_value
   end
 
   # only populated for eligible rating issues

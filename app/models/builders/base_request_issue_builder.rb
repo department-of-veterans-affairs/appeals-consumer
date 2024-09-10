@@ -39,7 +39,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   # eligibility_result values grouped by ineligible and eligible
   ELIGIBLE = %w[ELIGIBLE ELIGIBLE_LEGACY].freeze
   INELIGIBLE = %w[
-    TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC
+    TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC CONTESTED
     PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
   ].freeze
 
@@ -236,13 +236,15 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   # default state of ineligible issues - "ineligible"
   # DecisionReviewCreated events cannot have 'removed' or 'withdrawn' closed statuses
   def calculate_closed_status
-    @request_issue.closed_status = if ineligible?
-                                     ineligible_closed_status
-                                   elsif removed?
-                                     removed_closed_status
-                                   elsif withdrawn?
-                                     withdrawn_closed_status
-                                   end
+    closed_status_value = nil
+    if ineligible?
+      closed_status_value = ineligible_closed_status
+    elsif removed?
+      closed_status_value = removed_closed_status
+    elsif withdrawn?
+      closed_status_value = withdrawn_closed_status
+    end
+    @request_issue.closed_status = closed_status_value
   end
 
   # only populated for rating and rating decision issues
