@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Builders::BaseRequestIssueBuilder
+  # rubocop:disable Metrics/ClassLength
   include DecisionReview::ModelBuilderHelper
 
   # returns the DecisionReview model's RequestIssue record with all attributes assigned
@@ -571,4 +572,5 @@ class Builders::BaseRequestIssueBuilder
   def determine_benefit_type
     decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
+  # rubocop:enable Metrics/ClassLength
 end
