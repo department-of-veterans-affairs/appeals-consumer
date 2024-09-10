@@ -135,7 +135,6 @@ describe ExternalApi::CaseflowService do
   describe "#edit_records_from_decision_review_updated_event!" do
     let(:endpoint) { "#{base_url}decision_review_updated" }
     let(:decision_review_updated_dto_builder) { dto_builder }
-    let(:headers) { {} }
 
     context "when the request is successful" do
       before do
