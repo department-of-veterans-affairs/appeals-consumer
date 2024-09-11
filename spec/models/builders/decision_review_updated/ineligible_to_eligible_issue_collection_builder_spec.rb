@@ -9,24 +9,6 @@ describe Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBui
   let(:issue) { decision_review_updated.decision_review_issues_created.first }
   let(:index) { 1 }
 
-  before do
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "ADD_CONTENTION",
-        "reason_for_contention_action" => "INELIGIBLE_TO_ELIGIBLE"
-      )
-    )
-
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "",
-        "reason_for_contention_action" => ""
-      )
-    )
-  end
-
   describe "#build_issues" do
     context "when successful" do
       it "creates added_issues successfully" do
@@ -69,10 +51,11 @@ describe Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBui
         subject.ineligible_to_eligible_issues.each do |issue|
           expect(issue.reason_for_contention_action).to eq("INELIGIBLE_TO_ELIGIBLE")
           expect(issue.contention_action).to eq("ADD_CONTENTION")
+          expect(issue.contention_action).not_to eq("ELIGIBLE_TO_INELIGIBLE")
+          expect(issue.reason_for_contention_action).not_to eq("DELETE_CONTENTION")
         end
       end
     end
-    ## ---- Above tests pass
 
     context "when decision review updated issues are empty" do
       before do
