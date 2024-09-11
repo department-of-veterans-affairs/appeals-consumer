@@ -72,8 +72,8 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
   end
 
   describe "#assign_methods" do
-    it "calls assign_decision_review_issue_id" do
-      expect(builder).to receive(:assign_decision_review_issue_id)
+    it "calls assign_original_caseflow_request_issue_id" do
+      expect(builder).to receive(:assign_original_caseflow_request_issue_id)
       builder.send(:assign_methods)
     end
   end
