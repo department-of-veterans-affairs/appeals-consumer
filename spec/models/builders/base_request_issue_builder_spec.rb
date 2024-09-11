@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Builders::BaseRequestIssueCollectionBuilder, type: :model do
-  let(:fake_child_class) do 
+  let(:fake_child_class) do
     Class.new(Builders::BaseRequestIssueBuilder)
       .new(issue, decision_review_model, bis_rating_profiles, request_issue)
   end
