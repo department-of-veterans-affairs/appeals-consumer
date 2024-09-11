@@ -50,7 +50,7 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   end
 
   def assign_decision_review_updated_payload
-    @decision_review_updated_payload = validate_no_pii(build_decision_review_updated_payload)
+    @payload = validate_no_pii(build_decision_review_updated_payload)
   end
 
   def build_decision_review_updated(message_payload)
@@ -106,7 +106,9 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
       updated_issues: clean_pii(@updated_issues),
       removed_issues: clean_pii(@removed_issues),
       withdrawn_issues: clean_pii(@withdrawn_issues),
-      ineligible_to_eligible_issues: clean_pii(@ineligible_to_eligible_issues)
+      ineligible_to_eligible_issues: clean_pii(@ineligible_to_eligible_issues),
+      eligible_to_ineligible_issues: clean_pii(@eligible_to_ineligible_issues),
+      ineligible_to_ineligible_issues: clean_pii(@ineligible_to_ineligible_issues)
     }.as_json
   end
 end
