@@ -981,6 +981,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
