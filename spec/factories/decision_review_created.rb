@@ -490,7 +490,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
-            "contention_id" => 123_456_791,
+            "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,

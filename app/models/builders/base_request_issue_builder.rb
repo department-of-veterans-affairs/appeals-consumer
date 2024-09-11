@@ -24,6 +24,13 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   # used to determine if "TIME_RESTRICTION" eligibility_result matches "before_ama" or "untimely" ineligible_reason
   AMA_ACTIVATION_DATE = Date.new(2019, 2, 19)
 
+  # eligibility_result values that have a 1-to-1 match to a Request Issue ineligible_reason
+  TIME_RESTRICTION = "TIME_RESTRICTION"
+  COMPLETED_HLR = "COMPLETED_HLR"
+  COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
+  PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
+  CONTESTED = "CONTESTED"
+
   # eligibility_result values grouped by Request Issue ineligible_reason
   COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
   PENDING_REVIEW = %w[PENDING_HLR PENDING_BOARD_APPEAL PENDING_SUPPLEMENTAL].freeze
@@ -376,11 +383,11 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def time_restriction?
-    issue.eligibility_result == INELIGIBLE[:time_restriction]
+    issue.eligibility_result == INELIGIBLE
   end
 
   def pending_legacy_appeal?
-    issue.eligibility_result == INELIGIBLE[:pending_legacy_appeal]
+    issue.eligibility_result == PENDING_LEGACY_APPEAL
   end
 
   def legacy_time_restriction_or_no_soc_ssoc?
@@ -388,11 +395,11 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def contested?
-    issue.eligibility_result == INELIGIBLE[:contested]
+    issue.eligibility_result == CONTESTED
   end
 
   def completed_board_appeal?
-    issue.eligibility_result == INELIGIBLE[:completed_board_appeal]
+    issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
 
   def associated_caseflow_request_issue_present?
