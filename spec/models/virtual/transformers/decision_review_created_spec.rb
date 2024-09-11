@@ -142,7 +142,7 @@ describe Transformers::DecisionReviewCreated do
         end
       end
 
-      context "because decision_review_issues is an empty array" do
+      context "because decision_review_issues_created is an empty array" do
         let(:message_payload_without_decision_review_issues_created) do
           build(:decision_review_created, :without_decision_review_issues_created)
         end

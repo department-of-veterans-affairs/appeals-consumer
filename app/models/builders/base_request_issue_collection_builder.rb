@@ -61,7 +61,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   private
 
   def issues
-    @issues ||= @decision_review_model.decision_review_issues
+    @issues ||= @decision_review_model.decision_review_issues_created
   end
 
   def message_has_rating_issues?

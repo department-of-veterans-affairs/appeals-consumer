@@ -5,11 +5,11 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
   let(:event_id) { event.id }
   let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
   let(:decision_review_model) { build(:decision_review_created) }
-  let(:decision_review_issues) { decision_review_model.decision_review_issues }
+  let(:decision_review_issues_created) { decision_review_model.decision_review_issues_created }
   let(:request_issues) { described_class.build(decision_review_model) }
   let(:builder) { described_class.new(decision_review_model) }
-  let(:index) { decision_review_issues.index(issue) }
-  let(:issue) { decision_review_issues.first }
+  let(:index) { decision_review_issues_created.index(issue) }
+  let(:issue) { decision_review_issues_created.first }
   let(:claim_id) { decision_review_model.claim_id }
 
   before do
@@ -21,8 +21,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       expect(builder).to be_an_instance_of(Builders::DecisionReviewCreated::RequestIssueCollectionBuilder)
     end
 
-    it "returns an array of DecisionReviewCreated::RequestIssue(s) issue in the decision_review_issues array" do
-      expect(request_issues.count).to eq(decision_review_issues.count)
+    it "returns an array of DecisionReviewCreated::RequestIssue(s) issue in the decision_review_issues_created array" do
+      expect(request_issues.count).to eq(decision_review_issues_created.count)
       expect(request_issues).to all(be_an_instance_of(DecisionReviewCreated::RequestIssue))
     end
   end
@@ -87,7 +87,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
       context "when @earliest_issue_profile_date or @latest_issue_profile_date_plus_one_day return nil" do
         before do
-          decision_review_issues.each do |issue|
+          decision_review_issues_created.each do |issue|
             issue.prior_decision_rating_profile_date = nil
           end
         end
@@ -122,7 +122,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     subject { builder.fetch_and_set_bis_rating_profiles }
     context "when @earliest_issue_profile_date or @latest_issue_profile_date_plus_one_day return nil" do
       before do
-        decision_review_issues.each do |issue|
+        decision_review_issues_created.each do |issue|
           issue.prior_decision_rating_profile_date = nil
         end
       end
@@ -145,7 +145,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       build(:decision_review_created, :ineligible_nonrating_hlr_contested_with_additional_issue)
     end
 
-    it "maps valid decision_review_issues into an array of DecisionReviewCreated::RequestIssue(s)" do
+    it "maps valid decision_review_issues_created into an array of DecisionReviewCreated::RequestIssue(s)" do
       expect(subject).to all(be_an_instance_of(DecisionReviewCreated::RequestIssue))
       expect(subject).to be_an_instance_of(Array)
     end
@@ -159,8 +159,8 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
 
     it "returns an array of DecisionReviewIssue(s)" do
-      expect(subject).to all(be_an_instance_of(DecisionReviewIssue))
-      expect(subject.count).to eq(decision_review_issues.count)
+      expect(subject).to all(be_an_instance_of(DecisionReviewIssueCreated))
+      expect(subject.count).to eq(decision_review_issues_created.count)
     end
   end
 
@@ -305,7 +305,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
         issue.contention_id = nil
       end
 
-      it "returns 'Issue Index: decision_review_issues.index(issue)" do
+      it "returns 'Issue Index: decision_review_issues_created.index(issue)" do
         expect(subject).to eq("Issue Index: #{index}")
       end
     end
@@ -317,7 +317,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
     context "when valid_issue_profile_dates returns nil" do
       before do
-        decision_review_issues.each do |issue|
+        decision_review_issues_created.each do |issue|
           issue.prior_decision_rating_profile_date = nil
         end
       end
@@ -329,7 +329,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
     context "when valid_issue_profile_dates is not-nil" do
       it "returns the earliest decision_review_issue.prior_decision_rating_profile_date converted to Date" do
-        expect(subject).to eq(decision_review_issues.first.prior_decision_rating_profile_date.to_date)
+        expect(subject).to eq(decision_review_issues_created.first.prior_decision_rating_profile_date.to_date)
       end
     end
   end
@@ -340,7 +340,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
     context "when valid_issue_profile_dates returns nil" do
       before do
-        decision_review_issues.each do |issue|
+        decision_review_issues_created.each do |issue|
           issue.prior_decision_rating_profile_date = nil
         end
       end
@@ -352,7 +352,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
     context "when valid_issue_profile_dates is not-nil" do
       it "returns the latest decision_review_issue.prior_decision_rating_profile_date converted to Date" do
-        expect(subject).to eq(decision_review_issues.last.prior_decision_rating_profile_date.to_date)
+        expect(subject).to eq(decision_review_issues_created.last.prior_decision_rating_profile_date.to_date)
       end
     end
   end
@@ -363,7 +363,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
     context "when latest_issue_profile_date returns nil" do
       before do
-        decision_review_issues.each do |issue|
+        decision_review_issues_created.each do |issue|
           issue.prior_decision_rating_profile_date = nil
         end
       end
@@ -375,7 +375,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
 
     context "when latest_issue_profile_date does not return nil" do
       it "returns latest_issue_profile_date plus one day" do
-        expect(subject).to eq(decision_review_issues.last.prior_decision_rating_profile_date.to_date + 1)
+        expect(subject).to eq(decision_review_issues_created.last.prior_decision_rating_profile_date.to_date + 1)
       end
     end
   end
@@ -387,7 +387,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       let(:decision_review_model) { build(:decision_review_created, :eligible_rating_hlr_with_two_issues) }
       context "when all valid_issues have nil for prior_decision_rating_profile_date" do
         before do
-          decision_review_issues.each do |issue|
+          decision_review_issues_created.each do |issue|
             issue.prior_decision_rating_profile_date = nil
           end
         end
@@ -400,7 +400,7 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
       context "when valid_issues has at least one not-nil value for prior_decision_rating_profile_date" do
         context "when there are nil values within profile_dates" do
           before do
-            decision_review_issues.first.prior_decision_rating_profile_date = nil
+            decision_review_issues_created.first.prior_decision_rating_profile_date = nil
           end
 
           it "removes the nil values" do

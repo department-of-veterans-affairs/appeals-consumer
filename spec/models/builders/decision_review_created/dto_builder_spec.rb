@@ -28,7 +28,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     "actor_station" => "101",
     "actor_application" => "PASYSACCTCREATE",
     "auto_remand" => false,
-    "decision_review_issues" =>
+    "decision_review_issues_created" =>
       [
         {
           "decision_review_issue_id" => 777,

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues
+# This class is used to build out an array of Request Issues from decision_review_created.decision_review_issues_created
 class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
-  # valid_issues are the decision_review_issues that don't have "CONTESTED" eligibility_result
+  # valid_issues are the decision_review_issues_created that don't have "CONTESTED" eligibility_result
   def build_issues
     issues.map.with_index do |issue, index|
       build_request_issue(issue, index)

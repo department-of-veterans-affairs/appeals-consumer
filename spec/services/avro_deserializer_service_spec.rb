@@ -37,7 +37,7 @@ describe AvroDeserializerService do
       "actor_application" => "PASYSACCTCREATE",
       "informal_conference_tracked_item_id" => "1",
       "auto_remand" => false,
-      "decision_review_issues" => [
+      "decision_review_issues_created" => [
         {
           "decision_review_issue_id" => 777,
           "contention_id" => 123_456_789,

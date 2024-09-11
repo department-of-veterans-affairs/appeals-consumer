@@ -44,7 +44,8 @@ class Transformers::DecisionReviewCreated
 
   # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
-  # and create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
+  # and create DecisionReviewIssue instances for each object in the message_payload's 
+  # decision_review_issues_created array
   def initialize(event_id, message_payload = {})
     @event_id = event_id
     validate(message_payload, self.class.name)
@@ -67,8 +68,8 @@ class Transformers::DecisionReviewCreated
   end
 
   # Creates instances of DecisionReviewIssue, validates attributes, and assigns attributes
-  # for each object in the decision_review_issues array
-  # Fails out of workflow if decision_review_issues is an empty array
+  # for each object in the decision_review_issues_created array
+  # Fails out of workflow if decision_review_issues_created is an empty array
   def create_decision_review_issues_created(decision_review_issues_created)
     if decision_review_issues_created.blank?
       fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue created"
@@ -78,7 +79,8 @@ class Transformers::DecisionReviewCreated
   end
 end
 
-# DecisionReviewIssue represents an individual issue object from the message_payload's decision_review_issues array
+# DecisionReviewIssue represents an individual issue object from the message_payload's 
+# decision_review_issues_created array
 class DecisionReviewIssueCreated
   include MessagePayloadValidator
 

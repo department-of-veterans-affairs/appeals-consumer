@@ -83,7 +83,7 @@ class Builders::DecisionReviewCreated::ClaimReviewBuilder
   end
 
   def any_opted_in_issues?
-    decision_review_model.decision_review_issues.any? { |issue| !!issue.soc_opt_in }
+    decision_review_model.decision_review_issues_created.any? { |issue| !!issue.soc_opt_in }
   end
 
   def veteran_and_claimant_participant_ids_different?
