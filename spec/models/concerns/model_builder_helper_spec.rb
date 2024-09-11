@@ -519,51 +519,6 @@ describe DecisionReview::ModelBuilderHelper do
     end
   end
 
-  describe "#update_time_converted_to_timestamp_ms" do
-    context "when the decision_review_model is nil" do
-      it "returns nil" do
-        dummy.decision_review_model = nil
-        expect(dummy.update_time_converted_to_timestamp_ms).to be_nil
-      end
-    end
-
-    context "when decision_review_model is not nil" do
-      context "when update_time is nil" do
-        before do
-          decision_review_model_double = instance_double(
-            "Transformers::DecisionReviewUpdated",
-            file_number: file_number,
-            claim_id: claim_id,
-            claim_received_date: claim_received_date,
-            update_time: nil
-          )
-          dummy.decision_review_model = decision_review_model_double
-        end
-
-        it "returns nil" do
-          expect(dummy.update_time_converted_to_timestamp_ms).to be_nil
-        end
-      end
-
-      context "when update_time is not nil" do
-        before do
-          decision_review_model_double = instance_double(
-            "Transformers::DecisionReviewUpdated",
-            file_number: file_number,
-            claim_id: claim_id,
-            claim_received_date: claim_received_date,
-            update_time: Time.now.utc.to_s
-          )
-          dummy.decision_review_model = decision_review_model_double
-        end
-
-        it "returns update_time converted to timestamp ms" do
-          expect(dummy.update_time_converted_to_timestamp_ms).not_to be_nil
-        end
-      end
-    end
-  end
-
   describe "#downcase_bis_rating_profiles_response_text" do
     context "when @bis_rating_profiles_record is nil" do
       it "returns nil" do
