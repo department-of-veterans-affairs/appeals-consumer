@@ -36,13 +36,13 @@ describe Transformers::DecisionReviewCreated do
         expect(subject.actor_username).to eq("BVADWISE101")
         expect(subject.actor_station).to eq("101")
         expect(subject.actor_application).to eq("PASYSACCTCREATE")
-        expect(subject.decision_review_issues.size).to eq(2)
+        expect(subject.decision_review_issues_created.size).to eq(2)
         expect(subject.event_id).to eq(13)
       end
 
       it "initializes DecisionReviewIssue objects for every obj in issues_array" do
-        subject.decision_review_issues.each do |issue|
-          expect(issue).to be_an_instance_of(DecisionReviewIssue)
+        subject.decision_review_issues_created.each do |issue|
+          expect(issue).to be_an_instance_of(DecisionReviewIssueCreated)
 
           # this additional logic of checking the issues by contention_id enables us to not rely on the index each
           # DecisionReviewIssue is stored at since the index order could change when Github Actions runs
@@ -143,57 +143,61 @@ describe Transformers::DecisionReviewCreated do
       end
 
       context "because decision_review_issues is an empty array" do
-        let(:message_payload_without_decision_review_issues) do
-          build(:decision_review_created, :without_decision_review_issues)
+        let(:message_payload_without_decision_review_issues_created) do
+          build(:decision_review_created, :without_decision_review_issues_created)
         end
 
         it "raises ArgumentError with message: Transformers::DecisionReviewCreated: Message payload must include at "\
         "least one decision review issue" do
           error_message = "Transformers::DecisionReviewCreated: Message payload must include at least one decision "\
-          "review issue"
-          expect { message_payload_without_decision_review_issues }.to raise_error(ArgumentError, error_message)
+          "review issue created"
+          expect { message_payload_without_decision_review_issues_created }.to raise_error(ArgumentError, error_message)
         end
       end
     end
 
     context "when DecisionReviewIssue portion of message_payload is invalid" do
       context "because payload is nil" do
-        let(:message_payload_with_nil_issue) { build(:decision_review_created, :with_nil_decision_review_issue) }
+        let(:message_payload_with_nil_issue) do
+          build(:decision_review_created, :with_nil_decision_review_issue_created)
+        end
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-          error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
+          error_message = "DecisionReviewIssueCreated: Message payload cannot be empty or nil"
           expect { message_payload_with_nil_issue }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload is empty" do
-        let(:message_payload_with_empty_issue) { build(:decision_review_created, :with_empty_decision_review_issue) }
+        let(:message_payload_with_empty_issue) do
+          build(:decision_review_created, :with_empty_decision_review_issue_created)
+        end
 
         it "raises ArgumentError with message: class_name: Message payload cannot be empty or nil" do
-          error_message = "DecisionReviewIssue: Message payload cannot be empty or nil"
+          error_message = "DecisionReviewIssueCreated: Message payload cannot be empty or nil"
           expect { message_payload_with_empty_issue }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload has invalid attribute name(s)" do
         let(:message_payload_with_invalid_issue_attr_name) do
-          build(:decision_review_created, :with_invalid_decision_review_issue_attribute_name)
+          build(:decision_review_created, :with_invalid_decision_review_issue_created_attribute_name)
         end
 
         it "raises ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
-          error_message = "DecisionReviewIssue: Unknown attributes - invalid_attribute"
+          error_message = "DecisionReviewIssueCreated: Unknown attributes - invalid_attribute"
           expect { message_payload_with_invalid_issue_attr_name }.to raise_error(ArgumentError, error_message)
         end
       end
 
       context "because payload has invalid attribute data type(s)" do
         let(:message_payload_with_invalid_issue_data_type) do
-          build(:decision_review_created, :with_invalid_decision_review_issue_data_type)
+          build(:decision_review_created, :with_invalid_decision_review_issue_created_data_type)
         end
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
-          error_message = "DecisionReviewIssue: decision_review_issue_id must be one of the allowed types - [Integer],"\
-           " got String"
+          error_message = "DecisionReviewIssueCreated: decision_review_issue_id must be one of the allowed types -" \
+           " [Integer], got String"
           expect { message_payload_with_invalid_issue_data_type }.to raise_error(ArgumentError, error_message)
         end
       end

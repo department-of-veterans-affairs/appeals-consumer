@@ -157,11 +157,11 @@
       "doc": "True/false value to indicate whether or not this decision review is an automatically established remand."
     },
     {
-      "name": "decisionReviewIssues",
+      "name": "decisionReviewIssuesCreated",
       "type": {
         "type": "array",
         "items": {
-          "name": "DecisionReviewIssue",
+          "name": "DecisionReviewIssueCreated",
           "type": "record",
           "fields": [
             {
