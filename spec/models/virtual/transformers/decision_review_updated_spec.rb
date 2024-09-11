@@ -109,6 +109,12 @@ describe Transformers::DecisionReviewUpdated do
         end
       end
     end
+    describe "#decision_review_issues" do
+      it "returns all decision_review_issues" do
+        expect(subject.decision_review_issues.count).to eq 10
+        expect(subject.decision_review_issues.class).to eq(Array)
+      end
+    end
   end
 
   context "when invalid" do
