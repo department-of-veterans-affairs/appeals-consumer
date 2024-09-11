@@ -134,13 +134,13 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
 
   describe "#build_veteran" do
     it "should return built veteran object" do
-      expect(dto_builder.send(:build_veteran)).to be_instance_of(DecisionReviewCreated::Veteran)
+      expect(dto_builder.send(:build_veteran)).to be_instance_of(DecisionReview::Veteran)
     end
   end
 
   describe "#build_claimant" do
     it "should return build claimant object" do
-      expect(dto_builder.send(:build_claimant)).to be_instance_of(DecisionReviewCreated::Claimant)
+      expect(dto_builder.send(:build_claimant)).to be_instance_of(DecisionReview::Claimant)
     end
   end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe DecisionReviewCreated::Veteran do
+describe DecisionReview::Veteran do
   let(:veteran) { build(:veteran) }
 
   it "allows reader and writer access for attributes" do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Builders::DecisionReviewCreated::VeteranBuilder do
+describe Builders::DecisionReview::VeteranBuilder do
   before do
     Timecop.freeze(Time.utc(2022, 1, 1, 12, 0, 0))
     Fakes::VeteranStore.new.store_veteran_record(decision_review_model.file_number, veteran_bis_record)
@@ -42,8 +42,8 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
 
   describe "#build" do
     subject { described_class.build(decision_review_model) }
-    it "returns a DecisionReviewCreated::Veteran object" do
-      expect(subject).to be_an_instance_of(DecisionReviewCreated::Veteran)
+    it "returns a DecisionReview::Veteran object" do
+      expect(subject).to be_an_instance_of(DecisionReview::Veteran)
     end
   end
 
@@ -54,8 +54,8 @@ describe Builders::DecisionReviewCreated::VeteranBuilder do
       expect(builder).to be_an_instance_of(described_class)
     end
 
-    it "initializes a new DecisionReviewCreated::Veteran object" do
-      expect(veteran).to be_an_instance_of(DecisionReviewCreated::Veteran)
+    it "initializes a new DecisionReview::Veteran object" do
+      expect(veteran).to be_an_instance_of(DecisionReview::Veteran)
     end
 
     it "assigns decision_review_model to the DecisionReviewCreated object passed in" do

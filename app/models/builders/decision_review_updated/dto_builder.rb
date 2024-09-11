@@ -59,11 +59,11 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   end
 
   def build_veteran
-    Builders::DecisionReviewCreated::VeteranBuilder.build(@decision_review_updated)
+    Builders::DecisionReview::VeteranBuilder.build(@decision_review_updated)
   end
 
   def build_claimant
-    Builders::DecisionReviewCreated::ClaimantBuilder.build(@decision_review_updated)
+    Builders::DecisionReview::ClaimantBuilder.build(@decision_review_updated)
   end
 
   def build_decision_review_updated(message_payload)

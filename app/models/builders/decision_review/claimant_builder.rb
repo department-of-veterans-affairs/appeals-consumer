@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# This class is used to build out a DecisionReviewCreated::Claimant object from an instance of DecisionReviewCreated
-class Builders::DecisionReviewCreated::ClaimantBuilder
+# This class is used to build out a DecisionReview::Claimant object from an instance of DecisionReviewCreated
+class Builders::DecisionReview::ClaimantBuilder
   include DecisionReview::ModelBuilderHelper
   attr_reader :claimant, :decision_review_model, :bis_record
 
@@ -16,7 +16,7 @@ class Builders::DecisionReviewCreated::ClaimantBuilder
 
   def initialize(decision_review_model)
     @decision_review_model = decision_review_model
-    @claimant = DecisionReviewCreated::Claimant.new
+    @claimant = DecisionReview::Claimant.new
     @bis_record = fetch_person_bis_record
   end
 
