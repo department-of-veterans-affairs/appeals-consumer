@@ -98,6 +98,7 @@ module DecisionReview::ModelBuilderHelper
     convert_to_timestamp_ms(@decision_review_model.claim_creation_time)
   end
 
+  # updated time is NOT present on DecisionReviewCreated events
   def update_time_converted_to_timestamp_ms
     return unless @decision_review_model
 

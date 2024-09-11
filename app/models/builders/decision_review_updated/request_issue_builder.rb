@@ -23,6 +23,22 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
     @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
 
+  def calculate_closed_at
+    closed_at_value = nil
+    if ineligible? || withdrawn? || removed?
+      closed_at_value = update_time_converted_to_timestamp_ms
+    end
+    @request_issue.closed_at = closed_at_value
+  end
+
+  # only populated for eligible rating issues
+  def calculate_rating_issue_associated_at
+    @request_issue.rating_issue_associated_at =
+      if rating? && eligible?
+        update_time_converted_to_timestamp_ms
+      end
+  end
+
   def calculate_edited_description
     if edited_description?
       @request_issue.edited_description = issue.prior_decision_text

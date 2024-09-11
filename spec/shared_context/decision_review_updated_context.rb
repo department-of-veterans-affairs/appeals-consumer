@@ -23,7 +23,7 @@ shared_context "decision_review_updated_context" do
       "informal_conference_requested" => false,
       "informal_conference_tracked_item_id" => "1",
       "same_station_review_requested" => false,
-      "update_time" => Date.new(2022, 1, 1).to_time.to_s,
+      "update_time" => Date.new(2022, 1, 2).to_time.to_s,
       "claim_creation_time" => Date.new(2022, 1, 1).to_time.to_s,
       "actor_username" => "BVADWISE101",
       "actor_station" => "101",
