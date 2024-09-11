@@ -383,7 +383,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def time_restriction?
-    issue.eligibility_result == INELIGIBLE
+    issue.eligibility_result == TIME_RESTRICTION
   end
 
   def pending_legacy_appeal?
