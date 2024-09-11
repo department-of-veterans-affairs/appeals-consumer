@@ -531,4 +531,8 @@ class Builders::BaseRequestIssueBuilder
   def determine_benefit_type
     decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
+
+  def assign_decision_review_issue_id
+    @request_issue.decision_review_issue_id = issue.decision_review_issue_id
+  end
 end

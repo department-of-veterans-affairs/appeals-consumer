@@ -31,6 +31,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     "decision_review_issues" =>
       [
         {
+          "decision_review_issue_id" => 777,
           "contention_id" => 123_456_789,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,
@@ -52,6 +53,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           "legacy_appeal_issue_id" => nil
         },
         {
+          "decision_review_issue_id" => 778,
           "contention_id" => 987_654_321,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,

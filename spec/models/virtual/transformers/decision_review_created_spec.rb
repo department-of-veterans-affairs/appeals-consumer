@@ -192,8 +192,8 @@ describe Transformers::DecisionReviewCreated do
         end
 
         it "raises ArgumentError with message: class_name: name must be one of the allowed types -, got class." do
-          error_message = "DecisionReviewIssue: contention_id must be one of the allowed types - [Integer, NilClass],"\
-                          " got String"
+          error_message = "DecisionReviewIssue: decision_review_issue_id must be one of the allowed types - [Integer],"\
+           " got String"
           expect { message_payload_with_invalid_issue_data_type }.to raise_error(ArgumentError, error_message)
         end
       end

@@ -98,6 +98,9 @@ describe Transformers::DecisionReviewUpdated do
           expect(issue.source_claim_id_for_remand).to eq(
             decision_review_issues_updated[index]["source_claim_id_for_remand"]
           )
+          expect(issue.original_caseflow_request_issue_id).to eq(
+            decision_review_issues_updated[index]["original_caseflow_request_issue_id"]
+          )
           expect(issue.source_contention_id_for_remand).to eq(
             decision_review_issues_updated[index]["source_contention_id_for_remand"]
           )

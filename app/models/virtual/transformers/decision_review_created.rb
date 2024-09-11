@@ -87,6 +87,7 @@ class DecisionReviewIssue
   # For example, time_override could be a boolean OR nil
   # rubocop:disable Style/MutableConstant
   DECISION_REVIEW_ISSUE_ATTRIBUTES ||= {
+    "decision_review_issue_id" => [Integer],
     "contention_id" => [Integer, NilClass],
     "prior_caseflow_decision_issue_id" => [Integer, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],

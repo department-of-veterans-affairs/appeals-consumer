@@ -9,6 +9,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_789,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -37,6 +38,7 @@ FactoryBot.define do
             "prior_decision_source" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_790,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -106,7 +108,7 @@ FactoryBot.define do
     end
 
     trait :with_invalid_decision_review_issue_data_type do
-      decision_review_issues { [{ "contention_id" => "is supposed to be an integer" }] }
+      decision_review_issues { [{ "decision_review_issue_id" => "777" }] }
     end
     # END: Payloads that raise error upon DecisionReviewCreated initialization
 
@@ -385,6 +387,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -429,6 +432,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -456,6 +460,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -490,6 +495,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -517,6 +523,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -551,6 +558,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -585,6 +593,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -620,6 +629,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -656,6 +666,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -690,6 +701,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -724,6 +736,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -758,6 +771,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -792,6 +806,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -826,6 +841,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -860,6 +876,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -894,6 +911,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -928,6 +946,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -962,6 +981,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -999,6 +1019,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1033,6 +1054,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1067,6 +1089,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1101,6 +1124,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1135,6 +1159,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1175,6 +1200,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1209,6 +1235,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1256,6 +1283,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1290,6 +1318,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1328,6 +1357,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -1371,6 +1401,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -1405,6 +1436,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -1440,6 +1472,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1477,6 +1510,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -1510,6 +1544,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1544,6 +1579,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1578,6 +1614,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1614,6 +1651,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1648,6 +1686,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -1682,6 +1721,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1716,6 +1756,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1750,6 +1791,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1784,6 +1826,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -1818,6 +1861,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -1852,6 +1896,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -1886,6 +1931,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1920,6 +1966,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1958,6 +2005,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2003,6 +2051,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2038,6 +2087,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2065,6 +2115,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2100,6 +2151,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2127,6 +2179,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2162,6 +2215,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2199,6 +2253,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -2234,6 +2289,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -2269,6 +2325,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2304,6 +2361,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2339,6 +2397,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2374,6 +2433,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2409,6 +2469,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2444,6 +2505,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -2479,6 +2541,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2514,6 +2577,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2552,6 +2616,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2587,6 +2652,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2622,6 +2688,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2657,6 +2724,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2692,6 +2760,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2732,6 +2801,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2780,6 +2850,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2815,6 +2886,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2854,6 +2926,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -2899,6 +2972,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -2934,6 +3008,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -2972,6 +3047,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -3007,6 +3083,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3042,6 +3119,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3077,6 +3155,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3115,6 +3194,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3150,6 +3230,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -3185,6 +3266,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3220,6 +3302,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3255,6 +3338,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3290,6 +3374,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -3325,6 +3410,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -3360,6 +3446,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -3395,6 +3482,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3430,6 +3518,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3468,6 +3557,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3513,6 +3603,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3548,6 +3639,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3586,6 +3678,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3621,6 +3714,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3656,6 +3750,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3691,6 +3786,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3728,6 +3824,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3763,6 +3860,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3798,6 +3896,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3833,6 +3932,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3868,6 +3968,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3903,6 +4004,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -3938,6 +4040,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -3973,6 +4076,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -4008,6 +4112,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -4043,6 +4148,7 @@ FactoryBot.define do
       decision_review_issues do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,

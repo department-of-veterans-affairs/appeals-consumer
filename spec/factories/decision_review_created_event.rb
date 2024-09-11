@@ -30,6 +30,7 @@ FactoryBot.define do
         "auto_remand" => false,
         "decision_review_issues" => [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_789,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
@@ -53,6 +54,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => 1
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 987_654_321,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,

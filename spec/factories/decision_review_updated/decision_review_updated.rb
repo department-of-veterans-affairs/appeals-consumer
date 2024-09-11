@@ -7101,6 +7101,7 @@ def base_review_issue
     "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
     "source_claim_id_for_remand" => nil,
     "source_contention_id_for_remand" => nil,
+    "original_caseflow_request_issue_id" => nil,
     "removed" => false,
     "withdrawn" => false,
     "decision" => nil
