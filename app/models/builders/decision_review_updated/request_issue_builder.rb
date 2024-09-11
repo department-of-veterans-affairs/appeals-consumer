@@ -9,18 +9,9 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
     super(issue, decision_review_model, bis_rating_profiles, @request_issue)
   end
 
-  def assign_methods
-    assign_decision_review_issue_id
-    super
-  end
-
   def calculate_methods
     calculate_edited_description
     super
-  end
-
-  def assign_decision_review_issue_id
-    @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
 
   def calculate_closed_at

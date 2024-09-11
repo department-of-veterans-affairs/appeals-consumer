@@ -87,6 +87,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
     assign_type
+    assign_decision_review_issue_id
   end
 
   def calculate_methods
