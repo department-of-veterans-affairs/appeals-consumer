@@ -930,8 +930,12 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
 
   describe "#create_decision_type_messages(issue_type, code)" do
     subject { decision_review_created_events.send(:create_decision_type_messages, issue_type, code) }
-    let(:original_dri_prior_decision_type) { decision_review_created.decision_review_issues_created.first.prior_decision_type }
-    let(:original_dri_prior_decision_text) { decision_review_created.decision_review_issues_created.first.prior_decision_text }
+    let(:original_dri_prior_decision_type) do
+      decision_review_created.decision_review_issues_created.first.prior_decision_type
+    end
+    let(:original_dri_prior_decision_text) do
+      decision_review_created.decision_review_issues_created.first.prior_decision_text
+    end
 
     it "creates a message for each prior decision type in the NONRATING_DECISION_TYPES array" do
       expect(subject.count).to eq(34)
@@ -954,12 +958,15 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     let(:decision_type) { "Accrued" }
     let(:all_decision_review_issues_created) { subject.decision_review_issues_created.all? }
 
-    it "changes the decision_review_issues_created to have a prior_decision_type matching the decision type passed in" do
+    it "changes the decision_review_issues_created to have a prior_decision_type matching the decision type"\
+    " passed in" do
       expect(all_decision_review_issues_created { |issue| issue.prior_decision_type == decision_type }).to eq true
     end
 
-    it "changes the decision_review_issues_created to have a prior_decision_text that includes the decision type passed in" do
-      expect(all_decision_review_issues_created { |issue| issue.prior_decision_text.include?(decision_type) }).to eq true
+    it "changes the decision_review_issues_created to have a prior_decision_text that includes the decision type" \
+    " passed in" do
+      expect(all_decision_review_issues_created { |issue| issue.prior_decision_text.include?(decision_type) })
+        .to eq true
     end
   end
 
