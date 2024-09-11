@@ -4,7 +4,7 @@
 class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder < Builders::BaseRequestIssueCollectionBuilder
   # valid_issues are the decision_review_issues that don't have "CONTESTED" eligibility_result
   def build_issues
-    valid_issues.map.with_index do |issue, index|
+    issues.map.with_index do |issue, index|
       build_request_issue(issue, index)
     end
   end
