@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Builders::BaseRequestIssueBuilder
+class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   include DecisionReview::ModelBuilderHelper
 
   # returns the DecisionReview model's RequestIssue record with all attributes assigned
@@ -29,6 +29,7 @@ class Builders::BaseRequestIssueBuilder
   COMPLETED_HLR = "COMPLETED_HLR"
   COMPLETED_BOARD_APPEAL = "COMPLETED_BOARD_APPEAL"
   PENDING_LEGACY_APPEAL = "PENDING_LEGACY_APPEAL"
+  CONTESTED = "CONTESTED"
 
   # eligibility_result values grouped by Request Issue ineligible_reason
   COMPLETED_REVIEW = %w[COMPLETED_BOARD_APPEAL COMPLETED_HLR].freeze
@@ -38,11 +39,16 @@ class Builders::BaseRequestIssueBuilder
   # eligibility_result values grouped by ineligible and eligible
   ELIGIBLE = %w[ELIGIBLE ELIGIBLE_LEGACY].freeze
   INELIGIBLE = %w[
-    TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC
+    TIME_RESTRICTION PENDING_LEGACY_APPEAL LEGACY_TIME_RESTRICTION NO_SOC_SSOC CONTESTED
     PENDING_HLR COMPLETED_HLR PENDING_BOARD_APPEAL COMPLETED_BOARD_APPEAL PENDING_SUPPLEMENTAL
   ].freeze
 
-  INELIGIBLE_CLOSED_STATUS = "ineligible"
+  CLOSED_STATUSES = {
+    ineligible_closed_status: "ineligible",
+    removed_closed_status: "removed",
+    withdrawn_closed_status: "withdrawn"
+  }.freeze
+
   INELIGIBLE_REASONS = {
     duplicate_of_nonrating_issue_in_active_review: "duplicate_of_nonrating_issue_in_active_review",
     duplicate_of_rating_issue_in_active_review: "duplicate_of_rating_issue_in_active_review",
@@ -51,7 +57,8 @@ class Builders::BaseRequestIssueBuilder
     appeal_to_higher_level_review: "appeal_to_higher_level_review",
     before_ama: "before_ama",
     legacy_issue_not_withdrawn: "legacy_issue_not_withdrawn",
-    legacy_appeal_not_eligible: "legacy_appeal_not_eligible"
+    legacy_appeal_not_eligible: "legacy_appeal_not_eligible",
+    contested: "contested"
   }.freeze
 
   # used to determine ramp_claim_id
@@ -221,14 +228,23 @@ class Builders::BaseRequestIssueBuilder
     @request_issue.type = REQUEST_ISSUE
   end
 
-  # ineligible issues are closed upon creation
+  # must override method in child class
   def calculate_closed_at
-    @request_issue.closed_at = ineligible? ? claim_creation_time_converted_to_timestamp_ms : nil
+    fail NotImplementedError, "#{self.class} must implement the #calculate_closed_at method"
   end
 
   # default state of ineligible issues - "ineligible"
+  # DecisionReviewCreated events cannot have 'removed' or 'withdrawn' closed statuses
   def calculate_closed_status
-    @request_issue.closed_status = ineligible? ? INELIGIBLE_CLOSED_STATUS : nil
+    closed_status_value = nil
+    if ineligible?
+      closed_status_value = ineligible_closed_status
+    elsif removed?
+      closed_status_value = removed_closed_status
+    elsif withdrawn?
+      closed_status_value = withdrawn_closed_status
+    end
+    @request_issue.closed_status = closed_status_value
   end
 
   # only populated for rating and rating decision issues
@@ -247,10 +263,7 @@ class Builders::BaseRequestIssueBuilder
 
   # only populated for eligible rating issues
   def calculate_rating_issue_associated_at
-    @request_issue.rating_issue_associated_at =
-      if rating? && eligible?
-        claim_creation_time_converted_to_timestamp_ms
-      end
+    fail NotImplementedError, "#{self.class} must implement the #calculate_rating_issue_associated_at method"
   end
 
   def assign_nonrating_issue_bgs_id
@@ -266,22 +279,41 @@ class Builders::BaseRequestIssueBuilder
 
   # exception thrown if an unrecognized eligibility_result is passed in
   # eligible issues always have NIL for ineligible_reason
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def determine_ineligible_reason
     if eligible?
-      nil
+      ineligible_reason_value = nil
     elsif pending_claim_review?
-      determine_pending_claim_review_type
+      ineligible_reason_value = determine_pending_claim_review_type
     elsif time_restriction?
-      determine_time_restriction_type
+      ineligible_reason_value = determine_time_restriction_type
     elsif completed_claim_review?
-      determine_completed_claim_review_type
+      ineligible_reason_value = determine_completed_claim_review_type
     elsif pending_legacy_appeal?
-      legacy_issue_not_withdrawn
+      ineligible_reason_value = legacy_issue_not_withdrawn
     elsif legacy_time_restriction_or_no_soc_ssoc?
-      legacy_appeal_not_eligible
+      ineligible_reason_value = legacy_appeal_not_eligible
+    elsif contested?
+      ineligible_reason_value = contested
     else
       handle_unrecognized_eligibility_result
     end
+    ineligible_reason_value
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+
+  def ineligible_closed_status
+    CLOSED_STATUSES[:ineligible_closed_status]
+  end
+
+  def removed_closed_status
+    CLOSED_STATUSES[:removed_closed_status]
+  end
+
+  def withdrawn_closed_status
+    CLOSED_STATUSES[:withdrawn_closed_status]
   end
 
   def duplicate_of_nonrating_issue_in_active_review
@@ -314,6 +346,10 @@ class Builders::BaseRequestIssueBuilder
 
   def legacy_appeal_not_eligible
     INELIGIBLE_REASONS[:legacy_appeal_not_eligible]
+  end
+
+  def contested
+    INELIGIBLE_REASONS[:contested]
   end
 
   def handle_associated_request_issue_not_present
@@ -358,6 +394,10 @@ class Builders::BaseRequestIssueBuilder
     LEGACY_APPEAL_NOT_ELIGIBLE.include?(issue.eligibility_result)
   end
 
+  def contested?
+    issue.eligibility_result == CONTESTED
+  end
+
   def completed_board_appeal?
     issue.eligibility_result == COMPLETED_BOARD_APPEAL
   end
@@ -381,6 +421,18 @@ class Builders::BaseRequestIssueBuilder
 
   def ineligible?
     INELIGIBLE.include?(issue.eligibility_result)
+  end
+
+  # Checks if issue has been removed on a Decision Review event
+  # DecisionReviewCreated events do not have a 'removed' attribute
+  def removed?
+    issue.try(:removed) == true
+  end
+
+  # Checks if issue has been removed on a Decision Review event
+  # DecisionReviewCreated events do not have a 'withdrawn' attribute
+  def withdrawn?
+    issue.try(:withdrawn) == true
   end
 
   def eligible?

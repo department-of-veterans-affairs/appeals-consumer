@@ -496,7 +496,7 @@ FactoryBot.define do
         [
           {
             "decision_review_issue_id" => 777,
-            "contention_id" => 123_456_791,
+            "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
@@ -964,6 +964,40 @@ FactoryBot.define do
             "prior_decision_rating_profile_date" => nil,
             "eligible" => true,
             "eligibility_result" => "COMPLETED_HLR",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_contested do
+      decision_review_issues do
+        [
+          {
+            "contention_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_sn" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "CONTESTED",
             "time_override" => nil,
             "time_override_reason" => nil,
             "contested" => nil,
