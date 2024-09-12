@@ -120,16 +120,30 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     let(:cleaned_ineligible_to_ineligible_issues) do
       dto_builder.send(:clean_pii, ineligible_to_ineligible_issues)
     end
+    let(:ineligible_to_eligible_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_eligible_request_issue)]
+    end
     let(:cleaned_ineligible_to_eligible_issues) do
       dto_builder.send(:clean_pii, ineligible_to_eligible_issues)
     end
-    let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
-    let(:cleaned_removed_issues) { dto_builder.send(:clean_pii, removed_issues) }
-    let(:updated_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :updated_request_issue)] }
-    let(:cleaned_updated_issues) { dto_builder.send(:clean_pii, updated_issues) }
-    let(:withdrawn_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)] }
-    let(:cleaned_withdrawn_issues) { dto_builder.send(:clean_pii, withdrawn_issues) }
-    let(:cleaned_ineligible_to_eligible_issues) { dto_builder.send(:clean_pii, ineligible_to_eligible_issues) }
+    let(:removed_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)]
+    end
+    let(:cleaned_removed_issues) do
+      dto_builder.send(:clean_pii, removed_issues)
+    end
+    let(:updated_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :updated_request_issue)]
+    end
+    let(:cleaned_updated_issues) do
+      dto_builder.send(:clean_pii, updated_issues)
+    end
+    let(:withdrawn_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)]
+    end
+    let(:cleaned_withdrawn_issues) do
+      dto_builder.send(:clean_pii, withdrawn_issues)
+    end
 
     # rubocop:disable Layout/LineLength
     it "returns the correct payload JSON object" do
@@ -146,8 +160,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@eligible_to_ineligible_issues, eligible_to_ineligible_issues)
       dto_builder.instance_variable_set(:@withdrawn_issues, withdrawn_issues)
       dto_builder.instance_variable_set(:@ineligible_to_ineligible_issues, ineligible_to_ineligible_issues)
-      dto_builder.instance_variable_set(:@ineligible_to_eligible_issues, cleaned_ineligible_to_eligible_issues)
-
+      dto_builder.instance_variable_set(:@ineligible_to_eligible_issues, ineligible_to_eligible_issues)
       # rubocop:enable Layout/LineLength
 
       payload = dto_builder.send(:build_decision_review_updated_payload)
