@@ -12,7 +12,7 @@ class Builders::BaseVeteranBuilder
 
   def initialize(decision_review_model)
     @decision_review_model = decision_review_model
-    @veteran = DecisionReviewCreated::Veteran.new
+    @veteran ||= BaseVeteran.new
     @bis_record = fetch_veteran_bis_record
   end
 

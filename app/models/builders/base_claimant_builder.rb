@@ -15,7 +15,7 @@ class Builders::BaseClaimantBuilder
 
   def initialize(decision_review_model)
     @decision_review_model = decision_review_model
-    @claimant = DecisionReviewCreated::Claimant.new
+    @claimant ||= BaseClaimant.new
     @bis_record = fetch_person_bis_record
   end
 
