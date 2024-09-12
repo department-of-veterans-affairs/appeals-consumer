@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe DecisionReview::Claimant do
+describe DecisionReviewCreated::Claimant do
   let(:claimant) { build(:claimant) }
 
   it "allows reader and writer access for attributes" do

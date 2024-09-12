@@ -208,8 +208,8 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         it "should assign correct ivars" do
           drc_dto_builder.send(:assign_attributes)
           expect(drc_dto_builder.instance_variable_get(:@intake)).to be_instance_of(DecisionReviewCreated::Intake)
-          expect(drc_dto_builder.instance_variable_get(:@veteran)).to be_instance_of(DecisionReview::Veteran)
-          expect(drc_dto_builder.instance_variable_get(:@claimant)).to be_instance_of(DecisionReview::Claimant)
+          expect(drc_dto_builder.instance_variable_get(:@veteran)).to be_instance_of(DecisionReviewCreated::Veteran)
+          expect(drc_dto_builder.instance_variable_get(:@claimant)).to be_instance_of(DecisionReviewCreated::Claimant)
           expect(drc_dto_builder.instance_variable_get(:@claim_review))
             .to be_instance_of(DecisionReviewCreated::ClaimReview)
           expect(drc_dto_builder.instance_variable_get(:@end_product_establishment))
@@ -280,13 +280,13 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         end
 
         it "should return built veteran object" do
-          expect(drc_dto_builder.send(:build_veteran)).to be_instance_of(DecisionReview::Veteran)
+          expect(drc_dto_builder.send(:build_veteran)).to be_instance_of(DecisionReviewCreated::Veteran)
         end
       end
 
       describe "#_build_claimant" do
         it "should return built claimant object" do
-          expect(drc_dto_builder.send(:build_claimant)).to be_instance_of(DecisionReview::Claimant)
+          expect(drc_dto_builder.send(:build_claimant)).to be_instance_of(DecisionReviewCreated::Claimant)
         end
       end
 
@@ -320,8 +320,8 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         drc_dto_builder.instance_variable_set(:@detail_type, "HIGHER_LEVEL_REVIEW")
         drc_dto_builder.instance_variable_set(:@station, "101")
         drc_dto_builder.instance_variable_set(:@intake, DecisionReviewCreated::Intake.new)
-        drc_dto_builder.instance_variable_set(:@veteran, DecisionReview::Veteran.new)
-        drc_dto_builder.instance_variable_set(:@claimant, DecisionReview::Claimant.new)
+        drc_dto_builder.instance_variable_set(:@veteran, DecisionReviewCreated::Veteran.new)
+        drc_dto_builder.instance_variable_set(:@claimant, DecisionReviewCreated::Claimant.new)
         drc_dto_builder.instance_variable_set(:@claim_review, DecisionReviewCreated::ClaimReview.new)
         drc_dto_builder
           .instance_variable_set(:@end_product_establishment, DecisionReviewCreated::EndProductEstablishment.new)
@@ -356,6 +356,18 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
       describe "#_assign_vet_ssn" do
         it "should return vet ssn" do
           expect(drc_dto_builder.send(:assign_vet_ssn)).to eq veteran.ssn
+        end
+      end
+
+      describe "#_assign_vet_first_name" do
+        it "should return vet first name" do
+          expect(drc_dto_builder.send(:assign_vet_first_name)).to eq veteran.first_name
+        end
+      end
+
+      describe "#_assign_vet_last_name" do
+        it "should return vet last name" do
+          expect(drc_dto_builder.send(:assign_vet_last_name)).to eq veteran.last_name
         end
       end
 

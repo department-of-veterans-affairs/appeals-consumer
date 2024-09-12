@@ -7,9 +7,6 @@ class Events::DecisionReviewUpdatedEvent < Event
     response = ExternalApi::CaseflowService.edit_records_from_decision_review_updated_event!(dto)
 
     handle_response(response)
-  rescue AppealsConsumer::Error::ClientRequestError => error
-    logger.error(error, { error: error })
-    raise error
   rescue StandardError => error
     logger.error(error, { error: error })
     raise error

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :veteran,
-          class: "DecisionReview::Veteran" do
+          class: "DecisionReviewCreated::Veteran" do
     participant_id { "123456789" }
     bgs_last_synced_at { nil }
     date_of_death { Date.new(2018, 1, 1) }

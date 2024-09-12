@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :claimant,
-          class: "DecisionReview::Claimant" do
+          class: "DecisionReviewCreated::Claimant" do
     payee_code { "00" }
     type { "VeteranClaimant" }
     participant_id { "123456789" }

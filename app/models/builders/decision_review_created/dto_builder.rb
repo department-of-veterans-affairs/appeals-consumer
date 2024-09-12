@@ -73,11 +73,11 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
   end
 
   def build_veteran
-    Builders::DecisionReview::VeteranBuilder.build(@decision_review_created)
+    Builders::DecisionReviewCreated::VeteranBuilder.build(@decision_review_created)
   end
 
   def build_claimant
-    Builders::DecisionReview::ClaimantBuilder.build(@decision_review_created)
+    Builders::DecisionReviewCreated::ClaimantBuilder.build(@decision_review_created)
   end
 
   def build_claim_review

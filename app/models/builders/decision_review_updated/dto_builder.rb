@@ -24,6 +24,7 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   def assign_attributes
     assign_from_builders
     assign_from_decision_review_updated
+    assign_headers
     assign_from_retrievals
     assign_decision_review_updated_payload
   end
@@ -32,8 +33,6 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
     begin
       @claim_review = build_decision_review_updated_claim_review
       @end_product_establishment = build_decision_review_updated_end_product_establishment
-      @veteran = build_veteran
-      @claimant = build_claimant
       @added_issues = build_added_request_issues
       @updated_issues = build_updated_request_issues
       @removed_issues = build_removed_request_issues
@@ -54,16 +53,21 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
     @station = @decision_review_updated.actor_station
   end
 
+  def assign_headers
+    @veteran = build_veteran
+    @claimant = build_claimant
+  end
+
   def assign_decision_review_updated_payload
     @payload = validate_no_pii(build_decision_review_updated_payload)
   end
 
   def build_veteran
-    Builders::DecisionReview::VeteranBuilder.build(@decision_review_updated)
+    Builders::BaseVeteranBuilder.build(@decision_review_updated)
   end
 
   def build_claimant
-    Builders::DecisionReview::ClaimantBuilder.build(@decision_review_updated)
+    Builders::BaseClaimantBuilder.build(@decision_review_updated)
   end
 
   def build_decision_review_updated(message_payload)

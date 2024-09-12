@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Builders::DecisionReview::ClaimantBuilder do
+describe Builders::DecisionReviewCreated::ClaimantBuilder do
   let(:decision_review_model) do
     build(:decision_review_created, payee_code: payee_code, claimant_participant_id: "5382910292")
   end
@@ -15,8 +15,8 @@ describe Builders::DecisionReview::ClaimantBuilder do
   end
 
   describe "#build" do
-    it "returns a DecisionReview::Claimant object" do
-      expect(claimant).to be_an_instance_of(DecisionReview::Claimant)
+    it "returns a DecisionReviewCreated::Claimant object" do
+      expect(claimant).to be_an_instance_of(DecisionReviewCreated::Claimant)
     end
   end
 
