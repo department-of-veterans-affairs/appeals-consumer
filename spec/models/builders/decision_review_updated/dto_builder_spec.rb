@@ -117,6 +117,9 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     let(:ineligible_to_ineligible_issues) do
       [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_ineligible_request_issue)]
     end
+    let(:ineligible_to_eligible_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_eligible_request_issue)]
+    end
     let(:cleaned_ineligible_to_ineligible_issues) do
       dto_builder.send(:clean_pii, ineligible_to_ineligible_issues)
     end
