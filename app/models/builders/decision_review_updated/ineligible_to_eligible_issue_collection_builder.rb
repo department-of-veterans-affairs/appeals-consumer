@@ -22,7 +22,7 @@ Builders::BaseRequestIssueCollectionBuilder
 
   def ineligible_to_eligible_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
-      issue.reason_for_contention_action == "INELIGIBLE_TO_ELIGIBLE" && issue.contention_action == "ADD_CONTENTION"
+      issue.reason_for_contention_action == ineligible_to_eligible && issue.contention_action == contention_added
     end
   end
 end
