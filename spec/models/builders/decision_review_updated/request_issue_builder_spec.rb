@@ -119,4 +119,19 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       end
     end
   end
+
+  describe "#calculate_rating_issue_associated_at" do
+    subject { builder.send(:calculate_rating_issue_associated_at) }
+
+    before do
+      allow(builder).to receive(:rating?).and_return(true)
+      allow(builder).to receive(:eligible?).and_return(true)
+    end
+    context "when popuating eligible rating issues" do
+      it "#update_time_converted_to_time_ms" do
+        subject
+        expect(builder.send(:update_time_converted_to_timestamp_ms)).to eq(164_108_160_000_0)
+      end
+    end
+  end
 end
