@@ -64,8 +64,8 @@ shared_context "decision_review_updated_context" do
       "prior_decision_award_event_id" => nil,
       "prior_decision_rating_profile_date" => nil,
       "source_claim_id_for_remand" => nil,
-      "original_caseflow_request_issue_id" => nil,
       "source_contention_id_for_remand" => nil,
+      "original_caseflow_request_issue_id" => nil,
       "removed" => false,
       "withdrawn" => false,
       "decision" => nil
