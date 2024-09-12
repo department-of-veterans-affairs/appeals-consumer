@@ -22,6 +22,9 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     allow(Builders::DecisionReviewUpdated::WithdrawnIssueCollectionBuilder)
       .to receive(:build)
       .and_return("withdrawn_issues")
+    allow(Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBuilder)
+      .to receive(:build)
+      .and_return("ineligible_to_eligible_issues")
     allow(Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilder)
       .to receive(:build)
       .and_return("eligible_to_ineligible_issues")
@@ -62,6 +65,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@updated_issues)).to eq("updated_issues")
       expect(dto_builder.instance_variable_get(:@removed_issues)).to eq("removed_issues")
       expect(dto_builder.instance_variable_get(:@withdrawn_issues)).to eq("withdrawn_issues")
+      expect(dto_builder.instance_variable_get(:@ineligible_to_eligible_issues)).to eq("ineligible_to_eligible_issues")
       expect(dto_builder.instance_variable_get(:@eligible_to_ineligible_issues)).to eq("eligible_to_ineligible_issues")
       expect(dto_builder.instance_variable_get(:@ineligible_to_ineligible_issues))
         .to eq("ineligible_to_ineligible_issues")
@@ -116,12 +120,30 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     let(:cleaned_ineligible_to_ineligible_issues) do
       dto_builder.send(:clean_pii, ineligible_to_ineligible_issues)
     end
-    let(:removed_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)] }
-    let(:cleaned_removed_issues) { dto_builder.send(:clean_pii, removed_issues) }
-    let(:updated_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :updated_request_issue)] }
-    let(:cleaned_updated_issues) { dto_builder.send(:clean_pii, updated_issues) }
-    let(:withdrawn_issues) { [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)] }
-    let(:cleaned_withdrawn_issues) { dto_builder.send(:clean_pii, withdrawn_issues) }
+    let(:ineligible_to_eligible_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :ineligible_to_eligible_request_issue)]
+    end
+    let(:cleaned_ineligible_to_eligible_issues) do
+      dto_builder.send(:clean_pii, ineligible_to_eligible_issues)
+    end
+    let(:removed_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :removed_request_issue)]
+    end
+    let(:cleaned_removed_issues) do
+      dto_builder.send(:clean_pii, removed_issues)
+    end
+    let(:updated_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :updated_request_issue)]
+    end
+    let(:cleaned_updated_issues) do
+      dto_builder.send(:clean_pii, updated_issues)
+    end
+    let(:withdrawn_issues) do
+      [FactoryBot.build(:decision_review_updated_request_issue, :withdrawn_request_issue)]
+    end
+    let(:cleaned_withdrawn_issues) do
+      dto_builder.send(:clean_pii, withdrawn_issues)
+    end
 
     # rubocop:disable Layout/LineLength
     it "returns the correct payload JSON object" do
@@ -138,7 +160,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       dto_builder.instance_variable_set(:@eligible_to_ineligible_issues, eligible_to_ineligible_issues)
       dto_builder.instance_variable_set(:@withdrawn_issues, withdrawn_issues)
       dto_builder.instance_variable_set(:@ineligible_to_ineligible_issues, ineligible_to_ineligible_issues)
-
+      dto_builder.instance_variable_set(:@ineligible_to_eligible_issues, ineligible_to_eligible_issues)
       # rubocop:enable Layout/LineLength
 
       payload = dto_builder.send(:build_decision_review_updated_payload)
@@ -155,7 +177,8 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "eligible_to_ineligible_issues" => cleaned_eligible_to_ineligible_issues,
         "ineligible_to_ineligible_issues" => cleaned_ineligible_to_ineligible_issues,
         "removed_issues" => cleaned_removed_issues,
-        "withdrawn_issues" => cleaned_withdrawn_issues
+        "withdrawn_issues" => cleaned_withdrawn_issues,
+        "ineligible_to_eligible_issues" => cleaned_ineligible_to_eligible_issues
       }.as_json
       expect(payload).to eq(expected_payload)
     end
