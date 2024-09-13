@@ -2,9 +2,7 @@
 
 # This class is responsible for constructing a DecisionReviewUpdated payload that will be sent to Caseflow.
 class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
-  attr_reader :claim_id, :css_id, :detail_type, :station, :payload, :vet_file_number, :vet_ssn, :vet_first_name,
-              :vet_middle_name, :vet_last_name, :claimant_ssn, :claimant_dob,
-              :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
+  attr_reader :claim_id, :css_id, :detail_type, :station, :payload
 
   def initialize(decision_review_updated_event)
     MetricsService.record(

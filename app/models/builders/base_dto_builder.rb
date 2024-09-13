@@ -3,6 +3,10 @@
 # This is the parent DTO Builder class. It holds common functionality used amungst
 # various DTO Builders.
 class Builders::BaseDtoBuilder
+  attr_reader :vet_file_number, :vet_ssn, :vet_first_name,
+              :vet_middle_name, :vet_last_name, :claimant_ssn, :claimant_dob,
+              :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email
+
   # rubocop:disable Style/MutableConstant
   PII_FIELDS = %w[
     ssn

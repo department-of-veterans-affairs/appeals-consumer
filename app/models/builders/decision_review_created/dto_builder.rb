@@ -6,9 +6,7 @@
 # :reek:TooManyMethods
 # :reek:InstanceVariableAssumption
 class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
-  attr_reader :vet_file_number, :vet_ssn, :vet_first_name, :vet_middle_name, :vet_last_name, :claimant_ssn,
-              :claimant_dob, :claimant_first_name, :claimant_middle_name, :claimant_last_name, :claimant_email,
-              :payload
+  attr_reader :payload
 
   def initialize(drc_event)
     MetricsService.record("Build decision review created #{drc_event}",
