@@ -35,6 +35,7 @@ class Builders::BaseDtoBuilder
   # Allows all DTO Builders access to both Veteran and Claimant information
   def assign_from_retrievals
     @vet_ssn = assign_vet_ssn
+    @vet_file_number = assign_vet_file_number
     @vet_first_name = assign_vet_first_name
     @vet_last_name = assign_vet_last_name
     @vet_middle_name = assign_vet_middle_name
@@ -48,6 +49,10 @@ class Builders::BaseDtoBuilder
 
   def assign_vet_ssn
     @veteran.ssn
+  end
+
+  def assign_vet_file_number
+    @veteran.file_number
   end
 
   def assign_vet_first_name

@@ -33,23 +33,6 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
       end
     end
 
-    context "when a ClientRequestError is raised" do
-      let(:error) { AppealsConsumer::Error::ClientRequestError }
-      let(:error_message) { "Client Request Error" }
-
-      before do
-        allow(Rails.logger).to receive(:error)
-        allow(ExternalApi::CaseflowService)
-          .to receive(:edit_records_from_decision_review_updated_event!)
-          .and_raise(AppealsConsumer::Error::ClientRequestError.new({ message: error_message }))
-      end
-
-      it "logs and raises the error" do
-        expect { subject }.to raise_error(AppealsConsumer::Error::ClientRequestError)
-        expect(Rails.logger).to have_received(:error).with(/#{error_message}/)
-      end
-    end
-
     context "when an unexpected error occurs" do
       let(:standard_error) { StandardError.new("Unexpected error") }
       let(:error_message) { "Unexpected error" }

@@ -24,7 +24,7 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   def assign_attributes
     assign_from_builders
     assign_from_decision_review_updated
-    assign_headers
+    assign_vet_and_claimant
     assign_from_retrievals
     assign_decision_review_updated_payload
   end
@@ -53,7 +53,7 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
     @station = @decision_review_updated.actor_station
   end
 
-  def assign_headers
+  def assign_vet_and_claimant
     @veteran = build_veteran
     @claimant = build_claimant
   end

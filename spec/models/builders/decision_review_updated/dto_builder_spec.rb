@@ -81,6 +81,29 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     end
   end
 
+  describe "#assign_attributes" do
+    it "successfully assigns all veteran attributes" do
+      dto_builder.send(:assign_attributes)
+
+      expect(dto_builder.instance_variable_get(:@vet_file_number)).to eq(veteran_bis_record[:file_number])
+      expect(dto_builder.instance_variable_get(:@vet_ssn)).to eq(veteran_bis_record[:ssn])
+      expect(dto_builder.instance_variable_get(:@vet_first_name)).to eq(veteran_bis_record[:first_name])
+      expect(dto_builder.instance_variable_get(:@vet_last_name)).to eq(veteran_bis_record[:last_name])
+      expect(dto_builder.instance_variable_get(:@vet_middle_name)).to eq(veteran_bis_record[:middle_name])
+    end
+
+    it "successfully assigns all claimant attributes" do
+      dto_builder.send(:assign_attributes)
+
+      expect(dto_builder.instance_variable_get(:@claimant_ssn)).to eq("666004444")
+      expect(dto_builder.instance_variable_get(:@claimant_dob)).to eq(904_953_600_000)
+      expect(dto_builder.instance_variable_get(:@claimant_first_name)).to eq("Tom")
+      expect(dto_builder.instance_variable_get(:@claimant_middle_name)).to eq("Edward")
+      expect(dto_builder.instance_variable_get(:@claimant_last_name)).to eq("Brady")
+      expect(dto_builder.instance_variable_get(:@claimant_email)).to eq("tom.brady@caseflow.gov")
+    end
+  end
+
   describe "#assign_from_builders" do
     it "builds and assigns attributes correctly" do
       dto_builder.send(:assign_from_builders)
@@ -132,14 +155,22 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     end
   end
 
+  describe "#assign_vet_and_claimant" do
+    it "builds an instance of BaseVeteran and assigns it to the @veteran attribute and"\
+     "builds an instance of BaseClaimant and assigns it to the @claimant attribute" do
+      expect(dto_builder.instance_variable_get(:@veteran)).to be_instance_of(BaseVeteran)
+      expect(dto_builder.instance_variable_get(:@claimant)).to be_instance_of(BaseClaimant)
+    end
+  end
+
   describe "#build_veteran" do
-    it "should return built veteran object" do
+    it "returns built veteran object" do
       expect(dto_builder.send(:build_veteran)).to be_instance_of(BaseVeteran)
     end
   end
 
   describe "#build_claimant" do
-    it "should return build claimant object" do
+    it "returns built claimant object" do
       expect(dto_builder.send(:build_claimant)).to be_instance_of(BaseClaimant)
     end
   end
