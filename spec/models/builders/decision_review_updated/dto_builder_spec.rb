@@ -31,12 +31,41 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     allow(Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder)
       .to receive(:build)
       .and_return("ineligible_to_ineligible_issues")
+    store_veteran_record
   end
 
   let(:decision_review_updated_event) do
     create(:event, type: "Events::DecisionReviewUpdatedEvent", message_payload: message_payload)
   end
   let(:event_id) { decision_review_updated_event.id }
+  let(:veteran_bis_record) do
+    {
+      file_number: message_payload["file_number"],
+      ptcpnt_id: message_payload["veteran_participant_id"],
+      sex: "M",
+      first_name: message_payload["veteran_first_name"],
+      middle_name: "Russell",
+      last_name: message_payload["veteran_last_name"],
+      name_suffix: "II",
+      ssn: "987654321",
+      address_line1: "122 Mullberry St.",
+      address_line2: "PO BOX 123",
+      address_line3: "Daisies",
+      city: "Orlando",
+      state: "FL",
+      country: "USA",
+      date_of_birth: "12/21/1989",
+      date_of_death: "12/31/2019",
+      zip_code: "94117",
+      military_post_office_type_code: nil,
+      military_postal_type_code: nil,
+      service: [{ branch_of_service: "army", pay_grade: "E4" }]
+    }
+  end
+
+  let(:store_veteran_record) do
+    Fakes::VeteranStore.new.store_veteran_record(message_payload["file_number"], veteran_bis_record)
+  end
 
   describe "#initialize" do
     it "calls MetricsService.record with correct arguments" do
@@ -52,6 +81,29 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
     it "initializes instance variables" do
       expect(dto_builder.instance_variable_get(:@event_id)).to eq(event_id)
       expect(dto_builder.instance_variable_get(:@decision_review_updated)).to be_a(Transformers::DecisionReviewUpdated)
+    end
+  end
+
+  describe "#assign_attributes" do
+    it "successfully assigns all veteran attributes" do
+      dto_builder.send(:assign_attributes)
+
+      expect(dto_builder.instance_variable_get(:@vet_file_number)).to eq(veteran_bis_record[:file_number])
+      expect(dto_builder.instance_variable_get(:@vet_ssn)).to eq(veteran_bis_record[:ssn])
+      expect(dto_builder.instance_variable_get(:@vet_first_name)).to eq(veteran_bis_record[:first_name])
+      expect(dto_builder.instance_variable_get(:@vet_last_name)).to eq(veteran_bis_record[:last_name])
+      expect(dto_builder.instance_variable_get(:@vet_middle_name)).to eq(veteran_bis_record[:middle_name])
+    end
+
+    it "successfully assigns all claimant attributes" do
+      dto_builder.send(:assign_attributes)
+
+      expect(dto_builder.instance_variable_get(:@claimant_ssn)).to eq("666004444")
+      expect(dto_builder.instance_variable_get(:@claimant_dob)).to eq(904_953_600_000)
+      expect(dto_builder.instance_variable_get(:@claimant_first_name)).to eq("Tom")
+      expect(dto_builder.instance_variable_get(:@claimant_middle_name)).to eq("Edward")
+      expect(dto_builder.instance_variable_get(:@claimant_last_name)).to eq("Brady")
+      expect(dto_builder.instance_variable_get(:@claimant_email)).to eq("tom.brady@caseflow.gov")
     end
   end
 
@@ -104,6 +156,26 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@css_id)).to eq("user_123")
       expect(dto_builder.instance_variable_get(:@detail_type)).to eq("type_123")
       expect(dto_builder.instance_variable_get(:@station)).to eq("station_123")
+    end
+  end
+
+  describe "#assign_vet_and_claimant" do
+    it "builds an instance of BaseVeteran and assigns it to the @veteran attribute and"\
+     "builds an instance of BaseClaimant and assigns it to the @claimant attribute" do
+      expect(dto_builder.instance_variable_get(:@veteran)).to be_instance_of(BaseVeteran)
+      expect(dto_builder.instance_variable_get(:@claimant)).to be_instance_of(BaseClaimant)
+    end
+  end
+
+  describe "#build_veteran" do
+    it "returns built veteran object" do
+      expect(dto_builder.send(:build_veteran)).to be_instance_of(BaseVeteran)
+    end
+  end
+
+  describe "#build_claimant" do
+    it "returns built claimant object" do
+      expect(dto_builder.send(:build_claimant)).to be_instance_of(BaseClaimant)
     end
   end
 
