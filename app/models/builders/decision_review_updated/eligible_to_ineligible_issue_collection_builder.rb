@@ -2,7 +2,6 @@
 
 class Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilder <
       Builders::BaseRequestIssueCollectionBuilder
-  # valid_issues are the decision_review_issues_created that don't have "CONTESTED" eligibility_result
   def build_issues
     eligible_to_ineligible_issues = eligible_to_ineligible_issue
 
