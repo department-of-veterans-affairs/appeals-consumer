@@ -8,24 +8,17 @@ RSpec.describe Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollect
   include_context "decision_review_updated_context"
 
   let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
-  let(:issue) { decision_review_updated.decision_review_issues_created.first }
-  let(:index) { 1 }
-
-  before do
-    # Negative Test: This issue does not fulfill conditions for ineligible to ineligible issues and
-    # should be ignored by IneligibleToIneligibleIssueCollectionBuilder
-    message_payload["decision_review_issues_updated"].push(
-      base_decision_review_issue.merge(
-        "contention_id" => 123_456,
-        "contention_action" => "NONE",
-        "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
-      )
-    )
+  let(:issue) do
+    decision_review_updated.decision_review_issues_updated.find { |issue|
+      issue.contention_action == subject.send(:contention_deleted) &&
+      issue.reason_for_contention_action == subject.send(:eligible_to_ineligible)
+    }
   end
+  let(:index) { 1 }
 
   describe "#build_issues" do
     context "when successful" do
-      it "creates added_issues successfully" do
+      it "creates DecisionReviewUpdated::RequestIssue successfully" do
         expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
       end
     end
@@ -55,17 +48,151 @@ RSpec.describe Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollect
     end
   end
 
-  describe "#eligible_to_ineligible_issue" do
+  describe "#eligible_to_ineligible_issues" do
+    before do
+      # Adding issues with combos of reason_for_contention_action & contention_action that should not be possible
+      # to all issue attribute categories (ie. decision_review_issues_created, decision_review_issues_removed, etc)
+      # to prove that this Collection Builder only pulls issues from the decision_review_issues_updated attribute
+      message_payload["decision_review_issues_created"].push(
+        base_decision_review_issue.merge(
+          "contention_id" => 123_456,
+          "contention_action" => subject.send(:contention_deleted),
+          "reason_for_contention_action" => subject.send(:eligible_to_ineligible)
+        )
+      )
+
+      message_payload["decision_review_issues_removed"].push(
+        base_decision_review_issue.merge(
+          "contention_id" => 123_456,
+          "contention_action" => subject.send(:contention_deleted),
+          "reason_for_contention_action" => subject.send(:eligible_to_ineligible)
+        )
+      )
+
+      message_payload["decision_review_issues_withdrawn"].push(
+        base_decision_review_issue.merge(
+          "contention_id" => 123_456,
+          "contention_action" => subject.send(:contention_deleted),
+          "reason_for_contention_action" => subject.send(:eligible_to_ineligible)
+        )
+      )
+
+      message_payload["decision_review_issues_not_changed"].push(
+        base_decision_review_issue.merge(
+          "contention_id" => 123_456,
+          "contention_action" => subject.send(:contention_deleted),
+          "reason_for_contention_action" => subject.send(:eligible_to_ineligible)
+        )
+      )
+    end
     context "when decision review updated issues are present" do
       it "returns correct numbder of eligible_to_ineligible" do
-        expect(subject.eligible_to_ineligible_issue.count).to eq(1)
+        expect(subject.eligible_to_ineligible_issues.count).to eq(1)
       end
 
-      it "has the correct issues" do
-        subject.eligible_to_ineligible_issue.each do |issue|
-          expect(issue.reason_for_contention_action).not_to eq("PRIOR_DECISION_TEXT_CHANGED")
-          expect(issue.reason_for_contention_action).to eq("ELIGIBLE_TO_INELIGIBLE")
-          expect(issue.contention_action).to eq("DELETE_CONTENTION")
+      it "only returns issues with a reason_for_contention_action of 'ELIGIBLE_TO_INELIGIBLE'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).to eq(subject.send(:eligible_to_ineligible))
+        end
+      end
+
+      it "only returns issues with a contention_action of 'DELETE_CONTENTION'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.contention_action).to eq(subject.send(:contention_deleted))
+        end
+      end
+
+      it "only returns issues from within the decision_review_issues_updated attribute" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(decision_review_updated.decision_review_issues_updated).to include(issue)
+          expect(decision_review_updated.decision_review_issues_created).not_to include(issue)
+          expect(decision_review_updated.decision_review_issues_removed).not_to include(issue)
+          expect(decision_review_updated.decision_review_issues_withdrawn).not_to include(issue)
+          expect(decision_review_updated.decision_review_issues_not_changed).not_to include(issue)
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'INELIGIBLE_TO_ELIGIBLE'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:ineligible_to_eligible))
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'INELIGIBLE_REASON_CHANGED'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:ineligible_reason_changed))
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'REMOVED_SELECTED'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:removed))
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'WITHDRAWN_SELECTED'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:withdrawn))
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'PRIOR_DECISION_TEXT_CHANGED'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:text_changed))
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'NEW_ELIGIBLE_ISSUE'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:issue_added))
+        end
+      end
+
+      it "does NOT return issues with a reason_for_contention_action of 'NO_CHANGES'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).not_to eq(subject.send(:no_changes))
+        end
+      end
+
+      it "does NOT return issues with a contention_action of 'ADD_CONTENTION'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.contention_action).not_to eq(subject.send(:contention_added))
+        end
+      end
+
+      it "does NOT return issues with a contention_action of 'NONE'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.contention_action).not_to eq(subject.send(:no_contention_action))
+        end
+      end
+
+      it "does NOT return issues with a contention_action of 'UPDATE_CONTENTION'" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(issue.contention_action).not_to eq(subject.send(:contention_updated))
+        end
+      end
+
+      it "does NOT return any issues from the decision_review_issues_created attribute" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(decision_review_updated.decision_review_issues_created).not_to include(issue)
+        end
+      end
+
+      it "does NOT return any issues from the decision_review_issues_removed attribute" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(decision_review_updated.decision_review_issues_removed).not_to include(issue)
+        end
+      end
+
+      it "does NOT return any issues from the decision_review_issues_withdrawn attribute" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(decision_review_updated.decision_review_issues_withdrawn).not_to include(issue)
+        end
+      end
+
+      it "does NOT return any issues from the decision_review_issues_not_changed attribute" do
+        subject.eligible_to_ineligible_issues.each do |issue|
+          expect(decision_review_updated.decision_review_issues_not_changed).not_to include(issue)
         end
       end
     end
@@ -76,7 +203,7 @@ RSpec.describe Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollect
       end
 
       it "returns an empty array" do
-        expect(subject.eligible_to_ineligible_issue).to eq([])
+        expect(subject.eligible_to_ineligible_issues).to eq([])
       end
     end
   end

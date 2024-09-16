@@ -4,8 +4,6 @@ class Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilde
       Builders::BaseRequestIssueCollectionBuilder
   # valid_issues are the decision_review_issues that don't have "CONTESTED" eligibility_result
   def build_issues
-    eligible_to_ineligible_issues = eligible_to_ineligible_issue
-
     eligible_to_ineligible_issues.map.with_index do |issue, index|
       build_request_issue(issue, index)
     end
@@ -26,7 +24,7 @@ class Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilde
   end
 
   # Check for specific criteria for issue eligibility
-  def eligible_to_ineligible_issue
+  def eligible_to_ineligible_issues
     @decision_review_model.decision_review_issues_updated.select do |issue|
       issue.reason_for_contention_action == eligible_to_ineligible && issue.contention_action == contention_deleted
     end

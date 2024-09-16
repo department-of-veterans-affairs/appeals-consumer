@@ -6,7 +6,12 @@ describe Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBui
   subject { described_class.new(decision_review_updated) }
   include_context "decision_review_updated_context"
   let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
-  let(:issue) { decision_review_updated.decision_review_issues_updated.first }
+  let(:issue) do
+    decision_review_updated.decision_review_issues_updated.find { |issue|
+      issue.contention_action == subject.send(:contention_added) &&
+      issue.reason_for_contention_action == subject.send(:ineligible_to_eligible)
+    }
+  end
   let(:index) { 1 }
 
   describe "#build_issues" do

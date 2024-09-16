@@ -11,7 +11,12 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
     Transformers::DecisionReviewUpdated.new(decision_review_updated_event.id,
                                             decision_review_updated_event.message_payload)
   end
-  let(:issue) { decision_review_updated.decision_review_issues_updated.first }
+  let(:issue) do
+    decision_review_updated.decision_review_issues_updated.find { |issue|
+      issue.contention_action == subject.send(:no_contention_action) &&
+      issue.reason_for_contention_action == subject.send(:ineligible_reason_changed)
+    }
+  end
   let(:index) { 1 }
   let(:decision_review_updated_event) do
     FactoryBot.create(:event, type: "Events::DecisionReviewUpdatedEvent", message_payload: message_payload)
@@ -19,7 +24,7 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
 
   describe "#build_issues" do
     context "when successful" do
-      it "creates updated_issues successfully" do
+      it "creates DecisionReviewUpdated::RequestIssue successfully" do
         expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
       end
     end
