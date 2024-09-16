@@ -7037,6 +7037,7 @@ end
 
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/AbcSize
 def base_message_payload(**args)
   {
     "claim_id" => Faker::Number.number(digits: 7),
@@ -7079,6 +7080,7 @@ def base_message_payload(**args)
 end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/AbcSize
 
 def base_review_issue
   {
