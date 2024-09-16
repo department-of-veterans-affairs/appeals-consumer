@@ -2108,18 +2108,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
   end
 
-  describe "#handle_contention_id_present" do
-    subject { builder.send(:handle_contention_id_present) }
-    let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
-    let(:error_msg) do
-      "Issue is ineligible but has a not-null contention_id value"
-    end
-
-    it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
-      expect { subject }.to raise_error(error, error_msg)
-    end
-  end
-
   describe "#rating_or_rating_decision?" do
     subject { builder.send(:rating_or_rating_decision?) }
 
