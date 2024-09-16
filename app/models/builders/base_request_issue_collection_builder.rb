@@ -76,13 +76,6 @@ class Builders::BaseRequestIssueCollectionBuilder
     issues.any?(&:prior_rating_decision_id)
   end
 
-  def handle_no_issues_after_removing_contested
-    fail AppealsConsumer::Error::RequestIssueCollectionBuildError, "Failed building from"\
-      " #{self.class} for DecisionReview Claim ID:"\
-      " #{@decision_review_model.claim_id} does not contain any valid issues after"\
-      " removing 'CONTESTED' ineligible issues"
-  end
-
   def build_request_issue(issue, index)
     fail NotImplementedError, "#{self.class} must implement the build_request_issue method"
   end

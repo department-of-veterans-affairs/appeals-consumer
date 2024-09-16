@@ -225,20 +225,6 @@ describe Builders::DecisionReviewCreated::RequestIssueCollectionBuilder do
     end
   end
 
-  describe "#handle_no_issues_after_removing_contested" do
-    subject { builder.send(:handle_no_issues_after_removing_contested) }
-    let(:error) { AppealsConsumer::Error::RequestIssueCollectionBuildError }
-    let(:error_msg) do
-      "Failed building from #{described_class} for "\
-      "DecisionReview Claim ID: #{claim_id} does not contain any valid issues after "\
-      "removing 'CONTESTED' ineligible issues"
-    end
-
-    it "raises error AppealsConsumer::Error::RequestIssueCollectionBuildError with message" do
-      expect { subject }.to raise_error(error, error_msg)
-    end
-  end
-
   describe "#build_request_issue(issue, index)" do
     subject { builder.send(:build_request_issue, issue, index) }
 
