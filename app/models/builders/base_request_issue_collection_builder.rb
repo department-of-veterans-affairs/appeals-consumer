@@ -62,7 +62,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   private
 
   def issues
-    @issues ||= @decision_review_model.decision_review_issues
+    @issues ||= @decision_review_model.decision_review_issues_created
   end
 
   def message_has_rating_issues?
@@ -75,13 +75,6 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   def at_least_one_valid_bis_issue?
     issues.any?(&:prior_rating_decision_id)
-  end
-
-  def handle_no_issues_after_removing_contested
-    fail AppealsConsumer::Error::RequestIssueCollectionBuildError, "Failed building from"\
-      " #{self.class} for DecisionReview Claim ID:"\
-      " #{@decision_review_model.claim_id} does not contain any valid issues after"\
-      " removing 'CONTESTED' ineligible issues"
   end
 
   def build_request_issue(issue, index)

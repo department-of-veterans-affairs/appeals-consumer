@@ -145,6 +145,7 @@ class DecisionReviewIssueUpdated
     "prior_decision_rating_profile_date" => [String, NilClass],
     "source_claim_id_for_remand" => [Integer, NilClass],
     "source_contention_id_for_remand" => [Integer, NilClass],
+    "original_caseflow_request_issue_id" => [Integer, NilClass],
     "removed" => [TrueClass, FalseClass],
     "withdrawn" => [TrueClass, FalseClass],
     "decision" => [Hash, NilClass]

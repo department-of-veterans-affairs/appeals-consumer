@@ -72,8 +72,8 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
   end
 
   describe "#assign_methods" do
-    it "calls assign_decision_review_issue_id" do
-      expect(builder).to receive(:assign_decision_review_issue_id)
+    it "calls assign_original_caseflow_request_issue_id" do
+      expect(builder).to receive(:assign_original_caseflow_request_issue_id)
       builder.send(:assign_methods)
     end
   end
@@ -116,6 +116,21 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       let(:issue) { decision_review_updated_model.decision_review_issues_updated.second }
       it "does not assign a value to the issue's edited_description" do
         expect(subject).to be_nil
+      end
+    end
+  end
+
+  describe "#calculate_rating_issue_associated_at" do
+    subject { builder.send(:calculate_rating_issue_associated_at) }
+
+    before do
+      allow(builder).to receive(:rating?).and_return(true)
+      allow(builder).to receive(:eligible?).and_return(true)
+    end
+    context "when popuating eligible rating issues" do
+      it "#update_time_converted_to_time_ms" do
+        subject
+        expect(builder.send(:update_time_converted_to_timestamp_ms)).to eq(164_108_160_000_0)
       end
     end
   end

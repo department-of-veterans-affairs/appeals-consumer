@@ -87,6 +87,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
     assign_type
+    assign_decision_review_issue_id
   end
 
   def calculate_methods
@@ -582,5 +583,9 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   def determine_benefit_type
     decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
+  end
+
+  def assign_decision_review_issue_id
+    @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
 end
