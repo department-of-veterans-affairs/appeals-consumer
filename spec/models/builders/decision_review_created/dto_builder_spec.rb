@@ -359,6 +359,18 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         end
       end
 
+      describe "#_assign_vet_first_name" do
+        it "should return vet first name" do
+          expect(drc_dto_builder.send(:assign_vet_first_name)).to eq veteran.first_name
+        end
+      end
+
+      describe "#_assign_vet_last_name" do
+        it "should return vet last name" do
+          expect(drc_dto_builder.send(:assign_vet_last_name)).to eq veteran.last_name
+        end
+      end
+
       describe "#_assign_vet_middle_name" do
         it "should return vet middle name" do
           expect(drc_dto_builder.send(:assign_vet_middle_name)).to eq veteran.middle_name
