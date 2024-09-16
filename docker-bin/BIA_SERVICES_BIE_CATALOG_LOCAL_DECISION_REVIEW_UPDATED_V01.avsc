@@ -422,6 +422,15 @@
                 "doc": "The ID of the contention that was assigned a disposition that triggered the auto-establishment of this remand decision review, if applicable. This field is not updatable and is only for reference."
               },
               {
+                "name": "originalCaseflowRequestIssueId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "When the originalSource is CASEFLOW (meaning the decision reveiw was backfilled from Caseflow), this represents the request issues ID in Caseflow."
+              },
+              {
                 "name": "removed",
                 "type": "boolean",
                 "default": false,

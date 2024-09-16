@@ -37,7 +37,7 @@ class KafkaMessageGenerators::Base
   # for each event type. Used in the Decision Review Events class
   def issue_types
     @issue_types ||= {
-      decision_review_created: [:decision_review_issues],
+      decision_review_created: [:decision_review_issues_created],
       decision_review_updated: [
         :decision_review_issues_created,
         :decision_review_issues_not_changed,

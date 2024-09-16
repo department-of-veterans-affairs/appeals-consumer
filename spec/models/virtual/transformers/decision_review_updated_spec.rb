@@ -98,12 +98,21 @@ describe Transformers::DecisionReviewUpdated do
           expect(issue.source_claim_id_for_remand).to eq(
             decision_review_issues_updated[index]["source_claim_id_for_remand"]
           )
+          expect(issue.original_caseflow_request_issue_id).to eq(
+            decision_review_issues_updated[index]["original_caseflow_request_issue_id"]
+          )
           expect(issue.source_contention_id_for_remand).to eq(
             decision_review_issues_updated[index]["source_contention_id_for_remand"]
           )
           expect(issue.removed).to eq(decision_review_issues_updated[index]["removed"])
           expect(issue.withdrawn).to eq(decision_review_issues_updated[index]["withdrawn"])
         end
+      end
+    end
+    describe "#decision_review_issues" do
+      it "returns all decision_review_issues" do
+        expect(subject.decision_review_issues.count).to eq 10
+        expect(subject.decision_review_issues.class).to eq(Array)
       end
     end
   end

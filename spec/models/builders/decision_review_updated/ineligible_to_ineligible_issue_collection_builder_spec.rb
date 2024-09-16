@@ -106,6 +106,22 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
       it "only returns issues with a contention_action of 'NONE'" do
         subject.ineligible_to_ineligible_issues.each do |issue|
           expect(issue.contention_action).to eq(subject.send(:no_contention_action))
+          expect(issue.original_caseflow_request_issue_id).to eq(nil)
+        end
+      end
+    end
+
+    context "When decision review updated issues that originated from caseflow" do
+      before do
+        message_payload["original_source"] = "CASEFLOW"
+        message_payload["decision_review_issues_updated"][3]["original_caseflow_request_issue_id"] =
+          123_45
+      end
+      it "builds correct datapoints for an issue that originated from Caseflow" do
+        subject.ineligible_to_ineligible_issues.each do |issue|
+          expect(issue.reason_for_contention_action).to eq(subject.send(:ineligible_reason_changed))
+          expect(issue.contention_action).to eq(subject.send(:no_contention_action))
+          expect(issue.original_caseflow_request_issue_id).to eq(123_45)
         end
       end
 

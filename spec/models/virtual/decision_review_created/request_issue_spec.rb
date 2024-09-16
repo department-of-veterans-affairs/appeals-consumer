@@ -3,7 +3,7 @@
 describe DecisionReviewCreated::RequestIssue do
   let(:event_id) { 44_349 }
   let(:decision_review_created_model) { FactoryBot.build(:decision_review_created) }
-  let(:issue) { decision_review_created_model.decision_review_issues.first }
+  let(:issue) { decision_review_created_model.decision_review_issues_created.first }
   let(:bis_rating_profiles) { nil }
   let(:request_issue) do
     Builders::DecisionReviewCreated::RequestIssueBuilder.build(

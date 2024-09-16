@@ -248,8 +248,17 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "css_id" => "css_123",
         "detail_type" => "type_123",
         "station" => "station_123",
-        "claim_review" => { legacy_opt_in_approved: false, informal_conference: false, same_office: false },
-        "end_product_establishment" => { development_item_reference_id: "123456", reference_id: "123456789" },
+        "claim_review" => {
+          legacy_opt_in_approved: false,
+          informal_conference: false,
+          same_office: false
+        },
+        "end_product_establishment" => {
+          development_item_reference_id: "123456",
+          reference_id: "123456789",
+          last_synced_at: Time.now.utc,
+          synced_status: "PEND"
+        },
         "added_issues" => cleaned_added_issues,
         "updated_issues" => cleaned_updated_issues,
         "eligible_to_ineligible_issues" => cleaned_eligible_to_ineligible_issues,
