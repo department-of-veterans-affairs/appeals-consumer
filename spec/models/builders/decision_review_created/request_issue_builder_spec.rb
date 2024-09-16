@@ -723,6 +723,17 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           expect(subject).to eq(hlr_to_hlr)
         end
       end
+
+      context "due to being contested" do
+        let(:contested) do
+          described_class::INELIGIBLE_REASONS[:contested]
+        end
+        let(:decision_review_model) { build(:decision_review_created, :ineligible_contested) }
+
+        it "sets the Request Issue's ineligible_reason to 'contested'" do
+          expect(subject).to eq(contested)
+        end
+      end
     end
 
     context "when issue has an unrecognized eligibility_result" do
@@ -1013,7 +1024,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     subject { builder.send(:calculate_closed_status) }
     context "when issue is ineligible" do
       let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
-      let(:ineligible_closed_status) { described_class::INELIGIBLE_CLOSED_STATUS }
+      let(:ineligible_closed_status) { described_class::CLOSED_STATUSES[:ineligible_closed_status] }
       it "sets the Request Issue's closed_status to 'ineligible'" do
         expect(subject).to eq(ineligible_closed_status)
       end
@@ -1688,6 +1699,24 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
 
     context "when the issue's eligibility_result is NOT 'LEGACY_TIME_RESTRICTION' or 'NO_SOC_SSOC" do
+      it "retuns false" do
+        expect(subject).to eq false
+      end
+    end
+  end
+
+  describe "#contested?" do
+    subject { builder.send(:contested?) }
+    context "when the issue's eligibility_result is 'CONTESTED'" do
+      let(:decision_review_model) do
+        build(:decision_review_created, :ineligible_contested)
+      end
+      it "retuns true" do
+        expect(subject).to eq true
+      end
+    end
+
+    context "when the issue's eligibility_result is NOT 'CONTESTED'" do
       it "retuns false" do
         expect(subject).to eq false
       end

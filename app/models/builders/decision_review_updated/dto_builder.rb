@@ -22,6 +22,8 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   def assign_attributes
     assign_from_builders
     assign_from_decision_review_updated
+    assign_vet_and_claimant
+    assign_from_retrievals
     assign_decision_review_updated_payload
   end
 
@@ -49,8 +51,21 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
     @station = @decision_review_updated.actor_station
   end
 
+  def assign_vet_and_claimant
+    @veteran = build_veteran
+    @claimant = build_claimant
+  end
+
   def assign_decision_review_updated_payload
     @payload = validate_no_pii(build_decision_review_updated_payload)
+  end
+
+  def build_veteran
+    Builders::BaseVeteranBuilder.build(@decision_review_updated)
+  end
+
+  def build_claimant
+    Builders::BaseClaimantBuilder.build(@decision_review_updated)
   end
 
   def build_decision_review_updated(message_payload)
@@ -106,6 +121,7 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
       updated_issues: clean_pii(@updated_issues),
       removed_issues: clean_pii(@removed_issues),
       withdrawn_issues: clean_pii(@withdrawn_issues),
+      ineligible_to_eligible_issues: clean_pii(@ineligible_to_eligible_issues),
       eligible_to_ineligible_issues: clean_pii(@eligible_to_ineligible_issues),
       ineligible_to_ineligible_issues: clean_pii(@ineligible_to_ineligible_issues)
     }.as_json

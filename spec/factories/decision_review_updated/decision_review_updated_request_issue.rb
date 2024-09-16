@@ -52,6 +52,12 @@ FactoryBot.define do
       ineligible_reason { "untimely" }
     end
 
+    trait :ineligible_to_eligible_request_issue do
+      closed_at { nil }
+      closed_status { nil }
+      ineligible_reason { nil }
+    end
+
     trait :updated_request_issue do
       edited_description { "Description was edited" }
     end
