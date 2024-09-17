@@ -4,10 +4,10 @@ RSpec.describe Builders::BaseRequestIssueCollectionBuilder, type: :model do
   let(:decision_review_model) { build(:decision_review_created) }
   let(:fake_child_class) { Class.new(Builders::BaseRequestIssueCollectionBuilder).new(decision_review_model) }
 
-  describe "#build_issues" do
+  describe "#_issues" do
     it "raises a NotImplementedError when it is NOT defined in an inherited class" do
       expect { fake_child_class.build_issues }
-        .to raise_error(NotImplementedError, /must implement the build_issues method/)
+        .to raise_error(NotImplementedError, /must implement the #_issues method/)
     end
   end
 
