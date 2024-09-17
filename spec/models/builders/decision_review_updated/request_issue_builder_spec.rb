@@ -72,15 +72,44 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
   end
 
   describe "#assign_methods" do
-    it "calls assign_original_caseflow_request_issue_id" do
+    it "calls assign methods" do
       expect(builder).to receive(:assign_original_caseflow_request_issue_id)
+      expect(builder).to receive(:assign_contested_rating_decision_reference_id)
+      expect(builder).to receive(:assign_contested_rating_issue_reference_id)
+      expect(builder).to receive(:assign_contested_decision_issue_id)
+      expect(builder).to receive(:assign_untimely_exemption)
+      expect(builder).to receive(:assign_untimely_exemption_notes)
+      expect(builder).to receive(:assign_vacols_id)
+      expect(builder).to receive(:assign_vacols_sequence_id)
+      expect(builder).to receive(:assign_nonrating_issue_bgs_id)
+      expect(builder).to receive(:assign_type)
+      expect(builder).to receive(:assign_decision_review_issue_id)
+
       builder.send(:assign_methods)
     end
   end
 
   describe "#calculate_methods" do
-    it "calls calculate_edited_description" do
+    it "calls calculate methods" do
       expect(builder).to receive(:calculate_edited_description)
+      expect(builder).to receive(:calculate_contention_reference_id)
+      expect(builder).to receive(:calculate_benefit_type)
+      expect(builder).to receive(:calculate_contested_issue_description)
+      expect(builder).to receive(:calculate_contested_rating_issue_profile_date)
+      expect(builder).to receive(:calculate_decision_date)
+      expect(builder).to receive(:calculate_ineligible_due_to_id)
+      expect(builder).to receive(:calculate_ineligible_reason)
+      expect(builder).to receive(:calculate_unidentified_issue_text)
+      expect(builder).to receive(:calculate_nonrating_issue_category)
+      expect(builder).to receive(:calculate_nonrating_issue_description)
+      expect(builder).to receive(:calculate_closed_at)
+      expect(builder).to receive(:calculate_closed_status)
+      expect(builder).to receive(:calculate_contested_rating_issue_diagnostic_code)
+      expect(builder).to receive(:calculate_ramp_claim_id)
+      expect(builder).to receive(:calculate_rating_issue_associated_at)
+      expect(builder).to receive(:calculate_is_unidentified)
+      expect(builder).to receive(:calculate_nonrating_issue_bgs_source)
+
       builder.send(:calculate_methods)
     end
   end
@@ -97,7 +126,57 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
 
     context "when the issue does not have a decision_review_issue_id value" do
       it "assigns the issue's decision_review_issue_id to nil" do
-        expect(subject).to eq(1)
+        issue.decision_review_issue_id = nil
+        expect(subject).to eq(nil)
+      end
+    end
+  end
+
+  describe "#calculate_closed_at" do
+    subject { builder.send(:calculate_closed_at) }
+    let(:update_time_converted_to_timestamp_ms) do
+      builder.update_time_converted_to_timestamp_ms
+    end
+
+    context "when the issue is ineligible" do
+      it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
+        issue.eligibility_result = "TIME_RESTRICTION"
+        expect(subject).to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when the issue is withdrawn" do
+      it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
+        issue.withdrawn = true
+        expect(subject).to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when the issue is removed" do
+      it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
+        issue.removed = true
+        expect(subject).to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when the issue is eligible" do
+      it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
+        issue.eligibility_result = "ELIGIBLE"
+        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when the issue is NOT withdrawn" do
+      it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
+        issue.withdrawn = false
+        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when the issue is NOT removed" do
+      it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
+        issue.removed = false
+        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end
   end
