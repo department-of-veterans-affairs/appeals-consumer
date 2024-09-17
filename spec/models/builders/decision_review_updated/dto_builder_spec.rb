@@ -256,7 +256,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
         "end_product_establishment" => {
           development_item_reference_id: "123456",
           reference_id: "123456789",
-          last_synced_at: Time.now.utc,
+          last_synced_at: "2024-09-17T17:39:55.426Z",
           synced_status: "PEND"
         },
         "added_issues" => cleaned_added_issues,
