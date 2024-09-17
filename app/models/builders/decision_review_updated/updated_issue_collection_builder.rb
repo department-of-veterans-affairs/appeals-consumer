@@ -28,6 +28,8 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < Builders:
     updated_issues_with_contentions + updated_issues_without_contentions
   end
 
+  private
+
   def updated_issues_with_contentions
     @decision_review_model.decision_review_issues_updated.select do |issue|
       issue.reason_for_contention_action == text_changed && issue.contention_action == contention_updated
