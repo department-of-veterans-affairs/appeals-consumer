@@ -41,7 +41,9 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def build_issues
-    fail NotImplementedError, "#{self.class} must implement the build_issues method"
+    issues.map.with_index do |issue, index|
+      build_request_issue(issue, index)
+    end
   end
 
   # used to call BIS fetch_rating_profiles_in_range with specified date range
@@ -62,7 +64,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   private
 
   def issues
-    @issues ||= @decision_review_model.decision_review_issues_created
+    fail NotImplementedError, "#{self.class} must implement the #_issues method"
   end
 
   def message_has_rating_issues?
