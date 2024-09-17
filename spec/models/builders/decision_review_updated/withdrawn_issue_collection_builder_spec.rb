@@ -13,7 +13,7 @@ RSpec.describe Builders::DecisionReviewUpdated::WithdrawnIssueCollectionBuilder,
 
   describe "#build_issues" do
     context "when successful" do
-      it "creates withdrawn_issues successfully" do
+      it "creates DecisionReviewUpdated::RequestIssue successfully" do
         expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
       end
     end
