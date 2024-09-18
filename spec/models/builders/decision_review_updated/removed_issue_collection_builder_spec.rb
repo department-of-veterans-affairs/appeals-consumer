@@ -1,47 +1,18 @@
 # frozen_string_literal: true
 
 require "shared_context/decision_review_updated_context"
+require "shared_examples/decision_review_updated/request_issue_collection_builders"
 
 RSpec.describe Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder, type: :model do
   subject { described_class.new(decision_review_updated) }
 
   include_context "decision_review_updated_context"
+  include_examples "request_issue_collection_builders"
 
   let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
+  let(:builder) { described_class.new(decision_review_updated) }
   let(:issue) { decision_review_updated.decision_review_issues_removed.first }
   let(:index) { 1 }
-
-  describe "#build_issues" do
-    context "when successful" do
-      it "creates DecisionReviewUpdated::RequestIssue successfully" do
-        expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
-      end
-    end
-  end
-
-  describe "#build_request_issue" do
-    before do
-      allow(Builders::DecisionReviewUpdated::RequestIssueBuilder).to receive(:build).and_return(true)
-    end
-
-    context "when successful" do
-      it "does not raise an error" do
-        expect(subject.build_request_issue(issue, index)).to eq(true)
-      end
-    end
-
-    context "when unsuccessful" do
-      before do
-        allow(Builders::DecisionReviewUpdated::RequestIssueBuilder).to receive(:build).and_raise(StandardError)
-      end
-
-      it "raises an error" do
-        expect do
-          subject.build_request_issue(issue, index)
-        end.to raise_error(AppealsConsumer::Error::RequestIssueBuildError)
-      end
-    end
-  end
 
   describe "#removed_issues" do
     before do

@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
 require "shared_context/decision_review_updated_context"
+require "shared_examples/decision_review_updated/request_issue_collection_builders"
 
 describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionBuilder, type: :model do
   subject { described_class.new(decision_review_updated) }
 
   include_context "decision_review_updated_context"
+  include_examples "request_issue_collection_builders"
 
   let(:decision_review_updated) do
     Transformers::DecisionReviewUpdated.new(decision_review_updated_event.id,
                                             decision_review_updated_event.message_payload)
   end
+  let(:builder) { described_class.new(decision_review_updated) }
   let(:issue) do
     decision_review_updated.decision_review_issues_updated.find { |issue|
       issue.contention_action == subject.send(:no_contention_action) &&
@@ -20,38 +23,6 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
   let(:index) { 1 }
   let(:decision_review_updated_event) do
     FactoryBot.create(:event, type: "Events::DecisionReviewUpdatedEvent", message_payload: message_payload)
-  end
-
-  describe "#build_issues" do
-    context "when successful" do
-      it "creates DecisionReviewUpdated::RequestIssue successfully" do
-        expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
-      end
-    end
-  end
-
-  describe "#build_request_issue" do
-    before do
-      allow(Builders::DecisionReviewUpdated::RequestIssueBuilder).to receive(:build).and_return(true)
-    end
-
-    context "when successful" do
-      it "does not raise an error" do
-        expect(subject.build_request_issue(issue, index)).to eq(true)
-      end
-    end
-
-    context "when unsuccessful" do
-      before do
-        allow(Builders::DecisionReviewUpdated::RequestIssueBuilder).to receive(:build).and_raise(StandardError)
-      end
-
-      it "raises the AppealsConsumer::Error::RequestIssueBuildError error" do
-        expect do
-          subject.build_request_issue(issue, index)
-        end.to raise_error(AppealsConsumer::Error::RequestIssueBuildError)
-      end
-    end
   end
 
   describe "#ineligible_to_ineligible_issues" do
