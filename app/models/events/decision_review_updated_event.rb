@@ -4,7 +4,7 @@
 class Events::DecisionReviewUpdatedEvent < Event
   def process!
     if decision_review_events_pending?
-      error_message = "Event IDs still needing processing: #{pending_decision_review_events.pluck(:id).join(', ')}"
+      error_message = "Event IDs still processing: #{pending_decision_review_events.pluck(:id).join(', ')}"
       fail AppealsConsumer::Error::PriorDecisionReviewEventsStillPendingError, error_message
     end
 
@@ -29,7 +29,7 @@ class Events::DecisionReviewUpdatedEvent < Event
       .where(completed_at: nil)
       .where(
         "(type = 'Events::DecisionReviewCreatedEvent')  OR
-        (type = 'Events::DecisionReviewUpdatedEvent' AND message_payload->>'update_time' < ?)",
+        (type = 'Events::DecisionReviewUpdatedEvent' AND message_payload ->> 'update_time' < ?)",
         message_payload_hash["update_time"]
       )
   end
