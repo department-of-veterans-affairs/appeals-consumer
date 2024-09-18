@@ -9,10 +9,7 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
   include_context "decision_review_updated_context"
   include_examples "request_issue_collection_builders"
 
-  let(:decision_review_updated) do
-    Transformers::DecisionReviewUpdated.new(decision_review_updated_event.id,
-                                            decision_review_updated_event.message_payload)
-  end
+  let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
   let(:builder) { described_class.new(decision_review_updated) }
   let(:issue) do
     decision_review_updated.decision_review_issues_updated.find { |issue|
@@ -21,9 +18,6 @@ describe Builders::DecisionReviewUpdated::IneligibleToIneligibleIssueCollectionB
     }
   end
   let(:index) { 1 }
-  let(:decision_review_updated_event) do
-    FactoryBot.create(:event, type: "Events::DecisionReviewUpdatedEvent", message_payload: message_payload)
-  end
 
   describe "#ineligible_to_ineligible_issues" do
     before do
