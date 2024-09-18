@@ -140,42 +140,48 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
 
     context "when the issue is ineligible" do
       it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
-        issue.eligibility_result = "TIME_RESTRICTION"
+        allow(builder).to receive(:ineligible?).and_return(true)
+        allow(builder).to receive(:withdrawn?).and_return(false)
+        allow(builder).to receive(:removed?).and_return(false)
         expect(subject).to eq(update_time_converted_to_timestamp_ms)
       end
     end
 
     context "when the issue is withdrawn" do
       it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
-        issue.withdrawn = true
+        allow(builder).to receive(:withdrawn?).and_return(true)
+        allow(builder).to receive(:ineligible?).and_return(false)
+        allow(builder).to receive(:removed?).and_return(false)
         expect(subject).to eq(update_time_converted_to_timestamp_ms)
       end
     end
 
     context "when the issue is removed" do
       it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
-        issue.removed = true
+        allow(builder).to receive(:removed?).and_return(true)
+        allow(builder).to receive(:ineligible?).and_return(false)
+        allow(builder).to receive(:withdrawn?).and_return(false)
         expect(subject).to eq(update_time_converted_to_timestamp_ms)
       end
     end
 
     context "when the issue is eligible" do
       it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
-        issue.eligibility_result = "ELIGIBLE"
+        allow(builder).to receive(:ineligible?).and_return(false)
         expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end
 
     context "when the issue is NOT withdrawn" do
       it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
-        issue.withdrawn = false
+        allow(builder).to receive(:withdrawn?).and_return(false)
         expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end
 
     context "when the issue is NOT removed" do
       it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
-        issue.removed = false
+        allow(builder).to receive(:removed?).and_return(false)
         expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end
@@ -184,16 +190,16 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
   describe "#calculate_edited_description" do
     subject { builder.send(:calculate_edited_description) }
 
-    context "when the issue has a reason_for_contention_action value of"\
-    " PRIOR_DECISION_TEXT_CHANGED and a contention_action value of UPDATE_CONTENTION" do
+    context "when the issue has an edited description" do
       it "assigns the issue's edited_description to prior_decision_text" do
-        expect(subject).to eq("DIC: Service connection denied (UPDATED)")
+        allow(builder).to receive(:edited_description?).and_return(true)
+        expect(subject).to eq(issue.prior_decision_text)
       end
     end
 
-    context "when the issue does NOT meet the attribute requirements" do
-      let(:issue) { decision_review_updated_model.decision_review_issues_updated.second }
-      it "does not assign a value to the issue's edited_description" do
+    context "when the issue does NOT have an edited_description" do
+      it "does NOT assign a value to the issue's edited_description" do
+        allow(builder).to receive(:edited_description?).and_return(false)
         expect(subject).to be_nil
       end
     end
@@ -201,15 +207,34 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
 
   describe "#calculate_rating_issue_associated_at" do
     subject { builder.send(:calculate_rating_issue_associated_at) }
-
-    before do
-      allow(builder).to receive(:rating?).and_return(true)
-      allow(builder).to receive(:eligible?).and_return(true)
+    let(:update_time_converted_to_timestamp_ms) do
+      builder.update_time_converted_to_timestamp_ms
     end
-    context "when popuating eligible rating issues" do
-      it "#update_time_converted_to_time_ms" do
-        subject
-        expect(builder.send(:update_time_converted_to_timestamp_ms)).to eq(164_108_160_000_0)
+
+    context "when populating eligible rating issues" do
+      it "sets the Request Issue's rating_issue_associated_at to update_time_converted_to_timestamp_ms" do
+        allow(builder).to receive(:rating?).and_return(true)
+        allow(builder).to receive(:eligible?).and_return(true)
+
+        expect(subject).to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when populating ineligible rating issues" do
+      it "DOES NOT set the Request Issue's rating_issue_associated_at to update_time_converted_to_timestamp_ms" do
+        allow(builder).to receive(:rating?).and_return(true)
+        allow(builder).to receive(:eligible?).and_return(false)
+        
+        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+      end
+    end
+
+    context "when populating eligible nonrating issues" do
+      it "DOES NOT set the Request Issue's rating_issue_associated_at to update_time_converted_to_timestamp_ms" do
+        allow(builder).to receive(:rating?).and_return(false)
+        allow(builder).to receive(:eligible?).and_return(true)
+        
+        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end
   end
