@@ -106,7 +106,7 @@ shared_context "decision_review_updated_context" do
       base_decision_review_issue.merge(
         "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
-        "decision_review_issue_id" => nil,
+        "decision_review_issue_id" => 2,
         "contention_id" => nil,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -120,7 +120,7 @@ shared_context "decision_review_updated_context" do
       base_decision_review_issue.merge(
         "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
-        "decision_review_issue_id" => nil,
+        "decision_review_issue_id" => 3,
         "contention_id" => nil,
         "contention_action" => "DELETE_CONTENTION",
         "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
@@ -135,7 +135,7 @@ shared_context "decision_review_updated_context" do
         "original_caseflow_request_issue_id" => 123_45,
         "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
-        "decision_review_issue_id" => nil,
+        "decision_review_issue_id" => 4,
         "contention_id" => nil,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",

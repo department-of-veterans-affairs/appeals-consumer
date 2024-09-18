@@ -116,7 +116,7 @@ class DecisionReviewIssueUpdated
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
   DECISION_REVIEW_ISSUE_UPDATED_ATTRIBUTES = {
-    "decision_review_issue_id" => [Integer, NilClass],
+    "decision_review_issue_id" => [Integer],
     "contention_id" => [Integer, NilClass],
     "contention_action" => String,
     "reason_for_contention_action" => [String, NilClass],

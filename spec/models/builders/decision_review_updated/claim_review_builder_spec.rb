@@ -64,7 +64,7 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
           message_payload["decision_review_issues_updated"].push(
             base_decision_review_issue.merge(
               "soc_opt_in" => true,
-              "decision_review_issue_id" => nil,
+              "decision_review_issue_id" => 1234,
               "contention_id" => 123_456,
               "contention_action" => "ADD_CONTENTION",
               "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED"
@@ -90,7 +90,7 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
           message_payload["decision_review_issues_created"].push(
             base_decision_review_issue.merge(
               "soc_opt_in" => true,
-              "decision_review_issue_id" => nil,
+              "decision_review_issue_id" => 1234,
               "contention_id" => 123_456,
               "contention_action" => "ADD_CONTENTION",
               "reason_for_contention_action" => "NEW_ELIGIBLE_ISSUE"
@@ -116,7 +116,7 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
           message_payload["decision_review_issues_removed"].push(
             base_decision_review_issue.merge(
               "soc_opt_in" => true,
-              "decision_review_issue_id" => nil,
+              "decision_review_issue_id" => 1234,
               "contention_id" => 123_456,
               "contention_action" => "DELETE_CONTENTION",
               "reason_for_contention_action" => "REMOVED_SELECTED"
@@ -142,7 +142,7 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
           message_payload["decision_review_issues_withdrawn"].push(
             base_decision_review_issue.merge(
               "soc_opt_in" => true,
-              "decision_review_issue_id" => nil,
+              "decision_review_issue_id" => 1234,
               "contention_id" => 123_456,
               "contention_action" => "DELETE_CONTENTION",
               "reason_for_contention_action" => "WITHDRAWN_SELECTED"
@@ -168,7 +168,7 @@ describe Builders::DecisionReviewUpdated::ClaimReviewBuilder do
           message_payload["decision_review_issues_not_changed"].push(
             base_decision_review_issue.merge(
               "soc_opt_in" => true,
-              "decision_review_issue_id" => nil,
+              "decision_review_issue_id" => 1234,
               "contention_id" => 123_456,
               "contention_action" => "NONE",
               "reason_for_contention_action" => ""
