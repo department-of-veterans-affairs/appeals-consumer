@@ -80,5 +80,5 @@ Rails.application.configure do
   # # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Max failed errors until event is switched to "failed"
-  ENV["MAX_ERRORS_FOR_FAILURE"] ||= "3"
+  ENV["MAX_ERRORS_FOR_FAILURE"] ||= "4"
 end

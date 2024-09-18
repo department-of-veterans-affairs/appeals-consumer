@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :decision_review_created_event,
-          class: "Events::DecisionReviewCreatedEvent" do
+  factory :decision_review_created_event, class: "Events::DecisionReviewCreatedEvent" do
+    claim_id = 1_234_567
     message_payload do
       {
-        "claim_id" => 1_234_567,
+        "claim_id" => claim_id,
         "decision_review_type" =>
         "HigherLevelReview",
         "veteran_first_name" => "John",
@@ -82,5 +82,6 @@ FactoryBot.define do
     end
     partition { 1 }
     sequence(:offset) { Event.any? ? (Event.last.offset + 1) : 1 }
+    claim_id { claim_id }
   end
 end
