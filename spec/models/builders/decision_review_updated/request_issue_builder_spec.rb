@@ -238,4 +238,82 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       end
     end
   end
+
+  describe "#_edited_description?" do
+    subject { builder.send(:edited_description?) }
+
+    context "when prior_decision_text_changed? and updated_contention? evaluate to true" do
+      it "returns true" do
+        allow(builder).to receive(:prior_decision_text_changed?).and_return(true)
+        allow(builder).to receive(:updated_contention?).and_return(true)
+        expect(subject).to eq(true)
+      end
+    end
+
+    context "when prior_decision_text_changed? evaluates to true and updated_contention? evaluates to false" do
+      it "returns false" do
+        allow(builder).to receive(:prior_decision_text_changed?).and_return(true)
+        allow(builder).to receive(:updated_contention?).and_return(false)
+        expect(subject).to eq(false)
+      end
+    end
+
+    context "when prior_decision_text_changed? evaluates to false and updated_contention? evaluates to true" do
+      it "returns false" do
+        allow(builder).to receive(:prior_decision_text_changed?).and_return(false)
+        allow(builder).to receive(:updated_contention?).and_return(true)
+        expect(subject).to eq(false)
+      end
+    end
+  end
+
+  describe "#_prior_decision_text_changed?" do
+    subject { builder.send(:prior_decision_text_changed?) }
+
+    context "when the issues reason_for_contention_action is 'PRIOR_DECISION_TEXT_CHANGED'" do
+      it "returns true" do
+        issue.reason_for_contention_action = "PRIOR_DECISION_TEXT_CHANGED"
+        expect(subject).to eq(true)
+      end
+    end
+
+    context "when the issues reason_for_contention_action is NOT 'PRIOR_DECISION_TEXT_CHANGED'" do
+      it "returns false" do
+        issue.reason_for_contention_action = "NEW_ELIGIBLE_ISSUE"
+        expect(subject).to eq(false)
+      end
+    end
+
+    context "when the issues reason_for_contention_action is nil" do
+      it "returns false" do
+        issue.reason_for_contention_action = nil
+        expect(subject).to eq(false)
+      end
+    end
+  end
+
+  describe "#_updated_contention?" do
+    subject { builder.send(:updated_contention?) }
+
+    context "when the isses contention action is 'UPDATE_CONTENTION'" do
+      it "returns true" do
+        issue.contention_action = "UPDATE_CONTENTION"
+        expect(subject).to eq(true)
+      end
+    end
+
+    context "when the isses contention action is NOT 'UPDATE_CONTENTION'" do
+      it "returns false" do
+        issue.contention_action = "NONE"
+        expect(subject).to eq(false)
+      end
+    end
+
+    context "when the isses contention action is nil" do
+      it "returns false" do
+        issue.contention_action = nil
+        expect(subject).to eq(false)
+      end
+    end
+  end
 end
