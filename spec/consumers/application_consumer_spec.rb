@@ -47,7 +47,7 @@ describe ApplicationConsumer do
     end
   end
 
-  describe "#handle_event_creation" do # here
+  describe "#handle_event_creation" do
     it "initializes a new event with the correct type, state and claim_id" do
       event = consumer.send(:handle_event_creation, message, event_type)
       expect(event.message_payload).to eq(payload.message)

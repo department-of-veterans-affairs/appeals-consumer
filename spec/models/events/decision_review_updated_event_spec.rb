@@ -93,18 +93,13 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
         allow(EventAudit).to receive(:create!).and_call_original
       end
 
-      it "handles the error" do
-        expect { event.process! }.to raise_error(AppealsConsumer::Error::PreviousDecisionReviewEventsStillPending)
-        expect(EventAudit).to have_received(:create!).with(
-          event: event,
-          error: error_message,
-          status: "FAILED"
-        )
+      it "raises an error" do
+        expect { event.process! }.to raise_error(AppealsConsumer::Error::PriorDecisionReviewEventsStillPendingError)
       end
     end
   end
 
-  describe "#decision_review_event_pending?" do
+  describe "#decision_review_events_pending?" do
     let(:event) do
       build(
         :decision_review_updated_event,
@@ -118,7 +113,7 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
 
     context "when no events match the criteria" do
       it "returns false" do
-        expect(event.decision_review_event_pending?).to be_falsey
+        expect(event.send("decision_review_events_pending?")).to be_falsey
       end
     end
 
@@ -134,7 +129,7 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
       end
 
       it "returns true" do
-        expect(event.decision_review_event_pending?).to be_truthy
+        expect(event.send("decision_review_events_pending?")).to be_truthy
       end
     end
 
@@ -150,7 +145,7 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
       end
 
       it "returns true" do
-        expect(event.decision_review_event_pending?).to be_truthy
+        expect(event.send("decision_review_events_pending?")).to be_truthy
       end
     end
 
@@ -173,7 +168,7 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
       end
 
       it "returns false" do
-        expect(event.decision_review_event_pending?).to be_falsey
+        expect(event.send("decision_review_events_pending?")).to be_falsey
       end
     end
     context "when there are events with non-nil completed_at timestamps" do
@@ -195,7 +190,7 @@ describe Events::DecisionReviewUpdatedEvent, type: :model do
       end
 
       it "returns false" do
-        expect(event.decision_review_event_pending?).to be_falsey
+        expect(event.send("decision_review_events_pending?")).to be_falsey
       end
     end
   end

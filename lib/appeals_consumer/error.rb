@@ -34,5 +34,5 @@ module AppealsConsumer::Error
   # Custom error specifically for build errors
   class DtoBuildError < StandardError; end
   class EventConsumptionError < StandardError; end
-  class PreviousDecisionReviewEventsStillPending < StandardError; end
+  class PriorDecisionReviewEventsStillPendingError < StandardError; end
 end

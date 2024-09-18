@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_10_200034) do
     t.integer "offset", null: false, comment: "Kafka Offset associated with Message."
     t.integer "claim_id", comment: "Claim ID associated with Decision Review Events"
     t.index ["claim_id"], name: "index_events_on_claim_id"
+    t.index ["completed_at"], name: "index_events_on_completed_at"
     t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type", unique: true
     t.index ["state"], name: "index_events_on_state"
     t.index ["type"], name: "index_events_on_type"
