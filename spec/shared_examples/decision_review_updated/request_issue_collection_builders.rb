@@ -103,9 +103,36 @@ RSpec.shared_examples "request_issue_collection_builders" do
     end
   end
 
-  # describe "#fetch_and_set_bis_rating_profiles" do
-  #   subject { builder.send(:fetch_and_set_bis_rating_profiles) }
-  # end
+  describe "#fetch_and_set_bis_rating_profiles" do
+    subject { builder.send(:fetch_and_set_bis_rating_profiles) }
+
+    let(:date) { "2017-02-07T07:21:24+00:00".to_date }
+    let(:date_plus_one) { date + 1 }
+
+    context "when @earliest_issue_profile_date and @latest_issue_profile_date_plus_one_day are defined" do
+      before do
+        decision_review_updated.instance_variable_set(:@event_id, decision_review_updated_event.id)
+        builder.instance_variable_set(:@earliest_issue_profile_date, date)
+        builder.instance_variable_set(:@latest_issue_profile_date_plus_one_day, date_plus_one)
+      end
+
+      it "sets the instance variable @bis_rating_profiles" do
+        subject
+        expect(builder.instance_variable_get(:@bis_rating_profiles)).not_to eq(nil)
+      end
+    end
+
+    context "when @earliest_issue_profile_date and @latest_issue_profile_date_plus_one_day are NOT defined" do
+      before do
+        decision_review_updated.instance_variable_set(:@event_id, decision_review_updated_event.id)
+      end
+
+      it "does not overwite instance variable @bis_rating_profiles" do
+        subject
+        expect(builder.instance_variable_get(:@bis_rating_profiles)).to eq(nil)
+      end
+    end
+  end
 
   describe "#_rating_ep_code_category?" do
     subject { builder.send(:rating_ep_code_category?) }
@@ -137,6 +164,45 @@ RSpec.shared_examples "request_issue_collection_builders" do
       it "returns false" do
         issue.prior_rating_decision_id = nil
         expect(builder.send(:at_least_one_valid_bis_issue?)).to eq(false)
+      end
+    end
+  end
+
+  describe "#_valid_issue_profile_dates" do
+    let(:duplicated_issue) { issue.dup }
+    let(:issues) { [issue, duplicated_issue] }
+    let(:date_string) { "2017-02-07T07:21:24+00:00" }
+    let(:date) { date_string.to_date }
+
+    context "when the issues all have a prior_decision_rating_profile_date" do
+      before do
+        issues.map { |issue| issue.prior_decision_rating_profile_date = date_string }
+        allow(builder).to receive(:issues).and_return(issues)
+      end
+      
+      it "returns an array with the dates for both issues" do
+        expect(builder.send(:valid_issue_profile_dates)).to eq([date, date])
+      end
+    end
+
+    context "when one of the issues has a prior_decision_rating_profile_date" do
+      before do
+        issues.first.prior_decision_rating_profile_date = date_string
+        allow(builder).to receive(:issues).and_return(issues)
+      end
+
+      it "returns an array with the date for that one issue" do
+        expect(builder.send(:valid_issue_profile_dates)).to eq([date])
+      end
+    end
+
+    context "when neither of the issues have a prior_decision_rating_profile_date" do
+      before do
+        allow(builder).to receive(:issues).and_return(issues)
+      end
+
+      it "returns nil" do
+        expect(builder.send(:valid_issue_profile_dates)).to eq(nil)
       end
     end
   end
