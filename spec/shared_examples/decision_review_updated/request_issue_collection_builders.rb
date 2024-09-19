@@ -22,10 +22,18 @@ RSpec.shared_examples "request_issue_collection_builders" do
   end
 
   describe "#build_issues" do
-    context "when successful" do
-      it "creates DecisionReviewUpdated::RequestIssue objects successfully" do
-        expect(subject.build_issues.first).to be_an_instance_of(DecisionReviewUpdated::RequestIssue)
-      end
+    subject { builder.build_issues }
+    it "maps valid decision_review_issues_updated into an array of DecisionReviewUpdated::RequestIssue(s)" do
+      expect(subject).to all(be_an_instance_of(DecisionReviewUpdated::RequestIssue))
+      expect(subject).to be_an_instance_of(Array)
+    end
+  end
+
+  describe "#_issues" do
+    subject { builder.send(:issues) }
+
+    it "returns an array of DecisionReviewIssue(s)" do
+      expect(subject).to all(be_an_instance_of(DecisionReviewIssueUpdated))
     end
   end
 
@@ -153,22 +161,25 @@ RSpec.shared_examples "request_issue_collection_builders" do
   end
 
   describe "#_at_least_one_valid_bis_issue?" do
+    let(:at_least_one_valid_bis_issue?) { builder.send(:at_least_one_valid_bis_issue?) }
+
     context "when the issue has a prior_rating_decision_id" do
       it "returns true" do
         issue.prior_rating_decision_id = 1
-        expect(builder.send(:at_least_one_valid_bis_issue?)).to eq(true)
+        expect(at_least_one_valid_bis_issue?).to eq(true)
       end
     end
 
     context "when the issue DOES NOT have a prior_rating_decision_id" do
       it "returns false" do
         issue.prior_rating_decision_id = nil
-        expect(builder.send(:at_least_one_valid_bis_issue?)).to eq(false)
+        expect(at_least_one_valid_bis_issue?).to eq(false)
       end
     end
   end
 
   describe "#_valid_issue_profile_dates" do
+    let(:valid_issue_profile_dates) { builder.send(:valid_issue_profile_dates) }
     let(:duplicated_issue) { issue.dup }
     let(:issues) { [issue, duplicated_issue] }
     let(:date_string) { "2017-02-07T07:21:24+00:00" }
@@ -181,7 +192,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns an array with the dates for both issues" do
-        expect(builder.send(:valid_issue_profile_dates)).to eq([date, date])
+        expect(valid_issue_profile_dates).to eq([date, date])
       end
     end
 
@@ -192,7 +203,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns an array with the date for that one issue" do
-        expect(builder.send(:valid_issue_profile_dates)).to eq([date])
+        expect(valid_issue_profile_dates).to eq([date])
       end
     end
 
@@ -202,12 +213,13 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns nil" do
-        expect(builder.send(:valid_issue_profile_dates)).to eq(nil)
+        expect(valid_issue_profile_dates).to eq(nil)
       end
     end
   end
 
   describe "#_earliest_issue_profile_date" do
+    let(:earliest_issue_profile_date) { builder.send(:earliest_issue_profile_date) }
     let(:earlier_date) { Date.today }
     let(:later_date) { Date.today.next_day }
 
@@ -217,7 +229,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns the earliest date" do
-        expect(builder.send(:earliest_issue_profile_date)).to eq(earlier_date)
+        expect(earliest_issue_profile_date).to eq(earlier_date)
       end
     end
 
@@ -227,12 +239,13 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns nil" do
-        expect(builder.send(:earliest_issue_profile_date)).to eq(nil)
+        expect(earliest_issue_profile_date).to eq(nil)
       end
     end
   end
 
   describe "#_latest_issue_profile_date" do
+    let(:latest_issue_profile_date) { builder.send(:latest_issue_profile_date) }
     let(:earlier_date) { Date.today }
     let(:later_date) { Date.today.next_day }
 
@@ -242,7 +255,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns the latest date" do
-        expect(builder.send(:latest_issue_profile_date)).to eq(later_date)
+        expect(latest_issue_profile_date).to eq(later_date)
       end
     end
 
@@ -252,12 +265,13 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns nil" do
-        expect(builder.send(:latest_issue_profile_date)).to eq(nil)
+        expect(latest_issue_profile_date).to eq(nil)
       end
     end
   end
 
   describe "#_latest_issue_profile_date_plus_one_day" do
+    let(:latest_issue_profile_date_plus_one_day) { builder.send(:latest_issue_profile_date_plus_one_day) }
     let(:latest_date) { Date.today }
     let(:day_after_latest_date) { latest_date + 1 }
 
@@ -267,7 +281,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns the day after the date" do
-        expect(builder.send(:latest_issue_profile_date_plus_one_day)).to eq(day_after_latest_date)
+        expect(latest_issue_profile_date_plus_one_day).to eq(day_after_latest_date)
       end
     end
 
@@ -277,7 +291,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
       end
 
       it "returns nil" do
-        expect(builder.send(:latest_issue_profile_date_plus_one_day)).to eq(nil)
+        expect(latest_issue_profile_date_plus_one_day).to eq(nil)
       end
     end
   end
