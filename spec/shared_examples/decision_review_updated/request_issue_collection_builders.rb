@@ -179,7 +179,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
         issues.map { |issue| issue.prior_decision_rating_profile_date = date_string }
         allow(builder).to receive(:issues).and_return(issues)
       end
-      
+
       it "returns an array with the dates for both issues" do
         expect(builder.send(:valid_issue_profile_dates)).to eq([date, date])
       end
@@ -203,6 +203,81 @@ RSpec.shared_examples "request_issue_collection_builders" do
 
       it "returns nil" do
         expect(builder.send(:valid_issue_profile_dates)).to eq(nil)
+      end
+    end
+  end
+
+  describe "#_earliest_issue_profile_date" do
+    let(:earlier_date) { Date.today }
+    let(:later_date) { Date.today.next_day }
+
+    context "when there are valid_issue_profile_dates" do
+      before do
+        allow(builder).to receive(:valid_issue_profile_dates).and_return([later_date, earlier_date])
+      end
+
+      it "returns the earliest date" do
+        expect(builder.send(:earliest_issue_profile_date)).to eq(earlier_date)
+      end
+    end
+
+    context "when there are NO valid_issue_profile_dates" do
+      before do
+        allow(builder).to receive(:valid_issue_profile_dates).and_return(nil)
+      end
+
+      it "returns nil" do
+        expect(builder.send(:earliest_issue_profile_date)).to eq(nil)
+      end
+    end
+  end
+
+  describe "#_latest_issue_profile_date" do
+    let(:earlier_date) { Date.today }
+    let(:later_date) { Date.today.next_day }
+
+    context "when there are valid_issue_profile_dates" do
+      before do
+        allow(builder).to receive(:valid_issue_profile_dates).and_return([later_date, earlier_date])
+      end
+
+      it "returns the latest date" do
+        expect(builder.send(:latest_issue_profile_date)).to eq(later_date)
+      end
+    end
+
+    context "when there are NO valid_issue_profile_dates" do
+      before do
+        allow(builder).to receive(:valid_issue_profile_dates).and_return(nil)
+      end
+
+      it "returns nil" do
+        expect(builder.send(:latest_issue_profile_date)).to eq(nil)
+      end
+    end
+  end
+
+  describe "#_latest_issue_profile_date_plus_one_day" do
+    let(:latest_date) { Date.today }
+    let(:day_after_latest_date) { latest_date + 1 }
+
+    context "when there is a latest_issue_profile_date" do
+      before do
+        allow(builder).to receive(:latest_issue_profile_date).and_return(latest_date)
+      end
+
+      it "returns the day after the date" do
+        expect(builder.send(:latest_issue_profile_date_plus_one_day)).to eq(day_after_latest_date)
+      end
+    end
+
+    context "when there are NO valid_issue_profile_dates" do
+      before do
+        allow(builder).to receive(:latest_issue_profile_date).and_return(nil)
+      end
+
+      it "returns nil" do
+        expect(builder.send(:latest_issue_profile_date_plus_one_day)).to eq(nil)
       end
     end
   end
