@@ -34,6 +34,7 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
 
   describe "#assign_attributes" do
     it "calls private methods" do
+      expect(builder).to receive(:assign_code)
       expect(builder).to receive(:assign_development_item_reference_id)
       expect(builder).to receive(:assign_reference_id)
       expect(builder).to receive(:calculate_synced_status)
@@ -46,6 +47,12 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
   describe "private methods" do
     let(:builder) { described_class.new(decision_review_updated_model).assign_attributes }
     let(:epe) { builder.end_product_establishment }
+
+    describe "#assign_code" do
+      it "assigns a ep_code to the epe" do
+        expect(epe.code).to eq decision_review_updated_model.ep_code
+      end
+    end
 
     describe "#assign_development_item_reference_id" do
       it "assigns a development_item_reference_id to the epe" do

@@ -8,6 +8,7 @@ class Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder < Builders
   end
 
   def assign_attributes
+    assign_code
     assign_development_item_reference_id
     assign_reference_id
     calculate_synced_status
