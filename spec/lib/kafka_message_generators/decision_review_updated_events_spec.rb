@@ -87,6 +87,17 @@ describe KafkaMessageGenerators::DecisionReviewEvents do
     end
   end
 
+  describe "#_store_issue_bis_rating_profile_without_ramp_id" do
+    subject { decision_review_updated_events }
+
+    let(:rating_message_1) { build(:decision_review_updated, :eligible_rating_hlr_time_override) }
+
+    it "successfully calls store_bis_rating_profiles for each item in the decision_review_updated issue_type array" do
+      expect(subject).to receive(:store_bis_rating_profiles).exactly(5).times.and_return("OK")
+      subject.send(:store_issue_bis_rating_profile_without_ramp_id, rating_message_1)
+    end
+  end
+
   describe "#create_dre_message(trait, ep_code)" do
     subject { decision_review_updated_events }
     let(:original_source) { "originalSource" }
