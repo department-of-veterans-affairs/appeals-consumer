@@ -10,17 +10,13 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
   end
 
   def assign_methods
-    assign_decision_review_issue_id
+    assign_original_caseflow_request_issue_id
     super
   end
 
   def calculate_methods
     calculate_edited_description
     super
-  end
-
-  def assign_decision_review_issue_id
-    @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
 
   def calculate_closed_at
@@ -43,5 +39,9 @@ class Builders::DecisionReviewUpdated::RequestIssueBuilder < Builders::BaseReque
     if edited_description?
       @request_issue.edited_description = issue.prior_decision_text
     end
+  end
+
+  def assign_original_caseflow_request_issue_id
+    @request_issue.original_caseflow_request_issue_id = issue.original_caseflow_request_issue_id
   end
 end

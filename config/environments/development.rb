@@ -70,7 +70,7 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   # Max failed errors until event is switched to "failed"
-  ENV["MAX_ERRORS_FOR_FAILURE"] ||= "3"
+  ENV["MAX_ERRORS_FOR_FAILURE"] ||= "4"
 
   config.api_key = "token"
 

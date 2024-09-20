@@ -87,6 +87,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
     assign_vacols_sequence_id
     assign_nonrating_issue_bgs_id
     assign_type
+    assign_decision_review_issue_id
   end
 
   def calculate_methods
@@ -120,19 +121,13 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
       rating_or_decision_issue? ? remove_duplicate_prior_decision_type_text : nil
   end
 
-  # eligible issues should always have a not-nil contention_id
-  # ineligible issues should never have a nil contention_id
+  # eligible issues should always have a contention_id
   def calculate_contention_reference_id
-    @request_issue.contention_reference_id =
-      if eligible?
-        handle_missing_contention_id if contention_id_not_present?
+    if eligible? && contention_id_not_present?
+      handle_missing_contention_id
+    end
 
-        issue.contention_id
-      elsif ineligible?
-        handle_contention_id_present if contention_id_present?
-
-        nil
-      end
+    @request_issue.contention_reference_id = issue.contention_id.presence
   end
 
   # represents "disSn" from the issue's BIS rating profile. Needed for backfill issues
@@ -551,11 +546,6 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def handle_contention_id_present
-    fail AppealsConsumer::Error::NotNullContentionIdError,
-         "Issue is ineligible but has a not-null contention_id value"
-  end
-
   def handle_unrecognized_eligibility_result
     fail AppealsConsumer::Error::IssueEligibilityResultNotRecognized, "Issue has an unrecognized eligibility_result:"\
       " #{issue.eligibility_result}"
@@ -582,5 +572,9 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   def determine_benefit_type
     decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
+  end
+
+  def assign_decision_review_issue_id
+    @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
 end

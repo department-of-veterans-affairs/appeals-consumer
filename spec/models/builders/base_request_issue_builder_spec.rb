@@ -8,7 +8,7 @@ RSpec.describe Builders::BaseRequestIssueCollectionBuilder, type: :model do
   let(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
   let(:event_id) { event.id }
   let(:decision_review_model) { build(:decision_review_created) }
-  let(:issue) { decision_review_model.decision_review_issues.first }
+  let(:issue) { decision_review_model.decision_review_issues_created.first }
   let(:bis_rating_profiles) { nil }
   let(:request_issue) { DecisionReviewCreated::RequestIssue.new }
 

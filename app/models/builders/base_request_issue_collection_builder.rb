@@ -41,7 +41,9 @@ class Builders::BaseRequestIssueCollectionBuilder
   end
 
   def build_issues
-    fail NotImplementedError, "#{self.class} must implement the build_issues method"
+    issues.map.with_index do |issue, index|
+      build_request_issue(issue, index)
+    end
   end
 
   # used to call BIS fetch_rating_profiles_in_range with specified date range
@@ -62,7 +64,7 @@ class Builders::BaseRequestIssueCollectionBuilder
   private
 
   def issues
-    @issues ||= @decision_review_model.decision_review_issues
+    fail NotImplementedError, "#{self.class} must implement the #_issues method"
   end
 
   def message_has_rating_issues?
@@ -75,13 +77,6 @@ class Builders::BaseRequestIssueCollectionBuilder
 
   def at_least_one_valid_bis_issue?
     issues.any?(&:prior_rating_decision_id)
-  end
-
-  def handle_no_issues_after_removing_contested
-    fail AppealsConsumer::Error::RequestIssueCollectionBuildError, "Failed building from"\
-      " #{self.class} for DecisionReview Claim ID:"\
-      " #{@decision_review_model.claim_id} does not contain any valid issues after"\
-      " removing 'CONTESTED' ineligible issues"
   end
 
   def build_request_issue(issue, index)

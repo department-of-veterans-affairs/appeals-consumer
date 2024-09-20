@@ -35,6 +35,7 @@ class ApplicationConsumer < Karafka::BaseConsumer
       offset: message.metadata.offset
     ) do |event|
       event.type = event_type.to_s
+      event.claim_id = message.payload.message["claim_id"]
       event.message_payload = message.payload.message
     end
   end

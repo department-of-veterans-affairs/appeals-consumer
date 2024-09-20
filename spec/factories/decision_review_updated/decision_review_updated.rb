@@ -3443,6 +3443,7 @@ FactoryBot.define do
       message_payload do
         base_message_payload(
           participant_id: participant_id,
+          original_source: "CASEFLOW",
           same_station_review_requested: true,
           decision_review_issues_created:
           [
@@ -3456,6 +3457,15 @@ FactoryBot.define do
           ],
           decision_review_issues_updated:
           [
+            review_issues_updated_attributes(
+              "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
+              "contention_action" => "NONE",
+              "original_caseflow_request_issue_id" => 123_45,
+              "prior_rating_decision_id" => 12,
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_diagnostic_code" => "5008",
+              "eligibility_result" => "PENDING_SUPPLEMENTAL"
+            ),
             review_issues_updated_attributes(
               "reason_for_contention_action" => "SPECIAL_ISSUES_CHANGED",
               "associated_caseflow_request_issue_id" => 13,
@@ -3488,7 +3498,7 @@ FactoryBot.define do
           decision_review_issues_not_changed:
           [
             review_issues_not_changed_attributes(
-              "associated_caseflow_request_issue_id" => 13,
+              "original_caseflow_request_issue_id" => 123_45,
               "prior_rating_decision_id" => 12,
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_diagnostic_code" => "5008",
@@ -7027,10 +7037,11 @@ end
 
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/AbcSize
 def base_message_payload(**args)
   {
     "claim_id" => Faker::Number.number(digits: 7),
-    "original_source" => "CP",
+    "original_source" => args[:original_source] || "CP",
     "decision_review_type" => "HIGHER_LEVEL_REVIEW",
     "veteran_last_name" => "Smith",
     "veteran_first_name" => "John",
@@ -7069,6 +7080,7 @@ def base_message_payload(**args)
 end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/AbcSize
 
 def base_review_issue
   {
@@ -7101,6 +7113,7 @@ def base_review_issue
     "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
     "source_claim_id_for_remand" => nil,
     "source_contention_id_for_remand" => nil,
+    "original_caseflow_request_issue_id" => nil,
     "removed" => false,
     "withdrawn" => false,
     "decision" => nil

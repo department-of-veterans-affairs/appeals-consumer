@@ -5,7 +5,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   let(:event_id) { event.id }
   let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
   let(:decision_review_model) { build(:decision_review_created) }
-  let(:issue) { decision_review_model.decision_review_issues.first }
+  let(:issue) { decision_review_model.decision_review_issues_created.first }
   let(:builder) { described_class.new(issue, decision_review_model, bis_rating_profiles) }
   let(:bis_rating_profiles) { nil }
   let(:prior_decision_date_converted_to_logical_type) do
@@ -67,7 +67,7 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
 
     it "initializes an issue instance variable" do
-      expect(builder.issue).to be_an_instance_of(DecisionReviewIssue)
+      expect(builder.issue).to be_an_instance_of(DecisionReviewIssueCreated)
     end
 
     it "initializes a new Request Issue instance" do
@@ -258,13 +258,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         end
 
         let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
-        let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
-        let(:error_msg) do
-          "Issue is ineligible but has a not-null contention_id value"
-        end
 
-        it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
-          expect { subject }.to raise_error(error, error_msg)
+        it "assigns the Request Issue's contention_id to issue.contention_id" do
+          expect(subject).to eq(issue.contention_id)
         end
       end
     end
@@ -2105,18 +2101,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       it "returns false" do
         expect(subject).to eq false
       end
-    end
-  end
-
-  describe "#handle_contention_id_present" do
-    subject { builder.send(:handle_contention_id_present) }
-    let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
-    let(:error_msg) do
-      "Issue is ineligible but has a not-null contention_id value"
-    end
-
-    it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
-      expect { subject }.to raise_error(error, error_msg)
     end
   end
 
