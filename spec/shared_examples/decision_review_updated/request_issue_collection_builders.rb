@@ -16,8 +16,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
     end
 
     it "initializes a new instance variable @bis_rating_profiles" do
-      expect(builder.instance_variable_get(:@bis_rating_profiles))
-        .to eq(nil)
+      expect(builder.instance_variable_get(:@bis_rating_profiles)).to eq(nil)
     end
   end
 
@@ -96,7 +95,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
 
       before do
         decision_review_updated.instance_variable_set(:@event_id, decision_review_updated_event.id)
-        decision_review_updated.ep_code_category = 'rating'
+        decision_review_updated.ep_code_category = "rating"
         issue.prior_rating_decision_id = 1
         issue.prior_decision_rating_profile_date = date.to_s
       end
@@ -147,14 +146,14 @@ RSpec.shared_examples "request_issue_collection_builders" do
 
     context "when decision_review_updated has an ep_code_category of 'RATING'" do
       it "returns true" do
-        decision_review_updated.ep_code_category = 'rating'
+        decision_review_updated.ep_code_category = "rating"
         expect(subject).to eq(true)
       end
     end
 
     context "when decision_review_updated does NOT have an ep_code_category of 'RATING'" do
       it "returns false" do
-        decision_review_updated.ep_code_category = 'contested'
+        decision_review_updated.ep_code_category = "contested"
         expect(subject).to eq(false)
       end
     end
@@ -220,8 +219,8 @@ RSpec.shared_examples "request_issue_collection_builders" do
 
   describe "#_earliest_issue_profile_date" do
     let(:earliest_issue_profile_date) { builder.send(:earliest_issue_profile_date) }
-    let(:earlier_date) { Date.today }
-    let(:later_date) { Date.today.next_day }
+    let(:earlier_date) { Time.zone.today }
+    let(:later_date) { Time.zone.today.next_day }
 
     context "when there are valid_issue_profile_dates" do
       before do
@@ -246,8 +245,8 @@ RSpec.shared_examples "request_issue_collection_builders" do
 
   describe "#_latest_issue_profile_date" do
     let(:latest_issue_profile_date) { builder.send(:latest_issue_profile_date) }
-    let(:earlier_date) { Date.today }
-    let(:later_date) { Date.today.next_day }
+    let(:earlier_date) { Time.zone.today }
+    let(:later_date) { Time.zone.today.next_day }
 
     context "when there are valid_issue_profile_dates" do
       before do
@@ -272,7 +271,7 @@ RSpec.shared_examples "request_issue_collection_builders" do
 
   describe "#_latest_issue_profile_date_plus_one_day" do
     let(:latest_issue_profile_date_plus_one_day) { builder.send(:latest_issue_profile_date_plus_one_day) }
-    let(:latest_date) { Date.today }
+    let(:latest_date) { Time.zone.today }
     let(:day_after_latest_date) { latest_date + 1 }
 
     context "when there is a latest_issue_profile_date" do

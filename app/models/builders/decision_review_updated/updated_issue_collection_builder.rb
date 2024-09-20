@@ -3,9 +3,8 @@
 # a Request Issue Collection Builder specifically for updated issues
 # by using the reason_for_contention_action and the contention_action from the event message_payload
 # this collects the issue and assigns it to the updated_issues payload for the dto builder.
-class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder < 
+class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder <
   Builders::BaseDecisionReviewUpdatedRequestIssueCollectionBuilder
-
   # selects issues inside the decision_review_issues_updated message_payload
   # ENUMs text_changed & contention_updated and contention_none
   # are defined in the base_request_issue_collection_builder

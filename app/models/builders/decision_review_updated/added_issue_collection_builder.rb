@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder < Builders::BaseDecisionReviewUpdatedRequestIssueCollectionBuilder
+class Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder <
+  Builders::BaseDecisionReviewUpdatedRequestIssueCollectionBuilder
   def newly_added_eligible_issues
     @decision_review_model.decision_review_issues_created.select do |issue|
       issue.reason_for_contention_action == issue_added && issue.contention_action == contention_added

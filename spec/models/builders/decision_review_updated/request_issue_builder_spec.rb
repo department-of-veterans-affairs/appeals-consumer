@@ -224,7 +224,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       it "DOES NOT set the Request Issue's rating_issue_associated_at to update_time_converted_to_timestamp_ms" do
         allow(builder).to receive(:rating?).and_return(true)
         allow(builder).to receive(:eligible?).and_return(false)
-        
+
         expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end
@@ -233,7 +233,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       it "DOES NOT set the Request Issue's rating_issue_associated_at to update_time_converted_to_timestamp_ms" do
         allow(builder).to receive(:rating?).and_return(false)
         allow(builder).to receive(:eligible?).and_return(true)
-        
+
         expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
       end
     end

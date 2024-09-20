@@ -123,8 +123,8 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   # eligible issues should always have a contention_id
   def calculate_contention_reference_id
-    if eligible?
-      handle_missing_contention_id if contention_id_not_present?
+    if eligible? && contention_id_not_present?
+      handle_missing_contention_id
     end
 
     @request_issue.contention_reference_id = issue.contention_id.presence

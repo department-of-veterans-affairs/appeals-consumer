@@ -12,10 +12,10 @@ RSpec.describe Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder, t
   let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
   let(:builder) { described_class.new(decision_review_updated) }
   let(:issue) do
-    decision_review_updated.decision_review_issues_updated.find { |issue|
+    decision_review_updated.decision_review_issues_updated.find do |issue|
       issue.contention_action == contention_updated &&
-      issue.reason_for_contention_action == text_changed
-    }
+        issue.reason_for_contention_action == text_changed
+    end
   end
   let(:index) { 1 }
   let(:text_changed) { subject.send(:text_changed) }

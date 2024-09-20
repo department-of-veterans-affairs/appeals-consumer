@@ -12,10 +12,10 @@ describe Builders::DecisionReviewUpdated::IneligibleToEligibleIssueCollectionBui
   let(:decision_review_updated) { build(:decision_review_updated, message_payload: message_payload) }
   let(:builder) { described_class.new(decision_review_updated) }
   let(:issue) do
-    decision_review_updated.decision_review_issues_updated.find { |issue|
+    decision_review_updated.decision_review_issues_updated.find do |issue|
       issue.contention_action == subject.send(:contention_added) &&
-      issue.reason_for_contention_action == subject.send(:ineligible_to_eligible)
-    }
+        issue.reason_for_contention_action == subject.send(:ineligible_to_eligible)
+    end
   end
   let(:index) { 1 }
 
