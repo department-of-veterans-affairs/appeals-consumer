@@ -137,6 +137,8 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
     let(:update_time_converted_to_timestamp_ms) do
       builder.update_time_converted_to_timestamp_ms
     end
+    let(:closed_at) { builder.request_issue.closed_at }
+    let(:closed_status) { builder.request_issue.closed_status }
 
     context "when the issue is ineligible" do
       it "sets the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
@@ -168,21 +170,27 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
     context "when the issue is eligible" do
       it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
         allow(builder).to receive(:ineligible?).and_return(false)
-        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+        expect(subject).to eq(nil)
+        expect(closed_at).to eq(nil)
+        expect(closed_status).to eq(nil)
       end
     end
 
     context "when the issue is NOT withdrawn" do
       it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
         allow(builder).to receive(:withdrawn?).and_return(false)
-        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+        expect(subject).to eq(nil)
+        expect(closed_at).to eq(nil)
+        expect(closed_status).to eq(nil)
       end
     end
 
     context "when the issue is NOT removed" do
       it "DOES NOT set the Request Issue's closed_at to update_time_converted_to_timestamp_ms" do
         allow(builder).to receive(:removed?).and_return(false)
-        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+        expect(subject).to eq(nil)
+        expect(closed_at).to eq(nil)
+        expect(closed_status).to eq(nil)
       end
     end
   end
@@ -225,7 +233,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
         allow(builder).to receive(:rating?).and_return(true)
         allow(builder).to receive(:eligible?).and_return(false)
 
-        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+        expect(subject).to eq(nil)
       end
     end
 
@@ -234,7 +242,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
         allow(builder).to receive(:rating?).and_return(false)
         allow(builder).to receive(:eligible?).and_return(true)
 
-        expect(subject).not_to eq(update_time_converted_to_timestamp_ms)
+        expect(subject).to eq(nil)
       end
     end
   end
