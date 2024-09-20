@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/department-of-veterans-affairs/ruby-bgs.git
-  revision: 0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e
-  ref: 0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e
+  revision: 927ca6341342b1f1f0f7202e3e4817c1a00801b5
+  ref: 927ca6341342b1f1f0f7202e3e4817c1a00801b5
   specs:
-    bgs (0.3)
+    bgs (0.4)
       httpclient
       nokogiri (>= 1.11.0.rc4)
       savon (~> 2.12)
@@ -419,7 +419,6 @@ GEM
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
-    simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
     simplecov_lcov_formatter (0.9.0)
       simplecov (>= 0.18)
