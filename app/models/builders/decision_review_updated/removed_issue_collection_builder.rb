@@ -11,6 +11,6 @@ class Builders::DecisionReviewUpdated::RemovedIssueCollectionBuilder <
   private
 
   def issues
-    @issues ||= removed_issues
+    removed_issues
   end
 end

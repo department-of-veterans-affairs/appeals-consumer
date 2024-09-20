@@ -6,6 +6,6 @@ class Builders::DecisionReviewCreated::RequestIssueCollectionBuilder <
   private
 
   def issues
-    @issues ||= @decision_review_model.decision_review_issues_created
+    @decision_review_model.decision_review_issues_created
   end
 end

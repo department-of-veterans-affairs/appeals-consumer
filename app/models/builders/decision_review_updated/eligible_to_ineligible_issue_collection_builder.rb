@@ -12,6 +12,6 @@ class Builders::DecisionReviewUpdated::EligibleToIneligibleIssueCollectionBuilde
   private
 
   def issues
-    @issues ||= eligible_to_ineligible_issues
+    eligible_to_ineligible_issues
   end
 end

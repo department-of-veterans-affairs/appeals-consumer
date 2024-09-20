@@ -27,6 +27,6 @@ class Builders::DecisionReviewUpdated::UpdatedIssueCollectionBuilder <
   end
 
   def issues
-    @issues ||= updated_issues
+    updated_issues
   end
 end

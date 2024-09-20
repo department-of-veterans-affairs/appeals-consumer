@@ -17,6 +17,6 @@ class Builders::DecisionReviewUpdated::AddedIssueCollectionBuilder <
   private
 
   def issues
-    @issues ||= newly_added_eligible_issues + newly_added_ineligible_issues
+    newly_added_eligible_issues + newly_added_ineligible_issues
   end
 end
