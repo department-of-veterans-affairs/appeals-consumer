@@ -258,13 +258,9 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
         end
 
         let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
-        let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
-        let(:error_msg) do
-          "Issue is ineligible but has a not-null contention_id value"
-        end
 
-        it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
-          expect { subject }.to raise_error(error, error_msg)
+        it "assigns the Request Issue's contention_id to issue.contention_id" do
+          expect(subject).to eq(issue.contention_id)
         end
       end
     end
@@ -2105,18 +2101,6 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       it "returns false" do
         expect(subject).to eq false
       end
-    end
-  end
-
-  describe "#handle_contention_id_present" do
-    subject { builder.send(:handle_contention_id_present) }
-    let(:error) { AppealsConsumer::Error::NotNullContentionIdError }
-    let(:error_msg) do
-      "Issue is ineligible but has a not-null contention_id value"
-    end
-
-    it "raises AppealsConsumer::Error::NotNullContentionIdError with message" do
-      expect { subject }.to raise_error(error, error_msg)
     end
   end
 

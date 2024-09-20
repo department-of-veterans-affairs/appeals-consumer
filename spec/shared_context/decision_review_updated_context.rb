@@ -4,7 +4,7 @@ shared_context "decision_review_updated_context" do
   let(:message_payload) do
     {
       "claim_id" => 1_234_567,
-      "original_source" => "CP",
+      "original_source" => "CASEFLOW",
       "decision_review_type" => "HigherLevelReview",
       "veteran_first_name" => "John",
       "veteran_last_name" => "Smith",
@@ -106,7 +106,7 @@ shared_context "decision_review_updated_context" do
       base_decision_review_issue.merge(
         "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
-        "decision_review_issue_id" => nil,
+        "decision_review_issue_id" => 2,
         "contention_id" => nil,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "PRIOR_DECISION_TEXT_CHANGED",
@@ -120,7 +120,7 @@ shared_context "decision_review_updated_context" do
       base_decision_review_issue.merge(
         "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
-        "decision_review_issue_id" => nil,
+        "decision_review_issue_id" => 3,
         "contention_id" => nil,
         "contention_action" => "DELETE_CONTENTION",
         "reason_for_contention_action" => "ELIGIBLE_TO_INELIGIBLE",
@@ -132,9 +132,10 @@ shared_context "decision_review_updated_context" do
         "time_override" => false
       ),
       base_decision_review_issue.merge(
+        "original_caseflow_request_issue_id" => 123_45,
         "eligible" => false,
         "eligibility_result" => "TIME_RESTRICTION",
-        "decision_review_issue_id" => nil,
+        "decision_review_issue_id" => 4,
         "contention_id" => nil,
         "contention_action" => "NONE",
         "reason_for_contention_action" => "INELIGIBLE_REASON_CHANGED",
