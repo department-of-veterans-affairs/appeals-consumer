@@ -92,7 +92,8 @@ class Transformers::DecisionReviewUpdated
     payload["decision_review_issues_created"].blank? &&
       payload["decision_review_issues_updated"].blank? &&
       payload["decision_review_issues_removed"].blank? &&
-      payload["decision_review_issues_withdrawn"].blank?
+      payload["decision_review_issues_withdrawn"].blank? &&
+      payload["decision_review_issues_not_changed"].blank?
   end
 
   def decision_review_issues

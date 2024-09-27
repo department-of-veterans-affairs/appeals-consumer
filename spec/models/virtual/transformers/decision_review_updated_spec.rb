@@ -124,6 +124,7 @@ describe Transformers::DecisionReviewUpdated do
         message_payload["decision_review_issues_updated"] = []
         message_payload["decision_review_issues_removed"] = []
         message_payload["decision_review_issues_withdrawn"] = []
+        message_payload["decision_review_issues_not_changed"] = []
       end
 
       it "raises ArgumentError" do
