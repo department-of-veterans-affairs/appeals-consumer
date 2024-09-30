@@ -9,6 +9,10 @@ class BaseEventProcessingJob < ApplicationJob
   def perform(event)
     init_setup(event)
 
+    if %w[900090003 764104752].include?(@event.message_payload["file_number"] == "12121212")
+      fail StandardError, "Manual error triggered due to file number: #{@event.message_payload["file_number"]}"
+    end
+
     if @event.end_state?
       logger.info(
         "instance was stopped since the event with "\

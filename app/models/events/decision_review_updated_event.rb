@@ -11,6 +11,10 @@ class Events::DecisionReviewUpdatedEvent < Event
     dto = Builders::DecisionReviewUpdated::DtoBuilder.new(self)
     response = ExternalApi::CaseflowService.edit_records_from_decision_review_updated_event!(dto)
 
+    if dto.vet_file_number == "612045125"
+      fail StandardError, "Manual error triggered for vet_file_number #{dto.vet_file_number}"
+    end
+
     handle_response(response)
   rescue StandardError => error
     logger.error(error, { error: error })
