@@ -21,6 +21,10 @@ class EventProcessingRescueJob < ApplicationJob
           break
         end
 
+        if audit.notes == "Testing error throw before process_audit"
+          audit.update!(notes: nil)
+          fail StandardError, "Test throw before process_audit level"
+        end
         process_audit(audit)
         @processed_audits_count += 1
       end
@@ -49,6 +53,10 @@ class EventProcessingRescueJob < ApplicationJob
   end
 
   def process_audit(audit)
+    if audit.notes == "Testing error throw during process_audit"
+      audit.update!(notes: nil)
+      fail StandardError, "Test throw during process_audit level"
+    end
     ActiveRecord::Base.transaction do
       audit.cancelled!
       audit.ended_at!
@@ -65,9 +73,15 @@ class EventProcessingRescueJob < ApplicationJob
   end
 
   def handle_reenqueue(event)
+    if event.message_payload["claimant_participant_id"] == "0000011"
+      fail StandardError, "Testing error throw during handle_reenqueue"
+    end
     return if event.end_state?
 
     job_class = event.determine_job
+    if event.message_payload["claimant_participant_id"] == "0001111"
+      job_class = nil
+    end
     if job_class
       job_class.perform_later(event)
       logger.info(
