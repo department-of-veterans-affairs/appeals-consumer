@@ -8,6 +8,10 @@ class Events::DecisionReviewUpdatedEvent < Event
       fail AppealsConsumer::Error::PriorDecisionReviewEventsStillPendingError, error_message
     end
 
+    if self.message_payload["veteran_participant_id"] == "12345678999" # Number needs to be changed
+      fail StandardError, "Testing Error Events::DecisionReviewUpdatedEvent process! error"
+    end
+
     dto = Builders::DecisionReviewUpdated::DtoBuilder.new(self)
     response = ExternalApi::CaseflowService.edit_records_from_decision_review_updated_event!(dto)
 
