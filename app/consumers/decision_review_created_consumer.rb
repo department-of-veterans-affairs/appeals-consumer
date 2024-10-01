@@ -23,6 +23,8 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
         log_consumption_start(extra_details)
 
         begin
+          trigger_manual_error(message)
+
           ActiveRecord::Base.transaction do
             event = handle_event_creation(message, EVENT_TYPE)
 
@@ -47,4 +49,12 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
     end
   end
   # rubocop:enable Metrics/MethodLength
+
+  private
+
+  def trigger_manual_error(message)
+    if message.payload.message["file_number"] == "12121212"
+      fail ArgumentError, "Manual StandardError triggered for file_number: #{message.payload.message['file_number']}"
+    end
+  end
 end
