@@ -9,7 +9,7 @@ class BaseEventProcessingJob < ApplicationJob
   def perform(event)
     init_setup(event)
 
-    check_file_number(@event)
+    check_file_number!(@event)
 
     if @event.end_state?
       logger.info(
@@ -35,8 +35,8 @@ class BaseEventProcessingJob < ApplicationJob
 
   private
 
-  def check_file_number(event)
-    if %w[900090003 764104752].include?(event.message_payload["file_number"] == "12121212")
+  def check_file_number!(event)
+    if ["900090003", "764104752"].include?(event.message_payload["file_number"])
       fail StandardError, "Manual error triggered due to file number: #{event.message_payload['file_number']}"
     end
   end
