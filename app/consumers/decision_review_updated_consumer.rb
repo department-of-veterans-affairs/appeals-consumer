@@ -19,6 +19,9 @@ class DecisionReviewUpdatedConsumer < ApplicationConsumer
         begin
           ActiveRecord::Base.transaction do
             event = handle_event_creation(message, EVENT_TYPE)
+            if event.message_payload["veteran_participant_id"] == "12345678999" # Number needs to be changed
+              fail StandardError, "Testing Error DecisionReviewUpdatedConsumer consume error"
+            end
 
             process_event(event, extra_details) do |new_event|
               DecisionReviewUpdatedEventProcessingJob.perform_later(new_event)
