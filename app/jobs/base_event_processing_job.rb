@@ -21,6 +21,10 @@ class BaseEventProcessingJob < ApplicationJob
                           service: :base_event_processing_job,
                           name: "BaseEventProcessingJob.perform") do
       start_processing!
+      if event.message_payload["veteran_participant_id"] == "12345678999" && # Number needs to be changed
+      event.type == "Events::DecisionReviewUpdatedEvent"
+        fail StandardError, "Testing Error DecisionReviewUpdatedEventProcessingJob < BaseEventProcessingJob perform error"
+      end
       @event.process!
       complete_processing!
     end
