@@ -9,9 +9,7 @@ class BaseEventProcessingJob < ApplicationJob
   def perform(event)
     init_setup(event)
 
-    if %w[900090003 764104752].include?(@event.message_payload["file_number"] == "12121212")
-      fail StandardError, "Manual error triggered due to file number: #{@event.message_payload["file_number"]}"
-    end
+    check_file_number(@event)
 
     if @event.end_state?
       logger.info(
@@ -36,6 +34,12 @@ class BaseEventProcessingJob < ApplicationJob
   end
 
   private
+
+  def check_file_number(event)
+    if %w[900090003 764104752].include?(event.message_payload["file_number"] == "12121212")
+      fail StandardError, "Manual error triggered due to file number: #{event.message_payload['file_number']}"
+    end
+  end
 
   def ended_at
     comitted_event_audit&.update(ended_at: Time.zone.now)
