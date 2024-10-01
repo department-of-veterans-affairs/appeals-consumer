@@ -23,6 +23,9 @@ module ExternalApi
     end
 
     def fetch_veteran_info(file_number)
+      if Event.last.id == 1 # This will need to be changed before deployment
+        fail StandardError, "Test Error BIS fetch_veteran_info"
+      end
       logger.info("Fetching veteran info for file number: #{file_number}")
       @veteran_info[file_number] ||=
         Rails.cache.fetch(fetch_veteran_info_cache_key(file_number), expires_in: 10.minutes) do
@@ -36,26 +39,44 @@ module ExternalApi
 
     def fetch_person_info(participant_id)
       logger.info("Fetching person info by participant id: #{participant_id}")
-      bis_info = Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
+      Rails.cache.fetch(fetch_person_info_cache_key(participant_id), expires_in: 10.minutes) do
         MetricsService.record("BIS: fetch person info for participant id: #{participant_id}",
                               service: :bis,
                               name: "people.find_person_by_ptcpnt_id") do
-          client.people.find_person_by_ptcpnt_id(participant_id)
+          if participant_id == "1122336" # This will need to be changed before deployment
+            fail StandardError, "Test Error BIS fetch_person_info"
+          end
+          case participant_id
+          when "123456789" # potentially replace with staged Dependent participant ID
+            {}
+          when "123456788" # potentially replace with staged Dependent participant ID
+            {
+              first_name: nil,
+              last_name: nil,
+              middle_name: nil,
+              name_suffix: nil,
+              birth_date: nil,
+              email_address: nil,
+              file_number: nil,
+              ssn: nil
+            }
+          else
+            bis_info = client.people.find_person_by_ptcpnt_id(participant_id)
+            return {} unless bis_info
+
+            @person_info[participant_id] ||= {
+              first_name: bis_info[:first_nm],
+              last_name: bis_info[:last_nm],
+              middle_name: bis_info[:middle_nm],
+              name_suffix: bis_info[:suffix_nm],
+              birth_date: bis_info[:brthdy_dt],
+              email_address: bis_info[:email_addr],
+              file_number: bis_info[:file_nbr],
+              ssn: bis_info[:ssn_nbr]
+            }
+          end
         end
       end
-
-      return {} unless bis_info
-
-      @person_info[participant_id] ||= {
-        first_name: bis_info[:first_nm],
-        last_name: bis_info[:last_nm],
-        middle_name: bis_info[:middle_nm],
-        name_suffix: bis_info[:suffix_nm],
-        birth_date: bis_info[:brthdy_dt],
-        email_address: bis_info[:email_addr],
-        file_number: bis_info[:file_nbr],
-        ssn: bis_info[:ssn_nbr]
-      }
     end
 
     def fetch_limited_poas_by_claim_ids(claim_ids)
@@ -65,6 +86,10 @@ module ExternalApi
           bis_limited_poas = MetricsService.record("BIS: fetch limited poas by claim ids: #{claim_ids}",
                                                    service: :bis,
                                                    name: "org.find_limited_poas_by_bnft_claim_ids") do
+
+            if Event.last.id == 1 # This will need to be changed before deployment
+              fail StandardError, "Test Error fetch_limited_poas_by_claim_ids"
+            end
             client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
           end
 
@@ -87,6 +112,10 @@ module ExternalApi
                               end_date = #{end_date}",
                               service: :bis,
                               name: "rating_profile.find_in_date_range") do
+
+          if participant_id == "1122335" # To be replaced with actual participant_id
+            fail StandardError, "Test Error BIS fetch_rating_profiles_in_range"
+          end
           client.rating_profile.find_in_date_range(
             participant_id: participant_id,
             start_date: start_date,
