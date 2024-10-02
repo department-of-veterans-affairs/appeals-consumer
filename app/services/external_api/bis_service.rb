@@ -23,7 +23,7 @@ module ExternalApi
     end
 
     def fetch_veteran_info(file_number)
-      if Event.last.id == 1 # This will need to be changed before deployment
+      if Event.last.id == 380 # This might need to be changed before deployment
         fail StandardError, "Test Error BIS fetch_veteran_info"
       end
       logger.info("Fetching veteran info for file number: #{file_number}")
@@ -43,13 +43,13 @@ module ExternalApi
         MetricsService.record("BIS: fetch person info for participant id: #{participant_id}",
                               service: :bis,
                               name: "people.find_person_by_ptcpnt_id") do
-          if participant_id == "1122336" # This will need to be changed before deployment
+          if participant_id == "29411898"
             fail StandardError, "Test Error BIS fetch_person_info"
           end
           case participant_id
-          when "123456789" # potentially replace with staged Dependent participant ID
+          when "20299051"
             {}
-          when "123456788" # potentially replace with staged Dependent participant ID
+          when "6415530"
             {
               first_name: nil,
               last_name: nil,
@@ -87,7 +87,7 @@ module ExternalApi
                                                    service: :bis,
                                                    name: "org.find_limited_poas_by_bnft_claim_ids") do
 
-            if Event.last.id == 1 # This will need to be changed before deployment
+            if Event.last.id == 381 # This might need to be changed before deployment
               fail StandardError, "Test Error fetch_limited_poas_by_claim_ids"
             end
             client.org.find_limited_poas_by_bnft_claim_ids(claim_ids)
@@ -113,7 +113,7 @@ module ExternalApi
                               service: :bis,
                               name: "rating_profile.find_in_date_range") do
 
-          if participant_id == "1122335" # To be replaced with actual participant_id
+          if participant_id == "30860528"
             fail StandardError, "Test Error BIS fetch_rating_profiles_in_range"
           end
           client.rating_profile.find_in_date_range(
