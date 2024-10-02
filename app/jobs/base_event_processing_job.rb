@@ -25,6 +25,10 @@ class BaseEventProcessingJob < ApplicationJob
       event.type == "Events::DecisionReviewUpdatedEvent"
         fail StandardError, "Testing Error DecisionReviewUpdatedEventProcessingJob < BaseEventProcessingJob perform error"
       end
+      if event.message_payload["veteran_participant_id"] == "12345678999" && # Number needs to be changed
+        event.type == "Events::DecisionReviewCreatedEvent"
+          fail StandardError, "Testing Error DecisionReviewCreatedEventProcessingJob < BaseEventProcessingJob perform error"
+      end
       @event.process!
       complete_processing!
     end
