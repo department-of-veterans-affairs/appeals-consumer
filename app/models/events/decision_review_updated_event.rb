@@ -3,13 +3,13 @@
 # A subclass of Event, representing the DecisionReviewUpdated Kafka topic event.
 class Events::DecisionReviewUpdatedEvent < Event
   def process!
+    if self.message_payload["veteran_participant_id"] == "12345678999" # Number needs to be changed
+      fail StandardError, "Testing Error Events::DecisionReviewUpdatedEvent process! error"
+    end
+
     if decision_review_events_pending?
       error_message = "Event IDs still processing: #{pending_decision_review_events.pluck(:id).join(', ')}"
       fail AppealsConsumer::Error::PriorDecisionReviewEventsStillPendingError, error_message
-    end
-
-    if self.message_payload["veteran_participant_id"] == "12345678999" # Number needs to be changed
-      fail StandardError, "Testing Error Events::DecisionReviewUpdatedEvent process! error"
     end
 
     dto = Builders::DecisionReviewUpdated::DtoBuilder.new(self)
