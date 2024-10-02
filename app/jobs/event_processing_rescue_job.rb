@@ -31,7 +31,7 @@ class EventProcessingRescueJob < ApplicationJob
   private
 
   def start_processing!
-    @start_time = Time.zone.now
+    @start_time = Time.zone.now + 26.minutes
     @processed_audits_count = 0
     logger.info("Process started at #{@start_time}.")
   end
