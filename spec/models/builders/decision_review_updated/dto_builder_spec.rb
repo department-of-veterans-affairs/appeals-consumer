@@ -154,7 +154,7 @@ RSpec.describe Builders::DecisionReviewUpdated::DtoBuilder, type: :model do
 
       expect(dto_builder.instance_variable_get(:@claim_id)).to eq("claim_123")
       expect(dto_builder.instance_variable_get(:@css_id)).to eq("user_123")
-      expect(dto_builder.instance_variable_get(:@detail_type)).to eq("type_123")
+      expect(dto_builder.instance_variable_get(:@detail_type)).to eq("Type123")
       expect(dto_builder.instance_variable_get(:@station)).to eq("station_123")
     end
   end

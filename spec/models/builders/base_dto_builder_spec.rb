@@ -130,4 +130,22 @@ RSpec.describe Builders::BaseDtoBuilder, type: :model do
       end
     end
   end
+
+  describe "#calculate_and_format_detail_type" do
+    context "when the decision_review_type from a DecisionReview event is 'HIGHER_LEVEL_REVIEW'" do
+      let(:hlr_decision_review_type) { "HIGHER_LEVEL_REVIEW" }
+      let(:formatted_hlr_decision_review_type) { "HigherLevelReview" }
+
+      it "should return 'HigherLevelReview' formatted in pascal case" do
+        expect(subject.calculate_and_format_detail_type(hlr_decision_review_type)).to eq formatted_hlr_decision_review_type
+      end
+    end
+    context "when the decision_review_type from DecisionReview event is 'SUPPLEMENTAL_CLAIM'" do
+      let(:sc_decision_review_type) { "SUPPLEMENTAL_CLAIM" }
+      let(:formatted_sc_decision_review_type) { "SupplementalClaim" }
+      it "should return 'SupplementalClaim' formatted in pascal case" do
+        expect(subject.calculate_and_format_detail_type(sc_decision_review_type)).to eq formatted_sc_decision_review_type
+      end
+    end
+  end
 end
