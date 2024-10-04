@@ -94,4 +94,9 @@ class Builders::BaseDtoBuilder
   def assign_claimant_email
     @claimant.email
   end
+
+  # This method is used whenever assigning detail_type for any non-DecisionReviewCreated Event.
+  def calculate_and_format_detail_type(decision_review_type)
+    decision_review_type.downcase.camelize
+  end
 end
