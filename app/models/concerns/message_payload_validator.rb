@@ -9,7 +9,7 @@ module MessagePayloadValidator
   # Validates attribute names and data types
   def validate(message_payload, class_name)
     validate_presence(message_payload, class_name)
-    validate_attribute_names(message_payload.keys, class_name)
+    log_unknown_attribute_names(message_payload.keys, class_name)
     validate_attribute_data_types(message_payload, class_name)
   end
 
@@ -21,12 +21,12 @@ module MessagePayloadValidator
   end
 
   # Checks that incoming attribute names match the keys listed in class#attribute_types
-  # Fails out of workflow if there is an unknown attribute found
-  def validate_attribute_names(attribute_names, class_name)
+  # If an unknown attribute is found, logs the names of all unknown attributes
+  def log_unknown_attribute_names(attribute_names, class_name)
     unknown_attributes = attribute_names.reject { |attr| attribute_types.key?(attr) }
 
     unless unknown_attributes.empty?
-      fail ArgumentError, "#{class_name}: Unknown attributes - #{unknown_attributes.join(', ')}"
+      Rails.logger.info("#{class_name}: Unknown attributes - #{unknown_attributes.join(', ')}")
     end
   end
 
