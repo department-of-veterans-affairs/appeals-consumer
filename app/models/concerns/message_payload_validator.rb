@@ -9,7 +9,7 @@ module MessagePayloadValidator
   # Validates attribute names and data types
   def validate(message_payload, class_name)
     validate_presence(message_payload, class_name)
-    log_unknown_attribute_names(message_payload.keys, class_name)
+    validate_attribute_names(message_payload.keys, class_name)
     validate_attribute_data_types(message_payload, class_name)
   end
 
@@ -22,7 +22,7 @@ module MessagePayloadValidator
 
   # Checks that incoming attribute names match the keys listed in class#attribute_types
   # If an unknown attribute is found, logs the names of all unknown attributes
-  def log_unknown_attribute_names(attribute_names, class_name)
+  def validate_attribute_names(attribute_names, class_name)
     unknown_attributes = attribute_names.reject { |attr| attribute_types.key?(attr) }
 
     unless unknown_attributes.empty?

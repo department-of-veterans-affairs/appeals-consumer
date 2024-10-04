@@ -133,6 +133,37 @@ describe Transformers::DecisionReviewUpdated do
         expect { subject }.to raise_error(ArgumentError, error_message)
       end
     end
+
+    context "when there are unexpected attribute name(s)" do
+      let(:message_payload_with_invalid_attr_name) do
+        message_payload.merge({ "invalid_attribute" => "invalid" })
+      end
+      let(:message_payload_with_multiple_invalid_attr_names) do
+        message_payload.merge(
+          {
+            "invalid_attribute" => "invalid",
+            "second_invalid_attribute" => "second invalid"
+          }
+        )
+      end
+
+      context "when there is a single unexpected attribute name" do
+        it "logs the unknown attribute name" do
+          message = "Transformers::DecisionReviewUpdated: Unknown attributes - invalid_attribute"
+          expect(Rails.logger).to receive(:info).with(message)
+          described_class.new(event_id, message_payload_with_invalid_attr_name)
+        end
+      end
+
+      context "when there are multiple unexpected attribute names" do
+        it "logs all the unknown attribute names" do
+          message = "Transformers::DecisionReviewUpdated: Unknown attributes - invalid_attribute, "\
+          "second_invalid_attribute"
+          expect(Rails.logger).to receive(:info).with(message)
+          described_class.new(event_id, message_payload_with_multiple_invalid_attr_names)
+        end
+      end
+    end
   end
 
   context "when a decision exist" do
