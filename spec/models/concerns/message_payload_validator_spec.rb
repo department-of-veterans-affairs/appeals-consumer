@@ -31,7 +31,7 @@ describe MessagePayloadValidator do
         end
       end
 
-      context "because there are invalid attribute name(s)" do
+      context "when there are unexpected attribute name(s)" do
         let(:message_payload_with_invalid_attribute_name) { build(:decision_review_created, :invalid_attribute_name) }
 
         it "raises an ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
