@@ -47,7 +47,8 @@ class Builders::DecisionReviewUpdated::DtoBuilder < Builders::BaseDtoBuilder
   def assign_from_decision_review_updated
     @claim_id = @decision_review_updated.claim_id
     @css_id = @decision_review_updated.actor_username
-    @detail_type = @decision_review_updated.decision_review_type
+    # This method is used whenever assigning detail_type for any non-DecisionReviewCreated Event.
+    @detail_type = calculate_and_format_detail_type(@decision_review_updated.decision_review_type)
     @station = @decision_review_updated.actor_station
   end
 

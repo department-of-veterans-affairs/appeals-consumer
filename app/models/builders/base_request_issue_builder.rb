@@ -349,8 +349,9 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   def handle_associated_request_issue_not_present
     unless associated_caseflow_request_issue_present?
-      fail AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId, "Issue is ineligible due to a pending review"\
-        " but has null for associated_caseflow_request_issue_id"
+      message = "Issue with contention id of #{issue.contention_id} is ineligible due"\
+        " to a pending review but has null for associated_caseflow_request_issue_id"
+      log_msg_and_update_current_event_audit_notes!(message, error: false)
     end
   end
 

@@ -453,15 +453,21 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
   end
 
   describe "#calculate_ineligible_due_to_id" do
+    before do
+      issue.contention_id = 1
+    end
     subject { builder.send(:calculate_ineligible_due_to_id) }
 
     context "when the issue is ineligible" do
       context "due to a pending review" do
-        let(:error) { AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId }
-        let(:error_msg) do
-          "Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
+        let(:logged_message) do
+          "[Builders::DecisionReviewCreated::RequestIssueBuilder] Issue with contention id of 1 is "\
+          "ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
         end
-
+        let(:note) do
+          "Issue with contention id of 1 is ineligible due to a pending review but has null"\
+          " for associated_caseflow_request_issue_id"
+        end
         context "when issue.eligibility_result is 'PENDING_HLR'" do
           let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
 
@@ -476,8 +482,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
               issue.associated_caseflow_request_issue_id = nil
             end
 
-            it "raises AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId with message" do
-              expect { subject }.to raise_error(error, error_msg)
+            it "logs 'Issue is ineligible due to a pending review "\
+            "but has null for associated_caseflow_request_issue_id'" do
+              expect(Rails.logger).to receive(:info).with(logged_message)
+
+              subject
+            end
+
+            it "updates the 'notes' column on the event_audit with the logged message" do
+              subject
+              expect(EventAudit.last.notes).to include(note)
             end
           end
         end
@@ -498,8 +512,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
               issue.associated_caseflow_request_issue_id = nil
             end
 
-            it "raises AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId with message" do
-              expect { subject }.to raise_error(error, error_msg)
+            it "logs 'Issue is ineligible due to a pending review "\
+            "but has null for associated_caseflow_request_issue_id'" do
+              expect(Rails.logger).to receive(:info).with(logged_message)
+
+              subject
+            end
+
+            it "updates the 'notes' column on the event_audit with the logged message" do
+              subject
+              expect(EventAudit.last.notes).to include(note)
             end
           end
         end
@@ -520,8 +542,16 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
               issue.associated_caseflow_request_issue_id = nil
             end
 
-            it "raises AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId with message" do
-              expect { subject }.to raise_error(error, error_msg)
+            it "logs 'Issue is ineligible due to a pending review "\
+            "but has null for associated_caseflow_request_issue_id'" do
+              expect(Rails.logger).to receive(:info).with(logged_message)
+
+              subject
+            end
+
+            it "updates the 'notes' column on the event_audit with the logged message" do
+              subject
+              expect(EventAudit.last.notes).to include(note)
             end
           end
         end
@@ -1518,25 +1548,31 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
 
   describe "#handle_associated_request_issue_not_present" do
     subject { builder.send(:handle_associated_request_issue_not_present) }
-    let(:error) { AppealsConsumer::Error::NullAssociatedCaseflowRequestIssueId }
-    let(:error_msg) do
-      "Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
+    let(:logged_message) do
+      "[Builders::DecisionReviewCreated::RequestIssueBuilder] Issue with contention id of 1 is "\
+      "ineligible due to a pending review but has null for associated_caseflow_request_issue_id"
+    end
+    let(:note) do
+      "Issue with contention id of 1 is ineligible due to a pending review but has null"\
+      " for associated_caseflow_request_issue_id"
     end
     let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_board_appeal) }
 
-    context "when there isn't an associated_caseflow_request_issue_id present" do
-      it "does not raise an error" do
-        expect { subject }.not_to raise_error
-      end
-    end
-
-    context "when there is an associated_caseflow_request_issue_id present" do
+    context "when there is not an associated_caseflow_request_issue_id present" do
       before do
+        issue.contention_id = 1
         issue.associated_caseflow_request_issue_id = nil
       end
 
-      it "raises an error" do
-        expect { subject }.to raise_error(error, error_msg)
+      it "logs 'Issue is ineligible due to a pending review but has null for associated_caseflow_request_issue_id'" do
+        expect(Rails.logger).to receive(:info).with(logged_message)
+
+        subject
+      end
+
+      it "updates the 'notes' column on the event_audit with the logged message" do
+        subject
+        expect(EventAudit.last.notes).to include(note)
       end
     end
   end
