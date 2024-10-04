@@ -464,6 +464,10 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
           "[Builders::DecisionReviewCreated::RequestIssueBuilder] Issue with contention id of 1 is ineligible due to a pending"\
           " review but has null for associated_caseflow_request_issue_id"
         end
+        let(:note) do 
+          "Issue with contention id of 1 is ineligible due to a pending review but has null"\
+          " for associated_caseflow_request_issue_id"
+        end
         context "when issue.eligibility_result is 'PENDING_HLR'" do
           let(:decision_review_model) { build(:decision_review_created, :ineligible_nonrating_hlr_pending_hlr) }
 
@@ -482,6 +486,11 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
               expect(Rails.logger).to receive(:info).with(logged_message)
               
               subject
+            end
+
+            it "updates the 'notes' column on the event_audit with the logged message" do      
+              subject
+              expect(EventAudit.last.notes).to include(note)
             end
           end
         end
@@ -507,6 +516,11 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
               
               subject
             end
+
+            it "updates the 'notes' column on the event_audit with the logged message" do      
+              subject
+              expect(EventAudit.last.notes).to include(note)
+            end
           end
         end
 
@@ -530,6 +544,11 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
               expect(Rails.logger).to receive(:info).with(logged_message)
               
               subject
+            end
+
+            it "updates the 'notes' column on the event_audit with the logged message" do      
+              subject
+              expect(EventAudit.last.notes).to include(note)
             end
           end
         end
