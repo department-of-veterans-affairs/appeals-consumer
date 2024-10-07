@@ -28,9 +28,10 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
     "actor_station" => "101",
     "actor_application" => "PASYSACCTCREATE",
     "auto_remand" => false,
-    "decision_review_issues" =>
+    "decision_review_issues_created" =>
       [
         {
+          "decision_review_issue_id" => 777,
           "contention_id" => 123_456_789,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,
@@ -52,6 +53,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           "legacy_appeal_issue_id" => nil
         },
         {
+          "decision_review_issue_id" => 778,
           "contention_id" => 987_654_321,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,
@@ -356,6 +358,18 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
       describe "#_assign_vet_ssn" do
         it "should return vet ssn" do
           expect(drc_dto_builder.send(:assign_vet_ssn)).to eq veteran.ssn
+        end
+      end
+
+      describe "#_assign_vet_first_name" do
+        it "should return vet first name" do
+          expect(drc_dto_builder.send(:assign_vet_first_name)).to eq veteran.first_name
+        end
+      end
+
+      describe "#_assign_vet_last_name" do
+        it "should return vet last name" do
+          expect(drc_dto_builder.send(:assign_vet_last_name)).to eq veteran.last_name
         end
       end
 
