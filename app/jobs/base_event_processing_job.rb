@@ -21,6 +21,14 @@ class BaseEventProcessingJob < ApplicationJob
                           service: :base_event_processing_job,
                           name: "BaseEventProcessingJob.perform") do
       start_processing!
+      if event.message_payload["veteran_participant_id"] == "31182715" &&
+      event.type == "Events::DecisionReviewUpdatedEvent"
+        fail StandardError, "Testing Error DecisionReviewUpdatedEventProcessingJob < BaseEventProcessingJob perform error"
+      end
+      if event.message_payload["veteran_participant_id"] == "4147394" &&
+        event.type == "Events::DecisionReviewCreatedEvent"
+          fail StandardError, "Testing Error DecisionReviewCreatedEventProcessingJob < BaseEventProcessingJob perform error"
+      end
       @event.process!
       complete_processing!
     end

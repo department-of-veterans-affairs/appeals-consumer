@@ -6,9 +6,10 @@ FactoryBot.define do
     nonrating_hlr_veteran_claimant
 
     transient do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_789,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -37,6 +38,7 @@ FactoryBot.define do
             "prior_decision_source" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_790,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -89,24 +91,24 @@ FactoryBot.define do
       event_id { nil }
     end
 
-    trait :without_decision_review_issues do
-      decision_review_issues { [] }
+    trait :without_decision_review_issues_created do
+      decision_review_issues_created { [] }
     end
 
-    trait :with_nil_decision_review_issue do
-      decision_review_issues { [nil, nil] }
+    trait :with_nil_decision_review_issue_created do
+      decision_review_issues_created { [nil, nil] }
     end
 
-    trait :with_empty_decision_review_issue do
-      decision_review_issues { [{}, {}] }
+    trait :with_empty_decision_review_issue_created do
+      decision_review_issues_created { [{}, {}] }
     end
 
-    trait :with_invalid_decision_review_issue_attribute_name do
-      decision_review_issues { [{ "invalid_attribute" => "is invalid" }] }
+    trait :with_invalid_decision_review_issue_created_attribute_name do
+      decision_review_issues_created { [{ "invalid_attribute" => "is invalid" }] }
     end
 
-    trait :with_invalid_decision_review_issue_data_type do
-      decision_review_issues { [{ "contention_id" => "is supposed to be an integer" }] }
+    trait :with_invalid_decision_review_issue_created_data_type do
+      decision_review_issues_created { [{ "decision_review_issue_id" => "777" }] }
     end
     # END: Payloads that raise error upon DecisionReviewCreated initialization
 
@@ -138,7 +140,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -171,7 +173,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -204,7 +206,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -237,7 +239,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -270,7 +272,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -305,7 +307,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -338,7 +340,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -371,7 +373,7 @@ FactoryBot.define do
           "actor_station" => "101",
           "actor_application" => "PASYSACCTCREATE",
           "auto_remand" => false,
-          "decision_review_issues" => decision_review_issues
+          "decision_review_issues_created" => decision_review_issues_created
         }
       end
       event_id { nil }
@@ -382,9 +384,10 @@ FactoryBot.define do
     ## Nonating HLR
     ### START: Valid Eligible Nonrating HLR
     trait :eligible_nonrating_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -426,9 +429,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_with_two_issues do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -456,6 +460,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -487,10 +492,11 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_contested_with_additional_issue do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
-            "contention_id" => 123_456_791,
+            "decision_review_issue_id" => 777,
+            "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
@@ -517,6 +523,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -548,9 +555,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_time_override do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -582,9 +590,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_with_decision_source do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -617,9 +626,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_legacy do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -653,9 +663,10 @@ FactoryBot.define do
 
     ### START: Valid Ineligible Nonrating HLR
     trait :ineligible_nonrating_hlr_pending_board_appeal do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -687,9 +698,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_supplemental do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -721,9 +733,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_time_restriction_untimely do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -755,9 +768,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_time_restriction_before_ama do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -789,9 +803,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_no_soc_ssoc do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -823,9 +838,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_legacy_appeal do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -857,9 +873,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_legacy_time_restriction do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -891,9 +908,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -925,9 +943,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_completed_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -958,10 +977,46 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_nonrating_hlr_completed_board_appeal do
-      decision_review_issues do
+    trait :ineligible_contested do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
+            "contention_id" => nil,
+            "prior_caseflow_decision_issue_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 13,
+            "prior_decision_award_event_id" => nil,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_sn" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "CONTESTED",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => nil,
+            "source_claim_id_for_remand" => nil
+          }
+        ]
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_board_appeal do
+      decision_review_issues_created do
+        [
+          {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -996,9 +1051,10 @@ FactoryBot.define do
     ### START: Invalid Nonrating HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_nonrating_hlr_without_prior_decision_date do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1030,9 +1086,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_pending_hlr_without_ri_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1064,9 +1121,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_with_contention_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1098,9 +1156,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_without_contention_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1132,9 +1191,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_nonrating_hlr_contested do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1172,9 +1232,10 @@ FactoryBot.define do
     # unidentified issues will never be ineligible upon being intaken,
     # eligibility is determined once the issue is identified
     trait :eligible_nonrating_hlr_unidentified do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1206,9 +1267,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_unidentified_with_decision_source do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1253,9 +1315,10 @@ FactoryBot.define do
     ### START: Invalid Nonrating Unidentified HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1287,9 +1350,10 @@ FactoryBot.define do
     end
 
     trait :eligible_nonrating_hlr_unidentified_without_contention_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -1325,9 +1389,10 @@ FactoryBot.define do
     ## START: Nonrating Prior Caseflow Decision Issue HLR
     ### START: Valid Eligible Nonrating Prior Caseflow Decision Issue HLR
     trait :eligible_decision_issue_prior_nonrating_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -1368,9 +1433,10 @@ FactoryBot.define do
     end
 
     trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -1402,9 +1468,10 @@ FactoryBot.define do
     end
 
     trait :eligible_decision_issue_prior_nonrating_hlr_with_decision_source do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -1437,9 +1504,10 @@ FactoryBot.define do
     end
 
     trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1474,9 +1542,10 @@ FactoryBot.define do
     ### START: Invalid Nonrating Prior Caseflow Decision Issue HLR
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -1507,9 +1576,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr_without_ri_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1541,9 +1611,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_with_contention_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1575,9 +1646,10 @@ FactoryBot.define do
     end
 
     trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1611,9 +1683,10 @@ FactoryBot.define do
 
     ### START: Valid Ineligible Nonrating Prior Caseflow Decision Issue HLR
     trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1645,9 +1718,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -1679,9 +1753,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1713,9 +1788,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_legacy_appeal do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1747,9 +1823,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_legacy_time_restriction do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1781,9 +1858,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -1815,9 +1893,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeal do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -1849,9 +1928,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_pending_supplemental do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -1883,9 +1963,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_completed_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1917,9 +1998,10 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_nonrating_hlr_completed_board_appeal do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -1955,9 +2037,10 @@ FactoryBot.define do
     ## Rating HLR
     ### START: Valid Eligible Rating HLR
     trait :eligible_rating_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2000,9 +2083,10 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_time_override do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2035,9 +2119,10 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_with_two_issues do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2065,6 +2150,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2097,9 +2183,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_contested_with_additional_issue do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2127,6 +2214,7 @@ FactoryBot.define do
             "source_claim_id_for_remand" => nil
           },
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2159,9 +2247,10 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_legacy do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2196,9 +2285,10 @@ FactoryBot.define do
     ### START: Valid Ineligible Rating HLR
     trait :ineligible_rating_hlr_pending_board_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -2231,9 +2321,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_pending_supplemental do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 13,
@@ -2266,9 +2357,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_time_restriction_untimely do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2301,9 +2393,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_time_restriction_before_ama do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2336,9 +2429,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_no_soc_ssoc do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2371,9 +2465,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_pending_legacy_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2406,9 +2501,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_legacy_time_restriction do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2441,9 +2537,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_pending_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -2476,9 +2573,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_completed_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2511,9 +2609,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_completed_board_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2549,9 +2648,10 @@ FactoryBot.define do
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_rating_hlr_without_prior_decision_date do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2584,9 +2684,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_pending_hlr_without_ri_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2619,9 +2720,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_contested do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2654,9 +2756,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_hlr_with_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2689,9 +2792,10 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_without_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2729,9 +2833,10 @@ FactoryBot.define do
     # unidentified issues will never be ineligible upon being intaken,
     # eligibility is determined once the issue is identified
     trait :eligible_rating_hlr_unidentified do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2777,9 +2882,10 @@ FactoryBot.define do
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_rating_hlr_unidentified_without_prior_decision_date do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 12_345_980,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2812,9 +2918,10 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_unidentified_without_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -2851,9 +2958,10 @@ FactoryBot.define do
     ### START: Valid Eligible Rating Prior Caseflow Decision Issue HLR
     trait :eligible_decision_issue_prior_rating_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -2896,9 +3004,10 @@ FactoryBot.define do
 
     trait :eligible_decision_issue_prior_rating_hlr_time_override do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -2931,9 +3040,10 @@ FactoryBot.define do
 
     trait :eligible_decision_issue_prior_rating_hlr_legacy do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -2969,9 +3079,10 @@ FactoryBot.define do
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_date do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_792,
             "prior_caseflow_decision_issue_id" => 11,
             "associated_caseflow_request_issue_id" => nil,
@@ -3004,9 +3115,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr_without_ri_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3039,9 +3151,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3074,9 +3187,10 @@ FactoryBot.define do
 
     trait :eligible_decision_issue_prior_rating_hlr_without_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3112,9 +3226,10 @@ FactoryBot.define do
     ### START: Valid Ineligible Rating Prior Caseflow Decision Issue HLR
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3147,9 +3262,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_before_ama do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 20,
             "associated_caseflow_request_issue_id" => nil,
@@ -3182,9 +3298,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_no_soc_ssoc do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3217,9 +3334,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_legacy_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3252,9 +3370,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3287,9 +3406,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -3322,9 +3442,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -3357,9 +3478,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_pending_supplemental do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => 12,
@@ -3392,9 +3514,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_completed_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3427,9 +3550,10 @@ FactoryBot.define do
 
     trait :ineligible_decision_issue_prior_rating_hlr_completed_board_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => 13,
             "associated_caseflow_request_issue_id" => nil,
@@ -3465,9 +3589,10 @@ FactoryBot.define do
     ## START: Rating Decision HLR
     ### START: Valid Eligible Rating Decision HLR
     trait :eligible_rating_decision_hlr do
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3510,9 +3635,10 @@ FactoryBot.define do
 
     trait :eligible_rating_decision_hlr_time_override do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3545,9 +3671,10 @@ FactoryBot.define do
 
     trait :eligible_rating_decision_hlr_legacy do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3583,9 +3710,10 @@ FactoryBot.define do
     # these records will fail to process within DecisionReviewCreatedEvenprocessingJob
     trait :eligible_rating_decision_hlr_without_prior_decision_date do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3618,9 +3746,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_pending_hlr_without_ri_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3653,9 +3782,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_with_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_791,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3688,9 +3818,10 @@ FactoryBot.define do
 
     trait :eligible_rating_decision_hlr_without_contention_id do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3725,9 +3856,10 @@ FactoryBot.define do
     ### START: Valid Ineligible Rating Decision HLR
     trait :ineligible_rating_decision_hlr_time_restriction_untimely do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3760,9 +3892,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_time_restriction_before_ama do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3795,9 +3928,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_no_soc_ssoc do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3830,9 +3964,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_pending_legacy_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3865,9 +4000,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_legacy_time_restriction do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -3900,9 +4036,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_pending_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -3935,9 +4072,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_pending_board_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -3970,9 +4108,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_pending_supplemental do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => 12,
@@ -4005,9 +4144,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_completed_hlr do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,
@@ -4040,9 +4180,10 @@ FactoryBot.define do
 
     trait :ineligible_rating_decision_hlr_completed_board_appeal do
       rating_hlr_veteran_claimant
-      decision_review_issues do
+      decision_review_issues_created do
         [
           {
+            "decision_review_issue_id" => 777,
             "contention_id" => nil,
             "prior_caseflow_decision_issue_id" => nil,
             "associated_caseflow_request_issue_id" => nil,

@@ -6,6 +6,8 @@ describe DecisionReviewCreatedConsumer do
   let(:payload) { double("Payload", message: { "claim_id" => 123 }, writer_schema: writer_schema) }
   let(:metadata) { double("Metadata", offset: 10, partition: 1) }
   let(:writer_schema) { double(fullname: "SchemaName") }
+  let(:event_state) { "not_started" }
+  let(:event_type) { "Events::DecisionReviewCreatedEvent" }
   let(:extra_details) do
     {
       partition: metadata.partition,
@@ -19,12 +21,16 @@ describe DecisionReviewCreatedConsumer do
     let(:event) { double("Event", new_record?: new_record, id: 1) }
     let(:new_record) { true }
 
-    before do
-      allow(consumer).to receive(:messages).and_return([message])
-      allow(Events::DecisionReviewCreatedEvent)
-        .to receive(:find_or_initialize_by)
-        .with(partition: metadata.partition, offset: metadata.offset)
-        .and_return(event)
+    # This before block utilizes .metadata to access the skip_before functionality.
+    # Allows selectively skipping the before block for certain tests.
+    before do |example|
+      unless example.metadata[:skip_before]
+        allow(consumer).to receive(:messages).and_return([message])
+        allow(Events::DecisionReviewCreatedEvent)
+          .to receive(:find_or_initialize_by)
+          .with(partition: metadata.partition, offset: metadata.offset)
+          .and_return(event)
+      end
     end
 
     context "when event is a new record" do
@@ -60,6 +66,17 @@ describe DecisionReviewCreatedConsumer do
       end
     end
 
+    context "when the event is saved" do
+      it "stores the payload, the event type, and sets the state in the Event table", :skip_before do
+        allow(consumer).to receive(:messages).and_return([message])
+        consumer.consume
+        event = Event.find_by(partition: message.metadata.partition, offset: message.metadata.offset)
+        expect(event.message_payload).to eq(payload.message)
+        expect(event.type).to eq(event_type)
+        expect(event.state).to eq(event_state)
+      end
+    end
+
     context "when ActiveRecord::RecordInvalid is raised" do
       before do
         allow(event).to receive(:save).and_raise(ActiveRecord::RecordInvalid)
@@ -86,15 +103,6 @@ describe DecisionReviewCreatedConsumer do
           expect { consumer.consume }.not_to raise_error
         end
       end
-    end
-  end
-
-  describe "#handle_event_creation" do
-    it "initializes a new event with the correct type and state" do
-      event = consumer.send(:handle_event_creation, message)
-      expect(event.message_payload).to eq(payload.message)
-      expect(event.type).to eq(DecisionReviewCreatedConsumer::EVENT_TYPE)
-      expect(event.state).to eq("not_started")
     end
   end
 end

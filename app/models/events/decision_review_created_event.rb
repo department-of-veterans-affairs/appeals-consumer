@@ -3,6 +3,9 @@
 # A subclass of Event, representing the DecisionReviewCreated Kafka topic event.
 class Events::DecisionReviewCreatedEvent < Event
   def process!
+    if self.message_payload["veteran_participant_id"] == "38238054"
+      fail StandardError, "Testing Error Events::DecisionReviewCreatedEvent process! error"
+    end
     dto = Builders::DecisionReviewCreated::DtoBuilder.new(self)
     response = ExternalApi::CaseflowService.establish_decision_review_created_records_from_event!(dto)
 
