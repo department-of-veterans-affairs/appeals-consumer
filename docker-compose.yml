@@ -78,7 +78,6 @@ services:
       - ls
 
   rails:
-    network_mode: "host"
     build: ./
     command: /usr/bin/supervisord
     ports:
@@ -94,8 +93,8 @@ services:
       - ".env"
     dns:
       - 10.0.2.20
-    # networks:
-    #   - ls
+    networks:
+      - ls
 
   localstack-consumer:
     platform: linux/amd64
