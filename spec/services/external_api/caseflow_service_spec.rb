@@ -170,4 +170,45 @@ describe ExternalApi::CaseflowService do
       end
     end
   end
+
+  describe "#finalize_records_from_decision_review_completed_event!" do
+    let(:endpoint) { "#{base_url}decision_review_completed" }
+    let(:decision_review_completed_dto_builder) { dto_builder }
+    let(:response) do
+      described_class
+        .finalize_records_from_decision_review_completed_event!(decision_review_completed_dto_builder)
+    end
+
+    context "when the request is successful" do
+      before do
+        stub_request(:post, endpoint)
+          .with(body: decision_review_completed_dto_builder.payload.to_json, headers: headers)
+          .to_return(status: 200, body: '{"success": true}', headers: {})
+      end
+
+      it "returns the HTTP status code" do
+        expect(response.code).to eq(200)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        response
+      end
+    end
+
+    context "when the request fails with an error code" do
+      before do
+        stub_request(:post, endpoint)
+          .with(body: decision_review_completed_dto_builder.payload.to_json, headers: headers)
+          .to_return(status: 500, body: '{"error": "Internal Server Error"}', headers: {})
+      end
+
+      it "raises a ClientRequestError with the proper message and code" do
+        expect { response }.to raise_error(AppealsConsumer::Error::ClientRequestError) do |error|
+          expect(error.code).to eq(500)
+          expect(error.message).to include(error_message, error_code)
+        end
+      end
+    end
+  end
 end
