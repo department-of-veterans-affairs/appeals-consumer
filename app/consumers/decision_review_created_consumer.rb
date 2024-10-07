@@ -25,13 +25,13 @@ class DecisionReviewCreatedConsumer < ApplicationConsumer
         begin
           ActiveRecord::Base.transaction do
             event = handle_event_creation(message, EVENT_TYPE)
-            if event.message_payload["veteran_participant_id"] == "3916249" # Number needs to be changed
-              fail StandardError, "Testing Error DecisionReviewCreatedConsumer consume error"
-            end
 
             # Processes the event with additional logic provided in the block for job enqueueing.
             process_event(event, extra_details) do |new_event|
               # Enqueues a job for further processing of the newly created event.
+              if event.message_payload["veteran_participant_id"] == "3916249" # Number needs to be changed
+                fail StandardError, "Testing Error DecisionReviewCreatedConsumer consume error"
+              end
               DecisionReviewCreatedEventProcessingJob.perform_later(new_event)
             end
           end
