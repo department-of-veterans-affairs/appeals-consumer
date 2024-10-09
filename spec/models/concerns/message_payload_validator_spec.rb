@@ -31,12 +31,27 @@ describe MessagePayloadValidator do
         end
       end
 
-      context "because there are invalid attribute name(s)" do
+      context "when there are unexpected attribute name(s)" do
         let(:message_payload_with_invalid_attribute_name) { build(:decision_review_created, :invalid_attribute_name) }
+        let(:message_payload_with_multiple_invalid_names) do
+          build(:decision_review_created, :multiple_invalid_attribute_names)
+        end
 
-        it "raises an ArgumentError with message: class_name: Unknown attributes - unknown_attributes" do
-          error_message = "Transformers::DecisionReviewCreated: Unknown attributes - invalid_attribute"
-          expect { message_payload_with_invalid_attribute_name }.to raise_error(ArgumentError, error_message)
+        context "when there is a single unexpected attribute name" do
+          it "logs the unknown attribute name" do
+            message = "Transformers::DecisionReviewCreated: Unknown attributes - invalid_attribute"
+            expect(Rails.logger).to receive(:info).with(message)
+            message_payload_with_invalid_attribute_name
+          end
+        end
+
+        context "when there are multiple unexpected attribute names" do
+          it "logs all the unknown attribute names" do
+            message = "Transformers::DecisionReviewCreated: Unknown attributes - invalid_attribute, "\
+            "second_invalid_attribute"
+            expect(Rails.logger).to receive(:info).with(message)
+            message_payload_with_multiple_invalid_names
+          end
         end
       end
 
