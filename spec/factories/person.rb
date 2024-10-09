@@ -9,6 +9,8 @@ FactoryBot.define do
     last_name { "Smith" }
     email_address { "email@email.com" }
     date_of_birth { Date.new(2022, 1, 1) }
+    date_of_death { Date.new(2018, 1, 1) }
+    file_number { "123456789" }
 
     # do we need date of birth?
 
