@@ -35,6 +35,7 @@ describe Builders::BasePersonBuilder do
       expect(person.ssn).to eq(person_updated_model.ssn)
       expect(person.date_of_birth).to eq(person_updated_model.date_of_birth)
       expect(person.email_address).to eq(person_updated_model.email_address)
+      expect(person.date_of_death).to eq(person_updated_model.date_of_death)
       # not sure how to check for the veteran indicator
     end
   end
