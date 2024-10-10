@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This class is a specialized consumer that processes message related to the person updated...
+# This class is a specialized consumer that processes message related to the person updated topic.
 
 class PersonUpdatedConsumer < ApplicationConsumer
     include LoggerMixin
