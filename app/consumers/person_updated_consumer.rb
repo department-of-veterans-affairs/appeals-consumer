@@ -12,9 +12,9 @@ class PersonUpdatedConsumer < ApplicationConsumer
                             service: :kafka,
                             name: "PersonUpdatedConsumer") do
         messages.each do |message|
-          participant_id = message.payload.message["participant_id"] #maybe?
+          participant_id = message.payload.message["participant_id"]
           extra_details = extra_details(message, EVENT_TYPE.to_s,
-                            consumer_specific_details: { participant_id: participant_id }) #maybe?
+                            consumer_specific_details: { participant_id: participant_id })
   
           log_consumption_start(extra_details)
   
