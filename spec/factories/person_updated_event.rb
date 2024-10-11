@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-#this payload is just a placeholder for now. We will have to update this with the specific payload. 
-# this payload outline came from the solutioning
+# this payload is just a placeholder for now. We will have to update this with the specific payload.
+# this payload outline came from the solutioning.
 FactoryBot.define do
   factory :person_updated_event, class: "Events::PersonUpdatedEvent" do
     message_payload do
