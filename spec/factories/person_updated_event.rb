@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+#this payload is just a placeholder for now. We will have to update this with the specific payload. 
+# this payload outline came from the solutioning
 FactoryBot.define do
   factory :person_updated_event, class: "Events::PersonUpdatedEvent" do
     message_payload do
@@ -315,7 +319,7 @@ FactoryBot.define do
               string
             ],
             "default": null,
-            "doc": "This is the code value for the SSN Verification Status; 
+            "doc": "This is the code value for the SSN Verification Status;
               It uses a number to represent a finite number of options"
           },
           {
@@ -325,7 +329,7 @@ FactoryBot.define do
               string
             ],
             "default": null,
-            "doc": "This is the Description associated with the SSN Verification Status; 
+            "doc": "This is the Description associated with the SSN Verification Status;
               It is an English phrase providing a brief explanation of how the SSN was/was not verified"
           },
           {
