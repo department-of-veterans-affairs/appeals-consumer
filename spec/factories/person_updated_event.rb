@@ -315,7 +315,8 @@ FactoryBot.define do
               string
             ],
             "default": null,
-            "doc": "This is the code value for the SSN Verification Status; It uses a number to represent a finite number of options"
+            "doc": "This is the code value for the SSN Verification Status; 
+              It uses a number to represent a finite number of options"
           },
           {
             "name": "ssnVerificationName",
@@ -324,7 +325,8 @@ FactoryBot.define do
               string
             ],
             "default": null,
-            "doc": "This is the Description associated with the SSN Verification Status; It is an English phrase providing a brief explanation of how the SSN was/was not verified"
+            "doc": "This is the Description associated with the SSN Verification Status; 
+              It is an English phrase providing a brief explanation of how the SSN was/was not verified"
           },
           {
             "name": "sourceTs",
