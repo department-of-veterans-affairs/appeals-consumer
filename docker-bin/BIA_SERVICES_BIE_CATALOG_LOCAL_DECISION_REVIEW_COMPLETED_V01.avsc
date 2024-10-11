@@ -1,0 +1,106 @@
+{
+  "name": "DecisionReviewCompleted",
+  "type": "record",
+  "namespace": "gov.va.bip.cest.decisionreview.avro",
+  "doc": "An event that represents a decision review being completed via an AMA claim getting authorized in VBMS Awards.",
+  "fields": [
+    {
+      "name": "modifiedByUsername",
+      "type": "string",
+      "doc": "The user who modified this decision review in the system"
+    },
+    {
+      "name": "modifiedByStation",
+      "type": "string",
+      "doc": "The station number of the user who modified the decision review"
+    },
+    {
+      "name": "modifiedByApplication",
+      "type": "string",
+      "doc": "The application that the user used to modify this decision review"
+    },
+    {
+      "name": "veteranParticipantId",
+      "type": "string",
+      "doc": "The participant ID of the associated Veteran."
+    },
+    {
+      "name": "remandCreated",
+      "type": "boolean",
+      "doc": "Indicates whether an 040 was established as a result of the decision review."
+    },
+    {
+      "name": "claim",
+      "type": {
+        "name": "Claim",
+        "type": "record",
+        "fields": [
+          {
+            "name": "claimId",
+            "type": "long",
+            "doc": "The ID of the initial claim"
+          },
+          {
+            "name": "claimantParticipantId",
+            "type": "string",
+            "doc": "The participant ID of the associated claimant."
+          },
+          {
+            "name": "claimLabel",
+            "type": "string",
+            "doc": "The claim label of benefit type"
+          },
+          {
+            "name": "epCode",
+            "type": "string",
+            "doc": "The epCode of benefit type"
+          },
+          {
+            "name": "claimLifecycleStatus",
+            "type": "string",
+            "doc": "The current status of the claim"
+          },
+          {
+            "name": "contentions",
+            "type": {
+              "type": "array",
+              "items": {
+                "name": "Contention",
+                "type": "record",
+                "fields": [
+                  {
+                    "name": "ContentionId",
+                    "type": "long",
+                    "doc": "The ID of the initial contention"
+                  },
+                  {
+                    "name": "disposition",
+                    "type": "string",
+                    "doc": "The disposition decision"
+                  },
+                  {
+                    "name": "dtaErrorExplanation",
+                    "type": "string",
+                    "doc": "The DTA error explanation text"
+                  },
+                  {
+                    "name": "remandClaimId",
+                    "type": "long",
+                    "doc": "The ID of the remand claim created"
+                  },
+                  {
+                    "name": "remandContentionId",
+                    "type": "long",
+                    "doc": "The ID of the new contention created"
+                  }
+                ]
+              }
+            },
+            "doc": "The initial contentions created"
+          }
+        ],
+        "doc": "The initial claim to complete the decision review"
+      }
+    }
+  ]
+}
