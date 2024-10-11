@@ -64,7 +64,7 @@ class Builders::BasePersonBuilder
 
   # this date is sort of hard codded in the person factory
   def calculate_date_of_death
-    @person.date_of_death = @person_updated_model.date_of_death if @person_updated_model.date_of_death 
+    @person.date_of_death = @person_updated_model.date_of_death if @person_updated_model.date_of_death
   end
 
   def assign_file_number
