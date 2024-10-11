@@ -12,7 +12,8 @@ describe BasePerson do
     expect(person).to respond_to(:middle_name)
     expect(person).to respond_to(:last_name)
     expect(person).to respond_to(:email_address)
-    expect(person).to respond_to(:file_number)
     expect(person).to respond_to(:date_of_death)
+    expect(person).to respond_to(:file_number)
+    expect(person).to respond_to(:is_veteran)
   end
 end
