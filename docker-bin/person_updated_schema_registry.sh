@@ -12,7 +12,7 @@ jq '
     0,
     references: [
       {
-        "name": "",
+        "name": "gov.va.bip.bie.participant.person",
         "subject": "BIA_SERVICES_BIE_CATALOG_LOCAL_PARTICIPANT_PERSON_UPDATED_V01",
         "version": 1
       }
