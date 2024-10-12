@@ -579,7 +579,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
   def assign_decision_review_issue_id
     @request_issue.decision_review_issue_id = issue.decision_review_issue_id
   end
-  
+
   def assign_veteran_participant_id
     @request_issue.veteran_participant_id = decision_review_model.veteran_participant_id
   end
