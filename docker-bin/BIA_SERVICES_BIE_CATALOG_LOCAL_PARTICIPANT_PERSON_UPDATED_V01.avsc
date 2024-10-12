@@ -1,0 +1,93 @@
+{
+  "name": "PersonUpdatedEvent",
+  "type": "record",
+  "namespace": "gov.va.bip.bie.participant.person",
+  "fields": [
+    {
+      "name": "birthDate",
+      "type": [
+        "null",
+        {
+          "type": "int",
+          "connect.version": 1,
+          "connect.name": "org.apache.kafka.connect.data.Date",
+          "logicalType": "date"
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "deathDate",
+      "type": [
+        "null",
+        {
+          "type": "int",
+          "connect.version": 1,
+          "connect.name": "org.apache.kafka.connect.data.Date",
+          "logicalType": "date"
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "fileNumber",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "firstName",
+      "type": "string"
+    },
+    {
+      "name": "gender",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "lastName",
+      "type": "string"
+    },
+    {
+      "name": "middleName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "participantId",
+      "type": "long"
+    },
+    {
+      "name": "socialSecurityNumber",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "suffix",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "veteranIndicator",
+      "type": [
+        "null",
+        "boolean"
+      ],
+      "default": null
+    }
+  ]
+}

@@ -7,4 +7,11 @@ FactoryBot.define do
     partition { 1 }
     sequence(:offset) { Event.any? ? (Event.last.offset + 1) : 1 }
   end
+
+  factory :person_updated_event, class: Event do
+    type { "Events::PersonUpdatedEvent" }
+    message_payload { { "something": 1, "participant_id": 123456789 }.to_json }
+    partition { 1 }
+    sequence(:offset) { Event.any? ? (Event.last.offset + 1) : 1 }
+  end
 end
