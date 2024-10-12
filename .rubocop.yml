@@ -134,6 +134,9 @@ Style/FormatStringToken:
   Enabled: true
   EnforcedStyle: annotated
 
+Style/NumericLiterals:
+  Enabled: false
+
 Naming/FileName:
   Enabled: false
 
