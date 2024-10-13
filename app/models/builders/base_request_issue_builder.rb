@@ -88,6 +88,7 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
     assign_nonrating_issue_bgs_id
     assign_type
     assign_decision_review_issue_id
+    assign_veteran_participant_id
   end
 
   def calculate_methods
@@ -577,5 +578,9 @@ class Builders::BaseRequestIssueBuilder # rubocop:disable Metrics/ClassLength
 
   def assign_decision_review_issue_id
     @request_issue.decision_review_issue_id = issue.decision_review_issue_id
+  end
+
+  def assign_veteran_participant_id
+    @request_issue.veteran_participant_id = decision_review_model.veteran_participant_id
   end
 end
