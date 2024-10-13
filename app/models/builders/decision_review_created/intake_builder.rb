@@ -2,19 +2,19 @@
 
 # This class is used to build out an DecisionReviewCreated::Intake object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::IntakeBuilder
-  include DecisionReview::ModelBuilderHelper
-  attr_reader :intake, :decision_review_model
+  include DecisionReviewCreated::ModelBuilder
+  attr_reader :intake, :decision_review_created
 
   COMPLETION_SUCCESS_STATUS = "success"
 
-  def self.build(decision_review_model)
-    builder = new(decision_review_model)
+  def self.build(decision_review_created)
+    builder = new(decision_review_created)
     builder.assign_attributes
     builder.intake
   end
 
-  def initialize(decision_review_model)
-    @decision_review_model = decision_review_model
+  def initialize(decision_review_created)
+    @decision_review_created = decision_review_created
     @intake = DecisionReviewCreated::Intake.new
   end
 
@@ -31,7 +31,7 @@ class Builders::DecisionReviewCreated::IntakeBuilder
   private
 
   def calculate_started_at
-    @intake.started_at = convert_to_timestamp_ms(@decision_review_model.intake_creation_time)
+    @intake.started_at = convert_to_timestamp_ms(@decision_review_created.intake_creation_time)
   end
 
   def calculate_completion_started_at
@@ -47,7 +47,7 @@ class Builders::DecisionReviewCreated::IntakeBuilder
   end
 
   def calculate_type
-    decision_review_type = @decision_review_model.decision_review_type
+    decision_review_type = @decision_review_created.decision_review_type
     if decision_review_type == "HIGHER_LEVEL_REVIEW"
       @intake.type = "HigherLevelReviewIntake"
     elsif decision_review_type == "SUPPLEMENTAL_CLAIM"
@@ -56,7 +56,7 @@ class Builders::DecisionReviewCreated::IntakeBuilder
   end
 
   def calculate_detail_type
-    decision_review_type = @decision_review_model.decision_review_type
+    decision_review_type = @decision_review_created.decision_review_type
     if decision_review_type == "HIGHER_LEVEL_REVIEW"
       @intake.detail_type = "HigherLevelReview"
     elsif decision_review_type == "SUPPLEMENTAL_CLAIM"
