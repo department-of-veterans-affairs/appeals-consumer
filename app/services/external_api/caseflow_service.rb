@@ -25,6 +25,15 @@ class ExternalApi::CaseflowService
       parse_response(response, claim_id)
     end
 
+    # Sends request to Caseflow API and processes response.
+    def edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder)
+      payload = decision_review_updated_dto_builder.payload
+      headers = build_headers(decision_review_updated_dto_builder)
+      endpoint = "#{BASE_ENDPOINT}decision_review_updated"
+      response = send_caseflow_request(payload, endpoint, headers)
+      parse_response(response, payload["claim_id"])
+    end
+
     private
 
     # Sends a request to the Caseflow API with specified payload, endpoint, and optional headers.
