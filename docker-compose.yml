@@ -89,7 +89,7 @@ services:
       - kafka-ui
       - redis
       - localstack-consumer
-    env_file:
+    env_file: 
       - ".env"
     dns:
       - 10.0.2.20

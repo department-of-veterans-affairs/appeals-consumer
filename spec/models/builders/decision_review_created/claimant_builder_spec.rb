@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 describe Builders::DecisionReviewCreated::ClaimantBuilder do
-  let(:decision_review_model) do
+  let(:decision_review_created) do
     build(:decision_review_created, payee_code: payee_code, claimant_participant_id: "5382910292")
   end
-  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_model.to_json) }
+  let!(:event) { create(:decision_review_created_event, message_payload: decision_review_created.to_json) }
   let!(:event_id) { event.id }
-  let(:builder) { described_class.new(decision_review_model) }
-  let(:claimant) { described_class.build(decision_review_model) }
+  let(:builder) { described_class.new(decision_review_created) }
+  let(:claimant) { described_class.build(decision_review_created) }
   let(:payee_code) { "00" }
 
   before do
-    decision_review_model.instance_variable_set(:@event_id, event_id)
+    decision_review_created.instance_variable_set(:@event_id, event_id)
   end
 
   describe "#build" do
@@ -22,22 +22,22 @@ describe Builders::DecisionReviewCreated::ClaimantBuilder do
 
   describe "initialization" do
     it "assigns @#decision_review_created and fetches bis record" do
-      expect(builder.decision_review_model).to eq(decision_review_model)
+      expect(builder.decision_review_created).to eq(decision_review_created)
       expect(builder.bis_record).not_to be_nil
     end
   end
 
   describe "#assign_attributes" do
-    let(:bis_record) { Fakes::BISService.new.fetch_person_info(decision_review_model.claimant_participant_id) }
+    let(:bis_record) { Fakes::BISService.new.fetch_person_info(decision_review_created.claimant_participant_id) }
     before do
       allow_any_instance_of(BISService)
         .to receive(:fetch_person_info)
-        .and_return(Fakes::BISService.new.fetch_person_info(decision_review_model.claimant_participant_id))
+        .and_return(Fakes::BISService.new.fetch_person_info(decision_review_created.claimant_participant_id))
     end
 
-    it "correctly assigns attribbutes from decision_review_model and bis_record" do
-      expect(claimant.payee_code).to eq(decision_review_model.payee_code)
-      expect(claimant.participant_id).to eq(decision_review_model.claimant_participant_id)
+    it "correctly assigns attribbutes from decision_review_created and bis_record" do
+      expect(claimant.payee_code).to eq(decision_review_created.payee_code)
+      expect(claimant.participant_id).to eq(decision_review_created.claimant_participant_id)
       expect(claimant.name_suffix).to eq(bis_record[:name_suffix])
       expect(claimant.ssn).to eq(bis_record[:ssn])
       expect(claimant.date_of_birth).to eq(bis_record[:birth_date].to_i * 1000)
@@ -66,7 +66,7 @@ describe Builders::DecisionReviewCreated::ClaimantBuilder do
     context "when the BIS record is not found" do
       let(:msg) do
         "BIS Person: Person record not found for DecisionReviewCreated claimant_participant_id:"\
-        " #{decision_review_model.claimant_participant_id}"
+        " #{decision_review_created.claimant_participant_id}"
       end
       let!(:event_audit_without_note) { create(:event_audit, event: event, status: :in_progress) }
 

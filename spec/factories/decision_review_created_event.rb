@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :decision_review_created_event, class: "Events::DecisionReviewCreatedEvent" do
-    claim_id = 1_234_567
+  factory :decision_review_created_event,
+          class: "Events::DecisionReviewCreatedEvent" do
     message_payload do
       {
-        "claim_id" => claim_id,
+        "claim_id" => 1_234_567,
         "decision_review_type" =>
         "HigherLevelReview",
         "veteran_first_name" => "John",
@@ -28,9 +28,8 @@ FactoryBot.define do
         "actor_station" => "101",
         "actor_application" => "PASYSACCTCREATE",
         "auto_remand" => false,
-        "decision_review_issues_created" => [
+        "decision_review_issues" => [
           {
-            "decision_review_issue_id" => 777,
             "contention_id" => 123_456_789,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
@@ -54,7 +53,6 @@ FactoryBot.define do
             "source_claim_id_for_remand" => 1
           },
           {
-            "decision_review_issue_id" => 777,
             "contention_id" => 987_654_321,
             "associated_caseflow_request_issue_id" => nil,
             "unidentified" => false,
@@ -82,6 +80,5 @@ FactoryBot.define do
     end
     partition { 1 }
     sequence(:offset) { Event.any? ? (Event.last.offset + 1) : 1 }
-    claim_id { claim_id }
   end
 end
