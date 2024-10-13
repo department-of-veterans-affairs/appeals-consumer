@@ -1,0 +1,597 @@
+{
+  "name": "DecisionReviewUpdated",
+  "type": "record",
+  "namespace": "gov.va.bip.cest.decisionreview.avro",
+  "doc": "An event that represents a Decision Review updated in the VBMS system",
+  "fields": [
+    {
+      "name": "claimId",
+      "type": "long",
+      "doc": "The ID of the claim created to work this decision review."
+    },
+    {
+      "name": "originalSource",
+      "type": "string",
+      "doc": "The original source of the decision review."
+    },
+    {
+      "name": "decisionReviewType",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The type of decision review (higher level review, supplemental). This field is not updatable and is only for reference."
+    },
+    {
+      "name": "veteranFirstName",
+      "type": "string",
+      "doc": "The first name of the Veteran"
+    },
+    {
+      "name": "veteranLastName",
+      "type": "string",
+      "doc": "The last name of the Veteran"
+    },
+    {
+      "name": "veteranParticipantId",
+      "type": "string",
+      "doc": "The Participant ID of the Veteran. This field is not updatable and is only for reference."
+    },
+    {
+      "name": "fileNumber",
+      "type": "string",
+      "doc": "The File Number of the Veteran. This field is not updatable and is only for reference."
+    },
+    {
+      "name": "claimantParticipantId",
+      "type": "string",
+      "doc": "The Participant ID of the claimant filing the Decision Review. This field is not updatable and is only for reference."
+    },
+    {
+      "name": "epCode",
+      "type": "string",
+      "doc": "The type of decision review that was created"
+    },
+    {
+      "name": "epCodeCategory",
+      "type": "string",
+      "doc": "Category of EP code (rating or non-rating)"
+    },
+    {
+      "name": "claimReceivedDate",
+      "type": {
+        "type": "int",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Date",
+        "logicalType": "date"
+      },
+      "doc": "The date that this decision review application was received"
+    },
+    {
+      "name": "claimLifecycleStatus",
+      "type": "string",
+      "doc": "The life cycle status of the claim"
+    },
+    {
+      "name": "payeeCode",
+      "type": "string",
+      "doc": "Number that indicates the person receiving a benefit, such as Veteran or spouse"
+    },
+    {
+      "name": "modifier",
+      "type": "string",
+      "doc": "The third digit modifier"
+    },
+    {
+      "name": "claimCreationTime",
+      "type": {
+        "type": "long",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Timestamp",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "The time at which this decision review claim was created"
+    },
+    {
+      "name": "originatedFromVacolsIssue",
+      "type": [
+        "null",
+        "boolean"
+      ],
+      "default": null,
+      "doc": "Whether a decision review originated from vacols"
+    },
+    {
+      "name": "limitedPoaCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The code of the limited POA for the claim created to work this decision review"
+    },
+    {
+      "name": "trackedItemAction",
+      "type": "string",
+      "doc": "The action taken for tracked items. Example - ADD_TRACKED_ITEM."
+    },
+    {
+      "name": "informalConferenceRequested",
+      "type": "boolean",
+      "doc": "Whether an informal conference was requested by the claimant"
+    },
+    {
+      "name": "informalConferenceTrackedItemId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The ID of the informal conference tracked Item ID."
+    },
+    {
+      "name": "sameStationReviewRequested",
+      "type": "boolean",
+      "doc": "Whether the claimant requested that this decision review be performed at the same station that handled the original claim"
+    },
+    {
+      "name": "updateTime",
+      "type": {
+        "type": "long",
+        "connect.version": 1,
+        "connect.name": "org.apache.kafka.connect.data.Timestamp",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Time at which the decision review was updated."
+    },
+    {
+      "name": "actorUsername",
+      "type": "string",
+      "doc": "The user who update this decision review in the system"
+    },
+    {
+      "name": "actorStation",
+      "type": "string",
+      "doc": "The station number of the user who update the decision review"
+    },
+    {
+      "name": "actorApplication",
+      "type": "string",
+      "doc": "The application that the user used to update this decision review"
+    },
+    {
+      "name": "autoRemand",
+      "type": "boolean",
+      "default": false,
+      "doc": "True/false value to indicate whether or not this decision review is an automatically established remand. This field is not updatable and is only for reference."
+    },
+    {
+      "name": "decisionReviewIssuesCreated",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": {
+            "name": "DecisionReviewIssueUpdated",
+            "type": "record",
+            "fields": [
+              {
+                "name": "decisionReviewIssueId",
+                "type": "long",
+                "doc": "The ID of the decision review issue record internal to C&P. "
+              },
+              {
+                "name": "contentionId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "doc": "The ID of the contention to track this issue. Will be null for ineligible issues. This will NOT be null for deleted contentions. "
+              },
+              {
+                "name": "contentionAction",
+                "type": "string",
+                "doc": "The action taken for the contention. Examples - ADD_CONTENTION, UPDATE_CONTENTION, DELETE_CONTENTION, NONE"
+              },
+              {
+                "name": "reasonForContentionAction",
+                "type": "string",
+                "doc": "The reason for the action taken for the contention. "
+              },
+              {
+                "name": "associatedCaseflowRequestIssueId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The ID of the associated request issue from Caseflow. This corresponds to RequestIssue.id in Caseflow."
+              },
+              {
+                "name": "unidentified",
+                "type": "boolean",
+                "doc": "Indicates whether this issue was unidentified. If true, both PriorRatingDecisionId and PriorNonRatingDecisionId will be null."
+              },
+              {
+                "name": "priorRatingDecisionId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The identifier of the prior rating decision that this issue is appealing. This is associated with RequestIssue.contested_rating_issue_reference_id in Caseflow. This value will be null if the issue is unidentified or is a non-rating issue."
+              },
+              {
+                "name": "priorNonRatingDecisionId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The identifier of the prior non-rating decision that this issue is appealing. This is associated with RequestIssue.nonrating_issue_bgs_id in Caseflow. This value will be null if the issue is unidentified or is a rating issue."
+              },
+              {
+                "name": "priorCaseflowDecisionIssueId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The Caseflow identifier (decision_issue.id) of the disposition decision that this issue is appealing. This value can be not-null in two different situations. 1) When this issue is appealing a disposition that did not have an actual decision recorded in VBMS Ratings or Awards. In this case both priorRatingDecisionId and priorNonRatingDecisionId will be null. 2) When this issue is appealing an actual Rating or Non-Rating decision made in VBMS and that decision was made for a previous AMA issue."
+              },
+              {
+                "name": "priorDecisionText",
+                "type": "string",
+                "doc": "The description of the prior decision that is being reviewed by this issue."
+              },
+              {
+                "name": "priorDecisionType",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "The type of decision that this issue is appealing"
+              },
+              {
+                "name": "priorDecisionSource",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "The source of the decision that this issue is appealing"
+              },
+              {
+                "name": "priorDecisionNotificationDate",
+                "type": [
+                  "null",
+                  {
+                    "type": "int",
+                    "connect.version": 1,
+                    "connect.name": "org.apache.kafka.connect.data.Date",
+                    "logicalType": "date"
+                  }
+                ],
+                "default": null,
+                "doc": "The date at which the claimant was notified of the prior decision. If its a rating issue, its the promulgation date plus one business day. If its a non-rating issue, its the authorization date plus one business day. If its an unidentified issue, its the user provided date."
+              },
+              {
+                "name": "priorDecisionDate",
+                "type": [
+                  "null",
+                  {
+                    "type": "int",
+                    "connect.version": 1,
+                    "connect.name": "org.apache.kafka.connect.data.Date",
+                    "logicalType": "date"
+                  }
+                ],
+                "default": null,
+                "doc": "The date at which the prior decision was finalized in the system. If its a rating issue, its the promulgation date. If its a non-rating issue, its the authorization date. If its an unidentified issue, its the user provided date minus one business day."
+              },
+              {
+                "name": "priorDecisionDiagnosticCode",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "The diagnostic code(s) of the prior decision that is being reviewed by this issue"
+              },
+              {
+                "name": "priorDecisionRatingPercentage",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "The rating percentage of the prior decision that is being reviewed by this issue"
+              },
+              {
+                "name": "priorDecisionRatingSn",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "If the decision originated from VBMS-Ratings, then this is the rating sequence number. An identifier for the rating decision (on the specific decision type itself, disability evaluation, competency, smc, etc). If the decision originated from VBMS-Awards, no ratingSn is associated to the decision."
+              },
+              {
+                "name": "eligible",
+                "type": "boolean",
+                "doc": "Indicates whether this issue was eligible for appeal. If true, a contention was created for it. Otherwise, false."
+              },
+              {
+                "name": "eligibilityResult",
+                "type": "gov.va.bip.cest.decisionreview.avro.EligibilityResultEnum",
+                "doc": "The specific reason why this issue is eligible or ineligible"
+              },
+              {
+                "name": "timeOverride",
+                "type": [
+                  "null",
+                  "boolean"
+                ],
+                "default": null,
+                "doc": "Whether this issue was ineligible due to the time restriction but that restriction was overridden"
+              },
+              {
+                "name": "timeOverrideReason",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "Optional reason why the user granted the time restriction override to the claimant"
+              },
+              {
+                "name": "contested",
+                "type": [
+                  "null",
+                  "boolean"
+                ],
+                "default": null,
+                "doc": "Whether or not this issue is being contested by another claimant. Only relevant for certain Prior Decision types"
+              },
+              {
+                "name": "socOptIn",
+                "type": [
+                  "null",
+                  "boolean"
+                ],
+                "default": null,
+                "doc": "Whether or not the claimant is opting in from the legacy appeals system"
+              },
+              {
+                "name": "legacyAppealId",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "The ID of the legacy VACOLS appeal that is being opted-in from. This is associated with VacolsIssue.vacols_id in Caseflow. "
+              },
+              {
+                "name": "legacyAppealIssueId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The ID of the legacy VACOLS issue that is being opted-in from. This is associated with VacolsIssue.vacols_sequence_id in Caseflow. This issue should be closed out in VACOLS"
+              },
+              {
+                "name": "priorDecisionAwardEventId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The identifier of the prior non-rating decision's begin award event that this issue is appealing. This value will be null if the issue is unidentified or is a rating issue."
+              },
+              {
+                "name": "priorDecisionRatingProfileDate",
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "default": null,
+                "doc": "The rating profile date of the prior decision that is being reviewed by this issue. This corresponds to RequestIssue.contested_rating_issue_profile_date in Caseflow."
+              },
+              {
+                "name": "sourceClaimIdForRemand",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The claim ID of the decision review that triggered the auto-establishment of this remand decision review, if applicable. This field is not updatable and is only for reference."
+              },
+              {
+                "name": "sourceContentionIdForRemand",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "The ID of the contention that was assigned a disposition that triggered the auto-establishment of this remand decision review, if applicable. This field is not updatable and is only for reference."
+              },
+              {
+                "name": "originalCaseflowRequestIssueId",
+                "type": [
+                  "null",
+                  "long"
+                ],
+                "default": null,
+                "doc": "When the originalSource is CASEFLOW (meaning the decision reveiw was backfilled from Caseflow), this represents the request issues ID in Caseflow."
+              },
+              {
+                "name": "removed",
+                "type": "boolean",
+                "default": false,
+                "doc": "Whether the decision review issue was removed."
+              },
+              {
+                "name": "withdrawn",
+                "type": "boolean",
+                "default": false,
+                "doc": "Whether the decision review issue was withdrawn."
+              },
+              {
+                "name": "decision",
+                "type": [
+                  "null",
+                  {
+                    "name": "Decision",
+                    "type": "record",
+                    "fields": [
+                      {
+                        "name": "contentionId",
+                        "type": "long",
+                        "doc": "The identifier of the contention that was created for this draft decision."
+                      },
+                      {
+                        "name": "disposition",
+                        "type": "string",
+                        "doc": "The disposition."
+                      },
+                      {
+                        "name": "dtaErrorExplanation",
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+                        "doc": "In the case of a Duty To Assist (DTA) Error disposition, the explanation given by the user as to why a DTA Error disposition was appropriate for the associated contention."
+                      },
+                      {
+                        "name": "decisionSource",
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+                        "doc": "The source of the decision if it made changes to the corporate record."
+                      },
+                      {
+                        "name": "category",
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+                        "doc": "The category of the decision based on whether the issue is a Rating or Non-Rating issue. May be blank (unidentified). Can be RATING or NON_RATING"
+                      },
+                      {
+                        "name": "decisionId",
+                        "type": [
+                          "null",
+                          "long"
+                        ],
+                        "default": null,
+                        "doc": "ID of the decision from the source system. (Rating = rbaIssueId from VBMS-R, Non-Rating = decisionId from VBMS-A; null if unidentified or not provided.)"
+                      },
+                      {
+                        "name": "decisionText",
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+                        "doc": "If the decision originated from VBMS-Ratings, then this is the decision text associated with the issue rated (Ex. Service connection for Burns is granted with an evaluation of 10 percent effective July 3, 2023). If the decision originated from VBMS-Awards, then this is the decision selected for the specific awards benefit type."
+                      },
+                      {
+                        "name": "awardEventId",
+                        "type": [
+                          "null",
+                          "long"
+                        ],
+                        "default": null,
+                        "doc": "The identifier of the contention that was created for this draft decision."
+                      },
+                      {
+                        "name": "ratingProfileDate",
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+                        "doc": "The profile date of the rating profile from VBMS-R that this decision was made on, for Rating decisions."
+                      },
+                      {
+                        "name": "decisionRecordedTime",
+                        "type": "string",
+                        "doc": "Time at which the issue was decided (not finalized)."
+                      },
+                      {
+                        "name": "decisionFinalizedTime",
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+                        "doc": "Time at which the issue was finalized. Only set when issue is authorized with a non-deferred disposition."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "default": null,
+      "doc": "A list of decision review issues where a decision review was edited and a new issue was created."
+    },
+    {
+      "name": "decisionReviewIssuesUpdated",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "gov.va.bip.cest.decisionreview.avro.DecisionReviewIssueUpdated"
+        }
+      ],
+      "default": null,
+      "doc": "A list of decision review issues where a decision review was edited and an existing issue was updated."
+    },
+    {
+      "name": "decisionReviewIssuesRemoved",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "gov.va.bip.cest.decisionreview.avro.DecisionReviewIssueUpdated"
+        }
+      ],
+      "default": null,
+      "doc": "A list of decision review issues where a decision review was edited and an existing issue was removed."
+    },
+    {
+      "name": "decisionReviewIssuesWithdrawn",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "gov.va.bip.cest.decisionreview.avro.DecisionReviewIssueUpdated"
+        }
+      ],
+      "default": null,
+      "doc": "A list of decision review issues where a decision review was edited and an existing issue was withdrawn."
+    },
+    {
+      "name": "decisionReviewIssuesNotChanged",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "gov.va.bip.cest.decisionreview.avro.DecisionReviewIssueUpdated"
+        }
+      ],
+      "default": null,
+      "doc": "A list of decision review issues where a decision review was edited and an existing issue was not changed."
+    }
+  ]
+}
