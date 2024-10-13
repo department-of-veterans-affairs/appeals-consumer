@@ -18,8 +18,7 @@ done
 
 echo "Schema-registry is ready."
 
-source $THIS_SCRIPT_DIR/decision_review_created_schema_registry.sh
-source $THIS_SCRIPT_DIR/decision_review_updated_schema_registry.sh
+source $THIS_SCRIPT_DIR/kafka_schema.sh
 
 while ! curl -s http://localstack-consumer:4566/_localstack/health  | grep -q -E '"sqs": "available"|"sqs": "running"'; do
   echo "Waiting for LocalStack to be ready..."
