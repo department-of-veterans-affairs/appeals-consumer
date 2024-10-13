@@ -2,7 +2,7 @@
 
 class BaseRequestIssue
   attr_accessor :contested_issue_description, :contention_reference_id, :contested_rating_decision_reference_id,
-                :contested_rating_issue_profile_date, :contested_rating_issue_reference_id,
+                :contested_rating_issue_profile_date, :contested_rating_issue_reference_id, :veteran_participant_id,
                 :contested_decision_issue_id, :decision_date, :decision_review_issue_id, :ineligible_due_to_id,
                 :ineligible_reason, :is_unidentified, :unidentified_issue_text, :nonrating_issue_category,
                 :nonrating_issue_description, :untimely_exemption, :untimely_exemption_notes, :vacols_id,
