@@ -17,7 +17,7 @@ class Transformers::PersonUpdated
     "date_of_birth" => Integer,
     "date_of_death" => Integer,
     "file_number" => String,
-    "is_veteran" => Boolean
+    "is_veteran" => [TrueClass, FalseClass]
   }.freeze
   # Allows read and write access for attributes
   PERSON_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
