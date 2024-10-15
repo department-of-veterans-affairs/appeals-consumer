@@ -19,7 +19,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
     end
 
     it "initializes instance variables" do
-      expect(dto_builder.instance_variable_get(:@event_id)).to eq(event_id)
+      expect(dto_builder.instance_variable_get(:@participant_id)).to eq(participant_id)
       expect(dto_builder.instance_variable_get(:@person_updated)).to be_a(Transformers::PersonUpdated)
     end
   end
