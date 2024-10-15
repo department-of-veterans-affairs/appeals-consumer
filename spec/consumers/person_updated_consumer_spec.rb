@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/NumericLiterals)
 describe PersonUpdatedConsumer do
   let(:consumer) { described_class.new }
   let(:message) { instance_double("Message", payload: payload, metadata: metadata) }
@@ -108,5 +107,4 @@ describe PersonUpdatedConsumer do
       end
     end
   end
-  # rubocop:enable Style/NumericLiterals)
 end
