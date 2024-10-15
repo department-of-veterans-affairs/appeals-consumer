@@ -61,7 +61,7 @@ class KarafkaApp < Karafka::App
       end
     end
 
-    consumer_group :person_updated_cosumer_group do
+    consumer_group :person_updated_consumer_group do
       topic ENV["PERSON_UPDATED_TOPIC"] do
         consumer PersonUpdatedConsumer
         deserializer AvroDeserializerService.new
