@@ -1,22 +1,15 @@
 # frozen_string_literal: true
 
 class Builders::PersonUpdated::DtoBuilder
-  attr_reader :person, :person_updated_model
+  attr_reader :participant_id, :payload
 
-  def self.build(person_updated_model)
-    builder = new(person_updated_model)
-    builder.assign_attributes
-    builder.person
-  end
-
-  def initialize(person_updated_model)
-    MetricsService.record("Build person updated #{person_updated_model}",
+  def initialize(person_updated_event)
+    MetricsService.record("Build person updated #{person_updated_event}",
                           service: :dto_builder,
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
       super()
-      # @event_id = person_updated_model.id
-      @person_updated_model = person_updated_model
-      @person ||= BasePerson.new
+      @event_id = person_updated_event.id
+      @person_updated = build_person_updated(person_updated_event.message_payload_hash)
       assign_attributes
     end
   end
@@ -79,5 +72,9 @@ class Builders::PersonUpdated::DtoBuilder
 
   def assign_veteran_indicator
     @person.is_veteran = @person_updated_model.is_veteran
+  end
+
+  def build_person_updated(message_payload)
+    Transformers::PersonUpdated.new(@participant_id, message_payload)
   end
 end
