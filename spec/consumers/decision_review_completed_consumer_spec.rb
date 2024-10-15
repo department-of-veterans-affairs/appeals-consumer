@@ -52,7 +52,7 @@ describe DecisionReviewCompletedConsumer do
       let(:new_record) { false }
       logger_message = /Event record already exists. Skipping enqueueing job/
 
-      it "does not enqueue into DecisionReviewCompletedEventProcessingJob, and calls MetricsService to record metrics" do
+      it "does not enqueue into job, and calls MetricsService to record metrics" do
         expect(DecisionReviewCompletedEventProcessingJob).not_to receive(:perform_later)
         expect(Rails.logger).to receive(:info).with(a_string_starting_with("STARTED"))
         expect(Rails.logger).to receive(:info).with(a_string_starting_with("FINISHED"))
