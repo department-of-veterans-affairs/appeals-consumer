@@ -16,7 +16,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "actorStation",
@@ -32,12 +32,11 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "birthDate",
             "type": [
-              "null",
               {
                 "type": "int",
                 "connect.version": 1,
@@ -45,15 +44,15 @@ FactoryBot.define do
                 "logicalType": "date"
               }
             ],
-            "default": null
+            "default": "Null"
           },
           {
             "name": "birthStateCode",
             "type": %w[
-              null
+              "
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "competencyDecisionTypeCode",
@@ -61,7 +60,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "connectorTs",
@@ -87,7 +86,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "deathDate",
@@ -100,7 +99,7 @@ FactoryBot.define do
                 "logicalType": "date"
               }
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "deathDateEnteredDate",
@@ -113,7 +112,7 @@ FactoryBot.define do
                 "logicalType": "timestamp-millis"
               }
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "deathDateUpdatedDate",
@@ -126,7 +125,7 @@ FactoryBot.define do
                 "logicalType": "timestamp-millis"
               }
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "deathNotificationDocumentTypeCode",
@@ -134,7 +133,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "deathNotificationSourceTypeCode",
@@ -142,7 +141,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "deathVerificationStatusCode",
@@ -150,7 +149,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "employmentIndicator",
@@ -158,7 +157,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "employmentOccupation",
@@ -166,7 +165,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "employmentSeriousHandicap",
@@ -174,7 +173,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "entitlementTypeCode",
@@ -182,7 +181,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "ethnicityTypeCode",
@@ -190,7 +189,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "fiduciaryDecisionCategoryTypeCode",
@@ -198,7 +197,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "fileNumber",
@@ -206,7 +205,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "firstName",
@@ -218,7 +217,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "journalStatusTypeCode",
@@ -234,7 +233,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "militaryPersonIndicator",
@@ -242,7 +241,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "netWorth",
@@ -250,7 +249,7 @@ FactoryBot.define do
               null
               int
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "nextOfKinLetterIndicator",
@@ -258,7 +257,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "noSocialSecurityNumberReasonTypeCode",
@@ -266,7 +265,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "participantId",
@@ -278,7 +277,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "potentiallyDangerousIndicator",
@@ -286,7 +285,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "prefix",
@@ -294,7 +293,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "raceTypeName",
@@ -302,7 +301,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "socialSecurityNumber",
@@ -310,7 +309,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "ssnVerificationCode",
@@ -318,7 +317,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null,
+            "default": "null",
             "doc": "This is the code value for the SSN Verification Status;
               It uses a number to represent a finite number of options"
           },
@@ -328,7 +327,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null,
+            "default": "null",
             "doc": "This is the Description associated with the SSN Verification Status;
               It is an English phrase providing a brief explanation of how the SSN was/was not verified"
           },
@@ -347,7 +346,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "suffix",
@@ -355,7 +354,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "taxAbatementCode",
@@ -363,7 +362,7 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "totalSubsistenceAmount",
@@ -371,7 +370,7 @@ FactoryBot.define do
               null
               double
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "veteranIndicator",
@@ -379,7 +378,7 @@ FactoryBot.define do
               null
               boolean
             ],
-            "default": null
+            "default": "null"
           },
           {
             "name": "veteranTypeName",
@@ -387,10 +386,12 @@ FactoryBot.define do
               null
               string
             ],
-            "default": null
+            "default": "null"
           }
         ]
       }
     end
+    partition { 1 }
+    sequence(:offset) { Event.any? ? (Event.last.offset + 1) : 1 }
   end
 end
