@@ -46,7 +46,7 @@ if [ -z "$SCHEMA_VERSION" ]; then
   exit 1
 fi
 
-echo "Latest schema version: $SCHEMA_VERSION"
+echo "Latest PersonUpdated schema version: $SCHEMA_VERSION"
 
 # Clean up the temporary schema file
 rm temp-schema.json
