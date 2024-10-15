@@ -7,7 +7,6 @@ class Builders::PersonUpdated::DtoBuilder
     MetricsService.record("Build person updated #{person_updated_event}",
                           service: :dto_builder,
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
-      super()
       @event_id = person_updated_event.id
       @person_updated = build_person_updated(person_updated_event.message_payload_hash)
       assign_attributes
