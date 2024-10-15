@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
-  message_payload = {}
   let(:dto_builder) { described_class.new(person_updated_event) }
   let(:person_updated_event) do
-    create(:event, type: "Events::PersonUpdatedEvent", message_payload: message_payload)
+    create(:event, type: "Events::PersonUpdatedEvent")
   end
   let(:event_id) { person_updated_event.id }
 
