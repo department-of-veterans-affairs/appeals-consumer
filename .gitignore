@@ -40,6 +40,5 @@ coverage
 # Ignore byebug history
 .byebug_history
 
-
 # Ignore DS_Store
 .DS_Store
