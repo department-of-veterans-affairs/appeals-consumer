@@ -137,6 +137,9 @@ Style/FormatStringToken:
 Style/NumericLiterals:
   Enabled: false
 
+convention:Rails/Date:
+  Enabled: false
+
 Naming/FileName:
   Enabled: false
 
