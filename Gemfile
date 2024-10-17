@@ -17,7 +17,7 @@ gem "aws-sdk-sqs"
 
 # BGS
 gem "bgs", git: "https://github.com/department-of-veterans-affairs/ruby-bgs.git",
-           ref: "927ca6341342b1f1f0f7202e3e4817c1a00801b5"
+           ref: "0ab9d0b8ded5cc8569368aa525bf7ef56b699c0e"
 
 gem "benchmark"
 
@@ -79,24 +79,6 @@ gem "statsd-instrument"
 gem "strong_migrations"
 
 gem "next_rails"
-
-gem "opentelemetry-exporter-otlp", require: false
-gem "opentelemetry-instrumentation-action_pack", require: false
-gem "opentelemetry-instrumentation-active_job", require: false
-gem "opentelemetry-instrumentation-active_model_serializers", require: false
-gem "opentelemetry-instrumentation-active_record", require: false
-gem "opentelemetry-instrumentation-active_support", require: false
-gem "opentelemetry-instrumentation-aws_sdk", require: false
-gem "opentelemetry-instrumentation-concurrent_ruby", require: false
-gem "opentelemetry-instrumentation-excon", require: false
-gem "opentelemetry-instrumentation-faraday", require: false
-gem "opentelemetry-instrumentation-http_client", require: false
-gem "opentelemetry-instrumentation-net_http", require: false
-gem "opentelemetry-instrumentation-rack", require: false
-gem "opentelemetry-instrumentation-rails", require: false
-gem "opentelemetry-instrumentation-rake", require: false
-gem "opentelemetry-instrumentation-rdkafka", require: false
-gem "opentelemetry-sdk", require: false
 
 gem "vcr"
 

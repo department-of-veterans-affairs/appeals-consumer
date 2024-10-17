@@ -37,9 +37,8 @@ describe AvroDeserializerService do
       "actor_application" => "PASYSACCTCREATE",
       "informal_conference_tracked_item_id" => "1",
       "auto_remand" => false,
-      "decision_review_issues_created" => [
+      "decision_review_issues" => [
         {
-          "decision_review_issue_id" => 777,
           "contention_id" => 123_456_789,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,
@@ -68,7 +67,6 @@ describe AvroDeserializerService do
           "prior_decision_source" => nil
         },
         {
-          "decision_review_issue_id" => 777,
           "contention_id" => 987_654_321,
           "associated_caseflow_request_issue_id" => nil,
           "unidentified" => false,

@@ -2,19 +2,19 @@
 
 # This class is used to build out a Claim Review object from an instance of DecisionReviewCreated
 class Builders::DecisionReviewCreated::ClaimReviewBuilder
-  include DecisionReview::ModelBuilderHelper
-  attr_reader :claim_review, :decision_review_model
+  include DecisionReviewCreated::ModelBuilder
+  attr_reader :claim_review, :decision_review_created
 
-  FILED_BY_VA_GOV = nil
+  FILED_BY_VA_GOV = false
 
-  def self.build(decision_review_model)
-    builder = new(decision_review_model)
+  def self.build(decision_review_created)
+    builder = new(decision_review_created)
     builder.assign_attributes
     builder.claim_review
   end
 
-  def initialize(decision_review_model)
-    @decision_review_model = decision_review_model
+  def initialize(decision_review_created)
+    @decision_review_created = decision_review_created
     @claim_review = DecisionReviewCreated::ClaimReview.new
   end
 
@@ -43,7 +43,7 @@ class Builders::DecisionReviewCreated::ClaimReviewBuilder
   end
 
   def calculate_receipt_date
-    @claim_review.receipt_date = convert_to_date_logical_type(decision_review_model.claim_received_date)
+    @claim_review.receipt_date = convert_to_date_logical_type(decision_review_created.claim_received_date)
   end
 
   def calculate_legacy_opt_in_approved
@@ -71,22 +71,22 @@ class Builders::DecisionReviewCreated::ClaimReviewBuilder
   end
 
   def assign_informal_conference
-    @claim_review.informal_conference = decision_review_model.informal_conference_requested
+    @claim_review.informal_conference = decision_review_created.informal_conference_requested
   end
 
   def assign_same_office
-    @claim_review.same_office = decision_review_model.same_station_review_requested
+    @claim_review.same_office = decision_review_created.same_station_review_requested
   end
 
   def determine_benefit_type
-    decision_review_model.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
+    decision_review_created.ep_code.include?(PENSION_IDENTIFIER) ? PENSION_BENEFIT_TYPE : COMPENSATION_BENEFIT_TYPE
   end
 
   def any_opted_in_issues?
-    decision_review_model.decision_review_issues_created.any? { |issue| !!issue.soc_opt_in }
+    decision_review_created.decision_review_issues.any? { |issue| !!issue.soc_opt_in }
   end
 
   def veteran_and_claimant_participant_ids_different?
-    decision_review_model.veteran_participant_id != decision_review_model.claimant_participant_id
+    decision_review_created.veteran_participant_id != decision_review_created.claimant_participant_id
   end
 end

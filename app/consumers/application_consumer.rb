@@ -26,20 +26,6 @@ class ApplicationConsumer < Karafka::BaseConsumer
     end
   end
 
-  # Attempts to find or initialize a new event based on message metadata.
-  # This method ensures that each event is uniquely identified by its partition and offset,
-  # preventing duplicate processing of the same event.
-  def handle_event_creation(message, event_type)
-    event_type.find_or_initialize_by(
-      partition: message.metadata.partition,
-      offset: message.metadata.offset
-    ) do |event|
-      event.type = event_type.to_s
-      event.claim_id = message.payload.message["claim_id"]
-      event.message_payload = message.payload.message
-    end
-  end
-
   # Logs the start of an event consumption with extra details for diagnostic purposes.
   def log_consumption_start(extra_details)
     log_info("Starting consumption", extra_details)
@@ -58,27 +44,6 @@ class ApplicationConsumer < Karafka::BaseConsumer
   # Logs the start of an event consumption with extra details for diagnostic purposes.
   def log_consumption_end(extra_details)
     log_info("Completed consumption of message", extra_details)
-  end
-
-  # Provides logger information for Sentry in the event of consumer failure.
-  def sentry_details(message, event_type)
-    {
-      type: event_type,
-      partition: message.metadata.partition,
-      offset: message.metadata.offset,
-      message_payload: message.payload.message
-    }
-  end
-
-  # Extra details to be included for logging purposes.
-  # Pass optional consumer_specific_details as a hash to include more information if needed.
-  def extra_details(message, event_type, consumer_specific_details: {})
-    universal_details = {
-      type: event_type,
-      partition: message.metadata.partition,
-      offset: message.metadata.offset
-    }
-    universal_details.merge(consumer_specific_details)
   end
 
   # Utility method for logging information with a consisten format, including the class name and optional details.
