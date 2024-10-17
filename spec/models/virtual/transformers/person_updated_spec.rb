@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-describe Transformers::PersonUpdated do
-  # Line 5 is the example for line 6 but passing in the person_updated_event factory
-  # subject(:decision_review_updated) { described_class.new(event_id, message_payload) }
-  subject(:person_updated) { described_class.new(event_id, person_updated_event) }
-  let(:person_updated_event) do
-    create(:event, type: "Events::PersonUpdatedEvent")
-  end
-  let(:event_id) { 13 }
+require "shared_context/person_updated_context"
 
-  # let(:event_id) { person_updated_event.id }
+describe Transformers::PersonUpdated do
+  subject(:person_updated) { described_class.new(event_id, message_payload) }
+
+  include_context "person_updated_context"
+
+  let(:event_id) { 13 }
 
   context "when valid" do
     describe "#initialize" do
@@ -22,19 +20,19 @@ describe Transformers::PersonUpdated do
       end
 
       it "sets the instance variables for PersonUpdated" do
-        expect(subject.participant_id).to eq(person_updated_event["participant_id"])
-        expect(subject.name_suffix).to eq(person_updated_event["name_suffix"])
-        expect(subject.ssn).to eq(person_updated_event["ssn"])
-        expect(subject.first_name).to eq(person_updated_event["first_name"])
-        expect(subject.middle_name).to eq(person_updated_event["middle_name"])
-        expect(subject.last_name).to eq(person_updated_event["last_name"])
-        expect(subject.email_address).to eq(person_updated_event["email_address"])
-        expect(subject.date_of_birth).to eq(person_updated_event["date_of_birth"])
-        expect(subject.date_of_death).to eq(person_updated_event["date_of_death"])
-        expect(subject.file_number).to eq(person_updated_event["file_number"])
-        expect(subject.is_veteran).to eq(person_updated_event["is_veteran"])
+        expect(subject.participant_id).to eq(message_payload["participant_id"])
+        expect(subject.name_suffix).to eq(message_payload["name_suffix"])
+        expect(subject.ssn).to eq(message_payload["ssn"])
+        expect(subject.first_name).to eq(message_payload["first_name"])
+        expect(subject.middle_name).to eq(message_payload["middle_name"])
+        expect(subject.last_name).to eq(message_payload["last_name"])
+        expect(subject.email_address).to eq(message_payload["email_address"])
+        expect(subject.date_of_birth).to eq(message_payload["date_of_birth"])
+        expect(subject.date_of_death).to eq(message_payload["date_of_death"])
+        expect(subject.file_number).to eq(message_payload["file_number"])
+        expect(subject.is_veteran).to eq(message_payload["is_veteran"])
         expect(subject.person_updated.size).to eq(
-          person_updated_event["person_updated"].count
+          message_payload["person_updated"].count
         )
       end
 
