@@ -1,0 +1,332 @@
+{
+  "name": "DecisionReviewCompleted",
+  "type": "record",
+  "namespace": "gov.va.bip.cest.decisionreview.avro",
+  "doc": "An event that represents a decision review being completed via an AMA claim getting authorized in VBMS Awards.",
+  "fields": [
+    {
+      "name": "claimId",
+      "type": "long",
+      "doc": "The ID of the initial claim"
+    },
+    {
+      "name": "decisionReviewType",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The type of decision review"
+    },
+    {
+      "name": "veteranParticipantId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The veteran's participant Id"
+    },
+    {
+      "name": "claimantParticipantId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The veteran's claimant Id"
+    },
+    {
+      "name": "remandCreated",
+      "type": [
+        "null",
+        "boolean"
+      ],
+      "default": null,
+      "doc": "Indicates whether an 040 was established as a result of the decision review."
+    },
+    {
+      "name": "epCodeCategory",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The epcode category"
+    },
+    {
+      "name": "claimLifecycleStatus",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The claim's lifecycle status"
+    },
+    {
+      "name": "actorUsername",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The actor's username"
+    },
+    {
+      "name": "actorApplication",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The actor's application"
+    },
+    {
+      "name": "completionTime",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "connect.version": 1,
+          "connect.name": "org.apache.kafka.connect.data.Timestamp",
+          "logicalType": "timestamp-millis"
+        }
+      ],
+      "default": null,
+      "doc": "The time at which this decision review was completed"
+    },
+    {
+      "name": "decisionReviewIssuesCompleted",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "DecisionReviewIssueCompleted",
+          "type": "record",
+          "fields": [
+            {
+              "name": "decisionReviewIssueId",
+              "type": "long",
+              "doc": "The ID of the decision review issue record internal to C&P."
+            },
+            {
+              "name": "contentionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The ID of the initial contention"
+            },
+            {
+              "name": "remandClaimId",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The ID of the remand claim created"
+            },
+            {
+              "name": "remandContentionId",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The ID of the new contention created"
+            },
+            {
+              "name": "unidentified",
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "default": null,
+              "doc": "Indicates whether the decision review issue was identified."
+            },
+            {
+              "name": "priorRatingDecisionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The ID of the prior rating decision"
+            },
+            {
+              "name": "priorNonRatingDecisionId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The ID of the prior Non Rating Decision"
+            },
+            {
+              "name": "priorCaseflowDecisionIssueId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The ID of the prior Caseflow Decision Issue"
+            },
+            {
+              "name": "priorDecisionRatingSn",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The prior Decision Rating Sn"
+            },
+            {
+              "name": "priorDecisionText",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The prior Decision Text"
+            },
+            {
+              "name": "priorDecisionType",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The prior Decision Type"
+            },
+            {
+              "name": "priorDecisionSource",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The prior Decision Source"
+            },
+            {
+              "name": "priorDecisionNotificationDate",
+              "type": [
+                "null",
+                {
+                  "type": "int",
+                  "connect.version": 1,
+                  "connect.name": "org.apache.kafka.connect.data.Date",
+                  "logicalType": "date"
+                }
+              ],
+              "default": null,
+              "doc": "The date at which the claimant was notified of the prior decision. If its a rating issue, its the promulgation date plus one business day. If its a non-rating issue, its the authorization date plus one business day. If its an unidentified issue, its the user provided date."
+            },
+            {
+              "name": "legacyAppealIssueId",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null,
+              "doc": "The ID of the legacy appeal issue"
+            },
+            {
+              "name": "priorDecisionRatingProfileDate",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The date at which the claimant's profile was rated for the prior decision."
+            },
+            {
+              "name": "socOptIn",
+              "type": [
+                "null",
+                "boolean"
+              ],
+              "default": null,
+              "doc": "Whether or not the claimant is opting in from the legacy appeals system"
+            },
+            {
+              "name": "legacyAppealId",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "The ID of the legacy appeal"
+            },
+            {
+              "name": "decision",
+              "type": [
+                "null",
+                {
+                  "name": "Decision",
+                  "type": "record",
+                  "fields": [
+                    {
+                      "name": "contentionId",
+                      "type": "long",
+                      "doc": "The identifier of the contention that was created for this draft decision."
+                    },
+                    {
+                      "name": "disposition",
+                      "type": "string",
+                      "doc": "The disposition."
+                    },
+                    {
+                      "name": "dtaErrorExplanation",
+                      "type": "string",
+                      "doc": "In the case of a Duty To Assist (DTA) Error disposition, the explanation given by the user as to why a DTA Error disposition was appropriate for the associated contention."
+                    },
+                    {
+                      "name": "decisionSource",
+                      "type": "string",
+                      "doc": "The source of the decision if it made changes to the corporate record."
+                    },
+                    {
+                      "name": "category",
+                      "type": "string",
+                      "doc": "The category of the decision based on whether the issue is a Rating or Non-Rating issue. May be blank (unidentified). Can be RATING or NON_RATING"
+                    },
+                    {
+                      "name": "decisionId",
+                      "type": "long",
+                      "doc": "ID of the decision from the source system. (Rating = rbaIssueId from VBMS-R, Non-Rating = decisionId from VBMS-A; null if unidentified or not provided.)"
+                    },
+                    {
+                      "name": "decisionText",
+                      "type": "string",
+                      "doc": "If the decision originated from VBMS-Ratings, then this is the decision text associated with the issue rated (Ex. Service connection for Burns is granted with an evaluation of 10 percent effective July 3, 2023). If the decision originated from VBMS-Awards, then this is the decision selected for the specific awards benefit type."
+                    },
+                    {
+                      "name": "awardEventId",
+                      "type": "long",
+                      "doc": "The identifier of the contention that was created for this draft decision."
+                    },
+                    {
+                      "name": "ratingProfileDate",
+                      "type": "string",
+                      "doc": "The profile date of the rating profile from VBMS-R that this decision was made on, for Rating decisions."
+                    },
+                    {
+                      "name": "decisionRecordedTime",
+                      "type": "string",
+                      "doc": "Time at which the issue was decided (not finalized)."
+                    },
+                    {
+                      "name": "decisionFinalizedTime",
+                      "type": "string",
+                      "doc": "Time at which the issue was finalized. Only set when issue is authorized with a non-deferred disposition."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
