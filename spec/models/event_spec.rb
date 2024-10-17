@@ -224,7 +224,7 @@ RSpec.describe Event, type: :model do
 
     context "when the number of event audits is greater than or equal to MAX_ERRORS_FOR_FAILURE" do
       context "the last three event audits have an error in the error column" do
-        let!(:event_audits) { create_list(:event_audit, 6, event: event, status: "failed") }
+        let!(:event_audits) { create_list(:event_audit, 3, event: event, status: "failed") }
 
         it "event's state should be updated to 'failed'" do
           expect(event.state).to eq("in_progress")

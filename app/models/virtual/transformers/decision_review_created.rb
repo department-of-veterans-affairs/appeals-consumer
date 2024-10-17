@@ -34,8 +34,8 @@ class Transformers::DecisionReviewCreated
     "actor_username" => String,
     "actor_station" => String,
     "actor_application" => String,
-    "auto_remand" => [TrueClass, FalseClass],
-    "decision_review_issues_created" => Array
+    "decision_review_issues" => Array,
+    "auto_remand" => [TrueClass, FalseClass]
   }
   # rubocop:enable Style/MutableConstant
 
@@ -44,8 +44,7 @@ class Transformers::DecisionReviewCreated
 
   # When DecisionReviewCreated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
-  # and create DecisionReviewIssueCreated instances for each object in the message_payload's
-  # decision_review_issues_created array
+  # and create DecisionReviewIssue instances for each object in the message_payload's decision_review_issues array
   def initialize(event_id, message_payload = {})
     @event_id = event_id
     validate(message_payload, self.class.name)
@@ -63,33 +62,31 @@ class Transformers::DecisionReviewCreated
   def assign(message_payload)
     DECISION_REVIEW_CREATED_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", message_payload[attr]) }
 
-    decision_review_issues_created_array = message_payload["decision_review_issues_created"]
-    @decision_review_issues_created = create_decision_review_issues_created(decision_review_issues_created_array)
+    decision_review_issues_array = message_payload["decision_review_issues"]
+    @decision_review_issues = create_decision_review_issues(decision_review_issues_array)
   end
 
   # Creates instances of DecisionReviewIssue, validates attributes, and assigns attributes
-  # for each object in the decision_review_issues_created array
-  # Fails out of workflow if decision_review_issues_created is an empty array
-  def create_decision_review_issues_created(decision_review_issues_created)
-    if decision_review_issues_created.blank?
-      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue created"
+  # for each object in the decision_review_issues array
+  # Fails out of workflow if decision_review_issues is an empty array
+  def create_decision_review_issues(decision_review_issues)
+    if decision_review_issues.blank?
+      fail ArgumentError, "#{self.class.name}: Message payload must include at least one decision review issue"
     end
 
-    decision_review_issues_created.map { |issue| DecisionReviewIssueCreated.new(issue) }
+    decision_review_issues.map { |issue| DecisionReviewIssue.new(issue) }
   end
 end
 
-# DecisionReviewIssueCreated represents an individual issue object from the message_payload's
-# decision_review_issues_created array
-class DecisionReviewIssueCreated
+# DecisionReviewIssue represents an individual issue object from the message_payload's decision_review_issues array
+class DecisionReviewIssue
   include MessagePayloadValidator
 
   # Lists the attributes and corresponding data types
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, time_override could be a boolean OR nil
   # rubocop:disable Style/MutableConstant
-  DECISION_REVIEW_ISSUE_CREATED_ATTRIBUTES ||= {
-    "decision_review_issue_id" => [Integer],
+  DECISION_REVIEW_ISSUE_ATTRIBUTES ||= {
     "contention_id" => [Integer, NilClass],
     "prior_caseflow_decision_issue_id" => [Integer, NilClass],
     "associated_caseflow_request_issue_id" => [Integer, NilClass],
@@ -121,9 +118,9 @@ class DecisionReviewIssueCreated
   # rubocop:enable Style/MutableConstant
 
   # Allows read and write access for attributes
-  DECISION_REVIEW_ISSUE_CREATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
+  DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
-  # When DecisionReviewIssueCreated.new(issue_attrs) is called, this method will validate message_payload
+  # When DecisionReviewIssue.new(issue_attrs) is called, this method will validate message_payload
   # presence, attribute names and data types and assign the incoming attributes to defined keys
   def initialize(issue = {})
     validate(issue, self.class.name)
@@ -134,11 +131,11 @@ class DecisionReviewIssueCreated
 
   # Lists the attributes and corresponding data types
   def attribute_types
-    DECISION_REVIEW_ISSUE_CREATED_ATTRIBUTES
+    DECISION_REVIEW_ISSUE_ATTRIBUTES
   end
 
   # Assigns attributes from issue_attrs to defined keys
   def assign(issue)
-    DECISION_REVIEW_ISSUE_CREATED_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", issue[attr]) }
+    DECISION_REVIEW_ISSUE_ATTRIBUTES.each_key { |attr| instance_variable_set("@#{attr}", issue[attr]) }
   end
 end
