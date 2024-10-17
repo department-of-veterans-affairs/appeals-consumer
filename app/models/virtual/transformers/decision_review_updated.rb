@@ -189,6 +189,7 @@ class Decision
   DECISION_ATTRIBUTES = {
     "contention_id" => Integer,
     "disposition" => String,
+<<<<<<< HEAD
     "dta_error_explanation" => String,
     "decision_source" => String,
     "category" => String,
@@ -198,6 +199,17 @@ class Decision
     "rating_profile_date" => String,
     "decision_recorded_time" => String,
     "decision_finalized_time" => String
+=======
+    "dta_error_explanation" => [String, NilClass],
+    "decision_source" => [String, NilClass],
+    "category" => [String, NilClass],
+    "decision_id" => [Integer, NilClass],
+    "decision_text" => [String, NilClass],
+    "award_event_id" => [Integer, NilClass],
+    "rating_profile_date" => [String, NilClass],
+    "decision_recorded_time" => String,
+    "decision_finalized_time" => [String, NilClass]
+>>>>>>> main
   }.freeze
 
   DECISION_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }

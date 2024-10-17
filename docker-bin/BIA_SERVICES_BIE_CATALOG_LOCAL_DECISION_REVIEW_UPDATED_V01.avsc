@@ -459,37 +459,93 @@
                       },
                       {
                         "name": "dtaErrorExplanation",
+<<<<<<< HEAD
                         "type": "string",
+=======
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "In the case of a Duty To Assist (DTA) Error disposition, the explanation given by the user as to why a DTA Error disposition was appropriate for the associated contention."
                       },
                       {
                         "name": "decisionSource",
+<<<<<<< HEAD
                         "type": "string",
+=======
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "The source of the decision if it made changes to the corporate record."
                       },
                       {
                         "name": "category",
+<<<<<<< HEAD
                         "type": "string",
+=======
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "The category of the decision based on whether the issue is a Rating or Non-Rating issue. May be blank (unidentified). Can be RATING or NON_RATING"
                       },
                       {
                         "name": "decisionId",
+<<<<<<< HEAD
                         "type": "long",
+=======
+                        "type": [
+                          "null",
+                          "long"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "ID of the decision from the source system. (Rating = rbaIssueId from VBMS-R, Non-Rating = decisionId from VBMS-A; null if unidentified or not provided.)"
                       },
                       {
                         "name": "decisionText",
+<<<<<<< HEAD
                         "type": "string",
+=======
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "If the decision originated from VBMS-Ratings, then this is the decision text associated with the issue rated (Ex. Service connection for Burns is granted with an evaluation of 10 percent effective July 3, 2023). If the decision originated from VBMS-Awards, then this is the decision selected for the specific awards benefit type."
                       },
                       {
                         "name": "awardEventId",
+<<<<<<< HEAD
                         "type": "long",
+=======
+                        "type": [
+                          "null",
+                          "long"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "The identifier of the contention that was created for this draft decision."
                       },
                       {
                         "name": "ratingProfileDate",
+<<<<<<< HEAD
                         "type": "string",
+=======
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "The profile date of the rating profile from VBMS-R that this decision was made on, for Rating decisions."
                       },
                       {
@@ -499,7 +555,15 @@
                       },
                       {
                         "name": "decisionFinalizedTime",
+<<<<<<< HEAD
                         "type": "string",
+=======
+                        "type": [
+                          "null",
+                          "string"
+                        ],
+                        "default": null,
+>>>>>>> main
                         "doc": "Time at which the issue was finalized. Only set when issue is authorized with a non-deferred disposition."
                       }
                     ]
