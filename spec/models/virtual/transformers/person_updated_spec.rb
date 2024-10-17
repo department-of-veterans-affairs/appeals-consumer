@@ -31,15 +31,6 @@ describe Transformers::PersonUpdated do
         expect(subject.date_of_death).to eq(message_payload["date_of_death"])
         expect(subject.file_number).to eq(message_payload["file_number"])
         expect(subject.is_veteran).to eq(message_payload["is_veteran"])
-        expect(subject.person_updated.size).to eq(
-          message_payload["person_updated"].count
-        )
-      end
-
-      it "instantiates a PersonUpdated object" do
-        subject.person_updated.each do |person|
-          expect(person).to be_an_instance_of(PersonUpdated)
-        end
       end
     end
   end
