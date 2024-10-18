@@ -26,7 +26,6 @@ class Transformers::PersonUpdated
   # presence, attribute names and data types, assign the incoming attributes to defined keys,
   # and create PersonUpdated instances for each object in message_payload's decision_review_issues array
   def initialize(event_id, message_payload)
-    puts message_payload
     @event_id = event_id
     validate(message_payload, self.class.name)
     assign(message_payload)
