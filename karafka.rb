@@ -60,5 +60,11 @@ class KarafkaApp < Karafka::App
         deserializer AvroDeserializerService.new
       end
     end
+    consumer_group :decision_review_completed_consumer_group do
+      topic ENV["DECISION_REVIEW_COMPLETED_TOPIC"] do
+        consumer DecisionReviewCompletedConsumer
+        deserializer AvroDeserializerService.new
+      end
+    end
   end
 end
