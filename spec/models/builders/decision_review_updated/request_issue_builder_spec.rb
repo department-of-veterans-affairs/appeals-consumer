@@ -84,6 +84,7 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       expect(builder).to receive(:assign_nonrating_issue_bgs_id)
       expect(builder).to receive(:assign_type)
       expect(builder).to receive(:assign_decision_review_issue_id)
+      expect(builder).to receive(:assign_veteran_participant_id)
 
       builder.send(:assign_methods)
     end
@@ -111,6 +112,13 @@ describe Builders::DecisionReviewUpdated::RequestIssueBuilder do
       expect(builder).to receive(:calculate_nonrating_issue_bgs_source)
 
       builder.send(:calculate_methods)
+    end
+  end
+
+  describe "#assign_veteran_participant_id" do
+    subject { builder.send(:assign_veteran_participant_id) }
+    it "assigns the veteran's participant id to the value passed by the event" do
+      expect(subject).to eq(decision_review_updated_model.veteran_participant_id)
     end
   end
 
