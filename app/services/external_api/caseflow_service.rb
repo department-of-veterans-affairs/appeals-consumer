@@ -7,6 +7,16 @@ class ExternalApi::CaseflowService
   BASE_ENDPOINT = "api/events/v1/"
 
   class << self
+    # It sends a request to the Caseflow API and precesses the response.
+    def establish_person_updated_records_from_event!(pu_dto_builder)
+      # not implmented until Caseflow API is completed
+      # payload = pu_dto_builder.payload
+      # headers = build_headers(pu_dto_builder)
+      # endpoint = "#{BASE_ENDPOINT}person_updated"
+      # response = send_caseflow_request(payload, endpoint, headers)
+      # parse_response(response, payload["participant_id"])
+    end
+
     # Creates records for a new decision review based on the provided Decision Review Created DTO builder.
     # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
