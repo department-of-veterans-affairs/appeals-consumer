@@ -61,7 +61,7 @@ describe Events::PersonUpdatedEvent, type: :model do
           .and_raise(standard_error)
         allow(ExternalApi::CaseflowService)
           .to receive(:establish_person_updated_event_error!)
-          .with(event.id, JSON.parse(event.message_payload)["claim_id"], error_message)
+          .with(event.id, JSON.parse(event.message_payload)["participant_id"], error_message)
           .and_return(caseflow_response)
       end
 
@@ -69,7 +69,7 @@ describe Events::PersonUpdatedEvent, type: :model do
         expect { subject }.to raise_error(StandardError)
         expect(ExternalApi::CaseflowService)
           .to have_received(:establish_person_updated_event_error!)
-          .with(event.id, JSON.parse(event.message_payload)["claim_id"], error_message)
+          .with(event.id, JSON.parse(event.message_payload)["participant_id"], error_message)
         expect(Rails.logger).to have_received(:error).with(/#{standard_error}/)
       end
     end
