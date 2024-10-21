@@ -14,7 +14,7 @@ class Events::PersonUpdatedEvent < Event
     logger.error(error, { error: error })
     ExternalApi::CaseflowService.establish_person_updated_event_error!(
       id,
-      message_payload_hash["claim_id"],
+      message_payload_hash["participant_id"],
       error.message
     )
     raise error
