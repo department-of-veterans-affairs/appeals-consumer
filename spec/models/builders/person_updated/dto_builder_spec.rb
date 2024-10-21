@@ -25,7 +25,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
   end
 
   describe "#assign_attributes" do
-    it "correctly assigns attribbutes" do
+    it "correctly assigns attributes" do
       expect(dto_builder.first_name).to eq(person_updated_event.first_name)
       expect(dto_builder.last_name).to eq(person_updated_event.last_name)
       expect(dto_builder.middle_name).to eq(person_updated_event.middle_name)
