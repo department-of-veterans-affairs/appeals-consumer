@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_21_153911) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_21_153912) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_153911) do
     t.integer "partition", null: false, comment: "Kafka Partition that Message is hosted on."
     t.integer "offset", null: false, comment: "Kafka Offset associated with Message."
     t.integer "claim_id", comment: "Claim ID associated with Decision Review Events"
-    t.integer "participant_id", comment: "Participant ID associated with People Updated Events"
+    t.string "participant_id", comment: "Participant ID associated with People Updated Events"
     t.index ["claim_id"], name: "index_events_on_claim_id"
     t.index ["completed_at"], name: "index_events_on_completed_at"
     t.index ["offset", "partition", "type"], name: "index_events_on_offset_and_partition_and_type", unique: true
