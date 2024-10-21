@@ -1,7 +1,7 @@
 class AddParticipantIdToEvents < ActiveRecord::Migration[7.1]
   def up
     add_column :events, :participant_id, :integer, comment: "Participant ID associated with People Updated Events"
-    add_index :events, participant_id, algorithm: :concurrently
+    add_index :events, :participant_id, algorithm: :concurrently
   end
 
   def down
