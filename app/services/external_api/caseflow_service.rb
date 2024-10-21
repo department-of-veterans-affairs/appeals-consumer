@@ -17,6 +17,15 @@ class ExternalApi::CaseflowService
       # parse_response(response, payload["participant_id"])
     end
 
+      # Reports an error during person update, using detailed error information.
+      def establish_person_updated_event_error!(event_id, participant_id, error_message)
+        # not implmented until Caseflow API is completed
+        # payload = { event_id: event_id, errored_participant_id: participant_id, error: error_message }
+        # endpoint = "#{BASE_ENDPOINT}person_updated_error"
+        # response = send_caseflow_request(payload, endpoint)
+        # parse_response(response, participant_id)
+      end
+
     # Creates records for a new decision review based on the provided Decision Review Created DTO builder.
     # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
