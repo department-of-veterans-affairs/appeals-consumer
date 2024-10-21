@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# A subclass of Event, representing the PersonUpdated Kafka topic event.class Events::PersonUpdatedEvent < Event
+# A subclass of Event, representing the PersonUpdated Kafka topic event.
+class Events::PersonUpdatedEvent < Event
   def process!
     dto = Builders::PersonUpdated::DtoBuilder.new(self)
     response = ExternalApi::CaseflowService.establish_person_updated_records_from_event!(dto)
