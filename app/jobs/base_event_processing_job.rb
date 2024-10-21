@@ -60,11 +60,11 @@ class BaseEventProcessingJob < ApplicationJob
   end
 
   def handle_job_error!(error)
+    log_error
     ActiveRecord::Base.transaction do
       comitted_event_audit&.failed!(error.message)
       @event.handle_failure(error.message)
     end
-    log_error
   end
 
   def set_current_user_to_system_admin
