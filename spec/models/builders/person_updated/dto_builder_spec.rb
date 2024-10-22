@@ -48,7 +48,6 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
 
   describe "#assign_attributes" do
     xit "correctly assigns attributes" do
-      require 'pry';binding.pry
       expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_updated_event.first_name)
       expect(dto_builder.instance_variable_get(:@last_name)).to eq(person_updated_event.last_name)
       expect(dto_builder.instance_variable_get(:@middle_name)).to eq(person_updated_event.middle_name)
