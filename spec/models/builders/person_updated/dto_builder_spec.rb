@@ -24,7 +24,24 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
           service: :dto_builder,
           name: "Builders::PersonUpdated::DtoBuilder.initialize"
         ).and_call_original
+    context "when a person_updated object is found from a mocked payload (before actually building)" do
+      let(:pu_event) { create(:person_updated_event, message_payload.to_json) }
+      let(:pu) { build(:person_updated) }
 
+      it "should return a PersonUpdatedDtoBuilder object with response and pii attributes(not in payload)" do 
+        allow_any_instance_of(Builders::PersonUpdated::DtoBuilder).to receive(:build_person_updated)
+          .with(JSON.parse(pu_event.message_payload)).and_return(pu)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:record).with(
+          "Build person updated #{pu_event}",
+          service: :dto_builder,
+          name: "Builders::PersonUpdated::DtoBuilder.initialize"
+        ).and_call_original
+
+        dto_builder
+      end
         dto_builder
       end
     end
@@ -36,6 +53,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
 
   describe "#assign_attributes" do
     xit "correctly assigns attributes" do
+      require 'pry';binding.pry
       expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_updated_event.first_name)
       expect(dto_builder.instance_variable_get(:@last_name)).to eq(person_updated_event.last_name)
       expect(dto_builder.instance_variable_get(:@middle_name)).to eq(person_updated_event.middle_name)
