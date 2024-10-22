@@ -101,10 +101,13 @@ services:
     container_name: localstack-consumer
     image: localstack/localstack
     ports:
-      - "127.0.0.1:4566:4566"
-      - "127.0.0.1:4510-4559:4510-4559"
+      - "4666:4666"
+      - "4610-4659:4610-4659"
     environment:
       - SERVICES=sqs
+      - GATEWAY_LISTEN=127.0.0.1:4666
+      - EXTERNAL_SERVICE_PORTS_START=4610
+      - EXTERNAL_SERVICE_PORTS_END=4659
     volumes:
       - ./local/sqs/conf:/conf
     networks:
