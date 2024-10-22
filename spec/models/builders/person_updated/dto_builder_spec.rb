@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
-  let(:dto_builder) { described_class.new(person_updated_event) }
   let(:person_updated_event) do
-    create(:event, type: "Events::PersonUpdatedEvent")
+    create(:person_updated_event, type: "Events::PersonUpdatedEvent")
   end
+  let(:dto_builder) { described_class.new(person_updated_event) }
   let(:event_id) { person_updated_event.id }
 
   describe "initialize" do
