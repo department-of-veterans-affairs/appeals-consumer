@@ -8,6 +8,8 @@ class ExternalApi::CaseflowService
 
   class << self
     # It sends a request to the Caseflow API and precesses the response.
+    # We will need to look at the build_headers method on line 95 below.
+    # Currently it is using vet and claimant attributes.
     def establish_person_updated_records_from_event!(pu_dto_builder)
       # not implmented until Caseflow API is completed
       # payload = pu_dto_builder.payload
