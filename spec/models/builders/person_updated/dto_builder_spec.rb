@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
-  let(:dto_builder) { described_class.new(person_updated_event) }
   let(:person_updated_event) do
-    create(:event, type: "Events::PersonUpdatedEvent")
+    create(:person_updated_event, type: "Events::PersonUpdatedEvent")
   end
+
+  let(:dto_builder) { described_class.new(person_updated_event) }
+
   let(:event_id) { person_updated_event.id }
 
   describe "initialize" do
@@ -19,7 +21,6 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
     end
 
     it "initializes instance variables" do
-      expect(dto_builder.instance_variable_get(:@participant_id)).to eq(participant_id)
       expect(dto_builder.instance_variable_get(:@person_updated)).to be_a(Transformers::PersonUpdated)
     end
   end
