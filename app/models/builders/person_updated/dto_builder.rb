@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Builders::PersonUpdated::DtoBuilder
-  attr_reader :participant_id, :payload
+  attr_reader :payload
 
   def initialize(person_updated_event)
     MetricsService.record("Build person updated #{person_updated_event}",
@@ -9,6 +9,7 @@ class Builders::PersonUpdated::DtoBuilder
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
       @event_id = person_updated_event.id
       @person_updated = build_person_updated(person_updated_event.message_payload_hash)
+      @person = BasePerson.new
       assign_attributes
     end
   end
@@ -30,50 +31,50 @@ class Builders::PersonUpdated::DtoBuilder
   private
 
   def assign_first_name
-    @person_updated.first_name = @person_updated_event.first_name
+    @person.first_name = @person_updated.first_name
   end
 
   def assign_last_name
-    @person_updated.last_name = @person_updated_event.last_name
+    @person.last_name = @person_updated.last_name
   end
 
   def calculate_middle_name
-    @person_updated.middle_name = @person_updated_event.middle_name
+    @person.middle_name = @person_updated.middle_name
   end
 
   def calculate_name_suffix
-    @person_updaed.name_suffix = @person_updated_event.name_suffix
+    @person.name_suffix = @person_updated.name_suffix
   end
 
   def assign_participant_id
-    @person_updated.participant_id = @person_updated_event.participant_id
+    @person.participant_id = @person_updated.participant_id
   end
 
   def calculate_ssn
-    @person_updated.ssn = @person_updated_event.ssn
+    @person.ssn = @person_updated.ssn
   end
 
   def calculate_date_of_birth
-    @person_udated.date_of_birth = @person_updated_event.date_of_birth if @person_updated_event.date_of_birth
+    @person.date_of_birth = @person_updated.date_of_birth if @person_updated.date_of_birth
   end
 
   def calculate_email_address
-    @person_updated.email_address = @person_updated_event.email_address
+    @person.email_address = @person_updated.email_address
   end
 
   def calculate_date_of_death
-    @person_updated.date_of_death = @person_updated_event.date_of_death if @person_updated_event.date_of_death
+    @person.date_of_death = @person_updated.date_of_death if @person_updated.date_of_death
   end
 
   def assign_file_number
-    @person_updated.file_number = @person_updated_event.file_number
+    @person.file_number = @person_updated.file_number
   end
 
   def assign_veteran_indicator
-    @person_updated.is_veteran = @person_updated_event.is_veteran
+    @person.is_veteran = @person_updated.is_veteran
   end
 
   def build_person_updated(message_payload)
-    Transformers::PersonUpdated.new(@participant_id, message_payload)
+    Transformers::PersonUpdated.new(@event_id, message_payload)
   end
 end
