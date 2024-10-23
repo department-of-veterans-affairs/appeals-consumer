@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This class is responsible for constructing a PersonUpdated payload that will be sent to Caseflow
 class Builders::PersonUpdated::DtoBuilder
   attr_reader :payload
 
@@ -9,72 +10,97 @@ class Builders::PersonUpdated::DtoBuilder
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
       @event_id = person_updated_event.id
       @person_updated = build_person_updated(person_updated_event.message_payload_hash)
-      @person = BasePerson.new
       assign_attributes
     end
   end
 
+  def build_person_updated(message_payload)
+    Transformers::PersonUpdated.new(@event_id, message_payload)
+  end
+
   def assign_attributes
-    assign_participant_id
-    assign_first_name
-    assign_last_name
-    calculate_middle_name
-    calculate_name_suffix
-    calculate_ssn
-    calculate_date_of_birth
-    calculate_email_address
-    calculate_date_of_death
-    assign_file_number
-    assign_veteran_indicator
+    begin
+      assign_participant_id
+      assign_first_name
+      assign_last_name
+      assign_middle_name
+      assign_name_suffix
+      assign_ssn
+      assign_date_of_birth
+      assign_email_address
+      assign_date_of_death
+      assign_file_number
+      assign_veteran_indicator
+      assign_payload
+    rescue StandardError => error
+      raise AppealsConsumer::Error::DtoBuildError,
+            "Failed building from Builders::DecisionReviewUpdated::DtoBuilder: #{error.message}"
   end
 
   private
 
+  def assign_payload
+    @payload = build_payload
+  end
+
   def assign_first_name
-    @person.first_name = @person_updated.first_name
+    @first_name = @person_updated.first_name
   end
 
   def assign_last_name
-    @person.last_name = @person_updated.last_name
+    @last_name = @person_updated.last_name
   end
 
-  def calculate_middle_name
-    @person.middle_name = @person_updated.middle_name
+  def assign_middle_name
+    @middle_name = @person_updated.middle_name
   end
 
-  def calculate_name_suffix
-    @person.name_suffix = @person_updated.name_suffix
+  def assign_name_suffix
+    @name_suffix = @person_updated.name_suffix
   end
 
   def assign_participant_id
-    @person.participant_id = @person_updated.participant_id
+    @participant_id = @person_updated.participant_id
   end
 
-  def calculate_ssn
-    @person.ssn = @person_updated.ssn
+  def assign_ssn
+    @ssn = @person_updated.ssn
   end
 
-  def calculate_date_of_birth
-    @person.date_of_birth = @person_updated.date_of_birth if @person_updated.date_of_birth
+  def assign_date_of_birth
+    @date_of_birth = @person_updated.date_of_birth if @person_updated.date_of_birth
   end
 
-  def calculate_email_address
-    @person.email_address = @person_updated.email_address
+  def assign_email_address
+    @email_address = @person_updated.email_address
   end
 
-  def calculate_date_of_death
-    @person.date_of_death = @person_updated.date_of_death if @person_updated.date_of_death
+  def assign_date_of_death
+    @date_of_death = @person_updated.date_of_death if @person_updated.date_of_death
   end
 
   def assign_file_number
-    @person.file_number = @person_updated.file_number
+    @file_number = @person_updated.file_number
   end
 
   def assign_veteran_indicator
-    @person.is_veteran = @person_updated.is_veteran
+    @is_veteran = @person_updated.is_veteran
   end
 
-  def build_person_updated(message_payload)
-    Transformers::PersonUpdated.new(@event_id, message_payload)
+  def build_payload
+    {
+      "event_id": @event_id,
+      "participant_id": @participant_id,
+      "first_name": @first_name,
+      "middle_name": @middle_name,
+      "last_name": @last_name,
+      "name_suffix": @name_suffix,
+      "ssn": @ssn,
+      "date_of_birth": @date_of_birth,
+      "email_address": @email_address,
+      "date_of_death": @date_of_death,
+      "file_number": @file_number,
+      "is_veteran": @is_veteran
+    }.as_json
   end
 end

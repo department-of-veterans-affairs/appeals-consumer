@@ -25,19 +25,31 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
     end
   end
 
+  describe "#_assign_payload" do
+    it "should recieve the following methods: " do
+      expect(dto_builder).to receive(:build_payload)
+      dto_builder.send(:assign_payload)
+    end
+    it "should assing to @payload" do
+      dto_builder.send(:assign_payload)
+      expect(dto_builder.instance_variable_get(:@payload)).to be_instance_of(Hash)
+    end
+  end
+
   describe "#assign_attributes" do
     it "correctly assigns attribbutes" do
-      expect(dto_builder.first_name).to eq(person_updated_event.first_name)
-      expect(dto_builder.last_name).to eq(person_updated_event.last_name)
-      expect(dto_builder.middle_name).to eq(person_updated_event.middle_name)
-      expect(dto_builder.name_suffix).to eq(person_updated_event.name_suffix)
-      expect(dto_builder.participant_id).to eq(person_updated_event.participant_id)
-      expect(dto_builder.ssn).to eq(person_updated_event.ssn)
-      expect(dto_builder.date_of_birth).to eq(person_updated_event.date_of_birth)
-      expect(dto_builder.email_address).to eq(person_updated_event.email_address)
-      expect(dto_builder.date_of_death).to eq(person_updated_event.date_of_death)
-      expect(dto_builder.file_number).to eq(person_updated_event.file_number)
-      expect(dto_builder.is_veteran).to eq(person_updated_event.is_veteran)
+      binding.pry
+      expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_updated_event.first_name)
+      expect(dto_builder.instance_variable_get(:last_name)).to eq(person_updated_event.last_name)
+      expect(dto_builder.instance_variable_get(:middle_name)).to eq(person_updated_event.middle_name)
+      expect(dto_builder.instance_variable_get(:name_suffix)).to eq(person_updated_event.name_suffix)
+      expect(dto_builder.instance_variable_get(:participant_id)).to eq(person_updated_event.participant_id)
+      expect(dto_builder.instance_variable_get(:ssn)).to eq(person_updated_event.ssn)
+      expect(dto_builder.instance_variable_get(:date_of_birth)).to eq(person_updated_event.date_of_birth)
+      expect(dto_builder.instance_variable_get(:email_address)).to eq(person_updated_event.email_address)
+      expect(dto_builder.instance_variable_get(:date_of_death)).to eq(person_updated_event.date_of_death)
+      expect(dto_builder.instance_variable_get(:file_number)).to eq(person_updated_event.file_number)
+      expect(dto_builder.instance_variable_get(:is_veteran)).to eq(person_updated_event.is_veteran)
     end
   end
 end
