@@ -11,16 +11,16 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
 
   let(:person_record) do
     {
-      "participant_id": "123456789",
-      "name_suffix": "Jr",
-      "ssn": "987653232",
-      "first_name": "Bob",
-      "middle_name": "Tester",
-      "last_name": "Smith",
-      "email_address": "test@test.com",
-      "date_of_birth": "12/01/1969",
-      "date_of_death": "12/01/2022",
-      "file_number": "6352969645",
+      "date_of_birth": Date.new(1980, 1, 1).to_time.to_s,
+      "date_of_death": Date.new(2022, 1, 1).to_time.to_s,
+      "file_number": "123456789",
+      "first_name": "Bill",
+      "last_name": "Tester",
+      "middle_name": "T",
+      "participant_id": "987654321",
+      "prefix": "Mr",
+      "ssn": "834295567",
+      "name_suffix": nil,
       "is_veteran": true
     }
   end
@@ -49,22 +49,24 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
     it "should assing to @payload" do
       dto_builder.send(:assign_payload)
       expect(dto_builder.instance_variable_get(:@payload)).to be_instance_of(Hash)
+      expect(dto_builder.instance_variable_get(:@person_updated)).to be_instance_of(Transformers::PersonUpdated)
+      expect(dto_builder.instance_variable_get(:@participant_id)).to be_instance_of(String)
     end
   end
 
   describe "#assign_attributes" do
     it "correctly assigns attribbutes" do
-      expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_record["first_name"])
-      expect(dto_builder.instance_variable_get(:last_name)).to eq(person_record["last_name"])
-      expect(dto_builder.instance_variable_get(:middle_name)).to eq(person_record["middle_name"])
-      expect(dto_builder.instance_variable_get(:name_suffix)).to eq(person_record["name_suffix"])
-      expect(dto_builder.instance_variable_get(:participant_id)).to eq(person_record["participant_id"])
-      expect(dto_builder.instance_variable_get(:ssn)).to eq(person_record["ssn"])
-      expect(dto_builder.instance_variable_get(:date_of_birth)).to eq(person_record["date_of_birth"])
-      expect(dto_builder.instance_variable_get(:email_address)).to eq(person_record["email_address"])
-      expect(dto_builder.instance_variable_get(:date_of_death)).to eq(person_record["date_of_death"])
-      expect(dto_builder.instance_variable_get(:file_number)).to eq(person_record["file_number"])
-      expect(dto_builder.instance_variable_get(:is_veteran)).to eq(person_record["is_veteran"])
+      expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_record[:first_name])
+      expect(dto_builder.instance_variable_get(:@last_name)).to eq(person_record[:last_name])
+      expect(dto_builder.instance_variable_get(:@middle_name)).to eq(person_record[:middle_name])
+      expect(dto_builder.instance_variable_get(:@name_suffix)).to eq(person_record[:name_suffix])
+      expect(dto_builder.instance_variable_get(:@participant_id)).to eq(person_record[:participant_id])
+      expect(dto_builder.instance_variable_get(:@ssn)).to eq(person_record[:ssn])
+      expect(dto_builder.instance_variable_get(:@date_of_birth)).to eq(person_record[:date_of_birth])
+      expect(dto_builder.instance_variable_get(:@email_address)).to eq(person_record[:email_address])
+      expect(dto_builder.instance_variable_get(:@date_of_death)).to eq(person_record[:date_of_death])
+      expect(dto_builder.instance_variable_get(:@file_number)).to eq(person_record[:file_number])
+      expect(dto_builder.instance_variable_get(:@is_veteran)).to eq(person_record[:is_veteran])
     end
   end
 end
