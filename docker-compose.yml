@@ -101,7 +101,7 @@ services:
     container_name: localstack-consumer
     image: localstack/localstack
     ports:
-      - "127.0.0.1:4565:4565"
+      - "127.0.0.1:4566:4566"
       - "127.0.0.1:4510-4559:4510-4559"
     environment:
       - SERVICES=sqs

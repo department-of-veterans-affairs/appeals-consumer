@@ -209,7 +209,6 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
 
         it "should assign correct ivars" do
           drc_dto_builder.send(:assign_attributes)
-          binding.pry
           expect(drc_dto_builder.instance_variable_get(:@intake)).to be_instance_of(DecisionReviewCreated::Intake)
           expect(drc_dto_builder.instance_variable_get(:@veteran)).to be_instance_of(DecisionReviewCreated::Veteran)
           expect(drc_dto_builder.instance_variable_get(:@claimant)).to be_instance_of(DecisionReviewCreated::Claimant)
