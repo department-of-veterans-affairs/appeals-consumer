@@ -4,9 +4,11 @@ class Builders::PersonUpdated::DtoBuilder
   attr_reader :payload
 
   def initialize(person_updated_event)
-    MetricsService.record("Build person updated #{person_updated_event}",
-                          service: :dto_builder,
-                          name: "Builders::PersonUpdated::DtoBuilder.initialize") do
+    MetricsService.record(
+      "Build person updated #{person_updated_event}",
+      service: :dto_builder,
+      name: "Builders::PersonUpdated::DtoBuilder.initialize"
+    ) do
       @event_id = person_updated_event.id
       @person_updated = build_person_updated(person_updated_event.message_payload_hash)
       @person = BasePerson.new
