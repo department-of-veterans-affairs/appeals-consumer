@@ -19,12 +19,12 @@ class Transformers::PersonUpdated
     "file_number" => [String, NilClass],
     "is_veteran" => [TrueClass, FalseClass]
   }.freeze
+
   # Allows read and write access for attributes
   PERSON_UPDATED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
   # When PersonUpdated.new(message_payload) is called, this method will validate message_payload
-  # presence, attribute names and data types, assign the incoming attributes to defined keys,
-  # and create PersonUpdated instances for each object in message_payload's decision_review_issues array
+  # presence, attribute names and data types, assign the incoming attributes to defined keys
   def initialize(event_id, message_payload)
     @event_id = event_id
     validate(message_payload, self.class.name)
@@ -41,8 +41,5 @@ class Transformers::PersonUpdated
     PERSON_UPDATED_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", message_payload[attr])
     end
-  end
-
-  class Long < Integer
   end
 end

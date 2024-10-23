@@ -35,6 +35,7 @@ class Builders::PersonUpdated::DtoBuilder
     rescue StandardError => error
       raise AppealsConsumer::Error::DtoBuildError,
             "Failed building from Builders::DecisionReviewUpdated::DtoBuilder: #{error.message}"
+    end
   end
 
   private

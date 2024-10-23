@@ -9,6 +9,22 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
 
   let(:event_id) { person_updated_event.id }
 
+  let(:person_record) do
+    {
+      "participant_id": "123456789",
+      "name_suffix": "Jr",
+      "ssn": "987653232",
+      "first_name": "Bob",
+      "middle_name": "Tester",
+      "last_name": "Smith",
+      "email_address": "test@test.com",
+      "date_of_birth": "12/01/1969",
+      "date_of_death": "12/01/2022",
+      "file_number": "6352969645",
+      "is_veteran": true
+    }
+  end
+
   describe "initialize" do
     it "calls MetricsService to record metrics" do
       expect(MetricsService).to receive(:record).with(
@@ -38,18 +54,17 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
 
   describe "#assign_attributes" do
     it "correctly assigns attribbutes" do
-      binding.pry
-      expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_updated_event.first_name)
-      expect(dto_builder.instance_variable_get(:last_name)).to eq(person_updated_event.last_name)
-      expect(dto_builder.instance_variable_get(:middle_name)).to eq(person_updated_event.middle_name)
-      expect(dto_builder.instance_variable_get(:name_suffix)).to eq(person_updated_event.name_suffix)
-      expect(dto_builder.instance_variable_get(:participant_id)).to eq(person_updated_event.participant_id)
-      expect(dto_builder.instance_variable_get(:ssn)).to eq(person_updated_event.ssn)
-      expect(dto_builder.instance_variable_get(:date_of_birth)).to eq(person_updated_event.date_of_birth)
-      expect(dto_builder.instance_variable_get(:email_address)).to eq(person_updated_event.email_address)
-      expect(dto_builder.instance_variable_get(:date_of_death)).to eq(person_updated_event.date_of_death)
-      expect(dto_builder.instance_variable_get(:file_number)).to eq(person_updated_event.file_number)
-      expect(dto_builder.instance_variable_get(:is_veteran)).to eq(person_updated_event.is_veteran)
+      expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_record["first_name"])
+      expect(dto_builder.instance_variable_get(:last_name)).to eq(person_record["last_name"])
+      expect(dto_builder.instance_variable_get(:middle_name)).to eq(person_record["middle_name"])
+      expect(dto_builder.instance_variable_get(:name_suffix)).to eq(person_record["name_suffix"])
+      expect(dto_builder.instance_variable_get(:participant_id)).to eq(person_record["participant_id"])
+      expect(dto_builder.instance_variable_get(:ssn)).to eq(person_record["ssn"])
+      expect(dto_builder.instance_variable_get(:date_of_birth)).to eq(person_record["date_of_birth"])
+      expect(dto_builder.instance_variable_get(:email_address)).to eq(person_record["email_address"])
+      expect(dto_builder.instance_variable_get(:date_of_death)).to eq(person_record["date_of_death"])
+      expect(dto_builder.instance_variable_get(:file_number)).to eq(person_record["file_number"])
+      expect(dto_builder.instance_variable_get(:is_veteran)).to eq(person_record["is_veteran"])
     end
   end
 end
