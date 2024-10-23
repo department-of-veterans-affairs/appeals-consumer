@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# PersonUpdated represents the message_payload from a PersonUpdatedEvent
+# Transformers::PersonUpdated represents the message_payload from a PersonUpdatedEvent
+# We are able to validate and assign instance vars using the Transformers::PersonUpdated class
 class Transformers::PersonUpdated
   include MessagePayloadValidator
 

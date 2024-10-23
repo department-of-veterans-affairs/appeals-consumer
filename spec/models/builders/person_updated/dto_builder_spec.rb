@@ -46,11 +46,15 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       expect(dto_builder).to receive(:build_payload)
       dto_builder.send(:assign_payload)
     end
+
     it "should assing to @payload" do
       dto_builder.send(:assign_payload)
       expect(dto_builder.instance_variable_get(:@payload)).to be_instance_of(Hash)
       expect(dto_builder.instance_variable_get(:@person_updated)).to be_instance_of(Transformers::PersonUpdated)
       expect(dto_builder.instance_variable_get(:@participant_id)).to be_instance_of(String)
+      expect(dto_builder.instance_variable_get(:@first_name)).to be_instance_of(String)
+      expect(dto_builder.instance_variable_get(:@date_of_birth)).to be_instance_of(String)
+      expect(dto_builder.instance_variable_get(:@is_veteran)).to be_instance_of(TrueClass)
     end
   end
 
