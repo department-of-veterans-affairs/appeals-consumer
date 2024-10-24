@@ -47,7 +47,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       dto_builder.send(:assign_payload)
     end
 
-    it "should assing to @payload" do
+    it "should assign to @payload" do
       dto_builder.send(:assign_payload)
       expect(dto_builder.instance_variable_get(:@payload)).to be_instance_of(Hash)
       expect(dto_builder.instance_variable_get(:@person_updated)).to be_instance_of(Transformers::PersonUpdated)
@@ -59,7 +59,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
   end
 
   describe "#assign_attributes" do
-    it "correctly assigns attribbutes" do
+    it "correctly assigns attributes" do
       expect(dto_builder.instance_variable_get(:@first_name)).to eq(person_record[:first_name])
       expect(dto_builder.instance_variable_get(:@last_name)).to eq(person_record[:last_name])
       expect(dto_builder.instance_variable_get(:@middle_name)).to eq(person_record[:middle_name])
