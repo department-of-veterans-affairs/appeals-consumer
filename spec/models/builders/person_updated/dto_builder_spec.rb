@@ -5,7 +5,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
     create(:person_updated_event, type: "Events::PersonUpdatedEvent")
   end
 
-  let(:dto_builder) { described_class.new(person_updated_event) }
+  subject(:dto_builder) { described_class.new(person_updated_event) }
 
   let(:event_id) { person_updated_event.id }
 
@@ -55,6 +55,16 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@first_name)).to be_instance_of(String)
       expect(dto_builder.instance_variable_get(:@date_of_birth)).to be_instance_of(String)
       expect(dto_builder.instance_variable_get(:@is_veteran)).to be_instance_of(TrueClass)
+    end
+
+    describe "should rasie error if error in assign methods" do
+      before do
+        allow(dto_builder).to receive(:assign_attributes)
+          .and_raise(AppealsConsumer::Error::DtoBuildError, "Some error")
+      end
+      it "should raise an error" do
+        expect { subject.send(:assign_attributes) }.to raise_error(AppealsConsumer::Error::DtoBuildError)
+      end
     end
   end
 
