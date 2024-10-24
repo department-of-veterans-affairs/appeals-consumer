@@ -9,13 +9,14 @@ class Builders::PersonUpdated::DtoBuilder
                           service: :dto_builder,
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
       @event_id = person_updated_event.id
-      @person_updated = build_person_updated(person_updated_event.message_payload_hash)
+      @event_payload = person_updated_event.message_payload_hash
+      @person_updated = build_person_updated
       assign_attributes
     end
   end
 
-  def build_person_updated(message_payload)
-    Transformers::PersonUpdated.new(@event_id, message_payload)
+  def build_person_updated
+    Transformers::PersonUpdated.new(@event_id, @event_payload)
   end
 
   def assign_attributes
@@ -34,7 +35,7 @@ class Builders::PersonUpdated::DtoBuilder
       assign_payload
     rescue StandardError => error
       raise AppealsConsumer::Error::DtoBuildError,
-            "Failed building from Builders::DecisionReviewUpdated::DtoBuilder: #{error.message}"
+            "Failed building from Builders::PersonUpdated::DtoBuilder: #{error.message}"
     end
   end
 
