@@ -36,7 +36,7 @@ shared_context "decision_review_completed_context" do
     base_decision_review_issue.merge(
       "contention_id" => 987_876_765,
       "decision_review_issue_id" => 9,
-      "decision" => canceled_decision
+      "decision" => nil
     )
   end
 
@@ -69,10 +69,16 @@ shared_context "decision_review_completed_context" do
     )
   end
 
-  let(:canceled_decision) do
+  let(:decision_with_invalid_attr_types) do
     base_decision.merge(
-      "contention_id" => 4_567_890,
-      "disposition" => "Approved"
+      "contention_id" => "87654"
+    )
+  end
+
+  let(:decision_with_invalid_attr_names) do
+    base_decision.merge(
+      "invalid_attr" => "key",
+      "second_invalid_attr" => 44_494
     )
   end
 

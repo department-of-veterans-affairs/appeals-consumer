@@ -52,7 +52,7 @@ class Transformers::DecisionReviewCompleted
 
   # Creates instances of DecisionReviewIssueCompleted, validates attributes, and assigns attributes
   # for each object in the decision_review_issues_completed array
-  # Fails out of workflow if decision_review_issues is an empty array
+  # Fails out of workflow if decision_review_issues_completed is an empty array
   def create_decision_review_issues_completed(decision_review_issues_completed)
     if decision_review_issues_completed.blank?
       fail ArgumentError,
@@ -63,9 +63,8 @@ class Transformers::DecisionReviewCompleted
   end
 end
 
-# DecisionReviewIssueCompleted represents an individual issue object from the message_payload's
-# decision_review_issues_created, decision_review_issues_Completed, decision_review_issues_removed,
-# or decision_review_issues_withdrawn arrays
+# DecisionReviewIssueCompleted represents an individual issue
+# object from the message_payload's decision_review_issues_completed
 class DecisionReviewIssueCompleted
   include MessagePayloadValidator
 
@@ -89,7 +88,8 @@ class DecisionReviewIssueCompleted
     "legacy_appeal_issue_id" => [Integer, NilClass],
     "prior_decision_rating_profile_date" => [String, NilClass],
     "soc_opt_in" => [TrueClass, FalseClass, NilClass],
-    "legacy_appeal_id" => [String, NilClass]
+    "legacy_appeal_id" => [String, NilClass],
+    "decision" => [Hash, NilClass]
   }.freeze
   # Allows read and write access for attributes
   DECISION_REVIEW_ISSUE_COMPLETED_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
