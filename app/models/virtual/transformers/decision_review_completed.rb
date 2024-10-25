@@ -117,7 +117,7 @@ class DecisionReviewIssueCompleted
   end
 
   def create_decisions(decision)
-    return if decision.blank?
+    return if decision.nil?
 
     @decision = Decision.new(decision)
   end
@@ -156,6 +156,12 @@ class Decision
   def assign(decision)
     DECISION_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", decision[attr])
+    end
+  end
+
+  def validate_presence(decision, class_name)
+    if decision.blank?
+      fail ArgumentError, "#{class_name}: Message payload cannot be empty"
     end
   end
 end
