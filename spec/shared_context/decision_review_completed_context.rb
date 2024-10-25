@@ -40,6 +40,26 @@ shared_context "decision_review_completed_context" do
     )
   end
 
+  let(:completed_decision) do
+    base_decision.merge(
+      "contention_id" => 8_342_759,
+      "disposition" => "Approved"
+    )
+  end
+
+  let(:decision_with_invalid_attr_types) do
+    base_decision.merge(
+      "contention_id" => "87654"
+    )
+  end
+
+  let(:decision_with_invalid_attr_names) do
+    base_decision.merge(
+      "invalid_attr" => "key",
+      "second_invalid_attr" => 44_494
+    )
+  end
+
   let(:base_decision_review_issue) do
     {
       "decision_review_issue_id" => 1,
@@ -60,26 +80,6 @@ shared_context "decision_review_completed_context" do
       "soc_opt_in" => nil,
       "legacy_appeal_id" => nil
     }
-  end
-
-  let(:completed_decision) do
-    base_decision.merge(
-      "contention_id" => 8_342_759,
-      "disposition" => "Approved"
-    )
-  end
-
-  let(:decision_with_invalid_attr_types) do
-    base_decision.merge(
-      "contention_id" => "87654"
-    )
-  end
-
-  let(:decision_with_invalid_attr_names) do
-    base_decision.merge(
-      "invalid_attr" => "key",
-      "second_invalid_attr" => 44_494
-    )
   end
 
   let(:base_decision) do
