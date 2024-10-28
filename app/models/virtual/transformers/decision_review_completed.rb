@@ -125,6 +125,8 @@ class DecisionReviewIssueCompleted
   end
 end
 
+# Decision represents an individual decision object from
+# a decision_review_issues_completed's decision field
 class Decision
   include MessagePayloadValidator
 
@@ -144,23 +146,29 @@ class Decision
 
   DECISION_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
+  # When Decision.new(decision) is called, this method will validate message_payload
+  # presence, attribute names and data types and assign the incoming attributes to defined keys
   def initialize(decision = {})
     validate(decision, self.class.name)
     assign(decision)
   end
 
+  # Lists the attributes and corresponding data types
   def attribute_types
     DECISION_ATTRIBUTES
   end
 
   private
 
+  # Assigns attributes from issue_attrs to defined keys
   def assign(decision)
     attribute_types.each_key do |attr|
       instance_variable_set("@#{attr}", decision[attr])
     end
   end
 
+  # Overwrites validate_presence method in MessagePayloadValidator because
+  # a DecisionReviewCompleted Decision CAN be nil but not empty
   def validate_presence(decision, class_name)
     if decision.blank?
       fail ArgumentError, "#{class_name}: Message payload cannot be empty"
