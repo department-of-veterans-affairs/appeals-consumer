@@ -40,9 +40,11 @@ class Transformers::DecisionReviewCompleted
     DECISION_REVIEW_COMPLETED_ATTRIBUTES
   end
 
+  private
+
   # Assigns attributes from the message_payload to defined keys
   def assign(message_payload)
-    DECISION_REVIEW_COMPLETED_ATTRIBUTES.each_key do |attr|
+    attribute_types.each_key do |attr|
       instance_variable_set("@#{attr}", message_payload[attr])
     end
 
@@ -102,16 +104,16 @@ class DecisionReviewIssueCompleted
     create_decisions(issue["decision"])
   end
 
-  private
-
   # Lists the attributes and corresponding data types
   def attribute_types
     DECISION_REVIEW_ISSUE_COMPLETED_ATTRIBUTES
   end
 
+  private
+
   # Assigns attributes from issue_attrs to defined keys
   def assign(issue)
-    DECISION_REVIEW_ISSUE_COMPLETED_ATTRIBUTES.each_key do |attr|
+    attribute_types.each_key do |attr|
       instance_variable_set("@#{attr}", issue[attr])
     end
   end
@@ -147,14 +149,14 @@ class Decision
     assign(decision)
   end
 
-  private
-
   def attribute_types
     DECISION_ATTRIBUTES
   end
 
+  private
+
   def assign(decision)
-    DECISION_ATTRIBUTES.each_key do |attr|
+    attribute_types.each_key do |attr|
       instance_variable_set("@#{attr}", decision[attr])
     end
   end
