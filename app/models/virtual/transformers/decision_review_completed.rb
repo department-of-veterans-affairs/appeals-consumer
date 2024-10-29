@@ -12,14 +12,14 @@ class Transformers::DecisionReviewCompleted
   DECISION_REVIEW_COMPLETED_ATTRIBUTES = {
     "claim_id" => Integer,
     "decision_review_type" => [String, NilClass],
-    "veteran_participant_id" => String,
-    "claimant_participant_id" => String,
+    "veteran_participant_id" => [String, NilClass],
+    "claimant_participant_id" => [String, NilClass],
     "remand_created" => [TrueClass, FalseClass, NilClass],
-    "ep_code_category" => String,
-    "claim_lifecycle_status" => String,
-    "actor_username" => String,
-    "actor_application" => String,
-    "completion_time" => String,
+    "ep_code_category" => [String, NilClass],
+    "claim_lifecycle_status" => [String, NilClass],
+    "actor_username" => [String, NilClass],
+    "actor_application" => [String, NilClass],
+    "completion_time" => [String, NilClass],
     "decision_review_issues_completed" => Array
   }.freeze
   # Allows read and write access for attributes
@@ -74,11 +74,11 @@ class DecisionReviewIssueCompleted
   # Data types are stored in an array when the value isn't limited to one data type
   # For example, soc_opt_in could be a boolean OR nil
   DECISION_REVIEW_ISSUE_COMPLETED_ATTRIBUTES = {
-    "decision_review_issue_id" => [Integer],
+    "decision_review_issue_id" => Integer,
     "contention_id" => [Integer, NilClass],
     "remand_claim_id" => [String, NilClass],
     "remand_contention_id" => [String, NilClass],
-    "unidentified" => [TrueClass, FalseClass],
+    "unidentified" => [TrueClass, FalseClass, NilClass],
     "prior_rating_decision_id" => [Integer, NilClass],
     "prior_non_rating_decision_id" => [Integer, NilClass],
     "prior_caseflow_decision_issue_id" => [Integer, NilClass],
