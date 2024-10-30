@@ -60,6 +60,10 @@ shared_context "decision_review_completed_context" do
     )
   end
 
+  let(:decision_with_missing_attribute) do
+    base_decision.except("disposition")
+  end
+
   let(:base_decision_review_issue) do
     {
       "decision_review_issue_id" => 1,

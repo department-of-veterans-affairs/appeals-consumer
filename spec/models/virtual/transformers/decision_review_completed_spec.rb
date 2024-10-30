@@ -133,6 +133,18 @@ describe Transformers::DecisionReviewCompleted do
         end
       end
 
+      context "because required attribute is missing" do
+        let(:message_payload_with_missing_attribute) do
+          message_payload.except("claim_id")
+        end
+
+        it "raises ArgumentError with message" do
+          error_message = "#{drc_class}: claim_id must be one of the allowed types - [Integer], got NilClass"
+          expect { described_class.new(event_id, message_payload_with_missing_attribute) }
+            .to raise_error(ArgumentError, error_message)
+        end
+      end
+
       context "because payload has invalid attribute data type(s)" do
         let(:message_payload_with_invalid_data_type) do
           message_payload.merge(
@@ -154,7 +166,7 @@ describe Transformers::DecisionReviewCompleted do
             "second_invalid_attr" => 123
           )
         end
-        it "logs all the unknown attribute names" do
+        it "logs all unknown attribute names" do
           message = "#{drc_class}: Unknown attributes - invalid_attr, second_invalid_attr"
           expect(Rails.logger).to receive(:info).with(message)
           described_class.new(event_id, message_payload_with_multiple_invalid_attribute_names)
@@ -187,6 +199,24 @@ describe Transformers::DecisionReviewCompleted do
         it "raises ArgumentError with message" do
           error_message = "DecisionReviewIssueCompleted: Message payload cannot be empty or nil"
           expect { described_class.new(event_id, message_payload_with_empty_issue) }
+            .to raise_error(ArgumentError, error_message)
+        end
+      end
+
+      context "because required attribute is missing" do
+        let(:decision_review_issue_completed_with_missing_attr) do
+          completed_decision_review_issue.except("decision_review_issue_id")
+        end
+        let(:message_payload_with_missing_attribute) do
+          message_payload.merge(
+            "decision_review_issues_completed" => [decision_review_issue_completed_with_missing_attr]
+          )
+        end
+
+        it "raises ArgumentError with message" do
+          error_message = "DecisionReviewIssueCompleted: decision_review_issue_id must be"\
+          " one of the allowed types - [Integer], got NilClass"
+          expect { described_class.new(event_id, message_payload_with_missing_attribute) }
             .to raise_error(ArgumentError, error_message)
         end
       end
@@ -224,7 +254,7 @@ describe Transformers::DecisionReviewCompleted do
           )
         end
 
-        it "logs all the unknown attribute names" do
+        it "logs all unknown attribute names" do
           message = "DecisionReviewIssueCompleted: Unknown attributes - invalid_attr, "\
           "second_invalid_attr"
           expect(Rails.logger).to receive(:info).with(message)
@@ -249,6 +279,25 @@ describe Transformers::DecisionReviewCompleted do
         it "raises ArgumentError with message" do
           error_message = "CompletedDecision: Message payload cannot be empty"
           expect { described_class.new(event_id, message_payload_with_nil_decision) }
+            .to raise_error(ArgumentError, error_message)
+        end
+      end
+
+      context "because required attribute is missing" do
+        let(:decision_review_issue_completed_with_missing_attr) do
+          completed_decision_review_issue.merge(
+            "decision" => decision_with_missing_attribute
+          )
+        end
+        let(:message_payload_with_missing_attribute) do
+          message_payload.merge(
+            "decision_review_issues_completed" => [decision_review_issue_completed_with_missing_attr]
+          )
+        end
+
+        it "raises ArgumentError with message" do
+          error_message = "CompletedDecision: disposition must be one of the allowed types - [String], got NilClass"
+          expect { described_class.new(event_id, message_payload_with_missing_attribute) }
             .to raise_error(ArgumentError, error_message)
         end
       end
@@ -284,7 +333,7 @@ describe Transformers::DecisionReviewCompleted do
           )
         end
 
-        it "logs all the unknown attribute names" do
+        it "logs all unknown attribute names" do
           message = "CompletedDecision: Unknown attributes - invalid_attr, second_invalid_attr"
           expect(Rails.logger).to receive(:info).with(message)
           described_class.new(event_id, message_payload_with_invalid_attr_names)
