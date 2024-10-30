@@ -8,7 +8,9 @@ describe Transformers::DecisionReviewCompleted do
   include_context "decision_review_completed_context"
 
   let(:event_id) { 96 }
-  let(:drc_class) { decision_review_completed.class }
+  let(:drc_class) { "Transformers::DecisionReviewCompleted" }
+  let(:decision_review_issue_completed_class) { "DecisionReviewIssueCompleted" }
+  let(:decision_class) { "CompletedDecision" }
 
   describe "#initialize" do
     context "when Transformers::DecisionReviewCompleted, DecisionReviewIssueCompleted, and CompletedDecision" \
@@ -197,7 +199,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "DecisionReviewIssueCompleted: Message payload cannot be empty or nil"
+          error_message = "#{decision_review_issue_completed_class}: Message payload cannot be empty or nil"
           expect { described_class.new(event_id, message_payload_with_empty_issue) }
             .to raise_error(ArgumentError, error_message)
         end
@@ -214,7 +216,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "DecisionReviewIssueCompleted: decision_review_issue_id must be"\
+          error_message = "#{decision_review_issue_completed_class}: decision_review_issue_id must be"\
           " one of the allowed types - [Integer], got NilClass"
           expect { described_class.new(event_id, message_payload_with_missing_attribute) }
             .to raise_error(ArgumentError, error_message)
@@ -234,7 +236,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "DecisionReviewIssueCompleted: contention_id must be one of the allowed types"\
+          error_message = "#{decision_review_issue_completed_class}: contention_id must be one of the allowed types"\
           " - [Integer, NilClass], got String"
           expect { described_class.new(event_id, message_payload_with_invalid_issue_data_type) }
             .to raise_error(ArgumentError, error_message)
@@ -255,7 +257,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "logs all unknown attribute names" do
-          message = "DecisionReviewIssueCompleted: Unknown attributes - invalid_attr, "\
+          message = "#{decision_review_issue_completed_class}: Unknown attributes - invalid_attr, "\
           "second_invalid_attr"
           expect(Rails.logger).to receive(:info).with(message)
           described_class.new(event_id, message_payload_with_invalid_issue_attr_names)
@@ -277,7 +279,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "CompletedDecision: Message payload cannot be empty"
+          error_message = "#{decision_class}: Message payload cannot be empty"
           expect { described_class.new(event_id, message_payload_with_nil_decision) }
             .to raise_error(ArgumentError, error_message)
         end
@@ -296,7 +298,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "CompletedDecision: disposition must be one of the allowed types - [String], got NilClass"
+          error_message = "#{decision_class}: disposition must be one of the allowed types - [String], got NilClass"
           expect { described_class.new(event_id, message_payload_with_missing_attribute) }
             .to raise_error(ArgumentError, error_message)
         end
@@ -315,7 +317,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "CompletedDecision: contention_id must be one of the allowed types - [Integer], got String"
+          error_message = "#{decision_class}: contention_id must be one of the allowed types - [Integer], got String"
           expect { described_class.new(event_id, message_payload_with_invalid_attr_types) }
             .to raise_error(ArgumentError, error_message)
         end
@@ -334,7 +336,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "logs all unknown attribute names" do
-          message = "CompletedDecision: Unknown attributes - invalid_attr, second_invalid_attr"
+          message = "#{decision_class}: Unknown attributes - invalid_attr, second_invalid_attr"
           expect(Rails.logger).to receive(:info).with(message)
           described_class.new(event_id, message_payload_with_invalid_attr_names)
         end
