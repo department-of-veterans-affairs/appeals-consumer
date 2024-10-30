@@ -5,6 +5,12 @@ RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev
 
 WORKDIR /appeals-consumer
 
+COPY ZscalerRootCertificate-2048-SHA256.crt* /etc/ssl/certs/
+
+RUN apt-get update && apt-get install ca-certificates 
+
+RUN update-ca-certificates --fresh
+
 COPY Gemfile* .
 
 RUN gem install bundler:$(cat Gemfile.lock | tail -1 | tr -d " ")

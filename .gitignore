@@ -42,3 +42,5 @@ coverage
 
 # Ignore DS_Store
 .DS_Store
+
+ZscalerRootCertificate-2048-SHA256.crt
