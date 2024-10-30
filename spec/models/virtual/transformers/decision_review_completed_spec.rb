@@ -11,7 +11,7 @@ describe Transformers::DecisionReviewCompleted do
   let(:drc_class) { decision_review_completed.class }
 
   describe "#initialize" do
-    context "when Transformers::DecisionReviewCompleted, DecisionReviewIssueCompleted, and Decision" \
+    context "when Transformers::DecisionReviewCompleted, DecisionReviewIssueCompleted, and CompletedDecision" \
     " portions of payload have valid attributes and data types" do
       it "initializes a Transformers::DecisionReviewCompleted object" do
         expect(subject.claim_id).to eq(message_payload["claim_id"])
@@ -83,14 +83,14 @@ describe Transformers::DecisionReviewCompleted do
         end
       end
 
-      it "initializes a Decision object for every DecisionReviewIssueCompleted"\
+      it "initializes a CompletedDecision object for every DecisionReviewIssueCompleted"\
       " with a non-nil decision field" do
         subject.decision_review_issues_completed.each do |issue|
           decision = issue.decision
 
           case issue.contention_id
           when 345_456_567
-            expect(decision).to be_an_instance_of(Decision)
+            expect(decision).to be_an_instance_of(CompletedDecision)
             expect(decision.contention_id).to eq(completed_decision["contention_id"])
             expect(decision.disposition).to eq(completed_decision["disposition"])
             expect(decision.dta_error_explanation).to eq(completed_decision["dta_error_explanation"])
@@ -103,7 +103,7 @@ describe Transformers::DecisionReviewCompleted do
             expect(decision.decision_recorded_time).to eq(completed_decision["decision_recorded_time"])
             expect(decision.decision_finalized_time).to eq(completed_decision["decision_finalized_time"])
           when 987_876_765
-            expect(decision).not_to be_an_instance_of(Decision)
+            expect(decision).not_to be_an_instance_of(CompletedDecision)
             expect(decision).to be_nil
           end
         end
@@ -233,7 +233,7 @@ describe Transformers::DecisionReviewCompleted do
       end
     end
 
-    context "when Decision portion of message_payload is invalid" do
+    context "when CompletedDecision portion of message_payload is invalid" do
       context "because decision is an empty hash" do
         let(:decision_review_issue_completed_with_nil_decision) do
           completed_decision_review_issue.merge(
@@ -247,7 +247,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "Decision: Message payload cannot be empty"
+          error_message = "CompletedDecision: Message payload cannot be empty"
           expect { described_class.new(event_id, message_payload_with_nil_decision) }
             .to raise_error(ArgumentError, error_message)
         end
@@ -266,7 +266,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "raises ArgumentError with message" do
-          error_message = "Decision: contention_id must be one of the allowed types - [Integer], got String"
+          error_message = "CompletedDecision: contention_id must be one of the allowed types - [Integer], got String"
           expect { described_class.new(event_id, message_payload_with_invalid_attr_types) }
             .to raise_error(ArgumentError, error_message)
         end
@@ -285,7 +285,7 @@ describe Transformers::DecisionReviewCompleted do
         end
 
         it "logs all the unknown attribute names" do
-          message = "Decision: Unknown attributes - invalid_attr, second_invalid_attr"
+          message = "CompletedDecision: Unknown attributes - invalid_attr, second_invalid_attr"
           expect(Rails.logger).to receive(:info).with(message)
           described_class.new(event_id, message_payload_with_invalid_attr_names)
         end

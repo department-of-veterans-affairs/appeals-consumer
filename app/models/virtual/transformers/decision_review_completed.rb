@@ -121,13 +121,13 @@ class DecisionReviewIssueCompleted
   def create_decisions(decision)
     return if decision.nil?
 
-    @decision = Decision.new(decision)
+    @decision = CompletedDecision.new(decision)
   end
 end
 
-# Decision represents an individual decision object from
+# CompletedDecision represents an individual decision object from
 # a decision_review_issues_completed's decision field
-class Decision
+class CompletedDecision
   include MessagePayloadValidator
 
   DECISION_ATTRIBUTES = {
@@ -146,7 +146,7 @@ class Decision
 
   DECISION_ATTRIBUTES.each_key { |attr_name| attr_accessor attr_name }
 
-  # When Decision.new(decision) is called, this method will validate message_payload
+  # When CompletedDecision.new(decision) is called, this method will validate message_payload
   # presence, attribute names and data types and assign the incoming attributes to defined keys
   def initialize(decision = {})
     validate(decision, self.class.name)
@@ -167,8 +167,8 @@ class Decision
     end
   end
 
-  # Overwrites validate_presence method in MessagePayloadValidator because
-  # a DecisionReviewCompleted Decision CAN be nil but not empty
+  # Overwrites validate_presence method in MessagePayloadValidator because a
+  # DecisionReviewCompleted CompletedDecision CAN be nil but not an empty hash
   def validate_presence(decision, class_name)
     if decision.blank?
       fail ArgumentError, "#{class_name}: Message payload cannot be empty"
