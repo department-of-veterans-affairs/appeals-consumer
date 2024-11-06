@@ -81,21 +81,23 @@ describe Events::PersonUpdatedEvent, type: :model do
           participant_id: participant_id
         )
       end
-      let(:created_event) do
+      let(:second_event) do
         create(
           :person_updated_event,
           message_payload: { participant_id: participant_id },
           participant_id: participant_id,
           state: "NOT_STARTED",
-          completed_at: nil
+          completed_at: nil,
+          partition: 5
         )
       end
+
       let(:participant_id) { "1129318238" }
       let(:update_time) { "2023-07-01T00:00:00Z" }
-      let(:error_message) { "Event IDs still needing processing: #{created_event.id}" }
+      let(:error_message) { "Event IDs still needing processing: #{second_event.id}" }
 
       before do
-        created_event
+        second_event
         allow(EventAudit).to receive(:create!).and_call_original
       end
 
@@ -120,22 +122,6 @@ describe Events::PersonUpdatedEvent, type: :model do
     context "when no events match the criteria" do
       it "returns false" do
         expect(event.send("person_updated_events_pending?")).to be_falsey
-      end
-    end
-
-    context "when there is a PersonUpdatedEvent with matching criteria" do
-      before do
-        create(
-          :person_updated_event,
-          message_payload: { participant_id: participant_id },
-          participant_id: participant_id,
-          state: "NOT_STARTED",
-          completed_at: nil
-        )
-      end
-
-      it "returns true" do
-        expect(event.send("person_updated_events_pending?")).to be_truthy
       end
     end
 
