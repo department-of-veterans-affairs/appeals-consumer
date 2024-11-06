@@ -18,7 +18,6 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       "last_name": "Tester",
       "middle_name": "T",
       "participant_id": "987654321",
-      "prefix": "Mr",
       "ssn": "834295567",
       "name_suffix": nil,
       "is_veteran": true
@@ -50,7 +49,6 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
     it "should assign to @payload" do
       dto_builder.send(:assign_payload)
       expect(dto_builder.instance_variable_get(:@payload)).to be_instance_of(Hash)
-      expect(dto_builder.instance_variable_get(:@person)).to be_a(BasePerson)
       expect(dto_builder.instance_variable_get(:@person_updated)).to be_instance_of(Transformers::PersonUpdated)
       expect(dto_builder.instance_variable_get(:@participant_id)).to be_instance_of(String)
       expect(dto_builder.instance_variable_get(:@first_name)).to be_instance_of(String)

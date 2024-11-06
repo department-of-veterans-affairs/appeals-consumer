@@ -13,7 +13,6 @@ FactoryBot.define do
         "last_name" => "Tester",
         "middle_name" => "T",
         "participant_id" => "987654321",
-        "prefix" => "Mr",
         "ssn" => "834295567",
         "name_suffix" => nil,
         "is_veteran" => true
