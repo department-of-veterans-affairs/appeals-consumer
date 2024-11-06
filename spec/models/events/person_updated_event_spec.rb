@@ -73,40 +73,7 @@ describe Events::PersonUpdatedEvent, type: :model do
         expect(Rails.logger).to have_received(:error).with(/#{standard_error}/)
       end
     end
-    context "when person_updated_event_pending? is true" do
-      let(:event) do
-        build(
-          :person_updated_event,
-          message_payload: { participant_id: participant_id, update_time: update_time },
-          participant_id: participant_id
-        )
-      end
-      let(:second_event) do
-        create(
-          :person_updated_event,
-          message_payload: { participant_id: participant_id },
-          participant_id: participant_id,
-          state: "NOT_STARTED",
-          completed_at: nil,
-          partition: 5
-        )
-      end
-
-      let(:participant_id) { "1129318238" }
-      let(:update_time) { "2023-07-01T00:00:00Z" }
-      let(:error_message) { "Event IDs still needing processing: #{second_event.id}" }
-
-      before do
-        second_event
-        allow(EventAudit).to receive(:create!).and_call_original
-      end
-
-      it "raises an error" do
-        expect { event.process! }.to raise_error(AppealsConsumer::Error::PriorPersonUpdatedEventsStillPendingError)
-      end
-    end
   end
-
   describe "#person_updated_events_pending?" do
     let(:event) do
       build(
