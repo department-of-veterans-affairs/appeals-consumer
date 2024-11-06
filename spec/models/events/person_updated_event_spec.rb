@@ -142,7 +142,7 @@ describe Events::PersonUpdatedEvent, type: :model do
     context "when there is a PersonUpdatedEvent with matching criteria" do
       before do
         create(
-          :decision_review_updated_event,
+          :person_updated_event,
           participant_id: participant_id,
           message_payload: { "update_time" => "2022-06-01T00:00:00Z" },
           state: "IN_PROGRESS",
@@ -180,7 +180,7 @@ describe Events::PersonUpdatedEvent, type: :model do
     context "when there are events with non-nil completed_at timestamps" do
       before do
         create(
-          :decision_review_created_event,
+          :person_updated_event,
           message_payload: { participant_id: participant_id },
           participant_id: participant_id,
           state: "NOT_STARTED",
