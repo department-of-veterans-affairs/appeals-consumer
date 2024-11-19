@@ -7,6 +7,31 @@ class ExternalApi::CaseflowService
   BASE_ENDPOINT = "api/events/v1/"
 
   class << self
+    # It sends a request to the Caseflow API and precesses the response.
+    # We will need to look at the build_headers method on line 95 below.
+    # Currently it is using vet and claimant attributes.
+    # TODO: @NoelleAd Implement
+    # TODO: @NoelleAd Add test
+    def establish_person_updated_records_from_event!(pu_dto_builder)
+      # not implmented until Caseflow API is completed
+      # payload = pu_dto_builder.payload
+      # headers = build_headers(pu_dto_builder)
+      # endpoint = "#{BASE_ENDPOINT}person_updated"
+      # response = send_caseflow_request(payload, endpoint, headers)
+      # parse_response(response, payload["participant_id"])
+    end
+
+    # Reports an error during person update, using detailed error information.
+    # TODO: @NoelleAd Implement
+    # TODO: @NoelleAd Add test
+    def establish_person_updated_event_error!(event_id, participant_id, error_message)
+      # not implmented until Caseflow API is completed
+      # payload = { event_id: event_id, errored_participant_id: participant_id, error: error_message }
+      # endpoint = "#{BASE_ENDPOINT}person_updated_error"
+      # response = send_caseflow_request(payload, endpoint)
+      # parse_response(response, participant_id)
+    end
+
     # Creates records for a new decision review based on the provided Decision Review Created DTO builder.
     # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
