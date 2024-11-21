@@ -8,7 +8,7 @@ class Transformers::PersonUpdated
   attr_reader :event_id
 
   PERSON_UPDATED_ATTRIBUTES = {
-    "participant_id" => String,
+    "participant_id" => [String, Integer],
     "name_suffix" => [String, NilClass],
     "ssn" => [String, NilClass],
     "first_name" => [String, NilClass],
@@ -42,5 +42,15 @@ class Transformers::PersonUpdated
     PERSON_UPDATED_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", message_payload[attr])
     end
+  end
+
+  # Grabs a list of the currently assigned attrs and returns a hash
+  def attributes
+    PERSON_UPDATED_ATTRIBUTES.keys.each_with_object({}) { |pua, hs| hs[pua] = self.send(pua) }
+  end
+
+  # Validates any instance of this class
+  def valid?
+    validate(attributes, self.class.name)
   end
 end
