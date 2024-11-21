@@ -63,6 +63,9 @@ class KarafkaApp < Karafka::App
 
     consumer_group :person_updated_consumer_group do
       topic ENV["PERSON_UPDATED_TOPIC"] do
+        # Start consuming from the latest message
+        config(initial_offset: 'latest')
+
         consumer PersonUpdatedConsumer
         deserializer AvroDeserializerService.new
       end
