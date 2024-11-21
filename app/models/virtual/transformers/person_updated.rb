@@ -43,4 +43,14 @@ class Transformers::PersonUpdated
       instance_variable_set("@#{attr}", message_payload[attr])
     end
   end
+
+  # Grabs a list of the currently assigned attrs and returns a hash
+  def attributes
+    PERSON_UPDATED_ATTRIBUTES.keys.each_with_object({}) { |pua, hs| hs[pua] = send(pua) }
+  end
+
+  # Validates any instance of this class
+  def valid?
+    validate(attributes, self.class.name)
+  end
 end

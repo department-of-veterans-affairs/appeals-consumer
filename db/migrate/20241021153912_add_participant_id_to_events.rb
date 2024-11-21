@@ -7,7 +7,7 @@ class AddParticipantIdToEvents < ActiveRecord::Migration[7.1]
   end
 
   def down
-    remove_column :events, :participant_id, :string, comment: "Participant ID associated with People Updated Events"
-    remove_index :events, :participant_id, algorithm: :concurrently
+    remove_column :events, :participant_id
+    remove_index :events, :participant_id
   end
 end
