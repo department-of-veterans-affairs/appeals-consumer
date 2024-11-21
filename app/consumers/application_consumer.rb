@@ -36,6 +36,7 @@ class ApplicationConsumer < Karafka::BaseConsumer
     ) do |event|
       event.type = event_type.to_s
       event.claim_id = message.payload.message["claim_id"]
+      event.participant_id = message.payload.message["participant_id"]&.to_s
       event.message_payload = message.payload.message
     end
   end
