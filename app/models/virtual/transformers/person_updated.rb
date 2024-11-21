@@ -46,7 +46,7 @@ class Transformers::PersonUpdated
 
   # Grabs a list of the currently assigned attrs and returns a hash
   def attributes
-    PERSON_UPDATED_ATTRIBUTES.keys.each_with_object({}) { |pua, hs| hs[pua] = self.send(pua) }
+    PERSON_UPDATED_ATTRIBUTES.keys.each_with_object({}) { |pua, hs| hs[pua] = send(pua) }
   end
 
   # Validates any instance of this class
