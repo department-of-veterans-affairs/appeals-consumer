@@ -28,7 +28,6 @@ class Builders::PersonUpdated::DtoBuilder
       assign_name_suffix
       assign_ssn
       assign_date_of_birth
-      assign_email_address
       assign_date_of_death
       assign_file_number
       assign_veteran_indicator
@@ -69,10 +68,6 @@ class Builders::PersonUpdated::DtoBuilder
     @date_of_birth = @person_updated.date_of_birth if @person_updated.date_of_birth
   end
 
-  def assign_email_address
-    @email_address = @person_updated.email_address
-  end
-
   def assign_date_of_death
     @date_of_death = @person_updated.date_of_death if @person_updated.date_of_death
   end
@@ -95,7 +90,6 @@ class Builders::PersonUpdated::DtoBuilder
       "name_suffix": @name_suffix,
       "ssn": @ssn,
       "date_of_birth": @date_of_birth,
-      "email_address": @email_address,
       "date_of_death": @date_of_death,
       "file_number": @file_number,
       "is_veteran": @is_veteran
