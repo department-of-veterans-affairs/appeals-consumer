@@ -4,7 +4,7 @@
 class ExternalApi::CaseflowService
   include LoggerMixin
   # Base endpoint for the Caseflow API events.
-  BASE_ENDPOINT = "api/events/v1".freeze
+  BASE_ENDPOINT = "api/events/v1"
 
   class << self
     # It sends a request to the Caseflow API and processes the response.
