@@ -2,8 +2,7 @@
 
 describe ExternalApi::CaseflowService do
   let(:base_url) { "http://caseflow.test/api/events/v1/" }
-  let(:error_message) { "Failed for claim_id: #{dto_builder.payload['claim_id']}" }
-  let(:error_code) { "HTTP code: 500" }
+  let(:error_message) { "[CASEFLOW SERVICE] 500 Request failed with error:" }
   let(:dto_builder) do
     instance_double(
       "DtoBuilder",
@@ -91,7 +90,7 @@ describe ExternalApi::CaseflowService do
         expect { described_class.establish_decision_review_created_records_from_event!(drc_dto_builder) }
           .to raise_error(AppealsConsumer::Error::ClientRequestError) do |error|
           expect(error.code).to eq(500)
-          expect(error.message).to include(error_message, error_code)
+          expect(error.message).to include(error_message)
         end
       end
     end
@@ -165,7 +164,7 @@ describe ExternalApi::CaseflowService do
         expect { described_class.edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder) }
           .to raise_error(AppealsConsumer::Error::ClientRequestError) do |error|
           expect(error.code).to eq(500)
-          expect(error.message).to include(error_message, error_code)
+          expect(error.message).to include(error_message)
         end
       end
     end
