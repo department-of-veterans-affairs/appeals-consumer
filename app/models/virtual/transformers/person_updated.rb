@@ -14,7 +14,6 @@ class Transformers::PersonUpdated
     "first_name" => [String, NilClass],
     "middle_name" => [String, NilClass],
     "last_name" => [String, NilClass],
-    "email_address" => [String, NilClass],
     "date_of_birth" => [String, NilClass],
     "date_of_death" => [String, NilClass],
     "file_number" => [String, NilClass],

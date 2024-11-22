@@ -40,7 +40,6 @@ describe Transformers::PersonUpdated do
         expect(subject.first_name).to eq(message_payload["first_name"])
         expect(subject.middle_name).to eq(message_payload["middle_name"])
         expect(subject.last_name).to eq(message_payload["last_name"])
-        expect(subject.email_address).to eq(message_payload["email_address"])
         expect(subject.date_of_birth).to eq(message_payload["date_of_birth"])
         expect(subject.date_of_death).to eq(message_payload["date_of_death"])
         expect(subject.file_number).to eq(message_payload["file_number"])
