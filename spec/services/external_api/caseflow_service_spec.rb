@@ -38,6 +38,35 @@ describe ExternalApi::CaseflowService do
       "X-VA-Claimant-Email" => "johndoe@email.com"
     }
   end
+  let(:person_updated_dto_builder) do
+    instance_double(
+      "DtoBuilder",
+      payload: { "participant_id" => "123" },
+      ssn: "1234-56-789",
+      file_number: "12345",
+      first_name: "John",
+      last_name: "Doe",
+      middle_name: "Michael",
+      name_suffix: "Jr",
+      date_of_birth: "01-01-01",
+      date_of_death: "01-01-24"
+    )
+  end
+  let(:person_updated_headers) do
+    {
+      "AUTHORIZATION" => "Token token=secret",
+      "CSS-ID" => RequestStore[:current_user][:css_id],
+      "STATION-ID" => RequestStore[:current_user][:station_id],
+      "X-VA-SSN" => "1234-56-789",
+      "X-VA-File-Number" => "12345",
+      "X-VA-First-Name" => "John",
+      "X-VA-Last-Name" => "Doe",
+      "X-VA-Middle-Name" => "Michael",
+      "X-VA-DOB" => "01-01-01",
+      "X-VA-DOD" => "01-01-24",
+      "X-VA-Name-Suffix" => "Jr"
+    }
+  end
 
   before(:each) do
     WebMock.disable_net_connect!(allow_localhost: true)
@@ -166,6 +195,80 @@ describe ExternalApi::CaseflowService do
           expect(error.code).to eq(500)
           expect(error.message).to include(error_message)
         end
+      end
+    end
+  end
+
+  describe ".establish_person_updated_records_from_event!" do
+    let(:endpoint) { "#{base_url}person_updated" }
+    let(:dto_builder) { person_updated_dto_builder }
+
+    context "when the request is successful" do
+      before do
+        stub_request(:post, endpoint)
+          .with(body: dto_builder.payload.to_json, headers: person_updated_headers)
+          .to_return(status: 200, body: '{"success": true}', headers: {})
+      end
+
+      it "returns the HTTP status code" do
+        response = described_class.establish_person_updated_records_from_event!(dto_builder)
+        expect(response.code).to eq(200)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        described_class.establish_person_updated_records_from_event!(dto_builder)
+      end
+    end
+
+    context "when the request fails with an error code" do
+      before do
+        stub_request(:post, endpoint)
+          .with(body: dto_builder.payload.to_json, headers: person_updated_headers)
+          .to_return(status: 500, body: '{"error": "Internal Server Error"}', headers: {})
+      end
+
+      it "raises a ClientRequestError with the proper message and code" do
+        expect { described_class.establish_person_updated_records_from_event!(dto_builder) }
+          .to raise_error(AppealsConsumer::Error::ClientRequestError) do |error|
+          expect(error.code).to eq(500)
+          expect(error.message).to include(error_message)
+        end
+      end
+    end
+  end
+
+  describe ".establish_person_updated_event_error!" do
+    let(:event_id) { "123" }
+    let(:errored_participant_id) { "456" }
+    let(:error_message) { "Sample error message" }
+    let(:endpoint) { "#{base_url}person_updated_error" }
+    let(:headers) { { "AUTHORIZATION" => "Token token=secret", "CSS-ID" => "css_id", "STATION-ID" => "station_id" } }
+
+    context "when the request is successful" do
+      before do
+        payload = { event_id: event_id, errored_participant_id: errored_participant_id, error: error_message }.to_json
+        stub_request(:post, endpoint)
+          .with(body: payload, headers: headers)
+          .to_return(status: 200, body: '{"success": true}', headers: {})
+      end
+
+      it "returns a successful response object" do
+        response = described_class.establish_person_updated_event_error!(
+          event_id,
+          errored_participant_id,
+          error_message
+        )
+        expect(response.code).to eq(200)
+      end
+
+      it "calls MetricsService to record metrics" do
+        expect(MetricsService).to receive(:emit_gauge)
+        described_class.establish_person_updated_event_error!(
+          event_id,
+          errored_participant_id,
+          error_message
+        )
       end
     end
   end
