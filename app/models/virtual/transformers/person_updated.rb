@@ -14,7 +14,6 @@ class Transformers::PersonUpdated
     "first_name" => [String, NilClass],
     "middle_name" => [String, NilClass],
     "last_name" => [String, NilClass],
-    "email_address" => [String, NilClass],
     "date_of_birth" => [String, NilClass],
     "date_of_death" => [String, NilClass],
     "file_number" => [String, NilClass],
@@ -42,5 +41,15 @@ class Transformers::PersonUpdated
     PERSON_UPDATED_ATTRIBUTES.each_key do |attr|
       instance_variable_set("@#{attr}", message_payload[attr])
     end
+  end
+
+  # Grabs a list of the currently assigned attrs and returns a hash
+  def attributes
+    PERSON_UPDATED_ATTRIBUTES.keys.each_with_object({}) { |pua, hs| hs[pua] = send(pua) }
+  end
+
+  # Validates any instance of this class
+  def valid?
+    validate(attributes, self.class.name)
   end
 end

@@ -9,6 +9,7 @@ class Builders::PersonUpdated::DtoBuilder
                           service: :dto_builder,
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
       @event_id = person_updated_event.id
+      @participant_id = person_updated_event.participant_id.to_s
       @event_payload = person_updated_event.message_payload_hash
       @person_updated = build_person_updated
       assign_attributes
@@ -21,14 +22,12 @@ class Builders::PersonUpdated::DtoBuilder
 
   def assign_attributes
     begin
-      assign_participant_id
       assign_first_name
       assign_last_name
       assign_middle_name
       assign_name_suffix
       assign_ssn
       assign_date_of_birth
-      assign_email_address
       assign_date_of_death
       assign_file_number
       assign_veteran_indicator
@@ -61,20 +60,12 @@ class Builders::PersonUpdated::DtoBuilder
     @name_suffix = @person_updated.name_suffix
   end
 
-  def assign_participant_id
-    @participant_id = @person_updated.participant_id
-  end
-
   def assign_ssn
     @ssn = @person_updated.ssn
   end
 
   def assign_date_of_birth
     @date_of_birth = @person_updated.date_of_birth if @person_updated.date_of_birth
-  end
-
-  def assign_email_address
-    @email_address = @person_updated.email_address
   end
 
   def assign_date_of_death
@@ -99,7 +90,6 @@ class Builders::PersonUpdated::DtoBuilder
       "name_suffix": @name_suffix,
       "ssn": @ssn,
       "date_of_birth": @date_of_birth,
-      "email_address": @email_address,
       "date_of_death": @date_of_death,
       "file_number": @file_number,
       "is_veteran": @is_veteran
