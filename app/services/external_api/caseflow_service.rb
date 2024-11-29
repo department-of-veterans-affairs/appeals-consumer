@@ -4,42 +4,49 @@
 class ExternalApi::CaseflowService
   include LoggerMixin
   # Base endpoint for the Caseflow API events.
-  BASE_ENDPOINT = "api/events/v1/"
+  BASE_ENDPOINT = "api/events/v1"
 
   class << self
+    # It sends a request to the Caseflow API and processes the response.
+    def establish_person_updated_records_from_event!(pu_dto_builder)
+      payload = pu_dto_builder.payload
+      headers = build_person_headers(pu_dto_builder)
+      send_caseflow_request(:person_updated, payload, headers)
+    end
+
+    # Reports an error during person update, using detailed error information.
+    def establish_person_updated_event_error!(event_id, participant_id, error_message)
+      payload = { event_id: event_id, errored_participant_id: participant_id, error: error_message }
+      send_caseflow_request(:person_updated_error, payload)
+    end
+
     # Creates records for a new decision review based on the provided Decision Review Created DTO builder.
     # It sends a request to the Caseflow API and precesses the response.
     def establish_decision_review_created_records_from_event!(drc_dto_builder)
       payload = drc_dto_builder.payload
       headers = build_headers(drc_dto_builder)
-      endpoint = "#{BASE_ENDPOINT}decision_review_created"
-      response = send_caseflow_request(payload, endpoint, headers)
-      parse_response(response, payload["claim_id"])
+      send_caseflow_request(:decision_review_created, payload, headers)
     end
 
     # Reports an error during decision review creation, using detailed error information.
     def establish_decision_review_created_event_error!(event_id, claim_id, error_message)
       payload = { event_id: event_id, errored_claim_id: claim_id, error: error_message }
-      endpoint = "#{BASE_ENDPOINT}decision_review_created_error"
-      response = send_caseflow_request(payload, endpoint)
-      parse_response(response, claim_id)
+      send_caseflow_request(:decision_review_created_error, payload)
     end
 
     # Sends request to Caseflow API and processes response.
     def edit_records_from_decision_review_updated_event!(decision_review_updated_dto_builder)
       payload = decision_review_updated_dto_builder.payload
       headers = build_headers(decision_review_updated_dto_builder)
-      endpoint = "#{BASE_ENDPOINT}decision_review_updated"
-      response = send_caseflow_request(payload, endpoint, headers)
-      parse_response(response, payload["claim_id"])
+      send_caseflow_request(:decision_review_updated, payload, headers)
     end
 
     private
 
     # Sends a request to the Caseflow API with specified payload, endpoint, and optional headers.
     # returns the API's response
-    def send_caseflow_request(payload, endpoint, headers = {})
-      url = URI.join(caseflow_base_url, endpoint).to_s
+    def send_caseflow_request(endpoint, payload, headers = {})
+      url = URI.join(caseflow_base_url, [BASE_ENDPOINT, endpoint].join("/")).to_s
       request = build_request(url, payload, headers)
       response = MetricsService.record("Caseflow Service: POST to #{endpoint}",
                                        service: :caseflow_service,
@@ -47,7 +54,7 @@ class ExternalApi::CaseflowService
         HTTPI.post(request)
       end
       logger.info(response.to_s)
-      response
+      parse_response(response)
     end
 
     # Constructs an HTTPI request, setting timeouts, SSL configuration, headers and body
@@ -97,17 +104,31 @@ class ExternalApi::CaseflowService
       }
     end
 
+    # Builds headers to inlcude any PII that is scrubbed from the request body.
+    def build_person_headers(pu_dto_builder)
+      {
+        "X-VA-SSN" => pu_dto_builder.ssn,
+        "X-VA-File-Number" => pu_dto_builder.file_number,
+        "X-VA-First-Name" => pu_dto_builder.first_name,
+        "X-VA-Last-Name" => pu_dto_builder.last_name,
+        "X-VA-Middle-Name" => pu_dto_builder.middle_name,
+        "X-VA-DOB" => pu_dto_builder.date_of_birth,
+        "X-VA-DOD" => pu_dto_builder.date_of_death,
+        "X-VA-Name-Suffix" => pu_dto_builder.name_suffix
+      }
+    end
+
     # Parses and checks the API response for errors, raising an exception for specific error conditions.
-    def parse_response(response, claim_id)
+    def parse_response(response)
       response_body = JSON.parse(response.body)
-      check_for_error(response_body, response.code.to_i, claim_id)
+      check_for_error(response_body, response.code.to_i)
       response
     end
 
     # Checks for common error responses and raises a custom exception of encountered.
-    def check_for_error(response_body, code, claim_id)
+    def check_for_error(response_body, code)
       unless [200, 201].include?(code)
-        msg = "Failed for claim_id: #{claim_id}, error: #{response_body}, HTTP code: #{code}"
+        msg = "[CASEFLOW SERVICE] #{code} Request failed with error: #{response_body}"
         fail AppealsConsumer::Error::ClientRequestError, code: code, message: msg
       end
     end
