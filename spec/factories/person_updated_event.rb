@@ -13,9 +13,9 @@ FactoryBot.define do
         "last_name" => "Tester",
         "middle_name" => "T",
         "participant_id" => "987654321",
-        "ssn" => "834295567",
+        "social_security_number" => "834295567",
         "name_suffix" => nil,
-        "is_veteran" => true
+        "veteran_indicator" => true
       }.to_json
     end
     partition { 1 }

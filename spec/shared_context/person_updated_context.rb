@@ -10,9 +10,9 @@ shared_context "person_updated_context" do
       "last_name" => "Tester",
       "middle_name" => "T",
       "participant_id" => "987654321",
-      "ssn" => "834295567",
+      "social_security_number" => "834295567",
       "name_suffix" => nil,
-      "is_veteran" => true
+      "veteran_indicator" => true
     }
   end
 
@@ -25,9 +25,9 @@ shared_context "person_updated_context" do
       "last_name" => "Tester",
       "middle_name" => "T",
       "participant_id" => nil,
-      "ssn" => "834295567",
+      "social_security_number" => "834295567",
       "name_suffix" => nil,
-      "is_veteran" => true
+      "veteran_indicator" => true
     }
   end
 end

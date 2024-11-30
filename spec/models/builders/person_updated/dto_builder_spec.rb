@@ -18,9 +18,9 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       "last_name": "Tester",
       "middle_name": "T",
       "participant_id": "987654321",
-      "ssn": "834295567",
+      "social_security_number": "834295567",
       "name_suffix": nil,
-      "is_veteran": true
+      "veteran_indicator": true
     }
   end
 
@@ -73,11 +73,11 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       expect(dto_builder.instance_variable_get(:@last_name)).to eq(person_record[:last_name])
       expect(dto_builder.instance_variable_get(:@middle_name)).to eq(person_record[:middle_name])
       expect(dto_builder.instance_variable_get(:@name_suffix)).to eq(person_record[:name_suffix])
-      expect(dto_builder.instance_variable_get(:@ssn)).to eq(person_record[:ssn])
+      expect(dto_builder.instance_variable_get(:@ssn)).to eq(person_record[:social_security_number])
       expect(dto_builder.instance_variable_get(:@date_of_birth)).to eq(person_record[:date_of_birth])
       expect(dto_builder.instance_variable_get(:@date_of_death)).to eq(person_record[:date_of_death])
       expect(dto_builder.instance_variable_get(:@file_number)).to eq(person_record[:file_number])
-      expect(dto_builder.instance_variable_get(:@is_veteran)).to eq(person_record[:is_veteran])
+      expect(dto_builder.instance_variable_get(:@is_veteran)).to eq(person_record[:veteran_indicator])
     end
   end
 end
