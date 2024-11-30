@@ -61,7 +61,7 @@ class Builders::PersonUpdated::DtoBuilder
   end
 
   def assign_ssn
-    @ssn = @person_updated.ssn
+    @ssn = @person_updated.social_security_number
   end
 
   def assign_date_of_birth
@@ -77,7 +77,7 @@ class Builders::PersonUpdated::DtoBuilder
   end
 
   def assign_veteran_indicator
-    @is_veteran = @person_updated.is_veteran
+    @is_veteran = @person_updated.veteran_indicator
   end
 
   def build_payload
