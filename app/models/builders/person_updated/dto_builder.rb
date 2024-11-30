@@ -17,7 +17,7 @@ class Builders::PersonUpdated::DtoBuilder
   end
 
   def build_person_updated
-    Transformers::PersonUpdated.new(@event_id, @event_payload)
+    Transformers::PersonUpdated.new(@event_id, @participant_id, @event_payload)
   end
 
   def assign_attributes
