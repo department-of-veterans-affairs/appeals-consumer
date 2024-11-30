@@ -44,7 +44,7 @@ RSpec.describe PersonUpdatedEventProcessingJob, type: :job do
         .to have_enqueued_job(PersonUpdatedEventProcessingJob)
         .with(event)
         .on_queue("appeals_consumer"\
-        "_development_high_priority")
+        "_development_low_priority")
     end
 
     it "does not raise an error" do
