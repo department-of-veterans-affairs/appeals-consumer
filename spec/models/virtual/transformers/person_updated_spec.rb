@@ -36,14 +36,14 @@ describe Transformers::PersonUpdated do
 
       it "sets the instance variables for PersonUpdated" do
         expect(subject.name_suffix).to eq(message_payload["name_suffix"])
-        expect(subject.ssn).to eq(message_payload["ssn"])
+        expect(subject.social_security_number).to eq(message_payload["social_security_number"])
         expect(subject.first_name).to eq(message_payload["first_name"])
         expect(subject.middle_name).to eq(message_payload["middle_name"])
         expect(subject.last_name).to eq(message_payload["last_name"])
         expect(subject.date_of_birth).to eq(message_payload["date_of_birth"])
         expect(subject.date_of_death).to eq(message_payload["date_of_death"])
         expect(subject.file_number).to eq(message_payload["file_number"])
-        expect(subject.is_veteran).to eq(message_payload["is_veteran"])
+        expect(subject.veteran_indicator).to eq(message_payload["veteran_indicator"])
       end
     end
   end
