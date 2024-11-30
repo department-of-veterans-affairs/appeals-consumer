@@ -45,7 +45,7 @@ class Builders::PersonUpdated::DtoBuilder
   end
 
   def assign_participant_id
-    @participant_id = person_updated_event.participant_id.to_s
+    @participant_id = @person_updated.participant_id.to_s
   end
 
   def assign_first_name
