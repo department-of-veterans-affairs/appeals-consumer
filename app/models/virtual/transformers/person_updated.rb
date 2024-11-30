@@ -8,6 +8,7 @@ class Transformers::PersonUpdated
   attr_reader :event_id
 
   PERSON_UPDATED_ATTRIBUTES = {
+    "participant_id" => String,
     "name_suffix" => [String, NilClass],
     "ssn" => [String, NilClass],
     "first_name" => [String, NilClass],
@@ -24,9 +25,8 @@ class Transformers::PersonUpdated
 
   # When PersonUpdated.new(message_payload) is called, this method will validate message_payload
   # presence, attribute names and data types, assign the incoming attributes to defined keys
-  def initialize(event_id, participant_id, message_payload)
+  def initialize(event_id, message_payload)
     @event_id = event_id
-    @participant_id = participant_id
     validate(message_payload, self.class.name)
     assign(message_payload)
   end
