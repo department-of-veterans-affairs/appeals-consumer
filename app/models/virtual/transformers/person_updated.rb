@@ -10,14 +10,14 @@ class Transformers::PersonUpdated
   PERSON_UPDATED_ATTRIBUTES = {
     "participant_id" => String,
     "name_suffix" => [String, NilClass],
-    "ssn" => [String, NilClass],
+    "social_security_number" => [String, NilClass],
     "first_name" => [String, NilClass],
     "middle_name" => [String, NilClass],
     "last_name" => [String, NilClass],
     "date_of_birth" => [String, NilClass],
     "date_of_death" => [String, NilClass],
     "file_number" => [String, NilClass],
-    "is_veteran" => [TrueClass, FalseClass]
+    "veteran_indicator" => [TrueClass, FalseClass]
   }.freeze
 
   # Allows read and write access for attributes
