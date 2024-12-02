@@ -19,13 +19,8 @@ describe Transformers::PersonUpdated do
         expect { person_updated }.not_to raise_error
       end
 
-      it "allows string participant_id" do
+      it "when participant_id is a string it raises ArgumentError" do
         subject.participant_id = message_payload["participant_id"].to_s
-        expect(subject).to be_valid
-      end
-
-      it "when participant_id is a integer it raises ArgumentError" do
-        subject.participant_id = message_payload["participant_id"].to_i
         expect { subject.valid? }.to raise_error(ArgumentError)
       end
 
