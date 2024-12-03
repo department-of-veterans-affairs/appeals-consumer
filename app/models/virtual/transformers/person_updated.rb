@@ -8,7 +8,7 @@ class Transformers::PersonUpdated
   attr_reader :event_id
 
   PERSON_UPDATED_ATTRIBUTES = {
-    "participant_id" => String,
+    "participant_id" => Integer,
     "name_suffix" => [String, NilClass],
     "social_security_number" => [String, NilClass],
     "first_name" => [String, NilClass],
