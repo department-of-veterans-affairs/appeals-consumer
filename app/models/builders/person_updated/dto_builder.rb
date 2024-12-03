@@ -9,6 +9,7 @@ class Builders::PersonUpdated::DtoBuilder
                           service: :dto_builder,
                           name: "Builders::PersonUpdated::DtoBuilder.initialize") do
       @event_id = person_updated_event.id
+      @participant_id = person_updated_event.participant_id.to_s
       @event_payload = person_updated_event.message_payload_hash
       @person_updated = build_person_updated
       assign_attributes
@@ -21,7 +22,6 @@ class Builders::PersonUpdated::DtoBuilder
 
   def assign_attributes
     begin
-      assign_participant_id
       assign_first_name
       assign_last_name
       assign_middle_name
@@ -42,10 +42,6 @@ class Builders::PersonUpdated::DtoBuilder
 
   def assign_payload
     @payload = build_payload
-  end
-
-  def assign_participant_id
-    @participant_id = @person_updated.participant_id.to_s
   end
 
   def assign_first_name
