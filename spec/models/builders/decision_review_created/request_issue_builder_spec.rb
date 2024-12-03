@@ -54,6 +54,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(subject.instance_variable_defined?(:@type)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_id)).to be_truthy
       expect(subject.instance_variable_defined?(:@nonrating_issue_bgs_source)).to be_truthy
+      expect(subject.instance_variable_defined?(:@source_claim_id_for_remand)).to be_truthy
+      expect(subject.instance_variable_defined?(:@source_contention_id_for_remand)).to be_truthy
     end
 
     it "returns the Request Issue" do
@@ -99,6 +101,8 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
       expect(builder).to receive(:assign_vacols_sequence_id)
       expect(builder).to receive(:assign_nonrating_issue_bgs_id)
       expect(builder).to receive(:assign_type)
+      expect(builder).to receive(:assign_source_claim_id_for_remand)
+      expect(builder).to receive(:assign_source_contention_id_for_remand)
 
       builder.send(:assign_methods)
     end

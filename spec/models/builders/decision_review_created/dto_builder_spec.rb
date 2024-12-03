@@ -188,6 +188,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         expect(drc_dto_builder.instance_variable_get(:@vet_file_number)).to eq drc.file_number
         expect(drc_dto_builder.instance_variable_get(:@vet_first_name)).to eq drc.veteran_first_name
         expect(drc_dto_builder.instance_variable_get(:@vet_last_name)).to eq drc.veteran_last_name
+        expect(drc_dto_builder.instance_variable_get(:@auto_remand)).to eq drc.auto_remand
       end
     end
 
