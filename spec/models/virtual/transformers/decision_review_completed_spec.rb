@@ -28,6 +28,22 @@ describe Transformers::DecisionReviewCompleted do
         expect(subject.completion_time).to eq(message_payload["completion_time"])
         expect(subject.decision_review_issues_completed.size)
           .to eq(message_payload["decision_review_issues_completed"].count)
+        expect(subject.original_source).to eq(message_payload["original_source"])
+        expect(subject.veteran_first_name).to eq(message_payload["veteran_first_name"])
+        expect(subject.veteran_last_name).to eq(message_payload["veteran_last_name"])
+        expect(subject.file_number).to eq(message_payload["file_number"])
+        expect(subject.ep_code).to eq(message_payload["ep_code"])
+        expect(subject.claim_received_date).to eq(message_payload["claim_received_date"])
+        expect(subject.payee_code).to eq(message_payload["payee_code"])
+        expect(subject.modifier).to eq(message_payload["modifier"])
+        expect(subject.originated_from_vacols_issue).to eq(message_payload["originated_from_vacols_issue"])
+        expect(subject.limited_poa_code).to eq(message_payload["limited_poa_code"])
+        expect(subject.informal_conference_requested).to eq(message_payload["informal_conference_requested"])
+        expect(subject.informal_conference_tracked_item_id).to eq(message_payload["informal_conference_tracked_item_id"])
+        expect(subject.same_station_review_requested).to eq(message_payload["same_station_review_requested"])
+        expect(subject.claim_creation_time).to eq(message_payload["claim_creation_time"])
+        expect(subject.actor_station).to eq(message_payload["actor_station"])
+        expect(subject.auto_remand).to eq(message_payload["auto_remand"])
       end
 
       it "initializes a DecisionReviewIssueCompleted object for every obj in decision_review_issues_completed array" do
@@ -40,8 +56,6 @@ describe Transformers::DecisionReviewCompleted do
           when 345_456_567
             expect(issue.contention_id).to eq(completed_decision_review_issue["contention_id"])
             expect(issue.decision_review_issue_id).to eq(completed_decision_review_issue["decision_review_issue_id"])
-            expect(issue.remand_claim_id).to eq(completed_decision_review_issue["remand_claim_id"])
-            expect(issue.remand_contention_id).to eq(completed_decision_review_issue["remand_contention_id"])
             expect(issue.unidentified).to eq(completed_decision_review_issue["unidentified"])
             expect(issue.prior_rating_decision_id).to eq(completed_decision_review_issue["prior_rating_decision_id"])
             expect(issue.prior_non_rating_decision_id)
@@ -62,8 +76,6 @@ describe Transformers::DecisionReviewCompleted do
           when 987_876_765
             expect(issue.contention_id).to eq(canceled_decision_review_issue["contention_id"])
             expect(issue.decision_review_issue_id).to eq(canceled_decision_review_issue["decision_review_issue_id"])
-            expect(issue.remand_claim_id).to eq(canceled_decision_review_issue["remand_claim_id"])
-            expect(issue.remand_contention_id).to eq(canceled_decision_review_issue["remand_contention_id"])
             expect(issue.unidentified).to eq(canceled_decision_review_issue["unidentified"])
             expect(issue.prior_rating_decision_id).to eq(canceled_decision_review_issue["prior_rating_decision_id"])
             expect(issue.prior_non_rating_decision_id)
