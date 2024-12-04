@@ -13,7 +13,7 @@ services:
 
   kafka:
     container_name: kafka
-    image: confluentinc/cp-kafka:7.7.2
+    image: confluentinc/cp-kafka
     ports:
       - 9092:9092
     environment:
