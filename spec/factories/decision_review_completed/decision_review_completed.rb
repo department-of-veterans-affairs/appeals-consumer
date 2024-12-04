@@ -2,10 +2,17 @@
 
 FactoryBot.define do
   factory :decision_review_completed, class: "Transformers::DecisionReviewCompleted" do
+    event_id { nil }
+    message_payload do
+      base_completed_message_payload
+    end
+
+    # start traits
+    initialize_with { new(event_id, message_payload) }
   end
 end
 
-def base_message_payload(**args)
+def base_completed_message_payload(**args)
   {
     "claim_id" => Faker::Number.number(digits: 7),
     "original_source" => args[:original_source] || "CP",
@@ -23,17 +30,67 @@ def base_message_payload(**args)
     "modifier" => "030",
     "originated_from_vacols_issue" => nil,
     "limited_poa_code" => nil,
-    "informal_conference_tracked_item_id" => nil,
     "informal_conference_requested" => args[:informal_conference_requested] || false,
+    "informal_conference_tracked_item_id" => nil,
     "same_station_review_requested" => args[:same_station_review_requested] || false,
-    "completion_time" => Time.zone.now.to_s,
-    "claim_creation_time" => Time.zone.now.to_s,
+    "claim_creation_time" => "2023-08-25",
     "actor_username" => "BVADWISE101",
     "actor_station" => "101",
     "actor_application" => "PASYSACCTCREATE",
-
+    "completion_time" => "2023-08-25",
+    "remand_created" => false,
     "auto_remand" => false,
     "decision_review_issues_completed" => args[:decision_review_issues_completed] ||
-      [review_issues_created_attributes]
+      [base_review_issues_completed]
+  }
+end
+
+def base_review_issues_completed
+  {
+    "decision_review_issue_id" => 22,
+    "contention_id" => 710_002_659,
+    "associated_caseflow_request_issue_id" => nil,
+    "unidentified" => false,
+    "prior_rating_decision_id" => nil,
+    "prior_non_rating_decision_id" => nil,
+    "prior_caseflow_decision_issue_id" => nil,
+    "prior_decision_text" => "Service connection for tetnus denied",
+    "prior_decision_type" => "Unknown",
+    "prior_decision_source" => nil,
+    "prior_decision_notification_date" => "2023-08-01",
+    "prior_decision_date" => "2023-07-01",
+    "prior_decision_diagnostic_code" => nil,
+    "prior_decision_rating_percentage" => nil,
+    "prior_decision_rating_sn" => nil,
+    "eligible" => true,
+    "eligibility_result" => "ELIGIBLE",
+    "time_override" => nil,
+    "time_override_reason" => nil,
+    "contested" => nil,
+    "soc_opt_in" => nil,
+    "legacy_appeal_id" => nil,
+    "legacy_appeal_issue_id" => nil,
+    "prior_decision_award_event_id" => nil,
+    "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+    "source_claim_id_for_remand" => nil,
+    "source_contention_id_for_remand" => nil,
+    "original_caseflow_request_issue_id" => nil,
+    "decision" => nil || base_decision
+  }
+end
+
+def base_decision
+  {
+    "contention_id" => 710_002_659,
+    "disposition" => "Granted",
+    "dta_error_explanation" => nil,
+    "decision_source" => nil,
+    "category" => "NON_RATING",
+    "decision_id" => nil,
+    "decision_text" => nil,
+    "award_event_id" => nil,
+    "rating_profile_date" => nil,
+    "decision_recorded_time" => "2024-11-14T00:09:00.788173Z",
+    "decision_finalized_time" => "2024-11-13T17:49:57.14374Z"
   }
 end
