@@ -237,7 +237,7 @@
         narrtv_dcmnt_id: "1169339",
         prmlng_claim_id: "600577536",
         ptcpnt_vet_id: "600869895",
-        rating_intro_txt: "The records reflect that you are a Veteran of the Gulf War Era, Peacetime and Vietnam Era. You served in the Army from June 17, 1964 toSeptember 10, 1990. We received your supplemental claim on October 28, 2024.  Based on a review of the evidence listed below, we have made the following decision(s) on your claim.",
+        rating_intro_txt: "The records reflect that you are a Veteran of the Gulf War Era, Peacetime and Vietnam Era.",
         rating_web_ind: "Y",
         rba_claim_list:
         {
@@ -277,5 +277,10 @@
         }
       }
     ]
+  },
+  response: {
+    response_code: "0",
+    response_debug: "input_ptcpnt_vet_id = 600869895 and profile_dt range: 2023-01-17 - 2024-11-17",
+    response_text: "Success"
   }
 }
