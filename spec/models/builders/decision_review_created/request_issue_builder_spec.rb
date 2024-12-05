@@ -289,6 +289,48 @@ describe Builders::DecisionReviewCreated::RequestIssueBuilder do
     end
   end
 
+  describe "#assign_source_claim_id_for_remand" do
+    subject { builder.send(:assign_source_claim_id_for_remand) }
+
+    context "when the issue has a source_claim_id_for_remand" do
+      let(:decision_review_model) do
+        build(:decision_review_created, :with_claim_and_contention_ids_for_remand)
+      end
+
+      it "assigns the Request Issue's source_claim_id_for_remand to issue.source_claim_id_for_remand" do
+        expect(subject).to eq(issue.source_claim_id_for_remand)
+        expect(subject).not_to be_nil
+      end
+    end
+
+    context "when the issue's source_claim_id_for_remand field is nil" do
+      it "assigns the Request Issue's source_claim_id_for_remand to nil" do
+        expect(subject).to eq(nil)
+      end
+    end
+  end
+
+  describe "#assign_source_contention_id_for_remand" do
+    subject { builder.send(:assign_source_contention_id_for_remand) }
+
+    context "when the issue has a source_contention_id_for_remand" do
+      let(:decision_review_model) do
+        build(:decision_review_created, :with_claim_and_contention_ids_for_remand)
+      end
+
+      it "assigns the Request Issue's source_contention_id_for_remand to issue.source_contention_id_for_remand" do
+        expect(subject).to eq(issue.source_contention_id_for_remand)
+        expect(subject).not_to be_nil
+      end
+    end
+
+    context "when the issue's source_contention_id_for_remand field is nil" do
+      it "assigns the Request Issue's source_contention_id_for_remand to nil" do
+        expect(subject).to eq(nil)
+      end
+    end
+  end
+
   describe "#calculate_contested_rating_issue_profile_date" do
     subject { builder.send(:calculate_contested_rating_issue_profile_date) }
 
