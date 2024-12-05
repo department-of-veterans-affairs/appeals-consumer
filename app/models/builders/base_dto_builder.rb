@@ -15,7 +15,9 @@ class Builders::BaseDtoBuilder
     first_name
     middle_name
     last_name
+    name_suffix
     date_of_birth
+    date_of_death
     email
   ]
   # rubocop:enable Style/MutableConstant

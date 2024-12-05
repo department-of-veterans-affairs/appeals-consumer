@@ -35,4 +35,5 @@ module AppealsConsumer::Error
   class DtoBuildError < StandardError; end
   class EventConsumptionError < StandardError; end
   class PriorDecisionReviewEventsStillPendingError < StandardError; end
+  class PriorPersonUpdatedEventsStillPendingError < StandardError; end
 end
