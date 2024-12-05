@@ -93,6 +93,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   def build_payload
     {
+      "auto_remand": @auto_remand,
       "event_id": @event_id,
       "claim_id": @claim_id,
       "css_id": @css_id,

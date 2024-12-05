@@ -220,6 +220,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
           expect(drc_dto_builder.instance_variable_get(:@request_issues)).to be_instance_of(Array)
           expect(drc_dto_builder.instance_variable_get(:@request_issues).flatten.first)
             .to be_instance_of(DecisionReviewCreated::RequestIssue)
+          expect(drc_dto_builder.instance_variable_get(:@auto_remand)).to eq(false)
         end
       end
 
@@ -322,6 +323,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         drc_dto_builder.instance_variable_set(:@css_id, 1)
         drc_dto_builder.instance_variable_set(:@detail_type, "HIGHER_LEVEL_REVIEW")
         drc_dto_builder.instance_variable_set(:@station, "101")
+        drc_dto_builder.instance_variable_set(:@auto_remand, true)
         drc_dto_builder.instance_variable_set(:@intake, DecisionReviewCreated::Intake.new)
         drc_dto_builder.instance_variable_set(:@veteran, DecisionReviewCreated::Veteran.new)
         drc_dto_builder.instance_variable_set(:@claimant, DecisionReviewCreated::Claimant.new)
@@ -335,6 +337,7 @@ RSpec.describe Builders::DecisionReviewCreated::DtoBuilder, type: :model do
         expect(built_hash["css_id"]).to eq 1
         expect(built_hash["detail_type"]).to eq "HIGHER_LEVEL_REVIEW"
         expect(built_hash["station"]).to eq "101"
+        expect(built_hash["auto_remand"]).to eq true
         expect(built_hash["intake"].blank?).to eq true
         expect(built_hash["veteran"].blank?).to eq true
         expect(built_hash["claimant"].blank?).to eq true
