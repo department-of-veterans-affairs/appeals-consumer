@@ -17,7 +17,7 @@ RSpec.describe Builders::PersonUpdated::DtoBuilder, type: :model do
       "first_name": "Bill",
       "last_name": "Tester",
       "middle_name": "T",
-      "participant_id": "987654321",
+      "participant_id": 987654321,
       "social_security_number": "834295567",
       "name_suffix": nil,
       "veteran_indicator": true
