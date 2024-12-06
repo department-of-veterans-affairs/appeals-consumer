@@ -8,10 +8,42 @@ FactoryBot.define do
     end
 
     # start traits
+    trait :test do
+      participant_id = "5_555_555"
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+            [
+              review_issues_completed_attributes(
+                "decision_review_issue_id" => 777,
+                decision: base_decision(
+                  disposition: "remand"
+                )
+              )
+            ]
+        )
+      end
+    end
+    # unidentified
+    ## non_rating
+    ### completed
+    ### cancelled
+    ## rating
+    ### completed
+    ### cancelled
+    # idtentifed
+    ## non_rating
+    ### completed
+    ### cancelled
+    ## rating
+    ### completed
+    ### cancelled
     initialize_with { new(event_id, message_payload) }
   end
 end
 
+# rubocop:disable Metrics/CyclomaticComplexity
 def base_completed_message_payload(**args)
   {
     "claim_id" => Faker::Number.number(digits: 7),
@@ -44,6 +76,7 @@ def base_completed_message_payload(**args)
       [base_review_issues_completed]
   }
 end
+# rubocop:enable Metrics/CyclomaticComplexity
 
 def base_review_issues_completed
   {
@@ -75,14 +108,19 @@ def base_review_issues_completed
     "source_claim_id_for_remand" => nil,
     "source_contention_id_for_remand" => nil,
     "original_caseflow_request_issue_id" => nil,
-    "decision" => nil || base_decision
+    "decision" => nil
   }
 end
 
-def base_decision
+def review_issues_completed_attributes(**args)
+  base_review_issues_completed.merge(**args,
+                                     "decision" => args[:decision] || nil)
+end
+
+def base_decision(**args)
   {
     "contention_id" => 710_002_659,
-    "disposition" => "Granted",
+    "disposition" => args[:disposition] || "Granted",
     "dta_error_explanation" => nil,
     "decision_source" => nil,
     "category" => "NON_RATING",
