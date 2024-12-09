@@ -9,6 +9,8 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
     super(issue, decision_review_model, bis_rating_profiles, @request_issue)
   end
 
+  private
+
   def assign_methods
     super
     assign_source_claim_id_for_remand
