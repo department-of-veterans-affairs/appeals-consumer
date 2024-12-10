@@ -9,7 +9,7 @@ FactoryBot.define do
 
     # start traits
     trait :test do
-      participant_id = "5_555_555"
+      participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_completed_message_payload(
           participant_id: participant_id,
@@ -31,14 +31,157 @@ FactoryBot.define do
     ### cancelled
     ## rating
     ### completed
+    #### closed
+    trait :eligible_rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+            [
+              review_issues_completed_attributes(
+                "prior_rating_decision_id" => 13,
+                "prior_decision_type" => "Disability Evaluation",
+                "prior_decision_diagnostic_code" => "5008",
+                "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+                decision: base_decision
+              )
+            ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload
+      end
+    end
+
+    ######### DONT NEEED ########??????????????????
+    trait :eligible_rating_hlr_without_prior_decision_date do
+      :decision_review_completed
+    end
+
     ### cancelled
     # idtentifed
     ## non_rating
     ### completed
+    #### closed
+    trait :eligible_non_rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      ep_code_category = "NON_RATING"
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: ep_code_category,
+          participant_id: participant_id,
+          decision_review_issues_completed:
+            [
+              review_issues_completed_attributes(
+                decision: base_decision(
+                  ep_code_category: ep_code_category
+                )
+              )
+            ]
+        )
+      end
+    end
     ### cancelled
     ## rating
     ### completed
+    trait :eligible_rating_hlr_legacy do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            review_issues_completed_attributes(
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_time_override do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            review_issues_completed_attributes(
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    ######### DONT NEEED ########??????????????????
+    trait :eligible_rating_hlr_with_two_issues do
+      :decision_review_completed
+    end
+
+    ######### DONT NEEED ########??????????????????
+    trait :ineligible_rating_hlr_contested_with_additional_issue do
+      :decision_review_completed
+    end
+
+    trait :eligible_rating_hlr_with_decision_source do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            review_issues_completed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+              "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
     ### cancelled
+    ## invalid messages
+    trait :eligible_rating_hlr_without_contention_id do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            review_issues_completed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+              "contention_id" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+    trait :eligible_rating_hlr do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            review_issues_completed_attributes(
+              "prior_rating_decision_id" => 13,
+              "prior_decision_diagnostic_code" => "5008",
+              "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
     initialize_with { new(event_id, message_payload) }
   end
 end
@@ -104,7 +247,7 @@ def base_review_issues_completed
     "legacy_appeal_id" => nil,
     "legacy_appeal_issue_id" => nil,
     "prior_decision_award_event_id" => nil,
-    "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+    "prior_decision_rating_profile_date" => nil,
     "source_claim_id_for_remand" => nil,
     "source_contention_id_for_remand" => nil,
     "original_caseflow_request_issue_id" => nil,
@@ -123,7 +266,7 @@ def base_decision(**args)
     "disposition" => args[:disposition] || "Granted",
     "dta_error_explanation" => nil,
     "decision_source" => nil,
-    "category" => "NON_RATING",
+    "category" => args[:ep_code_category] || "rating",
     "decision_id" => nil,
     "decision_text" => nil,
     "award_event_id" => nil,
