@@ -37,7 +37,7 @@ module MessagePayloadValidator
       value = message_payload[name]
       allowed_types = [type].flatten
 
-      unless allowed_types.any? { |type| value.is_a?(type) }
+      unless allowed_types.any? { |t| value.is_a?(t) }
         error_message = "#{class_name}: #{name} must be one of the allowed types - #{allowed_types}, got #{value.class}"
         fail ArgumentError, error_message
       end

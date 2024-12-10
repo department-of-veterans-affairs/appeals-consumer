@@ -134,6 +134,12 @@ Style/FormatStringToken:
   Enabled: true
   EnforcedStyle: annotated
 
+Style/NumericLiterals:
+  Enabled: false
+
+convention:Rails/Date:
+  Enabled: false
+
 Naming/FileName:
   Enabled: false
 
