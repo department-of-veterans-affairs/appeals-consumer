@@ -41,6 +41,7 @@ describe Builders::DecisionReviewCreated::ClaimReviewBuilder do
       expect(builder).to receive(:calculate_establishment_submitted_at)
       expect(builder).to receive(:assign_informal_conference)
       expect(builder).to receive(:assign_same_office)
+      expect(builder).to receive(:assign_auto_remand)
 
       builder.assign_attributes
     end
@@ -162,6 +163,13 @@ describe Builders::DecisionReviewCreated::ClaimReviewBuilder do
     subject { builder.send(:assign_same_office) }
     it "assigns claim_review's same_office to decision_reciew_created.same_station_review_requested" do
       expect(subject).to eq(decision_review_model.same_station_review_requested)
+    end
+  end
+
+  describe "#assign_auto_remand" do
+    subject { builder.send(:assign_auto_remand) }
+    it "assigns claim_review's auto_remand to decision_reciew_created.auto_remand" do
+      expect(subject).to eq(decision_review_model.auto_remand)
     end
   end
 end

@@ -30,6 +30,7 @@ class Builders::DecisionReviewCreated::ClaimReviewBuilder
     calculate_establishment_submitted_at
     assign_informal_conference
     assign_same_office
+    assign_auto_remand
   end
 
   private
@@ -76,6 +77,10 @@ class Builders::DecisionReviewCreated::ClaimReviewBuilder
 
   def assign_same_office
     @claim_review.same_office = decision_review_model.same_station_review_requested
+  end
+
+  def assign_auto_remand
+    @claim_review.auto_remand = decision_review_model.auto_remand
   end
 
   def determine_benefit_type

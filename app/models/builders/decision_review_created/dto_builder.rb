@@ -37,6 +37,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   # :reek:TooManyStatements
   def assign_from_decision_review_created
+    @auto_remand = @decision_review_created.auto_remand
     @claim_id = @decision_review_created.claim_id
     @css_id = @decision_review_created.actor_username
     @detail_type = @intake.detail_type
@@ -92,6 +93,7 @@ class Builders::DecisionReviewCreated::DtoBuilder < Builders::BaseDtoBuilder
 
   def build_payload
     {
+      "auto_remand": @auto_remand,
       "event_id": @event_id,
       "claim_id": @claim_id,
       "css_id": @css_id,
