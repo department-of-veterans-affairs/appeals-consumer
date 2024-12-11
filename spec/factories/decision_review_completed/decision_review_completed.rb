@@ -394,9 +394,55 @@ FactoryBot.define do
         )
       end
     end
+    trait :eligible_rating_decision_hlr do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "1_623_547",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
 
     ### cancelled
     ## invalid messages
+    trait :ineligible_rating_decision_hlr_with_contention_id do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
     trait :eligible_rating_hlr_without_contention_id do
       message_payload do
         base_completed_message_payload(
@@ -404,6 +450,21 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "contention_id" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_decision_hlr_without_contention_id do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              "prior_decision_rating_sn" => "20",
               decision: base_decision
             )
           ]
@@ -465,6 +526,158 @@ FactoryBot.define do
       end
     end
 
+    trait :ineligible_rating_decision_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_type" => "Disability Evaluation",
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "soc_opt_in" => false,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "PENDING_BOARD_APPEAL",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
     initialize_with { new(event_id, message_payload) }
   end
 end
