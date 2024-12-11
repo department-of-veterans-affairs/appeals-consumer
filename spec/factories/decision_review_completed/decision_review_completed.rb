@@ -7,7 +7,6 @@ FactoryBot.define do
       base_completed_message_payload
     end
 
-    # start traits
     trait :test do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
@@ -25,13 +24,7 @@ FactoryBot.define do
         )
       end
     end
-    # unidentified
-    ## non_rating
-    ### completed
-    ### cancelled
-    ## rating
-    ### completed
-    #### closed
+
     trait :eligible_rating_hlr_veteran_claimant do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
@@ -56,14 +49,9 @@ FactoryBot.define do
 
     ######### DONT NEEED ########??????????????????
     trait :eligible_rating_hlr_without_prior_decision_date do
-      :empty
+      :decision_review_completed
     end
 
-    ### cancelled
-    # idtentifed
-    ## non_rating
-    ### completed
-    #### closed
     trait :eligible_non_rating_hlr_veteran_claimant do
       participant_id = Faker::Number.number(digits: 9).to_s
       ep_code_category = "NON_RATING"
@@ -408,8 +396,246 @@ FactoryBot.define do
       end
     end
 
+    trait :eligible_decision_issue_prior_rating_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_time_override do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_legacy do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "unidentified" => true,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "unidentified" => true,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_unidentified_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "unidentified" => true,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
     ### cancelled
     ## invalid messages
+
+    trait :eligible_rating_hlr_unidentified_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "unidentified" => true,
+              "prior_decision_date" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
+      trait :eligible_rating_hlr_unidentified_without_contention_id do
+        participant_id = Faker::Number.number(digits: 9).to_s
+        message_payload do
+          base_completed_message_payload(
+            participant_id: participant_id,
+            decision_review_issues_completed:
+            [
+              rating_review_issues_completed_attributes(
+                decision: base_decision
+              )
+            ]
+          )
+        end
+      end
+    end
+    trait :eligible_rating_hlr_unidentified_without_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "unidentified" => true,
+              "contention_id" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_decision_date" => nil,
+              "prior_rating_decision_id" => 20,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_rating_hlr_without_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 20,
+              "contention_id" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
     trait :ineligible_rating_decision_hlr_with_contention_id do
       message_payload do
         base_completed_message_payload(
@@ -672,6 +898,232 @@ FactoryBot.define do
               "prior_decision_rating_sn" => "20",
               "eligible" => false,
               "eligibility_result" => "PENDING_SUPPLEMENTAL",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "COMPLETED_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_decision_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_rating_sn" => "20",
+              "eligible" => false,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_BOARD_APPEAL",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "COMPLETED_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_rating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
               decision: base_decision
             )
           ]
