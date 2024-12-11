@@ -25,6 +25,8 @@ FactoryBot.define do
       end
     end
 
+    ## for decision objects we need to cover cancelled & gran
+
     trait :eligible_rating_hlr_veteran_claimant do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
@@ -47,9 +49,20 @@ FactoryBot.define do
       end
     end
 
-    ######### DONT NEEED ########??????????????????
     trait :eligible_rating_hlr_without_prior_decision_date do
-      :decision_review_completed
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_date" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
     end
 
     trait :eligible_non_rating_hlr_veteran_claimant do
@@ -104,19 +117,48 @@ FactoryBot.define do
       end
     end
 
-    ######### DONT NEEED ########??????????????????
     trait :eligible_rating_hlr_with_two_issues do
-      :decision_review_completed
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              decision: base_decision
+            )
+          ]
+        )
+      end
     end
 
-    ######### DONT NEEED ########??????????????????
     trait :ineligible_rating_hlr_contested_with_additional_issue do
-      :decision_review_completed
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "eligibility_result" => "CONTESTED",
+              decision: base_decision
+            )
+          ]
+        )
+      end
     end
 
-    ######### DONT NEEED ########??????????????????
     trait :ineligible_rating_hlr_pending_hlr_without_ri_id do
-      :decision_review_completed
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
     end
 
     trait :eligible_rating_hlr_with_decision_source do
@@ -140,7 +182,7 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "eligible" => false,
-              "eligibility_result" => "PENDING_BOARD_APPEAL",
+              "eligibility_result" => "TIME_RESTRICTION",
               decision: base_decision
             )
           ]
@@ -154,7 +196,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "CONTESTED",
               decision: base_decision
             )
@@ -171,7 +212,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               decision: base_decision
             )
@@ -188,7 +228,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               decision: base_decision
             )
@@ -205,7 +244,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "NO_SOC_SSOC",
               "soc_opt_in" => false,
               "legacy_appeal_id" => "LEGACYID",
@@ -225,7 +263,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "PENDING_LEGACY_APPEAL",
               "soc_opt_in" => true,
               "legacy_appeal_id" => "LEGACYID",
@@ -245,7 +282,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "LEGACY_TIME_RESTRICTION",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
@@ -281,7 +317,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "COMPLETED_HLR",
               decision: base_decision
             )
@@ -298,7 +333,6 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              "eligible" => false,
               "eligibility_result" => "COMPLETED_BOARD_APPEAL",
               decision: base_decision
             )
@@ -644,7 +678,6 @@ FactoryBot.define do
             rating_review_issues_completed_attributes(
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               decision: base_decision
             )
@@ -761,7 +794,6 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               decision: base_decision
             )
@@ -780,7 +812,6 @@ FactoryBot.define do
             rating_review_issues_completed_attributes(
               "prior_decision_type" => "Disability Evaluation",
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
               decision: base_decision
             )
@@ -798,7 +829,6 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "NO_SOC_SSOC",
               "soc_opt_in" => false,
               "legacy_appeal_id" => "LEGACYID",
@@ -840,7 +870,6 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "LEGACY_TIME_RESTRICTION",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
@@ -914,7 +943,6 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "COMPLETED_HLR",
               decision: base_decision
             )
@@ -932,7 +960,6 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_rating_sn" => "20",
-              "eligible" => false,
               "eligibility_result" => "COMPLETED_BOARD_APPEAL",
               decision: base_decision
             )
