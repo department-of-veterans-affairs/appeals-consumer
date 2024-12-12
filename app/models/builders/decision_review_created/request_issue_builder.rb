@@ -9,6 +9,22 @@ class Builders::DecisionReviewCreated::RequestIssueBuilder < Builders::BaseReque
     super(issue, decision_review_model, bis_rating_profiles, @request_issue)
   end
 
+  private
+
+  def assign_methods
+    super
+    assign_source_claim_id_for_remand
+    assign_source_contention_id_for_remand
+  end
+
+  def assign_source_claim_id_for_remand
+    @request_issue.source_claim_id_for_remand = issue.source_claim_id_for_remand
+  end
+
+  def assign_source_contention_id_for_remand
+    @request_issue.source_contention_id_for_remand = issue.source_contention_id_for_remand
+  end
+
   # ineligible issues are closed upon creation
   def calculate_closed_at
     @request_issue.closed_at = ineligible? ? claim_creation_time_converted_to_timestamp_ms : nil

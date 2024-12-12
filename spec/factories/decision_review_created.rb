@@ -242,6 +242,42 @@ FactoryBot.define do
       end
     end
 
+    trait :with_claim_and_contention_ids_for_remand do
+      decision_review_issues_created do
+        [
+          {
+            "decision_review_issue_id" => 777,
+            "contention_id" => 123_456_789,
+            "prior_caseflow_decision_issue_id" => nil,
+            "associated_caseflow_request_issue_id" => nil,
+            "unidentified" => false,
+            "prior_rating_decision_id" => nil,
+            "prior_non_rating_decision_id" => 12,
+            "prior_decision_award_event_id" => 17_946,
+            "prior_decision_text" => "DIC: Service connection for tetnus denied",
+            "prior_decision_type" => "DIC",
+            "prior_decision_notification_date" => "2023-08-01",
+            "prior_decision_date" => "2023-08-01",
+            "prior_decision_diagnostic_code" => nil,
+            "prior_decision_rating_sn" => nil,
+            "prior_decision_rating_percentage" => nil,
+            "prior_decision_rating_profile_date" => nil,
+            "eligible" => true,
+            "eligibility_result" => "ELIGIBLE",
+            "time_override" => nil,
+            "time_override_reason" => nil,
+            "contested" => nil,
+            "soc_opt_in" => nil,
+            "legacy_appeal_id" => nil,
+            "legacy_appeal_issue_id" => nil,
+            "source_contention_id_for_remand" => 523_407,
+            "source_claim_id_for_remand" => 143_296,
+            "prior_decision_source" => nil
+          }
+        ]
+      end
+    end
+
     trait :with_invalid_decision_review_issue_created_data_type do
       decision_review_issues_created { [{ "decision_review_issue_id" => "777" }] }
     end
