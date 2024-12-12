@@ -58,7 +58,16 @@ FactoryBot.define do
 
     trait :eligible_rating_hlr_non_veteran_claimant do
       message_payload do
-        base_completed_message_payload
+        base_completed_message_payload(
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+            [
+              rating_review_issues_completed_attributes(
+                "prior_decision_type" => "Disability Evaluation",
+                decision: denied_decision
+              )
+            ]
+        )
       end
     end
 
@@ -66,49 +75,31 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_completed_message_payload(
+          remand_created: true,
           participant_id: participant_id,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "prior_decision_date" => nil,
-              decision: cancelled_decision
+              decision: doo_decision
             )
           ]
         )
       end
     end
 
-    trait :eligible_non_rating_hlr_veteran_claimant do
-      participant_id = Faker::Number.number(digits: 9).to_s
-      ep_code_category = "NON_RATING"
-      message_payload do
-        base_completed_message_payload(
-          ep_code_category: ep_code_category,
-          participant_id: participant_id,
-          decision_review_issues_completed:
-            [
-              review_issues_completed_attributes(
-                decision: base_decision(
-                  ep_code_category: ep_code_category
-                )
-              )
-            ]
-        )
-      end
-    end
-    ### cancelled
-    ## rating
-    ### completed
+  
     trait :eligible_rating_hlr_legacy do
       message_payload do
         base_completed_message_payload(
+          remand_created: true,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: base_decision
+              decision: dta_red_recs_decision
             )
           ]
         )
@@ -118,12 +109,13 @@ FactoryBot.define do
     trait :eligible_rating_hlr_time_override do
       message_payload do
         base_completed_message_payload(
+          remand_created: true,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "time_override" => true,
               "time_override_reason" => "good cause exemption",
-              decision: base_decision
+              decision: dta_red_recs_decision
             )
           ]
         )
@@ -133,10 +125,11 @@ FactoryBot.define do
     trait :eligible_rating_hlr_with_two_issues do
       message_payload do
         base_completed_message_payload(
+          remand_created: true,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              decision: base_decision
+              decision: dta_exam_mo_decision
             )
           ]
         )
@@ -150,7 +143,7 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "CONTESTED",
-              decision: base_decision
+              decision: dta_pmrs_decision
             )
           ]
         )
@@ -1170,6 +1163,26 @@ FactoryBot.define do
         )
       end
     end
+    ## start non_rating
+
+    trait :eligible_non_rating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      ep_code_category = "NON_RATING"
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: ep_code_category,
+          participant_id: participant_id,
+          decision_review_issues_completed:
+            [
+              review_issues_completed_attributes(
+                decision: base_decision(
+                  ep_code_category: ep_code_category
+                )
+              )
+            ]
+        )
+      end
+    end
     initialize_with { new(event_id, message_payload) }
   end
 end
@@ -1188,7 +1201,7 @@ def base_completed_message_payload(**args)
     "ep_code" => "030HLRR",
     "ep_code_category" => args[:ep_code_category] || "rating",
     "claim_received_date" => "2023-08-25",
-    "claim_lifecycle_status" => "Closed",
+    "claim_lifecycle_status" => args[:claim_lifecycle_status] || "Closed",
     "payee_code" => "00",
     "modifier" => "030",
     "originated_from_vacols_issue" => nil,
@@ -1201,7 +1214,7 @@ def base_completed_message_payload(**args)
     "actor_station" => "101",
     "actor_application" => "PASYSACCTCREATE",
     "completion_time" => "2023-08-25",
-    "remand_created" => false,
+    "remand_created" => args[:remand_created] || false,
     "auto_remand" => false,
     "decision_review_issues_completed" => args[:decision_review_issues_completed] ||
       [base_review_issues_completed]
