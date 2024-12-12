@@ -25,7 +25,20 @@ FactoryBot.define do
       end
     end
 
-    ## for decision objects we need to cover cancelled & gran
+    # CLOSED (non_remanded)
+    # claim_lifecycle_status => "Closed"
+    ## decision
+    ### disposition => Granted || Denied
+
+    # CLOSED (remanded)
+    # claim_lifecycle_status => "Closed"
+    # remanded_created => true
+    ### disposition => "Difference of Opinion" || "DTA Error - Fed Recs" || "DTA Error - Exam/MO" || "DTA Error - PMRs" || "DTA Error - Other Recs" || "Granted" || Denied
+
+    # CANCELLED
+    # claim_lifecycle_status => "Cancelled"
+    ## decision
+    ### disposition => Denied || "Difference of Opinion" || "DTA Error - Fed Recs" || "DTA Error - Exam/MO" || "DTA Error - PMRs" || "DTA Error - Other Recs"|| "Granted"
 
     trait :eligible_rating_hlr_veteran_claimant do
       participant_id = Faker::Number.number(digits: 9).to_s
@@ -58,7 +71,7 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_date" => nil,
-              decision: base_decision
+              decision: cancelled_decision
             )
           ]
         )
@@ -1251,11 +1264,48 @@ def base_decision(**args)
     "dta_error_explanation" => nil,
     "decision_source" => nil,
     "category" => args[:ep_code_category] || "rating",
-    "decision_id" => nil,
-    "decision_text" => nil,
+    "decision_id" => 372_112,
+    "decision_text" => "Confirmed and continued",
     "award_event_id" => nil,
-    "rating_profile_date" => nil,
+    "rating_profile_date" => "2017-02-07T07:21:24+00:00",
     "decision_recorded_time" => "2024-11-14T00:09:00.788173Z",
     "decision_finalized_time" => "2024-11-13T17:49:57.14374Z"
   }
+end
+
+def denied_decision(**args)
+  base_decision.merge(**args,
+                      "disposition" => "denied",
+                      "decision_text" => "Evaluation of PTSD, which is currently 30 percent disabling, is continued.")
+end
+
+def doo_decision(**args)
+  base_decision.merge(**args,
+                      "disposition" => "Difference of Opinion")
+end
+
+def dta_red_recs_decision(**args)
+  base_decision.merge(**args,
+                      "disposition" => "DTA Error - Fed Recs",
+                      "dta_error_explanation" => "sample explanation text",
+                      "decision_text" => nil)
+end
+
+def dta_exam_mo_decision(**args)
+  base_decision.merge(**args,
+                      "disposition" => "DTA Error - Exam/MO",
+                      "dta_error_explanation" => "sample explanation text",
+                      "decision_text" => nil)
+end
+
+def dta_pmrs_decision(**args)
+  base_decision.merge(**args,
+                      "disposition" => "DTA Error - PMRs",
+                      "decision_text" => nil)
+end
+
+def dta_other_recs_decision(**args)
+  base_decision.merge(**args,
+                      "disposition" => "DTA Error - Other Recs",
+                      "decision_text" => nil)
 end
