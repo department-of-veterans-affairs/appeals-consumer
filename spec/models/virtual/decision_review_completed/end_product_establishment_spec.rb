@@ -24,7 +24,7 @@ describe DecisionReviewCompleted::EndProductEstablishment do
       .to eq(decision_review_completed_model.informal_conference_tracked_item_id)
     expect(end_product_establishment.reference_id).to eq(decision_review_completed_model.claim_id.to_s)
     expect(end_product_establishment.code).to eq(decision_review_completed_model.ep_code)
+    expect(end_product_establishment.synced_status).to eq("CLR")
     expect(end_product_establishment.last_synced_at).not_to be_nil
-    expect(end_product_establishment.synced_status).not_to be_nil
   end
 end

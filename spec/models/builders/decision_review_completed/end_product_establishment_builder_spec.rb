@@ -204,7 +204,7 @@ describe Builders::DecisionReviewCompleted::EndProductEstablishmentBuilder do
         end
 
         it "assigns a CLOSED synced_status to the epe" do
-          expect(epe.synced_status).to eq("CLOSED")
+          expect(epe.synced_status).to eq("CLR")
         end
       end
     end

@@ -14,7 +14,7 @@ shared_context "decision_review_completed_context" do
       "ep_code" => "030HLRNR",
       "ep_code_category" => "NON_RATING",
       "claim_received_date" => "2023-08-25",
-      "claim_lifecycle_status" => "CLR",
+      "claim_lifecycle_status" => "Closed",
       "payee_code" => "00",
       "modifier" => "030",
       "originated_from_vacols_issue" => nil,
@@ -25,8 +25,8 @@ shared_context "decision_review_completed_context" do
       "claim_creation_time" => "2023-08-25",
       "actor_username" => "BVADWISE101",
       "actor_station" => "316",
-      "actor_application" => "PASYSACCTCREATE",
-      "completion_time" => "2023-08-25",
+      "actor_application" => "VBMS",
+      "completion_time" => "2024-08-25",
       "remand_created" => false,
       "auto_remand" => false,
       "decision_review_issues_completed" => decision_review_issues_completed
@@ -124,8 +124,8 @@ shared_context "decision_review_completed_context" do
       "decision_text" => "Decision text",
       "award_event_id" => 3,
       "rating_profile_date" => "2023-07-22",
-      "decision_recorded_time" => "",
-      "decision_finalized_time" => ""
+      "decision_recorded_time" => "2024-08-25",
+      "decision_finalized_time" => "2024-08-25"
     }
   end
 end
