@@ -18,7 +18,7 @@ class Builders::BaseEndProductEstablishmentBuilder
     PENDING_CONCUR: "PENDCONC",
     AUTHORIZED: "AUTH",
     CANCELLED: "CAN",
-    CLOSED: "CLOSED"
+    CLOSED: "CLR"
   }.freeze
 
   def self.build(decision_review_model)

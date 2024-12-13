@@ -371,7 +371,7 @@ describe Builders::DecisionReviewCreated::EndProductEstablishmentBuilder do
       context "decision_review_model has 'Closed' for claim_lifecycle_status" do
         let(:decision_review_model) { build(:decision_review_created, claim_lifecycle_status: "Closed") }
         it "should assign a synced status of 'CLOSED' to the epe instance" do
-          expect(builder.end_product_establishment.synced_status).to eq("CLOSED")
+          expect(builder.end_product_establishment.synced_status).to eq("CLR")
         end
       end
     end

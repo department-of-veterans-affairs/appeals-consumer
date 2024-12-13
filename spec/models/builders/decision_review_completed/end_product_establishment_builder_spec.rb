@@ -1,34 +1,34 @@
 # frozen_string_literal: true
 
-require "shared_context/decision_review_updated_context"
+require "shared_context/decision_review_completed_context"
 
-describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
-  include_context "decision_review_updated_context"
+describe Builders::DecisionReviewCompleted::EndProductEstablishmentBuilder do
+  include_context "decision_review_completed_context"
 
-  let(:event_id) { 71_641 }
-  let(:decision_review_updated_model) { Transformers::DecisionReviewUpdated.new(event_id, message_payload) }
-  let(:builder) { described_class.new(decision_review_updated_model) }
+  let(:event_id) { 49_976 }
+  let(:decision_review_completed_model) { Transformers::DecisionReviewCompleted.new(event_id, message_payload) }
+  let(:builder) { described_class.new(decision_review_completed_model) }
 
   describe "#build" do
-    subject { described_class.build(decision_review_updated_model) }
-    it "returns an DecisionReviewUpdated::EndProductEstablishment object" do
-      expect(subject).to be_an_instance_of(DecisionReviewUpdated::EndProductEstablishment)
+    subject { described_class.build(decision_review_completed_model) }
+    it "returns an DecisionReviewCompleted::EndProductEstablishment object" do
+      expect(subject).to be_an_instance_of(DecisionReviewCompleted::EndProductEstablishment)
     end
   end
 
-  describe "#initialize(decision_review_updated)" do
-    let(:epe) { described_class.new(decision_review_updated_model).end_product_establishment }
+  describe "#initialize(decision_review_completed)" do
+    let(:epe) { described_class.new(decision_review_completed_model).end_product_establishment }
 
     it "initializes a new EndProductEstablishmentBuilder instance" do
       expect(builder).to be_an_instance_of(described_class)
     end
 
-    it "initializes a new DecisionReviewUpdated::EndProductEstablishment object" do
-      expect(epe).to be_an_instance_of(DecisionReviewUpdated::EndProductEstablishment)
+    it "initializes a new DecisionReviewCompleted::EndProductEstablishment object" do
+      expect(epe).to be_an_instance_of(DecisionReviewCompleted::EndProductEstablishment)
     end
 
-    it "assigns decision_review_updated to the DecisionReviewUpdated object passed in" do
-      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewUpdated)
+    it "assigns decision_review_completed to the DecisionReviewCompleted object passed in" do
+      expect(builder.decision_review_model).to be_an_instance_of(Transformers::DecisionReviewCompleted)
     end
   end
 
@@ -45,26 +45,25 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
   end
 
   describe "private methods" do
-    let(:builder) { described_class.new(decision_review_updated_model).assign_attributes }
+    let(:builder) { described_class.new(decision_review_completed_model).assign_attributes }
     let(:epe) { builder.end_product_establishment }
 
     describe "#assign_code" do
       it "assigns a ep_code to the epe" do
-        expect(epe.code).to eq decision_review_updated_model.ep_code
+        expect(epe.code).to eq decision_review_completed_model.ep_code
       end
     end
 
     describe "#assign_development_item_reference_id" do
       it "assigns a development_item_reference_id to the epe" do
-        # rubocop:disable Layout/LineLength
-        expect(epe.development_item_reference_id).to eq decision_review_updated_model.informal_conference_tracked_item_id
-        # rubocop:enable Layout/LineLength
+        expect(epe.development_item_reference_id)
+          .to eq decision_review_completed_model.informal_conference_tracked_item_id
       end
     end
 
     describe "#assign_reference_id" do
       it "assigns a reference_id to the epe" do
-        expect(epe.reference_id).to eq decision_review_updated_model.claim_id.to_s
+        expect(epe.reference_id).to eq decision_review_completed_model.claim_id.to_s
       end
     end
 
@@ -211,10 +210,10 @@ describe Builders::DecisionReviewUpdated::EndProductEstablishmentBuilder do
     end
 
     describe "#calculate_last_synced_at" do
-      let(:update_time_converted_to_timestamp) { builder.update_time_converted_to_timestamp_ms }
+      let(:completion_time_converted_to_timestamp) { builder.completion_time_converted_to_timestamp_ms }
 
       it "assigns a last_synced_at to the epe" do
-        expect(epe.last_synced_at).to eq update_time_converted_to_timestamp
+        expect(epe.last_synced_at).to eq completion_time_converted_to_timestamp
       end
     end
   end

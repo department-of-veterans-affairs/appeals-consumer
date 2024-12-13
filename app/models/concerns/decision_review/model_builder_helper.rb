@@ -105,6 +105,13 @@ module DecisionReview::ModelBuilderHelper
     convert_to_timestamp_ms(@decision_review_model.update_time)
   end
 
+  # completion_time is only present on DecsionReviewCompleted events
+  def completion_time_converted_to_timestamp_ms
+    return unless @decision_review_model
+
+    convert_to_timestamp_ms(@decision_review_model.completion_time)
+  end
+
   private
 
   def downcase_bis_rating_profiles_response_text
