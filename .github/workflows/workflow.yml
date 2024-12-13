@@ -12,6 +12,13 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PRIVATE_REPO_ACCESS_FINE }}
+
+    - name: Set up Git for Private Repositories Access
+      run: |
+          git config --global url."https://${{ secrets.PRIVATE_REPO_ACCESS_FINE }}@github.com/".insteadOf "https://github.com/"
+          echo "Git configured to use PAT for private repositories"
 
 # Sets up Ruby by using .ruby-version and Dependencies runs bundler and bundle install 
     - name: Set up Ruby and Install Ruby dependencies
@@ -44,6 +51,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PRIVATE_REPO_ACCESS_FINE }}
+
+      - name: Set up Git for Private Repositories Access
+        run: |
+            git config --global url."https://${{ secrets.PRIVATE_REPO_ACCESS_FINE }}@github.com/".insteadOf "https://github.com/"
+            echo "Git configured to use PAT for private repositories"
   
       - name: Set up Ruby and Install Ruby dependencies
         uses: ruby/setup-ruby@v1
