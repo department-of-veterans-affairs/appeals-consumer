@@ -87,19 +87,16 @@ FactoryBot.define do
         )
       end
     end
-
-  
     trait :eligible_rating_hlr_legacy do
       message_payload do
         base_completed_message_payload(
-          remand_created: true,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: dta_red_recs_decision
+              decision: base_decision
             )
           ]
         )
@@ -109,13 +106,13 @@ FactoryBot.define do
     trait :eligible_rating_hlr_time_override do
       message_payload do
         base_completed_message_payload(
-          remand_created: true,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "time_override" => true,
               "time_override_reason" => "good cause exemption",
-              decision: dta_red_recs_decision
+              decision: denied_decision
             )
           ]
         )
@@ -129,7 +126,7 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
-              decision: dta_exam_mo_decision
+              decision: dta_red_recs_decision
             )
           ]
         )
@@ -143,7 +140,50 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "CONTESTED",
-              decision: dta_pmrs_decision
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_with_decision_source do
+      message_payload do
+        base_completed_message_payload(
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr_without_contention_id do
+      message_payload do
+        base_completed_message_payload(
+          remand_created: true,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              decision: dta_exam_mo_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_rating_hlr do
+      message_payload do
+        base_completed_message_payload(
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              decision: base_decision
             )
           ]
         )
@@ -155,26 +195,13 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "contention_id" => nil,
               "eligibility_result" => "PENDING_HLR",
-              decision: base_decision
-            )
-          ]
-        )
-      end
-    end
-
-    trait :eligible_rating_hlr_with_decision_source do
-      message_payload do
-        base_completed_message_payload(
-          decision_review_issues_completed:
-          [
-            rating_review_issues_completed_attributes(
-              "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -184,12 +211,13 @@ FactoryBot.define do
     trait :ineligible_rating_hlr_with_contention_id do
       message_payload do
         base_completed_message_payload(
+          remand_created: true,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
-              decision: base_decision
+              decision: dta_pmrs_decision
             )
           ]
         )
@@ -215,11 +243,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "TIME_RESTRICTION",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -230,12 +259,13 @@ FactoryBot.define do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_completed_message_payload(
+          remanded_created: true,
           participant_id: participant_id,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "TIME_RESTRICTION",
-              decision: base_decision
+              decision: dta_other_recs_decision
             )
           ]
         )
@@ -266,6 +296,7 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
@@ -273,7 +304,7 @@ FactoryBot.define do
               "soc_opt_in" => true,
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -285,13 +316,14 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           participant_id: participant_id,
+          remanded_created: true,
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "LEGACY_TIME_RESTRICTION",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: base_decision
+              decision: doo_decision
             )
           ]
         )
@@ -309,6 +341,42 @@ FactoryBot.define do
               "eligible" => false,
               "eligibility_result" => "PENDING_HLR",
               decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "eligible" => false,
+              "eligibility_result" => "PENDING_BOARD_APPEAL",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_rating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              "eligible" => false,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL",
+              decision: dta_red_recs_decision
             )
           ]
         )
@@ -336,51 +404,19 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             rating_review_issues_completed_attributes(
               "eligibility_result" => "COMPLETED_BOARD_APPEAL",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
       end
     end
 
-    trait :ineligible_rating_hlr_pending_board_appeal do
-      participant_id = Faker::Number.number(digits: 9).to_s
-      message_payload do
-        base_completed_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_completed:
-          [
-            rating_review_issues_completed_attributes(
-              "eligible" => false,
-              "eligibility_result" => "PENDING_BOARD_APPEAL",
-              decision: base_decision
-            )
-          ]
-        )
-      end
-    end
-
-    trait :ineligible_rating_hlr_pending_supplemental do
-      participant_id = Faker::Number.number(digits: 9).to_s
-      message_payload do
-        base_completed_message_payload(
-          participant_id: participant_id,
-          decision_review_issues_completed:
-          [
-            rating_review_issues_completed_attributes(
-              "eligible" => false,
-              "eligibility_result" => "PENDING_SUPPLEMENTAL",
-              decision: base_decision
-            )
-          ]
-        )
-      end
-    end
-
+    # finished rating_hlr
     trait :eligible_rating_decision_hlr_non_veteran_claimant do
       message_payload do
         base_completed_message_payload(
@@ -388,19 +424,6 @@ FactoryBot.define do
           [
             rating_review_issues_completed_attributes(
               "prior_decision_rating_sn" => "1_623_547",
-              decision: base_decision
-            )
-          ]
-        )
-      end
-    end
-
-    trait :eligible_rating_hlr do
-      message_payload do
-        base_completed_message_payload(
-          decision_review_issues_completed:
-          [
-            rating_review_issues_completed_attributes(
               decision: base_decision
             )
           ]
@@ -590,19 +613,17 @@ FactoryBot.define do
     end
 
     trait :ineligible_decision_issue_prior_rating_hlr_with_contention_id do
-      trait :eligible_rating_hlr_unidentified_without_contention_id do
-        participant_id = Faker::Number.number(digits: 9).to_s
-        message_payload do
-          base_completed_message_payload(
-            participant_id: participant_id,
-            decision_review_issues_completed:
-            [
-              rating_review_issues_completed_attributes(
-                decision: base_decision
-              )
-            ]
-          )
-        end
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            rating_review_issues_completed_attributes(
+              decision: base_decision
+            )
+          ]
+        )
       end
     end
     trait :eligible_rating_hlr_unidentified_without_contention_id do
@@ -702,19 +723,6 @@ FactoryBot.define do
             rating_review_issues_completed_attributes(
               "contention_id" => nil,
               "eligibility_result" => "PENDING_HLR",
-              decision: base_decision
-            )
-          ]
-        )
-      end
-    end
-    trait :eligible_rating_hlr_without_contention_id do
-      message_payload do
-        base_completed_message_payload(
-          decision_review_issues_completed:
-          [
-            rating_review_issues_completed_attributes(
-              "contention_id" => nil,
               decision: base_decision
             )
           ]
