@@ -1203,21 +1203,869 @@ FactoryBot.define do
 
     ## start non_rating
 
-    trait :eligible_non_rating_hlr_veteran_claimant do
+    trait :eligible_nonrating_hlr_veteran_claimant do
       participant_id = Faker::Number.number(digits: 9).to_s
-      ep_code_category = "NON_RATING"
       message_payload do
         base_completed_message_payload(
-          ep_code_category: ep_code_category,
+          ep_code_category: "NON_RATING",
           participant_id: participant_id,
           decision_review_issues_completed:
             [
-              review_issues_completed_attributes(
-                decision: base_decision(
-                  ep_code_category: ep_code_category
-                )
+              nonrating_review_issues_completed_attributes(
+                "prior_decision_type" => "Disability Evaluation",
+                decision: base_decision
               )
             ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+            [
+              nonrating_review_issues_completed_attributes(
+                "prior_decision_type" => "Disability Evaluation",
+                decision: denied_decision
+              )
+            ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          remand_created: true,
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_decision_date" => nil,
+              decision: doo_decision
+            )
+          ]
+        )
+      end
+    end
+    trait :eligible_nonrating_hlr_legacy do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_time_override do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_with_two_issues do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          remand_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              decision: dta_red_recs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_contested_with_additional_issue do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "CONTESTED",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_with_decision_source do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_without_contention_id do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          remand_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              decision: dta_exam_mo_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              "eligibility_result" => "PENDING_HLR",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_with_contention_id do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          remand_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligible" => false,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: dta_pmrs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_contested do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "CONTESTED",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          remanded_created: true,
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: dta_other_recs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "NO_SOC_SSOC",
+              "soc_opt_in" => false,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: doo_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligible" => false,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligible" => false,
+              "eligibility_result" => "PENDING_BOARD_APPEAL",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligible" => false,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL",
+              decision: dta_red_recs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "COMPLETED_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_nonrating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: dta_pmrs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_decision_date" => nil,
+              "prior_rating_decision_id" => 20,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_legacy do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "ELIGIBLE_LEGACY",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_time_override do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "time_override" => true,
+              "time_override_reason" => "good cause exemption",
+              decision: dta_other_recs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr_without_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 20,
+              "contention_id" => nil,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_decision_issue_prior_nonrating_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr_without_ri_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "contention_id" => nil,
+              "prior_caseflow_decision_issue_id" => 13,
+              "prior_rating_decision_id" => 20,
+              "eligibility_result" => "PENDING_HLR",
+              decision: doo_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_with_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: dta_red_recs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "NO_SOC_SSOC",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_legacy_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_LEGACY_APPEAL",
+              "soc_opt_in" => true,
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_legacy_time_restriction do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "LEGACY_TIME_RESTRICTION",
+              "legacy_appeal_id" => "LEGACYID",
+              "legacy_appeal_issue_id" => 1,
+              decision: dta_exam_mo_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_BOARD_APPEAL",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_pending_supplemental do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "associated_caseflow_request_issue_id" => 12,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "PENDING_SUPPLEMENTAL",
+              decision: dta_pmrs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_completed_hlr do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "COMPLETED_HLR",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_completed_board_appeal do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              "eligibility_result" => "COMPLETED_BOARD_APPEAL",
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_veteran_claimant do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "unidentified" => true,
+              decision: dta_exam_mo_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "unidentified" => true,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_without_prior_decision_date do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "unidentified" => true,
+              "prior_decision_date" => nil,
+              decision: denied_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified_without_contention_id do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          remanded_created: true,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "unidentified" => true,
+              "contention_id" => nil,
+              decision: dta_pmrs_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :eligible_nonrating_hlr_unidentified do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "unidentified" => true,
+              decision: base_decision
+            )
+          ]
         )
       end
     end
@@ -1305,6 +2153,14 @@ def rating_review_issues_completed_attributes(**args)
                                     "prior_decision_type" => "Disability Evaluation",
                                     "prior_decision_diagnostic_code" => "5008",
                                     "prior_decision_rating_profile_date" => "2017-02-07T07:21:24+00:00",
+                                    "decision" => args[:decision] || nil)
+end
+
+def nonrating_review_issues_completed_attributes(**args)
+  base_review_issues_completed.merge(**args,
+                                    "prior_non_rating_decision_id" => 13,
+                                    "prior_decision_text" => "DIC: Service connection for tetnus denied",
+                                    "prior_decision_type" => "DIC",
                                     "decision" => args[:decision] || nil)
 end
 
