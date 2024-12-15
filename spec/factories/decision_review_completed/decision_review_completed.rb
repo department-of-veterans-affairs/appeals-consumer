@@ -1202,6 +1202,7 @@ FactoryBot.define do
     end
 
     ## start non_rating
+    ### NEED TO UPDATE NEW AVRO
 
     trait :eligible_nonrating_hlr_veteran_claimant do
       participant_id = Faker::Number.number(digits: 9).to_s
@@ -1213,7 +1214,7 @@ FactoryBot.define do
             [
               nonrating_review_issues_completed_attributes(
                 "prior_decision_type" => "Disability Evaluation",
-                decision: base_decision
+                decision: denied_decision
               )
             ]
         )
@@ -1224,12 +1225,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          "claim_lifecycle_status" => "Cancelled",
+          remand_created: true,
           decision_review_issues_completed:
             [
               nonrating_review_issues_completed_attributes(
                 "prior_decision_type" => "Disability Evaluation",
-                decision: denied_decision
+                decision: doo_decision
               )
             ]
         )
@@ -1241,13 +1242,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          remand_created: true,
           participant_id: participant_id,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_decision_date" => nil,
-              decision: doo_decision
+              decision: base_decision
             )
           ]
         )
@@ -1257,13 +1257,14 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "ELIGIBLE_LEGACY",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1274,13 +1275,13 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          "claim_lifecycle_status" => "Cancelled",
+          remand_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "time_override" => true,
               "time_override_reason" => "good cause exemption",
-              decision: denied_decision
+              decision: dta_red_recs_decision
             )
           ]
         )
@@ -1291,11 +1292,10 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          remand_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
-              decision: dta_red_recs_decision
+              decision: base_decision
             )
           ]
         )
@@ -1306,11 +1306,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "CONTESTED",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1321,12 +1322,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          "claim_lifecycle_status" => "Cancelled",
+          remand_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_decision_source" => "CORP_AWARD_ATTORNEY_FEE",
-              decision: denied_decision
+              decision: dta_exam_mo_decision
             )
           ]
         )
@@ -1337,12 +1338,11 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          remand_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "contention_id" => nil,
-              decision: dta_exam_mo_decision
+              decision: base_decision
             )
           ]
         )
@@ -1356,7 +1356,7 @@ FactoryBot.define do
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1369,13 +1369,13 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remand_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "contention_id" => nil,
               "eligibility_result" => "PENDING_HLR",
-              decision: denied_decision
+              decision: dta_pmrs_decision
             )
           ]
         )
@@ -1386,13 +1386,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          remand_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligible" => false,
               "eligibility_result" => "TIME_RESTRICTION",
-              decision: dta_pmrs_decision
+              decision: base_decision
             )
           ]
         )
@@ -1403,11 +1402,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "CONTESTED",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1420,12 +1420,12 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "TIME_RESTRICTION",
-              decision: denied_decision
+              decision: dta_other_recs_decision
             )
           ]
         )
@@ -1437,13 +1437,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
-          remanded_created: true,
           participant_id: participant_id,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "TIME_RESTRICTION",
-              decision: dta_other_recs_decision
+              decision: base_decision
             )
           ]
         )
@@ -1463,7 +1462,7 @@ FactoryBot.define do
               "soc_opt_in" => false,
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1476,7 +1475,7 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1484,7 +1483,7 @@ FactoryBot.define do
               "soc_opt_in" => true,
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: denied_decision
+              decision: doo_decision
             )
           ]
         )
@@ -1497,14 +1496,13 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "LEGACY_TIME_RESTRICTION",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: doo_decision
+              decision: base_decision
             )
           ]
         )
@@ -1517,12 +1515,13 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligible" => false,
               "eligibility_result" => "PENDING_HLR",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1535,13 +1534,13 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligible" => false,
               "eligibility_result" => "PENDING_BOARD_APPEAL",
-              decision: denied_decision
+              decision: dta_red_recs_decision
             )
           ]
         )
@@ -1554,13 +1553,12 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligible" => false,
               "eligibility_result" => "PENDING_SUPPLEMENTAL",
-              decision: dta_red_recs_decision
+              decision: base_decision
             )
           ]
         )
@@ -1573,11 +1571,12 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "eligibility_result" => "COMPLETED_HLR",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1608,23 +1607,6 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
-          decision_review_issues_completed:
-          [
-            nonrating_review_issues_completed_attributes(
-              "prior_caseflow_decision_issue_id" => 11,
-              "prior_rating_decision_id" => 13,
-              decision: denied_decision
-            )
-          ]
-        )
-      end
-    end
-
-    trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
-      message_payload do
-        base_completed_message_payload(
-          ep_code_category: "NON_RATING",
           remanded_created: true,
           decision_review_issues_completed:
           [
@@ -1638,19 +1620,36 @@ FactoryBot.define do
       end
     end
 
+    trait :eligible_decision_issue_prior_nonrating_hlr_non_veteran_claimant do
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
     trait :eligible_decision_issue_prior_nonrating_hlr_without_prior_decision_date do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
               "prior_decision_date" => nil,
               "prior_rating_decision_id" => 20,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1663,7 +1662,7 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1672,7 +1671,7 @@ FactoryBot.define do
               "eligibility_result" => "ELIGIBLE_LEGACY",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: denied_decision
+              decision: dta_other_recs_decision
             )
           ]
         )
@@ -1685,7 +1684,6 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1693,7 +1691,7 @@ FactoryBot.define do
               "prior_rating_decision_id" => 13,
               "time_override" => true,
               "time_override_reason" => "good cause exemption",
-              decision: dta_other_recs_decision
+              decision: base_decision
             )
           ]
         )
@@ -1706,13 +1704,14 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 20,
               "contention_id" => nil,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1725,13 +1724,13 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
-              decision: denied_decision
+              decision: doo_decision
             )
           ]
         )
@@ -1744,7 +1743,6 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1752,7 +1750,7 @@ FactoryBot.define do
               "prior_caseflow_decision_issue_id" => 13,
               "prior_rating_decision_id" => 20,
               "eligibility_result" => "PENDING_HLR",
-              decision: doo_decision
+              decision: base_decision
             )
           ]
         )
@@ -1765,29 +1763,10 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          decision_review_issues_completed:
-          [
-            nonrating_review_issues_completed_attributes(
-              decision: base_decision
-            )
-          ]
-        )
-      end
-    end
-
-    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
-      participant_id = Faker::Number.number(digits: 9).to_s
-      message_payload do
-        base_completed_message_payload(
-          ep_code_category: "NON_RATING",
-          participant_id: participant_id,
           "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
-              "prior_caseflow_decision_issue_id" => 11,
-              "prior_rating_decision_id" => 13,
-              "eligibility_result" => "TIME_RESTRICTION",
               decision: denied_decision
             )
           ]
@@ -1795,7 +1774,7 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_untimely do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_completed_message_payload(
@@ -1815,7 +1794,7 @@ FactoryBot.define do
       end
     end
 
-    trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
+    trait :ineligible_decision_issue_prior_nonrating_hlr_time_restriction_before_ama do
       participant_id = Faker::Number.number(digits: 9).to_s
       message_payload do
         base_completed_message_payload(
@@ -1826,10 +1805,30 @@ FactoryBot.define do
             nonrating_review_issues_completed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
+              "eligibility_result" => "TIME_RESTRICTION",
+              decision: base_decision
+            )
+          ]
+        )
+      end
+    end
+
+    trait :ineligible_decision_issue_prior_nonrating_hlr_no_soc_ssoc do
+      participant_id = Faker::Number.number(digits: 9).to_s
+      message_payload do
+        base_completed_message_payload(
+          ep_code_category: "NON_RATING",
+          participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
+          decision_review_issues_completed:
+          [
+            nonrating_review_issues_completed_attributes(
+              "prior_caseflow_decision_issue_id" => 11,
+              "prior_rating_decision_id" => 13,
               "eligibility_result" => "NO_SOC_SSOC",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1842,7 +1841,7 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1852,7 +1851,7 @@ FactoryBot.define do
               "soc_opt_in" => true,
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: denied_decision
+              decision: dta_exam_mo_decision
             )
           ]
         )
@@ -1865,7 +1864,6 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1874,7 +1872,7 @@ FactoryBot.define do
               "eligibility_result" => "LEGACY_TIME_RESTRICTION",
               "legacy_appeal_id" => "LEGACYID",
               "legacy_appeal_issue_id" => 1,
-              decision: dta_exam_mo_decision
+              decision: base_decision
             )
           ]
         )
@@ -1887,6 +1885,7 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1894,7 +1893,7 @@ FactoryBot.define do
               "associated_caseflow_request_issue_id" => 12,
               "prior_rating_decision_id" => 13,
               "eligibility_result" => "PENDING_HLR",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1907,7 +1906,7 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1915,7 +1914,7 @@ FactoryBot.define do
               "associated_caseflow_request_issue_id" => 12,
               "prior_rating_decision_id" => 13,
               "eligibility_result" => "PENDING_BOARD_APPEAL",
-              decision: denied_decision
+              decision: dta_pmrs_decision
             )
           ]
         )
@@ -1928,7 +1927,6 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
@@ -1936,7 +1934,7 @@ FactoryBot.define do
               "associated_caseflow_request_issue_id" => 12,
               "prior_rating_decision_id" => 13,
               "eligibility_result" => "PENDING_SUPPLEMENTAL",
-              decision: dta_pmrs_decision
+              decision: base_decision
             )
           ]
         )
@@ -1949,13 +1947,14 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
               "eligibility_result" => "COMPLETED_HLR",
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -1968,14 +1967,14 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "prior_caseflow_decision_issue_id" => 11,
               "prior_rating_decision_id" => 13,
               "eligibility_result" => "COMPLETED_BOARD_APPEAL",
-              decision: denied_decision
+              decision: dta_exam_mo_decision
             )
           ]
         )
@@ -1988,12 +1987,11 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "unidentified" => true,
-              decision: dta_exam_mo_decision
+              decision: base_decision
             )
           ]
         )
@@ -2004,11 +2002,12 @@ FactoryBot.define do
       message_payload do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "unidentified" => true,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
@@ -2021,13 +2020,13 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          "claim_lifecycle_status" => "Cancelled",
+          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "unidentified" => true,
               "prior_decision_date" => nil,
-              decision: denied_decision
+              decision: dta_pmrs_decision
             )
           ]
         )
@@ -2040,13 +2039,12 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
-          remanded_created: true,
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "unidentified" => true,
               "contention_id" => nil,
-              decision: dta_pmrs_decision
+              decision: base_decision
             )
           ]
         )
@@ -2059,11 +2057,12 @@ FactoryBot.define do
         base_completed_message_payload(
           ep_code_category: "NON_RATING",
           participant_id: participant_id,
+          "claim_lifecycle_status" => "Cancelled",
           decision_review_issues_completed:
           [
             nonrating_review_issues_completed_attributes(
               "unidentified" => true,
-              decision: base_decision
+              decision: denied_decision
             )
           ]
         )
