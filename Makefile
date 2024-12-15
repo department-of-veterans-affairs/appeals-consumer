@@ -56,3 +56,6 @@ publish-decision-review-created-events: ## publish DecisionReviewCreated event m
 
 publish-decision-review-updated-events: ## publish DecisionReviewUpdated event messages to test consumption
 	docker compose run --rm rails bundle exec rake kafka_message_generators:decision_review_events[decision_review_updated]
+
+publish-decision-review-completed-events: ## publish DecisionReviewUpdated event messages to test consumption
+	docker compose run --rm rails bundle exec rake kafka_message_generators:decision_review_events[decision_review_completed]

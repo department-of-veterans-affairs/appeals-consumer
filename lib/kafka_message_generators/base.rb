@@ -6,6 +6,11 @@ class KafkaMessageGenerators::Base
     @decision_review_event_type == "decision_review_updated"
   end
 
+  # boolean check if the decision_review_event_type is decision_review_updated
+  def decision_review_completed?
+    @decision_review_event_type == "decision_review_completed"
+  end
+
   def camelize_keys(message)
     hash = convert_message_to_hash(message)
     hash.deep_transform_keys! { |key| key.camelize(:lower) }
@@ -44,7 +49,8 @@ class KafkaMessageGenerators::Base
         :decision_review_issues_removed,
         :decision_review_issues_updated,
         :decision_review_issues_withdrawn
-      ]
+      ],
+      decision_review_completed: [:decision_review_issues_completed]
     }
   end
 
